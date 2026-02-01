@@ -1,6 +1,6 @@
 import {createMemoryHistory, createRouter} from "vue-router";
-import LandingPage from "@/components/landing/LandingPage.vue";
-import LoginPage from "@/components/auth/login/LoginPage.vue";
+import LandingPage from "@/views/LandingPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
 
 const routes = [
     {path: "/", component: LandingPage},
