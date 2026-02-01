@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 17.999999 18"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="cursorInverse.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1"
+       radius="0"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect1"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,0,0,1"
+       radius="0"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="22.627417"
+     inkscape:cx="13.876971"
+     inkscape:cy="15.224893"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g10" />
+  <!-- Icon from IconaMoon by Dariush Habibpour - https://creativecommons.org/licenses/by/4.0/ -->
+  <g
+     id="g10"
+     transform="translate(-2.5037353,-2.4995152)">
+    <g
+       id="path18"
+       style="opacity:1;stroke-width:1.11102"
+       transform="matrix(0.90016685,0,0,0.899975,0.24995577,0.25001401)">
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#000000;fill-opacity:1;stroke-width:1.17102;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+         d="M 3.9628906,2.5 C 2.9372397,2.5257132 2.2223996,3.6189619 2.6113281,4.5683594 a 0.750075,0.750075 0 0 0 0.00195,0.00195 l 7,16.9999996 a 0.750075,0.750075 0 0 0 0,0.002 c 0.2417418,0.585217 0.8235349,0.924212 1.3769529,0.927734 0.553419,0.0035 1.139502,-0.328063 1.388672,-0.910156 l 2.685547,-6.263672 c 0.05093,-0.118776 0.142943,-0.210791 0.261719,-0.261719 l 6.263672,-2.685547 C 22.171937,12.129736 22.503522,11.543653 22.5,10.990234 22.496478,10.436816 22.157483,9.8550231 21.572266,9.6132813 a 0.750075,0.750075 0 0 0 -0.002,0 l -16.9999995,-7 a 0.750075,0.750075 0 0 0 -0.00195,-0.00195 C 4.3761205,2.5326367 4.1705447,2.4947188 3.9628906,2.5 Z M 4,4 l 16.998047,7 -6.263672,2.685547 c -0.471398,0.202124 -0.846704,0.57743 -1.048828,1.048828 L 11,20.998047 Z"
+         id="path20" />
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke-width:1.17102;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+         d="M 3.9814453,3.2504883 A 0.750075,0.750075 0 0 0 3.3061523,4.284668 l 7.0004887,17.000977 a 0.750075,0.750075 0 0 0 1.382812,0.0088 l 2.685059,-6.263672 c 0.126526,-0.295087 0.361163,-0.529724 0.65625,-0.65625 l 6.263672,-2.685059 a 0.750075,0.750075 0 0 0 -0.0088,-1.382812 L 4.284668,3.3061523 A 0.750075,0.750075 0 0 0 3.9814453,3.2504883 Z"
+         id="path21" />
+    </g>
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:2;paint-order:stroke fill markers"
+       d="m 5.1564805,5.0895768 c -0.016602,1.886e-4 -0.033515,0.004 -0.050107,0.011865 -0.050437,0.1556176 0.1018925,0.3118827 0.1358163,0.4666863 1.6098908,3.9431593 3.2330284,7.8831029 4.8630102,11.8174449 0.126448,0.112838 0.172229,-0.12627 0.214933,-0.206976 0.623367,-1.422472 1.202756,-2.865412 1.86978,-4.267412 0.27391,-0.398687 0.644984,-0.743566 1.106309,-0.909642 1.344947,-0.611086 2.715057,-1.165649 4.062618,-1.770507 0.102284,-0.147343 -0.15555,-0.163982 -0.237349,-0.222797 C 13.215508,8.3666205 9.2954363,6.7561886 5.3687756,5.1647212 5.2994128,5.1490451 5.2284222,5.0887598 5.1564805,5.0895768 Z"
+       id="path17" />
+  </g>
+</svg>

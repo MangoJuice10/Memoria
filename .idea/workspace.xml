@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="41a83c2c-4837-4c4c-85d3-d6ec28f30573" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/public/vite.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/scripts/normalize-svg.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/icons/utility/close2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/icons/utility/moon2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/icons/utility/sun.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/logotypes/logotypeGraphical.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/logotypes/logotypeText.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/assets/vue.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/AIChat.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/IconText.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/buttons/CancelButton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/buttons/ThemeButton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/ai/AIAssistanceIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/educationalResources/TrustworthyAnswersIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/spacedRepetition/SpacedRepetitionIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/themes/DarkThemeIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/themes/LightThemeIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/user/AccountIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/icons/utility/CancelIcon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/logotype/Logotype.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/navbar/Navbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/components/navbar/Navlink.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/src/types/theme.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/tsconfig.app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/tsconfig.node.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Memoria/vite.config.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsbtTreeLayoutManager">
+    <layout place="tools.popupGrunt">
+      <scroll-view-position x="0" y="0" />
+    </layout>
+    <layout place="tools.popupnpm">
+      <scroll-view-position x="0" y="0" />
+    </layout>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="38sHHOMVdYUZfvFmjX1SrFNp1e5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mango/OneDrive/Documents/University/BachelorsDegree/Memoria&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;web-ide.project.structure&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.29346.143" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="41a83c2c-4837-4c4c-85d3-d6ec28f30573" name="Changes" comment="" />
+      <created>1769581271093</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769581271093</updated>
+      <workItem from="1769581272512" duration="166000" />
+      <workItem from="1769581463934" duration="508000" />
+      <workItem from="1769581986628" duration="40000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/frontend/src/Test.js" />
+      </list>
+    </option>
+  </component>
+</project>

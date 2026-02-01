@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "./transitions.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-primary: #FFFFFF;
+    --color-secondary: #1D1B1B;
+    --color-tertiary: #F0F0F0;
+    --color-border: #9F9F9F;
+    --color-hint: #595959;
+    --color-hover: #F3F3F3;
+    --color-focus: #EBEBEB;
+    --color-active: #1D1B1B;
+    --color-inactive: #433F3F;
+    --color-text: #1D1B1B;
+    --color-text-inverse: #FFFFFF;
+    --color-text-inactive: #B6B6B6;
+    --color-text-error: #B3261E;
+}
+
+:root {
+    font-family: Inter, system-ui, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--color-text);
+    color-scheme: light dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    --background-image: url("@/assets/background/background.png");
+    cursor: url("@/assets/cursors/cursor.svg"), auto;
+}
+
+.dark {
+    --color-primary: #1D1B1B;
+    --color-secondary: #FFFFFF;
+    --color-tertiary: #3F3F3F;
+    --color-border: #D7D7D7;
+    --color-hint: #A8A8A8;
+    --color-hover: #8B8B8B;
+    --color-focus: #939393;
+    --color-active: #FFFFFF;
+    --color-inactive: #BFBFBF;
+    --color-text: #FFFFFF;
+    --color-text-inactive: #404040;
+    --color-text-inverse: #1D1B1B;
+    --color-text-error: #E3261B;
+    --background-image: url("@/assets/background/backgroundInverse.png");
+    cursor: url("@/assets/cursors/cursorInverse.svg"), auto;
+}
+
+@layer components {
+    .icon {
+        --color-icon-primary: white;
+        --color-icon-secondary: black;
+    }
+
+    .icon-inverse {
+        --color-icon-primary: black;
+        --color-icon-secondary: white;
+    }
+
+    .icon-dynamic {
+        --color-icon-primary: var(--color-primary);
+        --color-icon-secondary: var(--color-secondary);
+    }
+}
+
+a, button:enabled, .cursor-pointer {
+    cursor: url("@/assets/cursors/cursorPointerRotated.svg"), auto;
+}
+
+.dark a, .dark button:enabled, .dark .cursor-pointer {
+    cursor: url("@/assets/cursors/cursorPointerInverseRotated.svg"), auto;
+}
+
+button:disabled {
+    cursor: url("@/assets/cursors/cursorNoAction.svg"), auto;
+}
+
+.dark button:disabled {
+    cursor: url("@/assets/cursors/cursorNoActionInverse.svg"), auto;
+}
+
+input, textarea {
+    cursor: url("@/assets/cursors/cursorText.svg") 16 16, auto;
+}
+
+.dark input, textarea {
+    cursor: url("@/assets/cursors/cursorTextInverse.svg") 16 16, auto;
+}
+
+* {
+    @apply transition-colors duration-200 ease-in;
+}
+
+html {
+    /*
+    "height" of 100% makes the root fill the viewport
+    */
+    height: 100%;
+    font-size: 16px;
+}
+
+body {
+    /*
+    "min-height" of 100% makes the body at least have
+    the same height as the html tag, but also allows it to
+    expand, as its "height" is set to "auto" by default
+    */
+    min-height: 100%;
+}
+
+#app {
+    /*
+    "height" of 100% makes the application have the height of the
+    body, which is set to "auto" by default. As result, the application's
+    height is determined based on the content.
+    "min-height" of 100vh makes the application at least have
+    the same height as the viewport, but also allows it to
+    expand, as its "height" is set to "auto" by default
+    */
+    min-height: 100vh;
+}
+
+#app > *:first-child {
+    /*
+    "min-height" of 100vh makes the only root element of the application at least
+    have the same height as the viewport, but also allows it to expand, as its height
+    is set to "auto" by default
+    */
+    min-height: 100vh;
+}
+
+#app > *:first-child {
+    background-color: var(--color-primary);
+    background-image: var(--background-image);
+    background-repeat: repeat;
+    background-size: 300px;
+}
+
+.dark #app > *:first-child {
+    background-color: var(--color-primary);
+    background-image: var(--background-image);
+    background-repeat: repeat;
+    background-size: 300px;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+}
+
+a {
+    text-decoration: none;
+}
+
+select {
+    padding: 0.625rem 0.3125rem;
+    appearance: none;
+    outline: none;
+    background: var(--color-primary);
+}
+
+
+::selection {
+    color: var(--color-text-inverse);
+    background-color: var(--color-text);
+}
