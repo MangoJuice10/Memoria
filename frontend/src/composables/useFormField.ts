@@ -7,45 +7,58 @@ import type {Rule} from "@/types/Rule.ts";
 // Otherwise, it would be possible to overlook a numeric field getting validated against
 // string rules, which could result in a runtime error.
 export function useFormField<T>(initialValue: MaybeRef<T>, rules: Rule<T>[], options?: {
-    debounce?: number;
+    debounceDelay?: number;
 }) {
     const defaultValue = toValue(initialValue);
-
     const value = ref(defaultValue);
     const error = ref<ValidationError>(null);
-    const validate = () => {
+    const touched = ref(false);
+
+    const init = () => {
+        value.value = defaultValue;
+        touched.value = false;
+        initError();
+    }
+
+    const initError = () => {
         for (const rule of rules) {
             const validationResult = rule(value.value);
             if (validationResult !== null) {
                 error.value = validationResult;
-                return false;
+                return;
             }
         }
         error.value = null;
-        return true;
-    };
-
-    const delay = options?.debounce ?? 300;
-    const validateDebounced = debounce(validate, delay);
-
-    const touched = ref(false);
-    const touch = () => touched.value = true;
-
-    function reset() {
-        value.value = defaultValue;
-        touched.value = false;
-        validate();
     }
 
-    // Validate the field upon initialization
-    validate();
+    const validate = () => {
+        initError();
+        touch();
+        return error.value === null;
+    }
+
+    const validateNow = () => {
+        validateDebounced.cancel();
+        return validate();
+    };
+
+    const delay = options?.debounceDelay ?? 300;
+    const validateDebounced = debounce(validate, delay);
+
+    const touch = () => touched.value = true;
+
+    const reset = () => {
+        init();
+    }
+
+    init();
 
     return {
         value,
         error,
         touched,
         touch,
-        validate,
+        validateNow,
         validateDebounced,
         reset,
     };

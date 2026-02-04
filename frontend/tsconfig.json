@@ -1,4 +1,12 @@
 {
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+  },
   "files": [],
   "references": [
     {
@@ -7,5 +15,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
 }

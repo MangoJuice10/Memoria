@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { withDefaults } from "vue";
 import logotypeGraphical from '@/assets/logotypes/logotypeGraphical.svg';
 import logotypeText from '@/assets/logotypes/logotypeText.svg';
 

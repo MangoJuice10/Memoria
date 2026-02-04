@@ -49,9 +49,10 @@ function handleBlur() {
              :value="modelValue"
              :placeholder="placeholder"
              @input="handleInput"
-             @blur="handleBlur">
+             @blur="handleBlur"
+             :data-testid="id">
       <VisibilityToggle v-if="type === 'password'" v-model:isVisible="isTextVisible" class="w-8"/>
     </div>
-    <FormError :error :touched/>
+    <FormError :error :touched :data-testid="`${id}-validation-error`"/>
   </div>
 </template>
