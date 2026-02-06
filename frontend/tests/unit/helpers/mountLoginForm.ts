@@ -2,8 +2,8 @@ import {mount, type VueWrapper} from "@vue/test-utils";
 import {createMemoryHistory, createRouter} from "vue-router";
 import {createI18n} from "vue-i18n";
 import {createTestingPinia} from "@pinia/testing";
-import {useAuthStore} from "@/stores/auth";
-import {getByTestId} from "@tests/utils/getByTestId";
+import {useAuthStore} from "@/stores/auth.ts";
+import {getByTestId} from "@tests/utils/getByTestId.ts";
 import type {DOMWrapper} from "@vue/test-utils";
 import LoginForm from "@/components/auth/login/LoginForm.vue";
 

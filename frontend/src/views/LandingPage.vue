@@ -6,6 +6,7 @@ import SharedDecksPreview from "@/components/landing/SharedDecksPreview.vue";
 import spacedRepetition from "@/assets/images/SpacedRepetition.png";
 import AIAssistance from "@/assets/images/AIAssistance.png";
 import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
+import Navbar from "@/components/navbar/Navbar.vue";
 
 const features: {
   key: string;
@@ -46,6 +47,7 @@ const features: {
 </script>
 <template>
   <div>
+    <Navbar/>
     <Hero class="bg-tertiary"/>
     <Feature v-for="feature in features" :headlineKey="feature.headlineKey" :subheadlineKey="feature.subheadlineKey"
              :ctaKey="feature.ctaKey" :isReverse="feature.isReverse" :class="feature.bgClass ?? ''">

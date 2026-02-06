@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   text: string,
   isReverse?: boolean,
 }>();
@@ -10,7 +10,7 @@ const props = defineProps<{
       class="inline-flex justify-center items-center gap-2.5 icon"
       :class="{'flex-row-reverse': isReverse}">
     <slot/>
-    <span v-text="text"></span>
+    <span v-text="text" class="hidden md:inline"></span>
   </div>
 </template>
 

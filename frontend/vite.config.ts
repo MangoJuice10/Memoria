@@ -15,4 +15,8 @@ export default defineConfig({
             "@tests": path.resolve(__dirname, "tests"),
         },
     },
+    server: {
+        host: true,
+        port: 5173,
+    },
 });

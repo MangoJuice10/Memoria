@@ -47,7 +47,7 @@ const navlinks: {
 <template>
   <nav v-if="!auth.isAuthenticated" class="flex justify-between items-stretch fixed w-full h-16 px-25 border-b border-b-border bg-primary">
     <div class="flex justify-center items-center">
-      <Logotype class="h-13.5"/>
+      <Logotype has-textual-logotype class="p-1"/>
     </div>
     <div class="flex justify-between items-center gap-5">
       <NavLink v-for="navlink in navlinks" :key="navlink.key" :path="navlink.path" class="font-semibold">
@@ -57,7 +57,7 @@ const navlinks: {
       </NavLink>
     </div>
     <div class="flex justify-between items-center gap-7.5">
-      <LanguageSelect class="w-37.5 h-full font-semibold"/>
+      <LanguageSelect class="h-full font-semibold"/>
       <ThemeButton class="w-10"/>
       <div class="flex justify-between items-center gap-2.5">
         <AccountIcon class="icon-dynamic w-10"/>

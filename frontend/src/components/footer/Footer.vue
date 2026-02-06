@@ -6,9 +6,9 @@ const {t, tm} = useI18n();
 </script>
 
 <template>
-  <div class="flex flex-col justify-start gap-12.5 px-25 py-12.5">
+  <div class="flex flex-col justify-start gap-125 px-25 py-12.5">
     <div class="flex items-start gap-100 w-full">
-      <Logotype/>
+      <Logotype has-textual-logotype class="h-20!"/>
       <div class="flex justify-between gap-50 w-full">
         <div v-for="section in tm('footer.sections')" :key="section.name"
              class="flex flex-col justify-start items-start gap-1">

@@ -1,5 +1,5 @@
 import {vi, describe, it, expect, beforeEach, afterEach} from "vitest";
-import {mountLoginForm} from "@tests/helpers/mountLoginForm";
+import {mountLoginForm} from "@tests/unit/helpers/mountLoginForm.ts";
 import type {VueWrapper} from "@vue/test-utils";
 import LoginForm from "@/components/auth/login/LoginForm.vue";
 

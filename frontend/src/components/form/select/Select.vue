@@ -28,12 +28,9 @@ provide("select", {
 </script>
 
 <template>
-  <!--
-  Relative position shouldn't be defined on this container explicitly
-  Instead, it should be defined by the consumer
-  -->
-  <div @mouseenter="isOpen = true" @mouseleave="isOpen = false" class="flex justify-center items-center w-full h-full">
-    <div :class="['w-full px-2.5 py-1.25 border rounded-lg', isOpen ? 'border-border bg-hover' : 'border-transparent']"
+  <div @click="isOpen = !isOpen" @mouseenter="isOpen = true" @mouseleave="isOpen = false"
+       class="relative flex justify-center items-center w-max h-full cursor-pointer">
+    <div class="w-full px-2.5 py-1.25 border rounded-lg border-transparent hover:border-border hover:bg-hover"
          role="combobox" tabindex="0">
       <slot name="label"/>
     </div>

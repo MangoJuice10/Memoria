@@ -10,7 +10,12 @@ export default defineConfig({
         environment: "jsdom",
         globals: true,
         setupFiles: [
-            path.resolve(__dirname, "tests/vitest.setup.ts")
+            "tests/vitest.setup.ts"
+        ],
+        exclude: [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/tests/e2e/**"
         ]
     },
     resolve: {

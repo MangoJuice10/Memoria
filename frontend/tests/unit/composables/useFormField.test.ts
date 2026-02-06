@@ -1,7 +1,7 @@
 import {ref} from "vue";
 import {vi, describe, it, expect, afterEach} from "vitest";
-import {useFormField} from "@/composables/useFormField";
-import {rules} from "@/utils/rules";
+import {useFormField} from "@/composables/useFormField.ts";
+import {rules} from "@/utils/rules.ts";
 
 describe("useFormField", () => {
     afterEach(() => {
