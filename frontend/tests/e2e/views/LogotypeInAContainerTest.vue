@@ -4,6 +4,9 @@ import Logotype from "@/components/logotype/Logotype.vue";
 
 <template>
   <div class="flex justify-center items-center min-h-screen">
-    <Logotype has-textual-logotype/>
+    <div class="box-content border-3 border-red-500"
+         data-testid="logotype-container">
+      <Logotype has-textual-logotype/>
+    </div>
   </div>
 </template>

@@ -1,35 +1,15 @@
 import {test, expect, type Locator} from "@playwright/test";
 import {getNonNullableBoundingBoxes} from "@tests/e2e/helpers/getNonNullableBoundingBoxes.ts";
-import {calcElementSummaryWidth, resizeHeight, resizeWidth} from "@tests/e2e/utils/elementSizing.ts";
-import {screenshotsHandling} from "@tests/e2e/utils/screenshotsHandling.ts";
+import {calcSummaryWidth} from "@tests/e2e/utils/elementSizing.ts";
+import {cleanScreenshots} from "@tests/e2e/utils/outputHandling.ts";
 
 let logo: Locator,
     graphLogo: Locator,
-    textLogo: Locator,
-    logoContainer: Locator;
-const LOGO_CONTAINER_BASE_HEIGHT = 100;
-const LOGO_CONTAINER_BASE_WIDTH = 100;
-const gapLogoRatio = 0.05;
+    textLogo: Locator;
 
-async function expectGapToScale(
-    newContainerWidth = LOGO_CONTAINER_BASE_WIDTH,
-    newContainerHeight = LOGO_CONTAINER_BASE_HEIGHT,
-    precision = 1,
-) {
-    await Promise.all([
-        resizeWidth(logoContainer, newContainerWidth),
-        resizeHeight(logoContainer, newContainerHeight)
-    ]);
-    const [graphLogoBox, textLogoBox] = await getNonNullableBoundingBoxes(graphLogo, textLogo);
-    const logoBoxContentWidth = await calcElementSummaryWidth(graphLogo, textLogo);
-    const gapPx = textLogoBox.x - (graphLogoBox.x + graphLogoBox.width);
-    const expectedGapPx = logoBoxContentWidth * gapLogoRatio;
-    expect(gapPx).toBeCloseTo(expectedGapPx, precision);
-}
-
-test.describe("Logotype", () => {
+test.describe("Logotype component test", () => {
     test.beforeAll(async () => {
-        screenshotsHandling();
+        cleanScreenshots();
     });
 
     test.beforeEach(async ({page}) => {
@@ -37,12 +17,6 @@ test.describe("Logotype", () => {
         logo = page.getByTestId("logotype");
         graphLogo = page.getByTestId("graphical-logotype");
         textLogo = page.getByTestId("textual-logotype");
-        logoContainer = page.getByTestId("logotype-container");
-
-        await logoContainer.evaluate((el: HTMLElement, {width, height}) => {
-            el.style.width = `${width}px`;
-            el.style.height = `${height}px`;
-        }, {width: LOGO_CONTAINER_BASE_WIDTH, height: LOGO_CONTAINER_BASE_HEIGHT});
     });
 
     test("graphical logotype doesn't overflow the logotype vertically", async () => {
@@ -55,15 +29,50 @@ test.describe("Logotype", () => {
         expect(textLogoBox.height).toBeLessThanOrEqual(logoBox.height);
     });
 
+    test("gap takes 5% of the logotype", async () => {
+        await expect(graphLogo).toHaveHorizontalGapWith(textLogo, 0.05);
+    });
+
+    test("gap shrinks proportionally with the logotype horizontally", async () => {
+        const [logoBB] = await getNonNullableBoundingBoxes(logo);
+        const [logoWidth] = [logoBB.width]
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logo, logoWidth * 0.9);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logo, logoWidth * 0.7);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logo, logoWidth * 0.5);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logo, logoWidth * 0.3);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logo, logoWidth * 0.1);
+    });
+});
+
+test.describe("Logotype component in a container test", () => {
+    let
+        logoContainer: Locator,
+        logoContainerWidth: number,
+        logoContainerHeight: number;
+
+    test.beforeAll(async () => {
+        cleanScreenshots();
+    });
+
+    test.beforeEach(async ({page}) => {
+        await page.goto("/test/logotype/container");
+        logo = page.getByTestId("logotype");
+        graphLogo = page.getByTestId("graphical-logotype");
+        textLogo = page.getByTestId("textual-logotype");
+        logoContainer = page.getByTestId("logotype-container");
+        const [logoContainerBB] = await getNonNullableBoundingBoxes(logoContainer);
+        [logoContainerWidth, logoContainerHeight] = [logoContainerBB.width, logoContainerBB.height];
+    });
+
     test("textual and graphical logotypes don't overflow the logotype horizontally", async () => {
         const [logoBox] = await getNonNullableBoundingBoxes(logo);
-        const logoBoxContentWidth = await calcElementSummaryWidth(graphLogo, textLogo);
+        const logoBoxContentWidth = await calcSummaryWidth(graphLogo, textLogo);
         expect(logoBoxContentWidth).toBeLessThanOrEqual(logoBox.width);
     });
 
     test("logotype doesn't overflow the container vertically", async () => {
-        const [logoBox] = await getNonNullableBoundingBoxes(logo);
-        expect(logoBox.height).toBeLessThanOrEqual(LOGO_CONTAINER_BASE_HEIGHT);
+        const [logoBox, logoContainerBox] = await getNonNullableBoundingBoxes(logo, logoContainer);
+        expect(logoBox.height).toBeLessThanOrEqual(logoContainerBox.height);
     });
 
     test("logotype doesn't overflow the container horizontally", async () => {
@@ -71,57 +80,51 @@ test.describe("Logotype", () => {
         expect(logoBox.width).toBeLessThanOrEqual(logoContainerBox.width);
     });
 
-    test("logotype shrinks with the container vertically", async () => {
-        await expect(logo).toScaleInHeight(logoContainer, 70, 0);
-        await expect(logo).toScaleInHeight(logoContainer, 50, 0);
-        await expect(logo).toScaleInHeight(logoContainer, 30, 0);
-        await expect(logo).toScaleInHeight(logoContainer, 10, 0);
+    test("logotype shrinks with the container horizontally", async () => {
+        await expect(logo).toScaleInWidth(logoContainer, logoContainerWidth * 0.9, 0);
+        await expect(logo).toScaleInWidth(logoContainer, logoContainerWidth * 0.7, 0);
+        await expect(logo).toScaleInWidth(logoContainer, logoContainerWidth * 0.5, 0);
+        await expect(logo).toScaleInWidth(logoContainer, logoContainerWidth * 0.3, 0);
+        await expect(logo).toScaleInWidth(logoContainer, logoContainerWidth * 0.1, 0);
     });
 
-    test("logotype shrinks with the container horizontally", async () => {
-        await expect(logo).toScaleInWidth(logoContainer, 70, 0);
-        await expect(logo).toScaleInWidth(logoContainer, 50, 0);
-        await expect(logo).toScaleInWidth(logoContainer, 30, 0);
-        await expect(logo).toScaleInWidth(logoContainer, 10, 0);
+    test("logotype shrinks with the container vertically", async () => {
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 0.9, 0);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 0.7, 0);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 0.5, 0);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 0.3, 0);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 0.1, 0);
+    });
+
+    test("logotype doesn't grow with the container horizontally", async () => {
+        await expect(logo).not.toScaleInWidth(logoContainer, logoContainerWidth * 1.5);
+        await expect(logo).not.toScaleInWidth(logoContainer, logoContainerWidth * 2);
+        await expect(logo).not.toScaleInWidth(logoContainer, logoContainerWidth * 3);
+        await expect(logo).not.toScaleInWidth(logoContainer, logoContainerWidth * 4);
+        await expect(logo).not.toScaleInWidth(logoContainer, logoContainerWidth * 5);
     });
 
     test("logotype grows with the container vertically", async () => {
-        await expect(logo).toScaleInHeight(logoContainer, 200, 1);
-        await expect(logo).toScaleInHeight(logoContainer, 300, 1);
-        await expect(logo).toScaleInHeight(logoContainer, 400, 1);
-        await expect(logo).toScaleInHeight(logoContainer, 500, 1);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 1.5, 1);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 2, 1);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 3, 1);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 4, 1);
+        await expect(logo).toScaleInHeight(logoContainer, logoContainerHeight * 5, 1);
     });
 
-    test("logotype doesn't grow with the container horizontally", async() => {
-        await expect(logo).not.toScaleInWidth(logoContainer, 200);
-        await expect(logo).not.toScaleInWidth(logoContainer, 300);
-        await expect(logo).not.toScaleInWidth(logoContainer, 400);
-        await expect(logo).not.toScaleInWidth(logoContainer, 500);
-    })
-
-    test("gap takes 5% of the logotype", async () => {
-        await expectGapToScale();
+    test("gap shrinks proportionally with the container horizontally", async () => {
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 0.9);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 0.7);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 0.5);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 0.3);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 0.1);
     });
 
-    test("gap shrinks proportionally with the container's size", async () => {
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 70);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 50);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 30);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 10);
-        await expectGapToScale(70);
-        await expectGapToScale(50);
-        await expectGapToScale(30);
-        await expectGapToScale(10);
-    });
-
-    test("gap grows proportionally with the container's size", async () => {
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 200);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 300);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 400);
-        await expectGapToScale(LOGO_CONTAINER_BASE_WIDTH, 500);
-        await expectGapToScale(200);
-        await expectGapToScale(300);
-        await expectGapToScale(400);
-        await expectGapToScale(500);
+    test("gap grows proportionally with the container horizontally", async () => {
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 1.5);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 2);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 3);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 4);
+        await expect(graphLogo).toMaintainHorizontalGapWith(textLogo, logoContainer, logoContainerWidth * 5);
     });
 });

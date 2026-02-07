@@ -2,7 +2,8 @@ import {createWebHistory, createRouter} from "vue-router";
 import LandingPage from "@/views/LandingPage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 
-import LogotypeTest from "@tests/e2e/views/LogotypeTest.vue";
+import LogotypeComponentTest from "@tests/e2e/views/LogotypeTest.vue";
+import LogotypeComponentInAContainerTest from "@tests/e2e/views/LogotypeInAContainerTest.vue";
 
 const routes = [
     {path: "/", component: LandingPage},
@@ -10,7 +11,8 @@ const routes = [
 ];
 
 const testRoutes = [
-    {path: "/test/logotype", component: LogotypeTest}
+    {path: "/test/logotype/", component: LogotypeComponentTest},
+    {path: "/test/logotype/container", component: LogotypeComponentInAContainerTest}
 ];
 
 if (import.meta.env.DEV) routes.push(...testRoutes);
