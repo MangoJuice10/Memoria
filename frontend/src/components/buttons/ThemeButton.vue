@@ -13,7 +13,7 @@ const theme = ref<Theme>(
 const isHovered = ref(false);
 
 const applyTheme = (value: Theme) => {
-  document.documentElement.classList.toggle("dark", value === "dark");
+  document.documentElement.setAttribute("data-theme", value);
 }
 
 onMounted(() => {
@@ -32,8 +32,8 @@ const toggleTheme = () => {
 
 <template>
   <button @click="toggleTheme" @mouseenter="isHovered = true" @mouseleave="isHovered = false"
-       class="group flex justify-center align-center aspect-square rounded-full border border-border cursor-pointer">
-    <LightThemeIcon v-if="theme === 'light'" :class="[!isHovered ? 'icon' : 'icon-inverse', 'scale-80']"/>
-    <DarkThemeIcon v-if="theme === 'dark'" :class="[!isHovered ? 'icon' : 'icon-inverse', 'scale-80']"/>
+       class="group flex justify-center align-center aspect-square rounded-full border border-default cursor-pointer">
+    <LightThemeIcon v-if="theme === 'light'" :class="[!isHovered ? 'icon-static' : 'icon-static-inverse', 'scale-80']"/>
+    <DarkThemeIcon v-if="theme === 'dark'" :class="[!isHovered ? 'icon-static' : 'icon-static-inverse', 'scale-80']"/>
   </button>
 </template>

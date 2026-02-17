@@ -1,0 +1,70 @@
+:root {
+    /*
+    Color semantic design tokens
+    */
+
+    /*
+    Primary, secondary and tertiary brand colors
+    Also known as main, supporting and accent colors
+    */
+    --color-primary: ;
+    --color-secondary: ;
+    --color-tertiary: ;
+
+    /*
+    Background color
+    Background color corresponds to the primary branch color by default
+    */
+    --color-background-default: var(--color-primary);
+
+    /*
+    Surface colors
+    Surface colors correspond to the brand colors by default
+    */
+    --color-surface-primary: var(--color-primary);
+    --color-surface-secondary: var(--color-secondary);
+    --color-surface-tertiary: var(--color-tertiary);
+
+    /*
+    Surface state colors
+    */
+    --color-surface-hover: ;
+    --color-surface-focus: ;
+    --color-surface-active: ;
+    --color-surface-disabled: ;
+
+    /*
+    Button colors
+    Button colors correspond to the surface colors by default
+    */
+    --color-button: var(--color-surface-primary);
+    --color-button-hover: var(--color-surface-hover);
+    --color-button-focus: var(--color-surface-focus);
+    --color-button-active: var(--color-surface-active);
+    --color-button-disabled: var(--color-surface-disabled);
+
+    /*
+    Icon colors
+    */
+    --color-icon-default: var(--color-primary);
+    --color-icon-inverse: var(--color-secondary);
+
+    /*
+    Border color
+    */
+    --color-border-default: ;
+
+    /*
+    Text colors
+    */
+    --color-text-default: ;
+    --color-text-muted: ;
+    --color-text-inverse: ;
+    --color-text-error: ;
+
+    /*
+    Text state colors
+    */
+    --color-text-hover: ;
+    --color-text-disabled: ;
+}

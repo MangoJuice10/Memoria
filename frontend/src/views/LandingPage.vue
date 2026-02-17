@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import MainLayout from "@/components/layouts/MainLayout.vue";
 import Hero from "@/components/landing/Hero.vue";
 import Feature from "@/components/landing/Feature.vue";
 import Footer from "@/components/footer/Footer.vue";
+import Resizable from "@/components/utils/Resizable.vue";
 import SharedDecksPreview from "@/components/landing/SharedDecksPreview.vue";
 import spacedRepetition from "@/assets/images/SpacedRepetition.png";
 import AIAssistance from "@/assets/images/AIAssistance.png";
 import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
-import Navbar from "@/components/navbar/Navbar.vue";
 
 const features: {
   key: string;
@@ -44,17 +45,31 @@ const features: {
     bgClass: "bg-primary"
   }
 ];
+
 </script>
 <template>
-  <div>
-    <Navbar/>
-    <Hero class="bg-tertiary"/>
-    <Feature v-for="feature in features" :headlineKey="feature.headlineKey" :subheadlineKey="feature.subheadlineKey"
-             :ctaKey="feature.ctaKey" :isReverse="feature.isReverse" :class="feature.bgClass ?? ''">
-      <img :src="feature.imageSrc" class="w-106.25"/>
-    </Feature>
+  <MainLayout>
+    <!--
+    "auto-rows-[minmax(min-content,1fr)]" ensures that all the elements have at least the height
+    of the element with the greatest height, as well as prevents all the elements from shrinking
+    below their min heights.N
+    -->
+    <div class="grid auto-rows-[minmax(min-content,1fr)] pt-page">
+      <Hero class="bg-tertiary"/>
+      <Feature v-for="feature in features" :headlineKey="feature.headlineKey" :subheadlineKey="feature.subheadlineKey"
+               :ctaKey="feature.ctaKey" :isReverse="feature.isReverse" :class="feature.bgClass ?? ''">
+        <img :src="feature.imageSrc" alt="" class="w-full h-full"/>
+      </Feature>
+    </div>
+    <div class="flex justify-center">
+      <Resizable has-top-resize-handle has-right-resize-handle has-bottom-resize-handle has-left-resize-handle>
+        <div class="bg-red-500 w-full h-full">
+          Hello World
+        </div>
+      </Resizable>
+    </div>
     <SharedDecksPreview class="bg-tertiary"/>
     <Footer class="bg-primary"/>
-  </div>
+  </MainLayout>
 </template>
 

@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-<div class="font-semibold text-text-error">
+<div class="font-semibold text-error">
   {{error ?? "&nbsp"}}
 </div>
 </template>

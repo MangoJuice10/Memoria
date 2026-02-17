@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="31.570999"
+   height="31.570999"
+   viewBox="0 0 55.249249 55.249249"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="cursorNsResizeInverse.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="18.804621"
+     inkscape:cx="17.043683"
+     inkscape:cy="17.256397"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!-- Icon from Framework7 Icons by Vladimir Kharlampidi - https://github.com/framework7io/framework7-icons/blob/master/LICENSE -->
+  <g
+     id="g1"
+     style="stroke:#ffffff;stroke-width:5.25;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+     transform="rotate(-90,27.624375,27.99975)">
+    <path
+       fill="currentColor"
+       fill-rule="evenodd"
+       d="M 46.172,30.014 H 9.828 l 3.758,3.757 A 2.0004051,2.0004051 0 0 1 10.757,36.6 L 3.687,29.529 3.637,29.477 A 2,2 0 0 1 3,28.014 c 0,-0.493 0.178,-0.945 0.474,-1.293 q 0.095,-0.132 0.212,-0.25 l 7.071,-7.07 a 2.0000516,2.0000516 0 1 1 2.829,2.828 L 9.8,26.014 H 46.198 L 42.413,22.229 A 2.0004051,2.0004051 0 1 1 45.242,19.4 l 7.07,7.071 q 0.12,0.118 0.213,0.25 c 0.296,0.348 0.474,0.8 0.474,1.293 0,0.578 -0.245,1.098 -0.637,1.463 l -0.05,0.052 -7.07,7.07 a 2.0000516,2.0000516 0 1 1 -2.829,-2.828 z"
+       id="path1"
+       style="stroke:#ffffff;stroke-width:5.25;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+  </g>
+</svg>

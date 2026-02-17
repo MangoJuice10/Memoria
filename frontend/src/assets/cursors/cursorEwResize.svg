@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="31.570999"
+   height="31.570999"
+   viewBox="0 0 55.249249 55.249249"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="cursorResize.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="18.804621"
+     inkscape:cx="8.0033519"
+     inkscape:cy="16.13965"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1" />
+  <!-- Icon from Framework7 Icons by Vladimir Kharlampidi - https://github.com/framework7io/framework7-icons/blob/master/LICENSE -->
+  <g
+     id="g1"
+     style="stroke:#ffffff;stroke-width:5.25;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+     transform="translate(-0.3748755,-0.37537472)">
+    <g
+       id="path1"
+       style="opacity:1">
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#000000;fill-rule:evenodd;stroke:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1;fill-opacity:1"
+         d="m 12.412109,16.160156 c -1.223945,-0.07156 -2.5766096,0.448961 -3.5117184,1.384766 l -7.0742187,7.074219 -0.00391,0.0039 C 1.6879176,24.758543 1.5675617,24.909784 1.4492187,25.0625 0.78207284,25.864563 0.375,26.906397 0.375,28.013672 v 0.002 c 4.0788e-4,1.281998 0.53446698,2.509131 1.4726562,3.382812 l -0.1035156,-0.101562 0.068359,0.07031 7.0878906,7.087891 c 0.9354195,0.935656 2.2897944,1.456767 3.5136724,1.384766 1.223877,-0.072 2.261292,-0.616761 3.027343,-1.382813 0.766052,-0.766051 1.310681,-1.805546 1.382813,-3.029297 0.05632,-0.955444 -0.330808,-1.935946 -0.91211,-2.789062 h 24.175782 c -0.581098,0.853133 -0.970424,1.835591 -0.914063,2.791015 0.07219,1.223725 0.618508,2.261358 1.384766,3.027344 0.766257,0.765987 1.803398,1.311258 3.027343,1.382813 1.223436,0.07153 2.576652,-0.449697 3.511719,-1.384766 l 7.087891,-7.087891 0.06836,-0.07031 -0.103515,0.101562 c 0.902782,-0.840601 1.472656,-2.064983 1.472656,-3.384765 0,-1.099256 -0.402075,-2.131882 -1.060547,-2.931641 -0.129647,-0.169641 -0.261907,-0.336644 -0.410156,-0.482422 l -7.054688,-7.05664 c -0.935658,-0.935422 -2.289835,-1.454795 -3.513672,-1.382813 -1.223836,0.07198 -2.261187,0.616657 -3.027343,1.382813 -0.766156,0.766156 -1.310961,1.805333 -1.382813,3.029297 -0.05666,0.965227 0.3386,1.958567 0.931641,2.816406 H 15.894531 c 0.59318,-0.858257 0.986646,-1.85281 0.929688,-2.81836 -0.07219,-1.223724 -0.616555,-2.261357 -1.382813,-3.027343 -0.766257,-0.765987 -1.805351,-1.311258 -3.029297,-1.382813 z"
+         id="path2" />
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#ffffff;fill-rule:evenodd;stroke:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1;fill-opacity:1"
+         d="M 46.172,30.014 H 9.828 l 3.758,3.757 A 2.0004051,2.0004051 0 0 1 10.757,36.6 L 3.687,29.529 3.637,29.477 A 2,2 0 0 1 3,28.014 c 0,-0.493 0.178,-0.945 0.474,-1.293 q 0.095,-0.132 0.212,-0.25 l 7.071,-7.07 a 2.0000516,2.0000516 0 1 1 2.829,2.828 L 9.8,26.014 H 46.198 L 42.413,22.229 A 2.0004051,2.0004051 0 1 1 45.242,19.4 l 7.07,7.071 q 0.12,0.118 0.213,0.25 c 0.296,0.348 0.474,0.8 0.474,1.293 0,0.578 -0.245,1.098 -0.637,1.463 l -0.05,0.052 -7.07,7.07 a 2.0000516,2.0000516 0 1 1 -2.829,-2.828 z"
+         id="path3" />
+    </g>
+  </g>
+</svg>

@@ -29,16 +29,51 @@ provide("select", {
 
 <template>
   <div @click="isOpen = !isOpen" @mouseenter="isOpen = true" @mouseleave="isOpen = false"
-       class="relative flex justify-center items-center w-max h-full cursor-pointer">
-    <div class="w-full px-2.5 py-1.25 border rounded-lg border-transparent hover:border-border hover:bg-hover"
-         role="combobox" tabindex="0">
-      <slot name="label"/>
+       class="relative h-full cursor-pointer">
+    <div class="flex justify-center items-center w-full h-full">
+      <div class="px-2.5 py-1.25 border rounded-lg border-transparent
+      hover:border-default hover:bg-hover"
+           role="combobox" tabindex="0">
+        <slot name="label"/>
+      </div>
     </div>
     <Transition name="dropdown">
       <div v-if="isOpen"
-           class="absolute left-0 top-full flex flex-col divide-y divide-border w-full border rounded-b-lg border-border bg-primary overflow-hidden">
+           class="flex flex-col divide-y divide-(--color-border) absolute left-0 top-full min-w-fit w-full overflow-hidden border rounded-b-lg border-default bg-primary">
         <slot/>
       </div>
     </Transition>
   </div>
 </template>
+
+<style scoped>
+.dropdown-enter-from {
+  opacity: 0;
+  transform: translateY(-10px) scaleY(0);
+}
+
+.dropdown-enter-to {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.dropdown-enter-active {
+  transition: opacity 200ms ease, transform 200ms ease;
+  transform-origin: top;
+}
+
+.dropdown-leave-from {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scaleY(0);
+}
+
+.dropdown-leave-active {
+  transition: opacity 200ms ease, transform 200ms ease;
+  transform-origin: top;
+}
+</style>

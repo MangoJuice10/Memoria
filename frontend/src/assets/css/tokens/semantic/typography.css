@@ -1,0 +1,38 @@
+:root {
+    /*
+    Typography semantic design tokens
+    */
+    --font-weight-default: ;
+    --font-size-default: ;
+    --line-height-default: ;
+    --font-family-default: ;
+
+    --font-size--line-height-default: var(--font-size-default)/var(--line-height-default);
+
+    --font-default: var(--font-weight-default) var(--font-size--line-height-default) var(--font-family-default);
+
+    --font-size-h1: ;
+    --font-size-h2: ;
+    --font-size-h3: ;
+    --font-size-h4: ;
+
+    --line-height-h1: ;
+    --line-height-h2: ;
+    --line-height-h3: ;
+    --line-height-h4: ;
+
+    --font-size--line-height-h1: var(--font-size-h1)/var(--line-height-h1);
+    --font-size--line-height-h2: var(--font-size-h2)/var(--line-height-h2);
+    --font-size--line-height-h3: var(--font-size-h3)/var(--line-height-h3);
+    --font-size--line-height-h4: var(--font-size-h4)/var(--line-height-h4);
+
+    --font-weight-h1: ;
+    --font-weight-h2: ;
+    --font-weight-h3: ;
+    --font-weight-h4: ;
+
+    --font-size-p: ;
+    --line-height-p: ;
+
+    --font-size--line-height-p: ;
+}

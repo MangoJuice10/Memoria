@@ -9,9 +9,7 @@ const select = inject<{
   selectValue: (value: string) => void;
 }>("select");
 
-if (!select) {
-  throw new Error("Select option must be used inside select!");
-}
+if (!select) throw new Error("Select option must be used inside select!");
 </script>
 
 <template>

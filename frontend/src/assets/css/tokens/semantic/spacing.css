@@ -1,0 +1,51 @@
+:root {
+    /*
+    Page spacing
+    */
+    --padding-top-page: var(--height-navbar);
+    --padding-right-page: ;
+    --padding-bottom-page: var(--height-navbar);
+    --padding-left-page: ;
+
+    /*
+    Navbar spacing
+    */
+    --padding-right-navbar: var(--padding-right-page);
+    --padding-left-navbar: var(--padding-left-page);
+
+    /*
+    Sidebar spacing
+    */
+    --padding-right-sidebar: var(--padding-right-page);
+    --padding-left-sidebar: var(--padding-left-page);
+
+    /*
+    Footer spacing
+    */
+    --padding-top-footer: ;
+    --padding-right-footer: var(--padding-right-page);
+    --padding-bottom-footer: ;
+    --padding-left-footer: var(--padding-left-page);
+
+    /*
+    Heading spacing
+    */
+    --margin-top-heading: ;
+    --margin-bottom-heading: calc(var(--margin-top-heading) / 2);
+
+    /*
+    Section spacing
+    */
+    --margin-top-section: ;
+    --margin-bottom-section: ;
+    --padding-top-section: ;
+    --padding-bottom-section: ;
+
+    /*
+    Button spacing
+    */
+    --padding-top-button: ;
+    --padding-right-button: var(--padding-left-button);
+    --padding-bottom-button: var(--padding-top-button);
+    --padding-left-button: ;
+}

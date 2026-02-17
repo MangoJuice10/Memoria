@@ -14,8 +14,8 @@ defineEmits<{
 </script>
 
 <template>
-    <IconButton @click="$emit('update:isVisible', !isVisible)" class="flex justify-center items-center absolute top-1/2 right-2 -translate-y-1/2">
-        <Visible v-if="!isVisible" class="w-full aspect-square"/>
-        <Hidden v-else class="w-full aspect-square"/>
+    <IconButton @click="$emit('update:isVisible', !isVisible)" class="absolute top-1/2 right-2 -translate-y-1/2">
+        <Visible v-if="!isVisible" class="w-10 icon-dynamic"/>
+        <Hidden v-else class="w-10 icon-dynamic"/>
     </IconButton>
-</template>x
+</template>

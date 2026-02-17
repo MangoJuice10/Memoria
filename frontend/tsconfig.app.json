@@ -9,13 +9,12 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@tests/*": [
-        "tests/*"
+        "./tests/*"
       ]
     },
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

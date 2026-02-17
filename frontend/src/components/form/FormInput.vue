@@ -5,18 +5,14 @@ import FormError from "@/components/form/FormError.vue";
 import VisibilityToggle from "@/components/form/VisibilityToggle.vue";
 
 const props = withDefaults(defineProps<{
-  id: string,
-  label: string,
-  type?: string,
-  placeholder?: string,
-  modelValue: string,
-} & ({
-  error: ValidationError;
-  touched: boolean;
-} | {
-  error?: never;
-  touched?: never;
-})>(), {
+  id: string;
+  label: string;
+  type?: string;
+  placeholder?: string;
+  modelValue: string;
+  error?: ValidationError;
+  touched?: boolean;
+}>(), {
   type: "text",
   error: null,
   touched: false,
@@ -45,13 +41,13 @@ function handleBlur() {
   <div class="flex flex-col items-start justify-start gap-1.25 w-full">
     <label v-text="label" :for="id" class="font-semibold"/>
     <div class="relative w-full">
-      <input :type="newInputType" :id="id" class="w-full h-13 pl-2.5 pr-15 py-1.25 border rounded-lg border-border"
+      <input :type="newInputType" :id="id" class="w-full h-13 pl-2.5 pr-15 py-1.25 border rounded-lg border-default"
              :value="modelValue"
              :placeholder="placeholder"
              @input="handleInput"
              @blur="handleBlur"
              :data-testid="id">
-      <VisibilityToggle v-if="type === 'password'" v-model:isVisible="isTextVisible" class="w-8"/>
+      <VisibilityToggle v-if="type === 'password'" v-model:isVisible="isTextVisible"/>
     </div>
     <FormError :error :touched :data-testid="`${id}-validation-error`"/>
   </div>

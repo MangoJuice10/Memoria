@@ -4,9 +4,9 @@ import path from "path";
 const ICON_DIR = "./src/components/icons";
 
 const replacements = [
-    {regex: /#fff\b|#ffffff\b/gi, value: "var(--color-icon-primary)"},
-    {regex: /#000\b|#000000\b/gi, value: "var(--color-icon-secondary)"},
-    {regex: /currentColor\b/g, value: "var(--color-icon-secondary)"}
+    {regex: /#fff\b|#ffffff\b/gi, value: "var(--color-icon-default)"},
+    {regex: /#000\b|#000000\b/gi, value: "var(--color-icon-inverse)"},
+    {regex: /currentColor\b/g, value: "var(--color-icon-inverse)"}
 ];
 
 // Use when you absolutely need to add a particular class to the inline SVG.

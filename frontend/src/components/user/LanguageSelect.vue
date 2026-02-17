@@ -7,16 +7,21 @@ import ArrowIcon from "@/components/icons/utils/ArrowIcon.vue";
 import Select from "@/components/form/select/Select.vue";
 import SelectOption from "@/components/form/select/SelectOption.vue";
 
+withDefaults(defineProps<{
+  selectedLanguageClasses?: string;
+}>(), {
+  selectedLanguageClasses: ""
+});
 const {locale} = useI18n();
 </script>
 
 <template>
   <Select v-model="locale">
     <template v-slot:label>
-      <div class="flex justify-center items-center gap-1.25">
-        <LangIcon class="icon w-7.5 aspect-square"/>
-        <span v-text="getLangName(locale as LanguageCode)" class="hidden md:inline"/>
-        <ArrowIcon class="icon w-4 aspect-square"/>
+      <div class="flex justify-center items-center gap-2">
+        <LangIcon class="icon-static w-7.5 aspect-square"/>
+        <span v-text="getLangName(locale as LanguageCode)" :class="[selectedLanguageClasses]"/>
+        <ArrowIcon class="icon-static w-4 aspect-square rotate-90"/>
       </div>
     </template>
     <SelectOption optionValue="en">English</SelectOption>

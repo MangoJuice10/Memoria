@@ -7,7 +7,6 @@ import IconButton from "@/components/utils/IconButton.vue";
 import PublicationCard from "@/components/cards/PublicationCard.vue";
 import ArrowIcon from "@/components/icons/utils/ArrowIcon.vue";
 import noImage from "@/assets/filler/noImage.png";
-import VisibilityToggle from "@/components/form/VisibilityToggle.vue";
 
 const {t} = useI18n();
 
@@ -46,13 +45,22 @@ watch(page, loadPublications, {immediate: true});
     </div>
     <div class="flex items-center gap-4">
       <IconButton @click="flipPage((oldPage: number) => oldPage - 1)">
-        <ArrowIcon class="w-7 aspect-square rotate-90"/>
+        <ArrowIcon class="w-10 aspect-square rotate-180 icon-static"/>
       </IconButton>
       <div class="text-3xl font-semibold">{{ page }}/{{ TOTAL_PAGES }}</div>
       <IconButton @click="flipPage((oldPage: number) => oldPage + 1)">
-        <ArrowIcon class="w-7 aspect-square rotate-270"/>
+        <ArrowIcon class="w-10 aspect-square icon-static"/>
       </IconButton>
     </div>
   </div>
 </template>
 
+<style class="scoped">
+  .grid > img {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    object-fit: contain;
+  }
+</style>

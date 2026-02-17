@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Logotype from "@/components/logotype/Logotype.vue";
+import Logo from "@/components/logo/Logo.vue";
 </script>
 
 <template>
   <div class="flex justify-center items-center min-h-screen">
-    <Logotype has-textual-logotype/>
+    <Logo has-logotype/>
   </div>
 </template>

@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import LoginForm from "@/components/auth/login/LoginForm.vue";
-import Navbar from "@/components/navbar/Navbar.vue";
+import MainLayout from "@/components/layouts/MainLayout.vue";
 </script>
 
 <template>
-  <div>
-    <Navbar/>
+  <MainLayout>
     <div class="flex justify-center items-center min-h-screen">
       <LoginForm>
       </LoginForm>
     </div>
-  </div>
+  </MainLayout>
 </template>

@@ -2,7 +2,7 @@ export const en = {
     auth: {
         login: {
             action: "Login",
-            header: "Log into your account",
+            heading: "Log into your account",
             email: {
                 title: "Email",
                 placeholder: "Enter your email address"
@@ -21,32 +21,65 @@ export const en = {
             message: "Register a new account",
         }
     },
-    navbar: {
-        spacedRepetition: "Spaced Repetition",
-        aiAssistance: "AI Assistance",
-        trustworthyAnswers: "Trustworthy Answers",
+    navigation: {
+        navbar: {
+            navLinks: {
+                spacedRepetition: "Spaced Repetition",
+                aiAssistance: "AI Assistance",
+                trustworthyAnswers: "Trustworthy Answers",
+            }
+        },
+        sidebar: {
+            sections: {
+                features: {
+                    heading: "Features",
+                    navLinks: {
+                        spacedRepetition: "Spaced Repetition",
+                        aiAssistance: "AI Assistance",
+                        trustworthyAnswers: "Trustworthy Answers",
+                        statistics: "Statistics",
+                    }
+                },
+                introduction: {
+                    heading: "Introduction",
+                    navLinks: {
+                        flashcards: "Flashcards",
+                        decks: "Decks",
+                        sharedDecks: "Shared Decks",
+                        educationalResources: "Educational Resources",
+                    }
+                },
+                about: {
+                    heading: "About us",
+                    navLinks: {
+                        memoria: "About Memoria",
+                    }
+                }
+            }
+        }
     },
     footer: {
-        sections: [
-            {
-                title: "About Us",
-                links: [
-                    "About Memoria",
-                    "About Spaced Repetition",
-                    "About Large Language Models (LLMs)",
-                    "About using credible sources",
-                ]
+        sections: {
+            features: {
+                heading: "Features",
+                navLinks: {
+                    spacedRepetition: "About Spaced Repetition",
+                    aiAssistance: "About Large Language Models (LLMs)",
+                    trustworthyAnswers: "About using credible sources",
+                    statistics: "Statistics",
+                },
             },
-            {
-                title: "Features",
-                links: [
-                    "Flashcards",
-                    "Decks",
-                    "Shared Decks",
-                    "Statistics",
-                ]
+            introduction: {
+                heading: "Introduction",
+                navLinks: {
+                    about: "About Memoria",
+                    flashcards: "Flashcards",
+                    decks: "Decks",
+                    sharedDecks: "Shared Decks",
+                    educationalResources: "Educational Resources",
+                }
             },
-        ],
+        },
         copyright: "© 2025 Memoria, Inc."
     },
     landing: {

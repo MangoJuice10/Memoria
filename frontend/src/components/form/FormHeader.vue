@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const props = defineProps<{
-  header: string,
+defineProps<{
+  heading: string,
 }>();
 </script>
 
 <template>
-<div v-text="header" class="text-2xl font-semibold text-center"/>
+<div v-text="heading" class="text-2xl font-semibold text-center"/>
 </template>
 

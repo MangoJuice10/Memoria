@@ -1,0 +1,23 @@
+:root {
+    /*
+    Size and spacing semantic design tokens
+    */
+
+    /*
+    Navbar size
+    */
+    --width-navbar: ;
+    --height-navbar: ;
+
+    /*
+    Sidebar size
+    */
+    --width-sidebar: ;
+    --height-sidebar: ;
+
+    /*
+    Footer size
+    */
+    --width-footer: ;
+    --height-footer: ;
+}

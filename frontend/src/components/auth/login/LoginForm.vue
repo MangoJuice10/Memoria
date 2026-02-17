@@ -71,10 +71,10 @@ const reset = () => {
 
 <template>
   <form @submit.prevent="submit"
-        class="flex flex-col justify-start gap-8 w-[35vw] p-5 border rounded-lg border-border bg-tertiary"
+        class="flex flex-col justify-start gap-8 w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
         data-testid="login-form">
     <div class="flex flex-col items-center gap-3">
-      <FormHeader :header="t('auth.login.header')"/>
+      <FormHeader :heading="t('auth.login.heading')"/>
       <Error :error="authError" class="text-lg"
              data-testid="auth-error"/>
     </div>
