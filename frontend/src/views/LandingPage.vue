@@ -61,15 +61,18 @@ const features: {
         <img :src="feature.imageSrc" alt="" class="w-full h-full"/>
       </Feature>
     </div>
+    <SharedDecksPreview class="bg-tertiary"/>
     <div class="flex justify-center">
       <Resizable has-top-resize-handle has-right-resize-handle has-bottom-resize-handle has-left-resize-handle>
-        <div class="bg-red-500 w-full h-full">
-          Hello World
+        <div class="bg-red-500">
+          1 2 3 4 5
+          <br>
+          6 7 8 9 10
+          <br>
+          11 12 13 14 15
         </div>
       </Resizable>
     </div>
-    <SharedDecksPreview class="bg-tertiary"/>
     <Footer class="bg-primary"/>
   </MainLayout>
 </template>
-

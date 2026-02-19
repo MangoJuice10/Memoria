@@ -2,6 +2,7 @@
 import {ref, provide, inject, watch, type Ref} from "vue";
 import Navbar from "@/components/navigation/navbar/Navbar.vue";
 import Sidebar from "@/components/navigation/sidebar/Sidebar.vue";
+import Resizable from "@/components/utils/Resizable.vue";
 
 const overlay = inject<{
   isOverlayVisible: Ref<boolean>;
@@ -35,6 +36,10 @@ watch(overlay.isOverlayVisible, (value: boolean) => {
 
 <template>
   <Navbar/>
-  <Sidebar :is-visible="isSidebarVisible"/>
+  <div v-if="isSidebarVisible" class="fixed inset-y-0 left-0 z-100">
+    <Resizable has-right-resize-handle>
+      <Sidebar :is-visible="isSidebarVisible"/>
+    </Resizable>
+  </div>
   <slot/>
 </template>

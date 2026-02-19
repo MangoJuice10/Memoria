@@ -37,6 +37,13 @@
 
         --color-text-hover: var(--color-gray-1400);
         --color-text-disabled: var(--color-gray-450);
+
+        --cursor-default: url("@/assets/cursors/cursor.svg"), auto;
+        --cursor-pointer: url("@/assets/cursors/cursorPointerRotated.svg"), auto;
+        --cursor-not-allowed: url("@/assets/cursors/cursorNoAction.svg"), auto;
+        --cursor-text: url("@/assets/cursors/cursorText.svg") 16 16, auto;
+        --cursor-ns-resize: url("@/assets/cursors/cursorNsResize.svg") 16 16, auto;
+        --cursor-ew-resize: url("@/assets/cursors/cursorEwResize.svg") 16 16, auto;
     }
 
     /*
@@ -61,56 +68,21 @@
 
         --color-text-hover: var(--color-gray-0);
         --color-text-disabled: var(--color-gray-1150);
+
+        --cursor-default: url("@/assets/cursors/cursorInverse.svg"), auto;
+        --cursor-pointer: url("@/assets/cursors/cursorPointerInverseRotated.svg"), auto;
+        --cursor-not-allowed: url("@/assets/cursors/cursorNoActionInverse.svg"), auto;
+        --cursor-text: url("@/assets/cursors/cursorTextInverse.svg") 16 16, auto;
+        --cursor-ns-resize: url("@/assets/cursors/cursorNsResizeInverse.svg") 16 16, auto;
+        --cursor-ew-resize: url("@/assets/cursors/cursorEwResizeInverse.svg") 16 16, auto;
     }
 
     :root[data-theme="light"] {
         --background-image: url("@/assets/background/background.png");
-        cursor: url("@/assets/cursors/cursor.svg"), auto;
     }
 
     :root[data-theme="dark"] {
         --background-image: url("@/assets/background/backgroundInverse.png");
-        cursor: url("@/assets/cursors/cursorInverse.svg"), auto;
-    }
-
-    [data-theme="light"] a, [data-theme="light"] button:enabled, [data-theme="light"] .cursor-pointer {
-        cursor: url("@/assets/cursors/cursorPointerRotated.svg"), auto !important;
-    }
-
-    [data-theme="dark"] a, [data-theme="dark"] button:enabled, [data-theme="dark"] .cursor-pointer {
-        cursor: url("@/assets/cursors/cursorPointerInverseRotated.svg"), auto !important;
-    }
-
-    [data-theme="light"] button:disabled {
-        cursor: url("@/assets/cursors/cursorNoAction.svg"), auto;
-    }
-
-    [data-theme="dark"] button:disabled {
-        cursor: url("@/assets/cursors/cursorNoActionInverse.svg"), auto;
-    }
-
-    [data-theme="light"] input, [data-theme="light"] textarea {
-        cursor: url("@/assets/cursors/cursorText.svg") 16 16, auto;
-    }
-
-    [data-theme="dark"] input, [data-theme="dark"] textarea {
-        cursor: url("@/assets/cursors/cursorTextInverse.svg") 16 16, auto;
-    }
-
-    [data-theme="light"] .cursor-ns-resize {
-        cursor: url("@/assets/cursors/cursorNsResize.svg") 16 16, auto !important;
-    }
-
-    [data-theme="dark"] .cursor-ns-resize {
-        cursor: url("@/assets/cursors/cursorNsResizeInverse.svg") 16 16, auto !important;
-    }
-
-    [data-theme="light"] .cursor-ew-resize {
-        cursor: url("@/assets/cursors/cursorEwResize.svg") 16 16, auto !important;
-    }
-
-    [data-theme="dark"] .cursor-ew-resize {
-        cursor: url("@/assets/cursors/cursorEwResizeInverse.svg") 16 16, auto !important;
     }
 }
 
@@ -244,6 +216,7 @@
         color-scheme: light dark;
         font-synthesis: none;
         text-rendering: optimizeLegibility;
+        cursor: var(--cursor-default);
     }
 
     /*
@@ -284,6 +257,18 @@
 
     p {
         font: var(--font-size--line-height-p) var(--font-family-default);
+    }
+
+    a, button:enabled {
+        cursor: var(--cursor-pointer);
+    }
+
+    button:disabled {
+        cursor: var(--cursor-not-allowed);
+    }
+
+    input, textarea {
+        cursor: var(--cursor-text);
     }
 
     /*
@@ -599,4 +584,28 @@ Size and spacing utility classes
 
 @utility p-button {
     padding: var(--padding-top-button) var(--padding-right-button) var(--padding-bottom-button) var(--padding-left-button);
+}
+
+@utility cursor-default {
+    cursor: var(--cursor-default);
+}
+
+@utility cursor-pointer {
+    cursor: var(--cursor-pointer);
+}
+
+@utility cursor-not-allowed {
+    cursor: var(--cursor-not-allowed);
+}
+
+@utility cursor-text {
+    cursor: var(--cursor-text);
+}
+
+@utility cursor-ew-resize {
+    cursor: var(--cursor-ew-resize);
+}
+
+@utility cursor-ns-resize {
+    cursor: var(--cursor-ns-resize);
 }
