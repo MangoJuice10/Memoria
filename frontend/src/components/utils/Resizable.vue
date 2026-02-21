@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import {useTemplateRef, onMounted} from "vue";
 import {
+  computeSize,
   computeMinSize,
-  isMovingUpPastElement,
-  isMovingRightPastElement,
-  isMovingDownPastElement,
-  isMovingLeftPastElement
+  isMovingPastElement,
 } from "@/utils/dom";
 import {debounce} from "@/utils/debounce";
-import type { Side, Dimension} from "@/types/dom";
+import {capitalize} from "@/utils/capitalize";
+import type {Axis, Side, Dimension} from "@/types/dom";
 
 const props = withDefaults(defineProps<{
   minWidth?: number;
@@ -31,107 +30,132 @@ const sideToDimension: Record<Side, Dimension> = {
   "left": "width",
 };
 
-let minWidth: number,
-    minHeight: number;
+const dimensionToAxis: Record<Dimension, Axis> = {
+  "width": "x",
+  "height": "y",
+};
 
-let oldX: number,
-    oldY: number;
+const oppositeDimension: Record<Dimension, Dimension> = {
+  "width": "height",
+  "height": "width"
+};
 
-const resizableContainerRef = useTemplateRef<HTMLElement | null>("resizable-container");
+const rzContainerRef = useTemplateRef<HTMLElement | null>("resizable-container");
+
+let rzContainer: HTMLElement,
+    rzEl: HTMLElement;
+
+let rzContainerMeta = {
+  width: {
+    base: NaN,
+    min: NaN,
+  },
+  height: {
+    base: NaN,
+    min: NaN,
+  }
+};
+
+let oldCursorPos = {
+  x: 0,
+  y: 0,
+};
+
+const computeRzContainerMinSize = (dimension: Dimension) => {
+  return rzEl instanceof HTMLImageElement ? 0 : computeMinSize(rzContainer, dimension);
+};
 
 onMounted(() => {
-  if (props.minWidth && props.minHeight) return;
+  if (!rzContainerRef.value) throw new Error("Resizable container didn't render");
+  if (!(rzContainerRef.value instanceof HTMLElement)) throw new Error("Resizable container must be an HTML Element");
+  rzContainer = rzContainerRef.value;
 
-  const resizableContainer = resizableContainerRef.value;
-  if (!resizableContainer) throw new Error("Resizable container didn't render");
+  if (!rzContainer.firstElementChild) throw new Error("Resizable container is empty");
+  if (!(rzContainer.firstElementChild instanceof HTMLElement)) throw new Error("Resizable element must be an HTML Element");
+  rzEl = rzContainer.firstElementChild;
 
-  if (props.minWidth) {
-    minWidth = props.minWidth;
-  } else {
-    minWidth = computeMinSize(resizableContainer, "width");
-  }
+  const resizeObserver = new ResizeObserver(entries => {
+    if (!entries[0]) throw new Error("Resizable container didn't render");
+    const {width, height} = entries[0].contentRect;
+    if (width > 0 && height > 0) {
+      rzContainerMeta.width.base = computeSize(rzContainer, "width");
+      rzContainerMeta.height.base = computeSize(rzContainer, "height");
+      rzContainer.style.width = `${rzContainerMeta.width.base}px`;
+      rzContainer.style.height = `${rzContainerMeta.height.base}px`;
 
-  if (props.minHeight) {
-    minHeight = props.minHeight;
-  } else {
-    minHeight = computeMinSize(resizableContainer, "height");
-  }
+      rzContainerMeta.width.min = props.minWidth ? props.minWidth : computeRzContainerMinSize("width");
+      rzContainerMeta.height.min = props.minHeight ? props.minHeight : computeRzContainerMinSize("height");
+
+      resizeObserver.disconnect();
+    }
+  });
+  resizeObserver.observe(rzContainer);
 });
 
 const startResize = (startResizeEvent: MouseEvent, side: Side) => {
-  const resizeHandle = startResizeEvent.currentTarget;
-  if (!resizeHandle) return;
-  if (!(resizeHandle instanceof HTMLElement)) return;
-  const resizableContainer = resizeHandle.parentElement;
-  if (!resizableContainer) return;
+  const rzHandle = startResizeEvent.currentTarget;
+  if (!rzHandle) throw new Error("Resize handle didn't render");
+  if (!(rzHandle instanceof HTMLElement)) throw new Error("Resize handle must be an HTML Element");
 
-  [oldX, oldY] = [startResizeEvent.clientX, startResizeEvent.clientY];
+  [oldCursorPos.x, oldCursorPos.y] = [startResizeEvent.clientX, startResizeEvent.clientY];
   resizeListener = (resizeEvent: MouseEvent) => {
-    debouncedResize(resizeEvent, resizeHandle, resizableContainer, side);
+    debouncedResize(resizeEvent, rzHandle, side);
   };
+
   document.documentElement.style.cursor = sideToDimension[side] === "width" ? "var(--cursor-ew-resize)" : "var(--cursor-ns-resize)";
   document.documentElement.style.pointerEvents = "none";
   document.documentElement.style.userSelect = "none";
+
   window.addEventListener("mousemove", resizeListener);
   window.addEventListener("mouseup", stopResize);
 };
 
-const resize = (e: MouseEvent, resizeHandle: HTMLElement, resizableContainer: HTMLElement, side: Side) => {
-  const [newX, newY] = [e.clientX, e.clientY];
-  const propertyName = sideToDimension[side];
-
-  const resizableContainerBR = resizableContainer.getBoundingClientRect();
-  const resizeHandleBR = resizeHandle.getBoundingClientRect();
-
-  if (propertyName === "width") {
-    if (!(isMovingLeftPastElement(oldX, newX, resizeHandleBR.left) ||
-        isMovingRightPastElement(oldX, newX, resizeHandleBR.right))) {
-      oldX = newX;
-      return;
-    }
-    const deltaX = newX - oldX;
-    const direction = side === "right" ? 1 : -1;
-
-    const oldWidth = resizableContainerBR.width;
-    const newWidth = Math.max(minWidth, oldWidth + deltaX * direction);
-    resizableContainer.style.width = `${newWidth}px`;
-
-    minHeight = computeMinSize(resizableContainer, "height");
-    if (minHeight > resizableContainer.getBoundingClientRect().height) resizableContainer.style.height = `${minHeight}px`;
-    oldX = newX;
-  } else {
-    if (!(isMovingUpPastElement(oldY, newY, resizeHandleBR.top) ||
-        isMovingDownPastElement(oldY, newY, resizeHandleBR.bottom))) {
-      oldY = newY;
-      return;
-    }
-    const deltaY = newY - oldY;
-    const direction = side === "bottom" ? 1 : -1;
-
-    const oldHeight = resizableContainerBR.height;
-    const newHeight = Math.max(minHeight, oldHeight + deltaY * direction);
-    resizableContainer.style.height = `${newHeight}px`;
-
-    minWidth = computeMinSize(resizableContainer, "width");
-    if (minWidth > resizableContainer.getBoundingClientRect().width) resizableContainer.style.width = `${minWidth}px`;
-    oldY = newY;
-  }
+const adjustRzContainerSize = (dimension: Dimension) => {
+  if (rzEl instanceof HTMLImageElement) return;
+  rzContainerMeta[dimension]["min"] = computeRzContainerMinSize(dimension);
+  if (rzContainerMeta[dimension]["min"] > rzContainer.getBoundingClientRect()[dimension]) rzContainer.style[dimension] = `${rzContainerMeta[dimension]["min"]}px`;
 };
+
+const resize = (e: MouseEvent, rzHandle: HTMLElement, side: Side) => {
+  const dimension = sideToDimension[side];
+  const axis = dimensionToAxis[dimension];
+
+  const oldCoord = oldCursorPos[axis];
+  const newCoord = e[`client${capitalize(dimensionToAxis[dimension])}`];
+
+  if (!isMovingPastElement(oldCoord, newCoord, rzHandle, dimension)) {
+    oldCursorPos[axis] = newCoord;
+    return;
+  }
+
+  const delta = newCoord - oldCoord;
+  const direction = side === "right" || side === "bottom" ? 1 : -1;
+
+  const oldSize = computeSize(rzContainer, dimension);
+  const newSize = Math.max(rzContainerMeta[dimension]["min"], oldSize + delta * direction);
+
+  rzContainer.style[dimension] = `${newSize}px`;
+  adjustRzContainerSize(oppositeDimension[dimension]);
+
+  oldCursorPos[axis] = newCoord;
+};
+
+let debouncedResize = debounce(resize, 5);
+let resizeListener: (e: MouseEvent) => void;
 
 const stopResize = () => {
   document.documentElement.style.cursor = "var(--cursor-default)";
   document.documentElement.style.pointerEvents = "";
   document.documentElement.style.userSelect = "";
+
   window.removeEventListener("mousemove", resizeListener);
   window.removeEventListener("mouseup", stopResize);
 };
-
-let debouncedResize = debounce(resize, 5);
-let resizeListener: (e: MouseEvent) => void;
 </script>
 
 <template>
-  <div ref="resizable-container" class="flex relative">
+  <div ref="resizable-container" class="grid relative w-fit h-fit">
+    <slot/>
     <div @mousedown="(e: MouseEvent) => startResize(e, 'top')"
          v-if="hasTopResizeHandle"
          class="absolute inset-x-0 -translate-y-1/2 w-full h-2 cursor-ns-resize"/>
@@ -144,12 +168,11 @@ let resizeListener: (e: MouseEvent) => void;
     <div @mousedown="(e: MouseEvent) => startResize(e, 'left')"
          v-if="hasLeftResizeHandle"
          class="absolute inset-y-0 -translate-x-1/2 w-2 h-full cursor-ew-resize"/>
-    <slot/>
   </div>
 </template>
 
 <style scoped>
-:slotted(*) {
-  flex-grow: 1;
-}
+  :slotted(img) {
+    object-fit: fill;
+  }
 </style>

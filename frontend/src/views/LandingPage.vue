@@ -3,7 +3,6 @@ import MainLayout from "@/components/layouts/MainLayout.vue";
 import Hero from "@/components/landing/Hero.vue";
 import Feature from "@/components/landing/Feature.vue";
 import Footer from "@/components/footer/Footer.vue";
-import Resizable from "@/components/utils/Resizable.vue";
 import SharedDecksPreview from "@/components/landing/SharedDecksPreview.vue";
 import spacedRepetition from "@/assets/images/SpacedRepetition.png";
 import AIAssistance from "@/assets/images/AIAssistance.png";
@@ -62,17 +61,6 @@ const features: {
       </Feature>
     </div>
     <SharedDecksPreview class="bg-tertiary"/>
-    <div class="flex justify-center">
-      <Resizable has-top-resize-handle has-right-resize-handle has-bottom-resize-handle has-left-resize-handle>
-        <div class="bg-red-500">
-          1 2 3 4 5
-          <br>
-          6 7 8 9 10
-          <br>
-          11 12 13 14 15
-        </div>
-      </Resizable>
-    </div>
     <Footer class="bg-primary"/>
   </MainLayout>
 </template>
