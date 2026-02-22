@@ -1,22 +1,43 @@
 import type {Dimension} from "@/types/dom";
 
-export const computeSize = (el: HTMLElement, dimension: Dimension) => {
-    return el.getBoundingClientRect()[dimension];
-}
+export const computeSize = (el: HTMLElement, dimension: Dimension, useClone = false) => {
+    let result: number;
+    if (!useClone) {
+        result = el.getBoundingClientRect()[dimension];
+    } else {
+        const clone = el.cloneNode(true) as HTMLElement;
+        clone.style.position = "absolute";
+        clone.style.visibility = "hidden";
 
-export const computeMinSize = (el: HTMLElement, dimension: Dimension) => {
-    if (el instanceof HTMLImageElement) return 0;
-    const clone = el.cloneNode(true) as HTMLElement;
-    clone.style.position = "absolute";
-    clone.style.visibility = "hidden";
-    clone.style[dimension] = "min-content";
-
-    document.body.appendChild(clone);
-    const result = computeSize(clone, dimension);
-    document.body.removeChild(clone);
-
+        document.body.appendChild(clone);
+        result = clone.getBoundingClientRect()[dimension];
+        document.body.removeChild(clone);
+    }
     return result;
-}
+};
+
+export const computeMinSize = (el: HTMLElement, dimension: Dimension, value: "0" | "min-content" = "0", useClone = false) => {
+    let result: number;
+    if (!useClone) {
+        const oldSize = el.style[dimension];
+        el.style[dimension] = value;
+
+        result = el.getBoundingClientRect()[dimension];
+
+        if (oldSize === "") el.style.removeProperty(dimension);
+        else el.style[dimension] = oldSize;
+    } else {
+        const clone = el.cloneNode(true) as HTMLElement;
+        clone.style.position = "absolute";
+        clone.style.visibility = "hidden";
+        clone.style[dimension] = value;
+
+        document.body.appendChild(clone);
+        result = el.getBoundingClientRect()[dimension];
+        document.body.removeChild(clone);
+    }
+    return result;
+};
 
 export const isMovingLeftPastElement = (oldX: number, newX: number, elX: number) => newX - oldX < 0 && newX < elX;
 export const isMovingRightPastElement = (oldX: number, newX: number, elX: number) => newX - oldX > 0 && newX > elX;
@@ -33,4 +54,14 @@ export const isMovingPastElement = (oldCoord: number, newCoord: number, el: HTML
             isMovingDownPastElement(oldCoord, newCoord, elBR.bottom))) return false;
     }
     return true;
+};
+
+export const breakpoints: {
+    readonly [breakpoint: string]: MediaQueryList;
+} = {
+    "2xl": window.matchMedia("(min-width: 1536px)"),
+    "xl": window.matchMedia("(min-width: 1280px)"),
+    "lg": window.matchMedia("(min-width: 1024px)"),
+    "md": window.matchMedia("(min-width: 768px"),
+    "sm": window.matchMedia("(min-width: 640px"),
 };

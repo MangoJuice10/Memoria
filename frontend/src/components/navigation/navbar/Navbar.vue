@@ -20,7 +20,7 @@ const navLinks = useNavigation().getNavbarNavigation();
 <template>
   <header v-if="!auth.isAuthenticated"
           class="flex justify-between items-stretch gap-[3%] w-navbar h-navbar px-navbar border-b border-b-border bg-primary">
-    <div class="shrink-0 inline-flex justify-center items-center gap-5">
+    <div class="shrink-0 inline-flex justify-center items-center ">
       <SidebarToggle class=""/>
       <Logo has-logotype logotype-classes="max-lg:hidden" class="p-2"/>
     </div>

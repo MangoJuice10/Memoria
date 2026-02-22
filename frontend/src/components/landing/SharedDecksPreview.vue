@@ -55,7 +55,7 @@ watch(page, loadPublications, {immediate: true});
   </div>
 </template>
 
-<style class="scoped">
+<style scoped>
   .grid > img {
     width: 100%;
     height: 100%;

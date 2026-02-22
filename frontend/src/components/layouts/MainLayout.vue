@@ -38,8 +38,8 @@ watch(overlay.isOverlayVisible, (value: boolean) => {
   <div class="fixed inset-x-0 top-0 z-50">
     <Navbar/>
   </div>
-  <div v-if="isSidebarVisible" class="fixed inset-y-0 left-0 z-100">
-    <Resizable has-right-resize-handle>
+  <div v-show="isSidebarVisible" class="fixed inset-y-0 left-0 z-100">
+    <Resizable has-right-resize-handle min-width="25vw">
       <Sidebar :is-visible="isSidebarVisible"/>
     </Resizable>
   </div>

@@ -4,14 +4,15 @@ import {
   computeSize,
   computeMinSize,
   isMovingPastElement,
+  breakpoints
 } from "@/utils/dom";
 import {debounce} from "@/utils/debounce";
 import {capitalize} from "@/utils/capitalize";
 import type {Axis, Side, Dimension} from "@/types/dom";
 
 const props = withDefaults(defineProps<{
-  minWidth?: number;
-  minHeight?: number;
+  minWidth?: string;
+  minHeight?: string;
   hasTopResizeHandle?: boolean;
   hasRightResizeHandle?: boolean;
   hasBottomResizeHandle?: boolean;
@@ -61,8 +62,60 @@ let oldCursorPos = {
   y: 0,
 };
 
+const cloneRzContainer = () => {
+  const rzContainerClone = rzContainer.cloneNode(true) as HTMLElement;
+  rzContainerClone.style.position = "absolute";
+  rzContainerClone.style.visibility = "hidden";
+
+  if (!rzContainerClone.firstElementChild) throw new Error("Resizable container clone is empty");
+  const rzElClone = rzContainerClone.firstElementChild as HTMLElement;
+  rzElClone.style.removeProperty("display");
+  return rzContainerClone;
+};
+
+const computeRzContainerBaseSize = (dimension: Dimension) => {
+  const rzContainerClone = cloneRzContainer();
+  document.body.appendChild(rzContainerClone);
+  const result = computeSize(rzContainerClone, dimension);
+  document.body.removeChild(rzContainerClone);
+  return result;
+};
+
 const computeRzContainerMinSize = (dimension: Dimension) => {
-  return rzEl instanceof HTMLImageElement ? 0 : computeMinSize(rzContainer, dimension);
+  if (rzEl instanceof HTMLImageElement) return 0;
+  const rzContainerClone = cloneRzContainer();
+  document.body.appendChild(rzContainerClone);
+  const result = computeMinSize(rzContainerClone, dimension, "min-content");
+  document.body.removeChild(rzContainerClone);
+  return result;
+};
+
+const setRzContainerMinDimensions = () => {
+  if (props.minWidth) {
+    rzContainer.style.minWidth = props.minWidth;
+    rzContainerMeta.width.min = computeMinSize(rzContainer, "width");
+  } else {
+    rzContainerMeta.width.min = computeRzContainerMinSize("width");
+  }
+
+  if (props.minHeight) {
+    rzContainer.style.minHeight = props.minHeight;
+    rzContainerMeta.height.min = computeMinSize(rzContainer, "height");
+  } else {
+    rzContainerMeta.height.min = computeRzContainerMinSize("height");
+  }
+};
+
+const setRzContainerBaseDimensions = () => {
+  rzContainerMeta.width.base = Math.max(rzContainerMeta.width.min, computeRzContainerBaseSize("width"));
+  rzContainerMeta.height.base = Math.max(rzContainerMeta.height.min, computeRzContainerBaseSize("height"));
+  rzContainer.style.width = `${rzContainerMeta.width.base}px`;
+  rzContainer.style.height = `${rzContainerMeta.height.base}px`;
+};
+
+const handleBreakpointChange = () => {
+  setRzContainerMinDimensions();
+  setRzContainerBaseDimensions();
 };
 
 onMounted(() => {
@@ -78,18 +131,17 @@ onMounted(() => {
     if (!entries[0]) throw new Error("Resizable container didn't render");
     const {width, height} = entries[0].contentRect;
     if (width > 0 && height > 0) {
-      rzContainerMeta.width.base = computeSize(rzContainer, "width");
-      rzContainerMeta.height.base = computeSize(rzContainer, "height");
-      rzContainer.style.width = `${rzContainerMeta.width.base}px`;
-      rzContainer.style.height = `${rzContainerMeta.height.base}px`;
-
-      rzContainerMeta.width.min = props.minWidth ? props.minWidth : computeRzContainerMinSize("width");
-      rzContainerMeta.height.min = props.minHeight ? props.minHeight : computeRzContainerMinSize("height");
+      setRzContainerMinDimensions();
+      setRzContainerBaseDimensions();
 
       resizeObserver.disconnect();
     }
   });
   resizeObserver.observe(rzContainer);
+
+  for (const media of Object.values(breakpoints)) {
+    media.addEventListener("change", handleBreakpointChange);
+  }
 });
 
 const startResize = (startResizeEvent: MouseEvent, side: Side) => {
@@ -111,9 +163,9 @@ const startResize = (startResizeEvent: MouseEvent, side: Side) => {
 };
 
 const adjustRzContainerSize = (dimension: Dimension) => {
-  if (rzEl instanceof HTMLImageElement) return;
-  rzContainerMeta[dimension]["min"] = computeRzContainerMinSize(dimension);
-  if (rzContainerMeta[dimension]["min"] > rzContainer.getBoundingClientRect()[dimension]) rzContainer.style[dimension] = `${rzContainerMeta[dimension]["min"]}px`;
+  const computedMinSize = computeRzContainerMinSize(dimension);
+  if (!props[`min${capitalize(dimension)}`]) rzContainerMeta[dimension]["min"] = computedMinSize;
+  if (computedMinSize > rzContainer.getBoundingClientRect()[dimension]) rzContainer.style[dimension] = `${Math.max(computedMinSize, rzContainerMeta[dimension]["min"])}px`;
 };
 
 const resize = (e: MouseEvent, rzHandle: HTMLElement, side: Side) => {
@@ -154,7 +206,7 @@ const stopResize = () => {
 </script>
 
 <template>
-  <div ref="resizable-container" class="grid relative w-fit h-fit">
+  <div ref="resizable-container" class="flex relative w-fit h-fit">
     <slot/>
     <div @mousedown="(e: MouseEvent) => startResize(e, 'top')"
          v-if="hasTopResizeHandle"
@@ -172,7 +224,16 @@ const stopResize = () => {
 </template>
 
 <style scoped>
-  :slotted(img) {
-    object-fit: fill;
-  }
+:slotted(*) {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+:slotted(img) {
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
+  object-fit: fill;
+}
 </style>
