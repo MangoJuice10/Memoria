@@ -144,8 +144,8 @@
         :root {
             --width-sidebar: 35vw;
 
-            --padding-right-page: var(--spacing-8);
-            --padding-left-page: var(--spacing-8);
+            --padding-right-page: var(--spacing-4);
+            --padding-left-page: var(--spacing-4);
 
             --margin-top-heading: var(--spacing-12);
 
@@ -163,8 +163,8 @@
         :root {
             --font-size--line-height-p: var(--font-size--line-height-lg);
 
-            --padding-right-page: var(--spacing-8);
-            --padding-left-page: var(--spacing-8);
+            --padding-right-page: var(--spacing-4);
+            --padding-left-page: var(--spacing-4);
         }
     }
 

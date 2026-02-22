@@ -1,3 +1,6 @@
+# Tests
+tests/e2e/output
+
 # Logs
 logs
 *.log

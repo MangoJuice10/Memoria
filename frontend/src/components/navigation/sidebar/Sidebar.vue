@@ -15,9 +15,9 @@ const navigation = useNavigation().getSidebarNavigation();
 <template>
   <Transition name="sidebar">
     <aside v-show="isVisible" class="w-sidebar h-sidebar border-r border-default bg-primary">
-      <div class="flex items-center w-full h-navbar px-sidebar border-b border-default">
+      <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
         <SidebarToggle/>
-        <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 p-2"/>
+        <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
       </div>
       <div class="px-sidebar">
         <section v-for="section in navigation" :key="section.id">

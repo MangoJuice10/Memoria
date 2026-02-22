@@ -9,8 +9,10 @@ import SelectOption from "@/components/form/select/SelectOption.vue";
 
 withDefaults(defineProps<{
   selectedLanguageClasses?: string;
+  arrowClasses?: string;
 }>(), {
-  selectedLanguageClasses: ""
+  selectedLanguageClasses: "",
+  arrowClasses: "",
 });
 const {locale} = useI18n();
 </script>
@@ -21,7 +23,7 @@ const {locale} = useI18n();
       <div class="flex justify-center items-center gap-2">
         <LangIcon class="icon-static w-7.5 aspect-square"/>
         <span v-text="getLangName(locale as LanguageCode)" :class="[selectedLanguageClasses]"/>
-        <ArrowIcon class="icon-static w-4 aspect-square rotate-90"/>
+        <ArrowIcon class="icon-static w-4 aspect-square rotate-90" :class="[arrowClasses]"/>
       </div>
     </template>
     <SelectOption optionValue="en">English</SelectOption>
