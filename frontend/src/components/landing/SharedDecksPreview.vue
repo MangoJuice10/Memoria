@@ -38,7 +38,7 @@ watch(page, loadPublications, {immediate: true});
       <div v-text="t('landing.sharedDecks.headline')" class="text-4xl font-semibold "/>
       <div v-text="t('landing.sharedDecks.subheadline')" class="text-lg"/>
     </div>
-    <div class="grid grid-rows-2 grid-cols-3 gap-20">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-20">
       <PublicationCard v-for="publication in publications" :key="publication.id" :name="publication.name"
                        :rating="publication.rating"
                        :imagePath="noImage"/>

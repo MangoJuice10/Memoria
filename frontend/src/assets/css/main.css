@@ -111,13 +111,19 @@
 
         --font-size--line-height-p: var(--font-size--line-height-base);
 
-        --width-navbar: 100vw;
+        /*
+        100vw doesn't take the vertical sidebar's width into account,
+        so setting the width to 100vw results in horizontal overflow.
+        This becomes a problem when the target element is not a direct
+        descendant of the <body>.
+        */
+        --width-navbar: 100%;
         --height-navbar: var(--size-16);
 
         --width-sidebar: 60vw;
         --height-sidebar: 100vh;
 
-        --width-footer: 100vw;
+        --width-footer: 100%;
         --height-footer: var(--size-52);
 
         --padding-top-footer: var(--size-12);
@@ -289,6 +295,7 @@
         "height" of 100% makes the root fill the viewport
         */
         height: 100%;
+        width: 100%;
     }
 
     body {
@@ -298,6 +305,7 @@
         expand, as its "height" is set to "auto" by default
         */
         min-height: 100%;
+        min-width: 100%;
     }
 
     #app {
@@ -310,6 +318,7 @@
         expand, as its "height" is set to "auto" by default
         */
         min-height: 100vh;
+        min-width: 100%;
     }
 
     #app > *:first-child {
@@ -319,6 +328,7 @@
         is set to "auto" by default
         */
         min-height: 100vh;
+        min-width: 100%;
     }
 
     #app > *:first-child {
@@ -436,6 +446,10 @@ Size and spacing utility classes
 
 @utility h-footer {
     height: var(--height-footer);
+}
+
+@utility min-h-footer {
+    min-height: var(--height-footer);
 }
 
 @utility pt-page {

@@ -44,7 +44,7 @@ const navLinks = useNavigation().getNavbarNavigation();
       </NavLink>
     </nav>
     <div class="inline-flex justify-between items-center gap-3">
-      <LanguageSelect class="font-semibold" selected-language-classes="md:max-xl:hidden" arrow-classes="md:max-lg:hidden"/>
+      <LanguageSelect class="font-semibold" selected-language-classes="max-sm:hidden md:max-xl:hidden" arrow-classes="md:max-lg:hidden"/>
       <ThemeButton class="w-10"/>
       <RouterLink to="/login">
         <Button class="font-semibold">

@@ -14,15 +14,15 @@ const navigation = useNavigation().getSidebarNavigation();
 
 <template>
   <Transition name="sidebar">
-    <aside v-show="isVisible" class="w-sidebar h-sidebar border-r border-default bg-primary">
+    <aside v-show="isVisible" class="flex flex-col w-sidebar h-sidebar border-r border-default bg-primary">
       <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
         <SidebarToggle/>
         <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
       </div>
-      <div class="px-sidebar">
+      <div class="h-full overflow-auto px-sidebar">
         <section v-for="section in navigation" :key="section.id">
           <h3 v-text="section.heading" class="max-w-full my-heading truncate text-muted"/>
-          <nav class="flex flex-col items-start gap-5 h-full mb-section overflow-y-auto">
+          <nav class="flex flex-col items-start gap-5 h-full mb-section">
             <Navlink v-for="navLink in section.navLinks" :key="navLink.id" :href="navLink.href"
                      class="grow-0 w-full font-semibold px-2 py-1.5
                                 border rounded-xl border-transparent hover:border-default hover:bg-hover">

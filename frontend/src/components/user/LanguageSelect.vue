@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {watch} from "vue";
 import {useI18n} from "vue-i18n";
 import type {LanguageCode} from "@/types/LanguageCode.ts";
 import {getLangName} from "@/utils/language";
@@ -15,6 +16,10 @@ withDefaults(defineProps<{
   arrowClasses: "",
 });
 const {locale} = useI18n();
+
+watch(locale, (value: string) => {
+  localStorage.setItem("language", value);
+})
 </script>
 
 <template>

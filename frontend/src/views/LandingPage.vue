@@ -53,7 +53,7 @@ const features: {
     of the element with the greatest height, as well as prevents all the elements from shrinking
     below their min heights.N
     -->
-    <div class="grid auto-rows-[minmax(min-content,1fr)] pt-page">
+    <div class="grid auto-rows-[minmax(min-content,1fr)] w- pt-page">
       <Hero class="bg-tertiary"/>
       <Feature v-for="feature in features" :headlineKey="feature.headlineKey" :subheadlineKey="feature.subheadlineKey"
                :ctaKey="feature.ctaKey" :isReverse="feature.isReverse" :class="feature.bgClass ?? ''">
