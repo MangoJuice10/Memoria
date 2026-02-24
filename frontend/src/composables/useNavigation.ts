@@ -56,7 +56,7 @@ export function useNavigation() {
             navLinks: [
                 {
                     id: "spaced-repetition",
-                    href: "/spaced-repetition",
+                    href: "/login",
                     label: computed(() => t("navigation.sidebar.sections.features.navLinks.spacedRepetition")),
                     icon: SpacedRepetitionFeatureIcon,
                 },

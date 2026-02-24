@@ -1,4 +1,5 @@
 import {createWebHistory, createRouter} from "vue-router";
+import {useOverlay} from "@/composables/useOverlay";
 import LandingPage from "@/views/LandingPage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 
@@ -20,4 +21,11 @@ if (import.meta.env.DEV) routes.push(...testRoutes);
 export const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+const {hideOverlay} = useOverlay();
+
+router.beforeEach((_to, _from, next) => {
+    hideOverlay();
+    next();
 });

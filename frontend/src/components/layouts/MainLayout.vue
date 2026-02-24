@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import {ref, provide, inject, watch, type Ref} from "vue";
+import {ref, provide, watch} from "vue";
+import {useOverlay} from "@/composables/useOverlay";
 import Navbar from "@/components/navigation/navbar/Navbar.vue";
 import Sidebar from "@/components/navigation/sidebar/Sidebar.vue";
 import Resizable from "@/components/utils/Resizable.vue";
 
-const overlay = inject<{
-  isOverlayVisible: Ref<boolean>;
-  showOverlay: () => void;
-  hideOverlay: () => void;
-  toggleOverlay: () => void;
-}>("overlay");
-
-if (!overlay) throw new Error("Overlay's state and methods weren't provided");
+const overlay = useOverlay();
 
 const isSidebarVisible = ref(false);
 provide("sidebar", {
