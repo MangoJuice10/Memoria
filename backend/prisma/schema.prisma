@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               Int      @id @default(autoincrement())
+  username         String
+  email            String   @unique
+  passwordHash     String   @map("password_hash")
+  refreshTokenHash String?  @map("refresh_token_hash")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  decks Deck[]
+
+  @@map("users")
+}
+
+model Flashcard {
+  id        Int      @id @default(autoincrement())
+  front     String
+  back      String
+  deckID    Int      @map("deck_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deck Deck @relation(fields: [deckID], references: [id])
+
+  @@map("flashcards")
+}
+
+model Deck {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  isPublic    Boolean  @default(false) @map("is_public")
+  userID      Int      @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user       User        @relation(fields: [userID], references: [id])
+  flashcards Flashcard[]
+
+  @@map("decks")
+}
