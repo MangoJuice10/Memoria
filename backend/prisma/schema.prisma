@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -35,7 +34,7 @@ model Flashcard {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  deck Deck @relation(fields: [deckID], references: [id])
+  deck Deck @relation(fields: [deckID], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("flashcards")
 }
@@ -49,7 +48,7 @@ model Deck {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  user       User        @relation(fields: [userID], references: [id])
+  user       User        @relation(fields: [userID], references: [id], onUpdate: Cascade, onDelete: Cascade)
   flashcards Flashcard[]
 
   @@map("decks")

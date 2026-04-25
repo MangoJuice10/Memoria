@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import { Prisma, PrismaClient } from "src/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { ConfigService } from "@nestjs/config";
 
@@ -10,6 +10,14 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
       connectionString: configService.get("DATABASE_URL"),
     });
     super({ adapter });
+  }
+
+  async cleanDatabase() {
+    return this.$transaction([
+      this.flashcard.deleteMany(),
+      this.deck.deleteMany(),
+      this.user.deleteMany(),
+    ]);
   }
 
   onModuleInit() {
