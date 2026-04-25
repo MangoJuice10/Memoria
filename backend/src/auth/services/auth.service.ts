@@ -77,7 +77,6 @@ export class AuthService {
     if (!user.refreshTokenHash) return false;
 
     const refreshTokenMatches = await this.verifyRefreshToken(user.refreshTokenHash, refreshToken);
-    console.log(refreshTokenMatches);
     if (!refreshTokenMatches) return false;
 
     return true;
