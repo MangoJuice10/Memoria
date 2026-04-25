@@ -7,7 +7,7 @@ let logo: Locator,
     logomark: Locator,
     logotype: Locator;
 
-test.describe("Logo component test", () => {
+test.describe("Logo component test.vue", () => {
     test.beforeAll(async () => {
         cleanScreenshots();
     });
@@ -44,7 +44,7 @@ test.describe("Logo component test", () => {
     });
 });
 
-test.describe("Logo component in a container test", () => {
+test.describe("Logo component in a container test.vue", () => {
     let
         logoContainer: Locator,
         logoContainerWidth: number,

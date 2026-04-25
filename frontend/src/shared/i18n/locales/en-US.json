@@ -1,0 +1,154 @@
+{
+  "auth": {
+    "login": {
+      "action": "Login",
+      "heading": "Log in",
+      "email": {
+        "title": "Email",
+        "placeholder": "Enter your email address"
+      },
+      "password": {
+        "title": "Password",
+        "placeholder": "Enter your password"
+      },
+      "errors": {
+        "failure": "Login failed"
+      },
+      "reset": "Reset"
+    },
+    "register": {
+      "action": "Register",
+      "heading": "Register",
+      "email": {
+        "title": "Email",
+        "placeholder": "Enter your email address"
+      },
+      "password": {
+        "title": "Password",
+        "placeholder": "Enter your password"
+      },
+      "confirmPassword": {
+        "title": "Confirm password",
+        "placeholder": "Type your password again"
+      }
+    }},
+  "navigation": {
+    "navbar": {
+      "navLinks": {
+        "spacedRepetition": "Spaced Repetition",
+        "aiAssistance": "AI Assistance",
+        "trustworthyAnswers": "Trustworthy Answers"
+      }
+    },
+    "sidebar": {
+      "sections": {
+        "features": {
+          "heading": "Features",
+          "navLinks": {
+            "spacedRepetition": "Spaced Repetition",
+            "aiAssistance": "AI Assistance",
+            "trustworthyAnswers": "Trustworthy Answers",
+            "statistics": "Statistics"
+          }
+        },
+        "introduction": {
+          "heading": "Introduction",
+          "navLinks": {
+            "flashcards": "Flashcards",
+            "decks": "Decks",
+            "sharedDecks": "Shared Decks",
+            "educationalResources": "Educational Resources"
+          }
+        },
+        "about": {
+          "heading": "About us",
+          "navLinks": {
+            "memoria": "About Memoria"
+          }
+        }
+      }
+    }
+  },
+  "footer": {
+    "sections": {
+      "features": {
+        "heading": "Features",
+        "navLinks": {
+          "spacedRepetition": "About Spaced Repetition",
+          "aiAssistance": "About Large Language Models (LLMs)",
+          "trustworthyAnswers": "About using credible sources",
+          "statistics": "Statistics"
+        }
+      },
+      "introduction": {
+        "heading": "Introduction",
+        "navLinks": {
+          "about": "About Memoria",
+          "flashcards": "Flashcards",
+          "decks": "Decks",
+          "sharedDecks": "Shared Decks",
+          "educationalResources": "Educational Resources"
+        }
+      }
+    },
+    "copyright": "© 2025 Memoria, Inc."
+  },
+  "landing": {
+    "hero": {
+      "headline": "Study efficiently with spaced repetition and trustworthy AI assistance",
+      "subheadline": "Enhance your education process using a scientifically proven memorization method, and get immediate help from the AI-assistant, whose replies are based solely on trustworthy information.",
+      "cta": "Get Started"
+    },
+    "spacedRepetition": {
+      "headline": "Spaced Repetition",
+      "subheadline": {
+        "content": "Learn more efficiently with scientifically proven {spaced-repetition} memorization method. Create {flashcards}, organize them into {decks}, or add {shared-decks} created by other learners into your collection. The system schedules reviews at optimal intervals, helping you retain knowledge longer with less effort.",
+        "spacedRepetition": "spaced repetition",
+        "flashcards": "flashcards",
+        "decks": "decks",
+        "sharedDecks": "shared decks"
+      },
+      "cta": "Try It Out"
+    },
+    "AIAssistance": {
+      "headline": "AI Assistance",
+      "subheadline": {
+        "content": "Interact with an AI tutor that is always ready to give you detailed answers on all of your questions. There is no interruption of the learning process — you get your answers {immediately}, and focus on {understanding} rather than bland memorization of the study material.",
+        "immediately": "immediately",
+        "understanding": "understanding"
+      },
+      "cta": "Check It Out"
+    },
+    "trustworthyAnswers": {
+      "headline": "Trustworthy Answers",
+      "subheadline": {
+        "content": "All AI responses are based solely upon the uploaded educational resources, ensuring {accuracy} of the information provided to the student, and {hallucinations}.",
+        "accuracy": "accuracy",
+        "hallucinations": "eliminating AI hallucinations"
+      },
+      "cta": "Let's begin"
+    },
+    "sharedDecks": {
+      "headline": "Popular Shared Decks",
+      "subheadline": "Here are shared decks popular among other learners. Make sure to check them out!"
+    }
+  },
+  "validation": {
+    "rules": {
+      "required": "{fieldName} is required",
+      "minLength": "{fieldName} must be at least {n} characters long | {fieldName} must be at least {n} character long | {fieldName} must be at least {n} characters long",
+      "email": "Email address is invalid",
+      "confirmPassword": "The passwords do not match"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    }
+  },
+  "pagination": {
+    "first": "First",
+    "last": "Last",
+    "previous": "Previous",
+    "next": "Next"
+  }
+}

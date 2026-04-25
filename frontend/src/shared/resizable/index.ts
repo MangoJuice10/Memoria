@@ -1,0 +1,1 @@
+export {default as Resizable} from "@/shared/resizable/ui/Resizable.vue";

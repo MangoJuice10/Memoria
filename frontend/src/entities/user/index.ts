@@ -1,0 +1,1 @@
+export type {User} from "src/entities/a/model/user.types.ts";

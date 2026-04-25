@@ -1,0 +1,155 @@
+{
+  "auth": {
+    "login": {
+      "action": "Войти",
+      "heading": "Вход",
+      "email": {
+        "title": "Электронная почта",
+        "placeholder": "Введите адрес электронной почты"
+      },
+      "password": {
+        "title": "Пароль",
+        "placeholder": "Введите пароль"
+      },
+      "errors": {
+        "failure": "Ошибка входа"
+      },
+      "reset": "Сбросить"
+    },
+    "register": {
+      "action": "Зарегистрироваться",
+      "heading": "Регистрация",
+      "email": {
+        "title": "Электронная почта",
+        "placeholder": "Введите адрес электронной почты"
+      },
+      "password": {
+        "title": "Пароль",
+        "placeholder": "Введите пароль"
+      },
+      "confirmPassword": {
+        "title": "Подтвердите пароль",
+        "placeholder": "Введите пароль ещё раз"
+      }
+    }
+  },
+  "navigation": {
+    "navbar": {
+      "navLinks": {
+        "spacedRepetition": "Интервальное повторение",
+        "aiAssistance": "Помощь ИИ",
+        "trustworthyAnswers": "Достоверные ответы"
+      }
+    },
+    "sidebar": {
+      "sections": {
+        "features": {
+          "heading": "Функции",
+          "navLinks": {
+            "spacedRepetition": "Интервальное повторение",
+            "aiAssistance": "Помощь ИИ",
+            "trustworthyAnswers": "Достоверные ответы",
+            "statistics": "Статистика"
+          }
+        },
+        "introduction": {
+          "heading": "Введение",
+          "navLinks": {
+            "flashcards": "Флеш-карточки",
+            "decks": "Колоды",
+            "sharedDecks": "Общие колоды",
+            "educationalResources": "Образовательные ресурсы"
+          }
+        },
+        "about": {
+          "heading": "О нас",
+          "navLinks": {
+            "memoria": "О Memoria"
+          }
+        }
+      }
+    }
+  },
+  "footer": {
+    "sections": {
+      "features": {
+        "heading": "Функции",
+        "navLinks": {
+          "spacedRepetition": "Об интервальном повторении",
+          "aiAssistance": "О больших языковых моделях (LLM)",
+          "trustworthyAnswers": "Об использовании достоверных источников",
+          "statistics": "Статистика"
+        }
+      },
+      "introduction": {
+        "heading": "Введение",
+        "navLinks": {
+          "about": "О Memoria",
+          "flashcards": "Флеш-карточки",
+          "decks": "Колоды",
+          "sharedDecks": "Общие колоды",
+          "educationalResources": "Образовательные ресурсы"
+        }
+      }
+    },
+    "copyright": "© 2025 Memoria, Inc."
+  },
+  "landing": {
+    "hero": {
+      "headline": "Учитесь эффективно с интервальным повторением и надёжной помощью ИИ",
+      "subheadline": "Улучшите процесс обучения с помощью научно доказанного метода запоминания и получайте мгновенную помощь от ИИ-ассистента, чьи ответы основаны исключительно на достоверной информации.",
+      "cta": "Начать"
+    },
+    "spacedRepetition": {
+      "headline": "Интервальное повторение",
+      "subheadline": {
+        "content": "Учитесь эффективнее с научно доказанным методом {spaced-repetition}. Создавайте {flashcards}, объединяйте их в {decks} или добавляйте {shared-decks}, созданные другими пользователями. Система планирует повторения с оптимальными интервалами, помогая дольше сохранять знания с меньшими усилиями.",
+        "spacedRepetition": "интервального повторения",
+        "flashcards": "карточки",
+        "decks": "колоды",
+        "sharedDecks": "общие колоды"
+      },
+      "cta": "Попробовать"
+    },
+    "AIAssistance": {
+      "headline": "Помощь ИИ",
+      "subheadline": {
+        "content": "Взаимодействуйте с ИИ-наставником, который всегда готов дать подробные ответы на все ваши вопросы. Процесс обучения не прерывается — вы получаете ответы {immediately} и сосредотачиваетесь на {understanding}, а не на механическом заучивании материала.",
+        "immediately": "сразу",
+        "understanding": "понимании"
+      },
+      "cta": "Посмотреть"
+    },
+    "trustworthyAnswers": {
+      "headline": "Достоверные ответы",
+      "subheadline": {
+        "content": "Все ответы ИИ основаны исключительно на загруженных образовательных материалах, что обеспечивает {accuracy} предоставляемой информации и устраняет {hallucinations}.",
+        "accuracy": "точность",
+        "hallucinations": "галлюцинации ИИ"
+      },
+      "cta": "Начнём"
+    },
+    "sharedDecks": {
+      "headline": "Популярные общие колоды",
+      "subheadline": "Вот общие колоды, популярные среди других пользователей. Обязательно ознакомьтесь с ними!"
+    }
+  },
+  "validation": {
+    "rules": {
+      "required": "Поле {fieldName} обязательно",
+      "minLength": "{fieldName} должно содержать не менее {n} символов | {fieldName} должно содержать не менее {n} символа | {fieldName} должно содержать не менее {n} символов",
+      "email": "Некорректный адрес электронной почты",
+      "confirmPassword": "Пароли не совпадают"
+    },
+    "fields": {
+      "email": "Электронная почта",
+      "password": "Пароль"
+    }
+  },
+  "pagination": {
+    "first": "Первая",
+    "last": "Последняя",
+    "previous": "Предыдущая",
+    "next": "Следующая"
+  }
+}

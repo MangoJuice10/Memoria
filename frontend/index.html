@@ -1,16 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 
 <head>
     <script>
-        import {ref} from "vue";
-        import type {Theme} from "@/types/Theme.ts";
-
-        const theme = ref<Theme>(localStorage.theme ??
-            (matchMedia("(prefers-color-scheme: light)").matches ?
-                "light" :
-                "dark"));
-        document.documentElement.setAttribute("data-theme", theme.value);
+        const savedTheme = localStorage.getItem("theme");
+        const preferredTheme = window.matchMedia("(prefers-color-scheme: light").matches ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", savedTheme ?? preferredTheme);
     </script>
     <meta charset="UTF-8"/>
     <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
@@ -20,7 +15,7 @@
 
 <body>
 <div id="app"></div>
-<script type="module" src="/src/main.ts"></script>
+<script type="module" src="/src/app/main.ts"></script>
 </body>
 
 </html>
