@@ -2,18 +2,18 @@
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
-import {loginSchema} from "@/features/auth";
+import {loginSchema} from "@/pages/login/model/login.schema";
 import Error from "@/shared/ui/Error.vue";
 import {FormField} from "@/shared/ui";
 import {Button} from "@/shared/ui";
 import {useValidation} from "@/shared/lib";
 import LocalizedLink from "@/shared/ui/LocalizedLink.vue";
-import {useAuthStore} from "@/features/auth/model/auth.store.ts";
+import {useViewerStore} from "@/entities/viewer";
 
 const route = useRoute();
 const router = useRouter();
 const {t} = useI18n();
-const auth = useAuthStore();
+const viewer = useViewerStore();
 
 const data = ref({
   email: "",
@@ -40,14 +40,16 @@ const submit = async () => {
   touchAll();
   if (!isValid.value) return;
   try {
-    await auth.login(data.value.email, data.value.password);
+    await viewer.login(data.value.email, data.value.password);
     authError.value = null;
 
     await router.push({
       name: "home",
       params: route.params,
+      query: route.query,
+      hash: route.hash
     });
-  } catch (err) {
+  } catch {
     authError.value = t("auth.login.errors.failure");
   }
 };
@@ -64,10 +66,10 @@ const resetAll = () => {
         data-testid="login-form">
     <div class="flex justify-center items-center gap-5 mb-3">
       <LocalizedLink to="/login">
-        <h2 class="underline">{{ t("auth.login.heading") }}</h2>
+        <h2 class="underline">{{ $t("auth.login.heading") }}</h2>
       </LocalizedLink>
       <LocalizedLink to="/register" class="group">
-        <h2 class="text-muted hover:text-default hover:underline">{{ t("auth.register.heading") }}</h2>
+        <h2 class="text-muted hover:text-default hover:underline">{{ $t("auth.register.heading") }}</h2>
       </LocalizedLink>
     </div>
     <Error :error="authError" class="mb-5"
@@ -75,8 +77,8 @@ const resetAll = () => {
     <div class="flex flex-col gap-4">
       <FormField id="email"
                  v-model="data.email"
-                 :label="t('auth.login.email.title')"
-                 :placeholder="t('auth.login.email.placeholder')"
+                 :label="$t('auth.login.email.title')"
+                 :placeholder="$t('auth.login.email.placeholder')"
                  :touched="isTouched('email')"
                  :error="getFirstError('email')"
                  @blur="() => {
@@ -86,8 +88,8 @@ const resetAll = () => {
                  class="text-lg"/>
       <FormField id="password"
                  v-model="data.password"
-                 :label="t('auth.login.password.title')" type="password"
-                 :placeholder="t('auth.login.password.placeholder')"
+                 :label="$t('auth.login.password.title')" type="password"
+                 :placeholder="$t('auth.login.password.placeholder')"
                  :touched="isTouched('password')"
                  :error="getFirstError('password')"
                  @blur="() => {

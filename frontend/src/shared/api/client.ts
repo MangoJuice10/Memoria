@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const httpClient = axios.create({
+export const client = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
     headers: {

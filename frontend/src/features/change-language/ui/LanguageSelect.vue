@@ -34,6 +34,8 @@ const locale = computed<Locale>({
         ...route.params,
         locale: value,
       },
+      query: route.query,
+      hash: route.hash,
     });
   }
 });

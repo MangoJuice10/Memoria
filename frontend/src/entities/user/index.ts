@@ -1,1 +1,1 @@
-export type {User} from "src/entities/a/model/user.types.ts";
+export type {User} from "./model/User.type";

@@ -6,15 +6,15 @@ import Button from "@/shared/ui/Button.vue";
 import IconLabel from "@/shared/ui/IconLabel.vue";
 import Logo from "@/shared/ui/logo/Logo.vue";
 import SidebarToggle from "@/widgets/sidebar/ui/SidebarToggle.vue";
-import ThemeSwitcher from "@/features/theme/ui/ThemeSwitcher.vue";
+import ThemeSwitcher from "@/features/change-theme/ui/ThemeSwitcher.vue";
 import NavLink from "@/widgets/navbar/ui/NavLink.vue";
 import LanguageSelect from "@/features/change-language/ui/LanguageSelect.vue";
-import {useAuthStore} from "@/features/auth/model/auth.store.ts";
+import {useViewerStore} from "@/entities/viewer";
 import LocalizedLink from "@/shared/ui/LocalizedLink.vue";
 
 const route = useRoute();
 const {t} = useI18n();
-const auth = useAuthStore();
+const auth = useViewerStore();
 const navLinks = useNavigation().getNavbarNavigation();
 </script>
 

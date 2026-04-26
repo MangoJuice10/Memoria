@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {registerSchema} from "@/features/auth";
+import {registerSchema} from "@/pages/register/model/register.schema";
 import {useValidation} from "@/shared/lib";
 import {FormField} from "@/shared/ui";
 import {Button} from "@/shared/ui";
 import LocalizedLink from "@/shared/ui/LocalizedLink.vue";
 import Error from "@/shared/ui/Error.vue";
+import {useViewerStore} from "@/entities/viewer";
+import {useRoute, useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+
+const viewer = useViewerStore();
+const router = useRouter();
+const route = useRoute();
+const {t} = useI18n();
 
 const data = ref({
   email: "",
@@ -13,15 +21,43 @@ const data = ref({
   confirmPassword: "",
 });
 
-const {isValid, getFirstError, isTouched, touch, validate, reset} = useValidation(data, registerSchema, {
+const {
+  isValid,
+  getFirstError,
+  isTouched,
+  touch,
+  touchAll,
+  validate,
+  reset: resetForm
+} = useValidation(data, registerSchema, {
   mode: "eager",
   delay: 300
 });
 
-const loading = ref(false);
+const authError = ref<string | null>(null);
 
-const submit = () => {
+const submit = async () => {
+  await validate();
+  touchAll();
+  if (!isValid.value) return;
+  try {
+    await viewer.register(data.value.email, data.value.password, data.value.confirmPassword);
+    authError.value = null;
 
+    await router.push({
+      name: "home",
+      params: route.params,
+      query: route.query,
+      hash: route.hash
+    });
+  } catch {
+    authError.value = t("auth.register.errors.failure");
+  }
+};
+
+const resetAll = () => {
+  authError.value = null;
+  resetForm();
 };
 </script>
 
@@ -37,7 +73,7 @@ const submit = () => {
         <h2 class="underline">{{ $t("auth.register.heading") }}</h2>
       </LocalizedLink>
     </div>
-    <Error :error="'TODO'" class="mb-5"
+    <Error :error="authError" class="mb-5"
            data-testid="auth-error"/>
     <div class="flex flex-col gap-4">
       <FormField id="email"
@@ -73,11 +109,11 @@ const submit = () => {
                    touch('confirmPassword');
                  }"/>
       <div class="flex justify-between items-center">
-        <Button type="submit" class="w-40 h-9 font-semibold" :disabled="!isValid || loading"
+        <Button type="submit" class="w-40 h-9 font-semibold" :disabled="!isValid"
                 data-testid="submit">
           {{ $t("auth.login.action") }}
         </Button>
-        <Button @click.prevent="reset" type="reset" class="w-20 h-9 font-semibold"
+        <Button @click.prevent="resetAll" type="reset" class="w-20 h-9 font-semibold"
                 data-testid="reset">
           {{ $t("auth.login.reset") }}
         </Button>
