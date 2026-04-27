@@ -11,7 +11,7 @@ import NavbarActions from "@/widgets/navbar/ui/NavbarActions.vue";
 
 const viewer = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewer);
-const {navigationItems} = useNavbar(isAuthenticated);
+const {navigationItemViews} = useNavbar(isAuthenticated);
 
 </script>
 
@@ -24,7 +24,7 @@ const {navigationItems} = useNavbar(isAuthenticated);
         <Logo has-logotype logotype-classes="max-lg:hidden" class="py-2"/>
       </LocalizedLink>
     </div>
-    <NavbarLinks :navigation-items/>
+    <NavbarLinks :navigation-item-views/>
     <NavbarPreferences/>
     <NavbarActions :is-authenticated="false"/>
   </header>

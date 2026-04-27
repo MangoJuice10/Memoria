@@ -26,6 +26,6 @@ export function useNavbar(isAuthenticated: Ref<boolean>) {
     });
 
     return {
-        navigationItems
+        navigationItemViews: navigationItems
     };
 }

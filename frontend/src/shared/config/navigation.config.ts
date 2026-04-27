@@ -12,10 +12,10 @@ import {
 } from "@/shared/ui/icons";
 
 type NavigationItemId =
-    | "spaced-repetition"
-    | "ai-assistance"
-    | "trustworthy-answers"
-    | "statistics"
+    | "feature-spaced-repetition"
+    | "feature-ai-assistance"
+    | "feature-trustworthy-answers"
+    | "feature-statistics"
     | "my-flashcards"
     | "my-decks"
     | "shared-decks"
@@ -33,29 +33,45 @@ export type NavigationItemView = Omit<NavigationItem, "labelKey"> & {
     label: string;
 }
 
+export type NavigationSectionId =
+    | "features"
+    | "introduction";
+
+export type NavigationSection = {
+    id: NavigationSectionId;
+    labelKey: string;
+    navigationItems: NavigationItem[];
+    baseKey: string;
+}
+
+export type NavigationSectionView = Omit<NavigationSection, "labelKey" | "navigationItems" | "baseKey"> & {
+    label: string;
+    navigationItemViews: NavigationItemView[];
+}
+
 export const NAVIGATION_ITEMS: Record<NavigationItemId, NavigationItem> = {
-    "spaced-repetition": {
-        id: "spaced-repetition",
-        routeName: "spaced-repetition",
-        labelKey: "spaced-repetition",
+    "feature-spaced-repetition": {
+        id: "feature-spaced-repetition",
+        routeName: "feature-spaced-repetition",
+        labelKey: "feature-spaced-repetition",
         icon: SpacedRepetitionFeatureIcon
     },
-    "ai-assistance": {
-        id: "ai-assistance",
-        routeName: "ai-assistance",
-        labelKey: "ai-assistance",
+    "feature-ai-assistance": {
+        id: "feature-ai-assistance",
+        routeName: "feature-ai-assistance",
+        labelKey: "feature-ai-assistance",
         icon: AIAssistanceIcon
     },
-    "trustworthy-answers": {
-        id: "trustworthy-answers",
-        routeName: "trustworthy-answers",
-        labelKey: "trustworthy-answers",
+    "feature-trustworthy-answers": {
+        id: "feature-trustworthy-answers",
+        routeName: "feature-trustworthy-answers",
+        labelKey: "feature-trustworthy-answers",
         icon: TrustworthyAnswersFeatureIcon
     },
-    "statistics": {
-        id: "statistics",
-        routeName: "statistics",
-        labelKey: "statistics",
+    "feature-statistics": {
+        id: "feature-statistics",
+        routeName: "feature-statistics",
+        labelKey: "feature-statistics",
         icon: StatisticsFeatureIcon
     },
     "my-flashcards": {

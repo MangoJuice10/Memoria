@@ -31,13 +31,14 @@
         "title": "Confirm password",
         "placeholder": "Type your password again"
       }
-    }},
+    }
+  },
   "navigation": {
     "navbar": {
       "navLinks": {
-        "spaced-repetition": "Spaced Repetition",
-        "ai-assistance": "AI Assistance",
-        "trustworthy-answers": "Trustworthy Answers",
+        "feature-spaced-repetition": "Spaced Repetition",
+        "feature-ai-assistance": "AI Assistance",
+        "feature-trustworthy-answers": "Trustworthy Answers",
         "my-decks": "My Decks",
         "shared-decks": "Shared Decks",
         "my-educational-resources": "My Resources"
@@ -48,10 +49,10 @@
         "features": {
           "heading": "Features",
           "navLinks": {
-            "spacedRepetition": "Spaced Repetition",
-            "aiAssistance": "AI Assistance",
-            "trustworthyAnswers": "Trustworthy Answers",
-            "statistics": "Statistics"
+            "feature-spaced-repetition": "Spaced Repetition",
+            "feature-ai-assistance": "AI Assistance",
+            "feature-trustworthy-answers": "Trustworthy Answers",
+            "feature-statistics": "Statistics"
           }
         },
         "introduction": {
@@ -70,31 +71,19 @@
           }
         }
       }
-    }
-  },
-  "footer": {
-    "sections": {
-      "features": {
-        "heading": "Features",
-        "navLinks": {
-          "spacedRepetition": "About Spaced Repetition",
-          "aiAssistance": "About Large Language Models (LLMs)",
-          "trustworthyAnswers": "About using credible sources",
-          "statistics": "Statistics"
-        }
-      },
-      "introduction": {
-        "heading": "Introduction",
-        "navLinks": {
-          "about": "About Memoria",
-          "flashcards": "Flashcards",
-          "decks": "Decks",
-          "sharedDecks": "Shared Decks",
-          "educationalResources": "Educational Resources"
-        }
-      }
     },
-    "copyright": "© 2025 Memoria, Inc."
+    "footer": {
+      "sections": {
+        "features": "Features"
+      },
+      "navLinks": {
+        "feature-spaced-repetition": "About Spaced Repetition",
+        "feature-ai-assistance": "About Large Language Models (LLMs)",
+        "feature-trustworthy-answers": "About using credible sources",
+        "feature-statistics": "Statistics"
+      },
+      "copyright": "© 2025 Memoria, Inc."
+    }
   },
   "landing": {
     "hero": {

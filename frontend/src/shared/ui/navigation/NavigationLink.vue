@@ -4,21 +4,21 @@ import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {IconLabel} from "@/shared/ui";
 
 defineProps<{
-  navigationItem: NavigationItemView;
-  iconClasses: string;
-  labelClasses: string;
+  navigationItemView: NavigationItemView;
+  iconClasses?: string;
+  labelClasses?: string;
 }>();
 </script>
 
 <template>
-  <LocalizedLink :name="navigationItem.routeName">
-    <IconLabel v-if="navigationItem.icon">
+  <LocalizedLink :name="navigationItemView.routeName">
+    <IconLabel v-if="navigationItemView.icon">
       <template #icon>
-        <component :is="navigationItem.icon" :class="iconClasses"/>
+        <component :is="navigationItemView.icon" :class="iconClasses"/>
       </template>
       <template #label>
         <span :class="labelClasses">
-          {{ navigationItem.label }}
+          {{ navigationItemView.label }}
         </span>
       </template>
     </IconLabel>

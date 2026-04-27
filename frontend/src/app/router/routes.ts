@@ -33,26 +33,26 @@ export const routes = [
                 meta: {public: true}
             },
             {
-                path: "spaced-repetition",
-                name: "spaced-repetition",
+                path: "feature-spaced-repetition",
+                name: "feature-spaced-repetition",
                 component: Landing,
                 meta: {public: true}
             },
             {
-                path: "ai-assistance",
-                name: "ai-assistance",
+                path: "feature-ai-assistance",
+                name: "feature-ai-assistance",
                 component: Landing,
                 meta: {public: true}
             },
             {
-                path: "trustworthy-answers",
-                name: "trustworthy-answers",
+                path: "feature-trustworthy-answers",
+                name: "feature-trustworthy-answers",
                 component: Landing,
                 meta: {public: true}
             },
             {
-                path: "statistics",
-                name: "statistics",
+                path: "feature-statistics",
+                name: "feature-statistics",
                 component: Landing,
                 meta: {public: true}
             },
