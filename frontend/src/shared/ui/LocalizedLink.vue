@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {getLocale} from "@/shared/i18n/i18n.ts";
+import {getLocale} from "@/shared/i18n";
 
 const props = defineProps<{
   to: string;
