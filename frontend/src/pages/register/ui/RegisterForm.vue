@@ -4,7 +4,7 @@ import {registerSchema} from "@/pages/register/model/register.schema";
 import {useValidation} from "@/shared/lib";
 import {FormField} from "@/shared/ui";
 import {Button} from "@/shared/ui";
-import LocalizedLink from "@/shared/ui/LocalizedLink.vue";
+import {LocalizedLink} from "@/shared/ui";
 import Error from "@/shared/ui/Error.vue";
 import {useViewerStore} from "@/entities/viewer";
 import {useRoute, useRouter} from "vue-router";

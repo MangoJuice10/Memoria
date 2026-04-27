@@ -35,9 +35,12 @@
   "navigation": {
     "navbar": {
       "navLinks": {
-        "spacedRepetition": "Spaced Repetition",
-        "aiAssistance": "AI Assistance",
-        "trustworthyAnswers": "Trustworthy Answers"
+        "spaced-repetition": "Spaced Repetition",
+        "ai-assistance": "AI Assistance",
+        "trustworthy-answers": "Trustworthy Answers",
+        "my-decks": "My Decks",
+        "shared-decks": "Shared Decks",
+        "my-educational-resources": "My Resources"
       }
     },
     "sidebar": {

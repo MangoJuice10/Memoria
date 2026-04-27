@@ -31,7 +31,51 @@ export const routes = [
                 name: "register",
                 component: Register,
                 meta: {public: true}
-            }
+            },
+            {
+                path: "spaced-repetition",
+                name: "spaced-repetition",
+                component: Landing,
+                meta: {public: true}
+            },
+            {
+                path: "ai-assistance",
+                name: "ai-assistance",
+                component: Landing,
+                meta: {public: true}
+            },
+            {
+                path: "trustworthy-answers",
+                name: "trustworthy-answers",
+                component: Landing,
+                meta: {public: true}
+            },
+            {
+                path: "statistics",
+                name: "statistics",
+                component: Landing,
+                meta: {public: true}
+            },
+            {
+                path: "decks",
+                name: "my-decks",
+                component: Landing,
+            },
+            {
+                path: "flashcards",
+                name: "my-flashcards",
+                component: Landing,
+            },
+            {
+                path: "shared-decks",
+                name: "shared-decks",
+                component: Landing,
+            },
+            {
+                path: "educational-resources",
+                name: "my-educational-resources",
+                component: Landing,
+            },
         ]
     }
 ];

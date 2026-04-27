@@ -2,32 +2,33 @@
 import {useI18n} from "vue-i18n";
 import Logo from "@/shared/ui/logo/Logo.vue";
 import {useNavigation} from "@/shared/lib/useNavigation.ts";
-import Navlink from "@/widgets/navbar/ui/NavLink.vue";
-import NavLink from "@/widgets/navbar/ui/NavLink.vue";
+import NavigationLink from "@/shared/ui/navigation/NavigationLink.vue";
 
 const {t} = useI18n();
 const navigation = useNavigation().getFooterNavigation();
 </script>
 
 <template>
+  <!--
   <footer class="w-footer px-footer py-footer">
-    <NavLink to="/" class="block h-12 mb-10 min-w-0 max-w-full max-h-full">
+    <NavigationLink to="/" class="block h-12 mb-10 min-w-0 max-w-full max-h-full">
       <Logo has-logotype/>
-    </NavLink>
+    </NavigationLink>
     <div class="footer-content w-full mb-15">
       <section v-for="section in navigation" :key="section.id"
                class="flex flex-col justify-start items-start gap-4">
         <h3 v-text="section.heading" class="font-semibold"/>
         <nav class="flex flex-col items-start gap-3 w-fit">
-          <Navlink v-for="navLink in section.navLinks" :key="navLink.id" :to="navLink.href"
+          <NavigationLink v-for="navLink in section.navLinks" :key="navLink.id" :to="navLink.href"
                    class="grow-0 shrink-0 text-sm">
             <span v-text="navLink.label.value"/>
-          </Navlink>
+          </NavigationLink>
         </nav>
       </section>
     </div>
     <div v-text="t('footer.copyright')" class="text-muted"/>
   </footer>
+  -->
 </template>
 
 <style scoped>

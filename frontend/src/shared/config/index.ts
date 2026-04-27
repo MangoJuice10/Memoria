@@ -1,0 +1,1 @@
+export {NAVIGATION_ITEMS, type NavigationItem, type NavigationItemView} from "./navigation.config";

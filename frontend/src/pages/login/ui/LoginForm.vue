@@ -7,7 +7,7 @@ import Error from "@/shared/ui/Error.vue";
 import {FormField} from "@/shared/ui";
 import {Button} from "@/shared/ui";
 import {useValidation} from "@/shared/lib";
-import LocalizedLink from "@/shared/ui/LocalizedLink.vue";
+import {LocalizedLink} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
 
 const route = useRoute();
