@@ -8,14 +8,14 @@ import type {NavigationItemView, NavigationSectionView} from "@/shared/config";
 export function useFooter() {
     const {t} = useI18n();
 
-    const navigationSections = computed(() => {
+    const navigationSectionViews = computed(() => {
         const footerLayout = FOOTER_LAYOUT;
 
         return footerLayout.navigationSections.map(
             (footerSection): NavigationSectionView => {
                 const navigationItemViews = footerSection.navigationItems.map(
                     (navigationItem): NavigationItemView => {
-                        const {labelKey, ...navigationProperties} = navigationItem;
+                        const {labelKey, icon, ...navigationProperties} = navigationItem;
                         return {
                             ...navigationProperties,
                             label: t(`${footerSection.baseKey}.${labelKey}`)
@@ -23,9 +23,9 @@ export function useFooter() {
                     }
                 );
 
-                const {labelKey, navigationItems, baseKey, ...footerProperties} = footerSection;
+                const {labelKey, navigationItems, baseKey, ...sectionProperties} = footerSection;
                 return {
-                    ...footerProperties,
+                    ...sectionProperties,
                     navigationItemViews,
                     label: t(`${footerLayout.baseKey}.${labelKey}`)
                 };
@@ -34,6 +34,6 @@ export function useFooter() {
     });
 
     return {
-        navigationSectionViews: navigationSections,
+        navigationSectionViews,
     };
 }
