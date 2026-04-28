@@ -14,7 +14,7 @@ defineProps<{
              :key="navigationSectionView.id"
              class="flex flex-col justify-start items-start gap-4">
       <h3 v-text="navigationSectionView.label" class="font-semibold"/>
-      <FooterLinks :navigation-section-view/>
+      <FooterLinks :navigation-item-views="navigationSectionView.navigationItemViews"/>
     </section>
   </div>
 </template>
