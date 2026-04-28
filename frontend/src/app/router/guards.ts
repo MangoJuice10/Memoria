@@ -29,13 +29,13 @@ export function registerNavigationGuards(router: Router) {
         }
 
         const authStore = useViewerStore();
-
         if (!authStore.isInitialized) {
             await authStore.initialize();
         }
 
-        if (to.meta.guestOnly && authStore.isAuthenticated) {
+        if (to.meta.public && authStore.isAuthenticated) {
             next({name: "home", params: {locale: newLocale}});
+            return;
         }
 
         hideBackdrop();

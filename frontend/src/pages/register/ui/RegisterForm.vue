@@ -66,10 +66,10 @@ const resetAll = () => {
         class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
         data-testid="register-form">
     <div class="flex justify-center items-center gap-5 mb-3">
-      <LocalizedLink to="/login">
+      <LocalizedLink name="login">
         <h2 class="text-muted hover:text-default">{{ $t("auth.login.heading") }}</h2>
       </LocalizedLink>
-      <LocalizedLink to="/register">
+      <LocalizedLink name="register">
         <h2 class="underline">{{ $t("auth.register.heading") }}</h2>
       </LocalizedLink>
     </div>

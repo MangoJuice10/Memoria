@@ -37,7 +37,7 @@ export function setupAuthInterceptors() {
 
             if (isAuthRoute(originalRequestUrl)) return Promise.reject(error);
 
-            const newToken = axios
+            const newToken = await axios
                 .post(
                     `${baseUrl}/auth/refresh`,
                     {},
