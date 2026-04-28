@@ -26,6 +26,6 @@ const {navigationItemViews} = useNavbar(isAuthenticated);
     </div>
     <NavbarLinks :navigation-item-views/>
     <NavbarPreferences/>
-    <NavbarActions :is-authenticated="false"/>
+    <NavbarActions :is-authenticated/>
   </header>
 </template>
