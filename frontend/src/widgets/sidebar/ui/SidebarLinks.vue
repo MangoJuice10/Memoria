@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {NavigationLink} from "@/shared/ui";
 import type {NavigationItemView} from "@/shared/config";
+import {useNavigation} from "@/shared/lib";
 
 defineProps<{
   navigationItemViews: NavigationItemView[]
 }>();
+
+const {isNavigationLinkActive} = useNavigation();
 </script>
 
 <template>
@@ -12,7 +15,8 @@ defineProps<{
     <NavigationLink v-for="navigationItemView in navigationItemViews"
                     :key="navigationItemView.id"
                     :navigation-item-view
-                    class="grow-0 w-full font-semibold px-2 py-1.5
-                           border rounded-xl border-transparent hover:border-default hover:bg-hover"/>
+                    :is-active="isNavigationLinkActive(navigationItemView)"
+                    class="grow-0 w-full font-semibold px-5 py-2
+                           border rounded-xl border-transparent"/>
   </nav>
 </template>

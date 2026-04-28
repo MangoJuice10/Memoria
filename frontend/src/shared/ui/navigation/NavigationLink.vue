@@ -5,6 +5,7 @@ import {IconLabel} from "@/shared/ui";
 
 withDefaults(defineProps<{
   navigationItemView: NavigationItemView;
+  isActive: boolean;
   iconClasses?: string;
   labelClasses?: string;
 }>(), {
@@ -13,7 +14,10 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <LocalizedLink :name="navigationItemView.routeName">
+  <LocalizedLink :name="navigationItemView.routeName"
+                 :class="isActive
+                 ? 'border-landing text-inverse bg-secondary'
+                 : 'border-transparent text-landing hover:border-landing hover:bg-hover'">
     <IconLabel v-if="navigationItemView.icon">
       <template #icon>
         <component :is="navigationItemView.icon" :class="iconClasses"/>

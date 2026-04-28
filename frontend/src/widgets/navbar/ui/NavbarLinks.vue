@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import {NavigationLink} from "@/shared/ui";
 import type {NavigationItemView} from "@/shared/config";
-import {useRoute} from "vue-router";
+import {useNavigation} from "@/shared/lib";
 
 defineProps<{
   navigationItemViews: NavigationItemView[]
 }>();
 
-const route = useRoute();
-
-const isNavlinkActive = (navLink: NavigationItemView) => {
-  return navLink.routeName === route.name;
-};
+const {isNavigationLinkActive} = useNavigation();
 </script>
 
 <template>
@@ -20,11 +16,9 @@ const isNavlinkActive = (navLink: NavigationItemView) => {
     <NavigationLink v-for="navigationItemView in navigationItemViews"
                     :key="navigationItemView.id"
                     :navigation-item-view
+                    :is-active="isNavigationLinkActive(navigationItemView)"
                     label-classes="inline-block h-[2lh] content-center truncate text-wrap"
-                    class="inline-flex justify-center items-center w-full px-2 py-1.5 font-semibold border rounded-xl"
-                    :class="isNavlinkActive(navigationItemView) ?
-                    'border-landing text-inverse bg-secondary' :
-                    'border-transparent text-landing hover:border-landing hover:bg-hover'">
+                    class="inline-flex justify-center items-center w-full px-2 py-1.5 font-semibold border rounded-xl">
     </NavigationLink>
   </nav>
 </template>
