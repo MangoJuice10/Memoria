@@ -71,6 +71,9 @@
       "copyright": "© 2025 Memoria, Inc."
     }
   },
+  "profile": {
+    "heading": "Settings and Preferences"
+  },
   "landing": {
     "hero": {
       "headline": "Study efficiently with spaced repetition and trustworthy AI assistance",

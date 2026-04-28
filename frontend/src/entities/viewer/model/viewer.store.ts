@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import type {Viewer} from "@/entities/viewer";
 import {auth} from "@/shared/api";
-import {getMe} from "@/entities/viewer/api/endpoints/get-me";
+import {users} from "@/shared/api/endpoints/users.ts";
 import {clearAccessToken} from "@/shared/auth";
 
 type ViewerState = {
@@ -23,7 +23,7 @@ export const useViewerStore = defineStore("viewer", {
         async initialize() {
             try {
                 await auth.refresh();
-                this.viewer = await getMe();
+                this.viewer = await users();
             } catch {
                 clearAccessToken();
                 this.viewer = null;
@@ -34,12 +34,12 @@ export const useViewerStore = defineStore("viewer", {
 
         async register(email: string, password: string, confirmPassword: string) {
             await auth.register({email, password, confirmPassword});
-            this.viewer = await getMe();
+            this.viewer = await users();
         },
 
         async login(email: string, password: string) {
             await auth.login({email, password});
-            this.viewer = await getMe();
+            this.viewer = await users();
         },
 
         async logout() {
@@ -50,13 +50,7 @@ export const useViewerStore = defineStore("viewer", {
             }
         },
 
-        async fetchViewer() {
-            this.viewer = await getMe();
-            return this.viewer;
-        },
-
         resetViewer() {
-            clearAccessToken();
             this.viewer = null;
         }
     }

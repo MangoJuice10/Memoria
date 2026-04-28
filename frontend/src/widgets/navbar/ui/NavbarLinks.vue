@@ -12,7 +12,7 @@ const {isNavigationLinkActive} = useNavigation();
 
 <template>
   <nav
-      class="hidden md:inline-grid md:grid-flow-col md:auto-cols-fr md:justify-center md:items-center md:gap-5 md:w-fit">
+      class="inline-grid grid-flow-col auto-cols-fr justify-center items-center gap-5 w-fit">
     <NavigationLink v-for="navigationItemView in navigationItemViews"
                     :key="navigationItemView.id"
                     :navigation-item-view

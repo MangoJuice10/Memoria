@@ -162,6 +162,8 @@
     */
     @media (min-width: 48rem) {
         :root {
+            --font-size--line-height-default: var(--font-size--line-height-sm);
+
             --font-size--line-height-p: var(--font-size--line-height-lg);
 
             --padding-right-page: var(--spacing-4);
@@ -197,8 +199,7 @@
     */
     @media (min-width: 96rem) {
         :root {
-            --padding-right-page: var(--spacing-24);
-            --padding-left-page: var(--spacing-24);
+
         }
     }
 

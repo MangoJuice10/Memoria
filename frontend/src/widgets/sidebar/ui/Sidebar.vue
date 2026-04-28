@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
-import {useSidebar} from "@/widgets/sidebar/lib/useSidebar.ts";
 import {useViewerStore} from "@/entities/viewer";
 import {LocalizedLink, Logo} from "@/shared/ui";
 import {BurgerMenu} from "@/shared/ui";
+import {useSidebar} from "../lib/useSidebar.ts";
 import SidebarSections from "./SidebarSections.vue";
+import UserPanel from "./UserPanel.vue";
 
 defineProps<{
   isVisible: boolean;
@@ -28,6 +29,7 @@ const {navigationSectionViews, controls} = useSidebar(isAuthenticated);
       <div class="h-full overflow-auto px-sidebar">
         <SidebarSections :navigation-section-views/>
       </div>
+      <UserPanel/>
     </aside>
   </Transition>
 </template>
