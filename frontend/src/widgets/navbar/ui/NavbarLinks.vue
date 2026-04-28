@@ -20,7 +20,6 @@ const isNavlinkActive = (navLink: NavigationItemView) => {
     <NavigationLink v-for="navigationItemView in navigationItemViews"
                     :key="navigationItemView.id"
                     :navigation-item-view
-                    icon-classes="w-7.5"
                     label-classes="inline-block h-[2lh] content-center truncate text-wrap"
                     class="inline-flex justify-center items-center w-full px-2 py-1.5 font-semibold border rounded-xl"
                     :class="isNavlinkActive(navigationItemView) ?

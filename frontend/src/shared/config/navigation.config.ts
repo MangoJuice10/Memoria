@@ -35,16 +35,19 @@ export type NavigationItemView = Omit<NavigationItem, "labelKey"> & {
 
 export type NavigationSectionId =
     | "features"
-    | "introduction";
+    | "about"
+    | "my-decks";
 
 export type NavigationSection = {
     id: NavigationSectionId;
     labelKey: string;
     navigationItems: NavigationItem[];
-    baseKey: string;
+    baseKey?: string;
 }
 
-export type NavigationSectionView = Omit<NavigationSection, "labelKey" | "navigationItems" | "baseKey"> & {
+export type NavigationSectionView =
+    Omit<NavigationSection, "labelKey" | "navigationItems" | "baseKey">
+    & {
     label: string;
     navigationItemViews: NavigationItemView[];
 }
@@ -98,5 +101,5 @@ export const NAVIGATION_ITEMS: Record<NavigationItemId, NavigationItem> = {
         labelKey: "shared-decks",
         icon: SharedDecksIntroductionIcon
     },
-    "about": {id: "about", routeName: "/about", labelKey: "about", icon: LogomarkIcon},
+    "about": {id: "about", routeName: "about", labelKey: "about", icon: LogomarkIcon},
 };
