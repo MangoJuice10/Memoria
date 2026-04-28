@@ -9,7 +9,7 @@ import type {NavigationItemView} from "@/shared/config";
 export function useNavbar(isAuthenticated: Ref<boolean>) {
     const {t} = useI18n();
 
-    const navigationItems = computed(() => {
+    const navigationItemViews = computed(() => {
         const navbarLayout = isAuthenticated.value
             ? NAVBAR_AUTHENTICATED_LAYOUT
             : NAVBAR_GUEST_LAYOUT;
@@ -26,6 +26,6 @@ export function useNavbar(isAuthenticated: Ref<boolean>) {
     });
 
     return {
-        navigationItemViews: navigationItems
+        navigationItemViews
     };
 }
