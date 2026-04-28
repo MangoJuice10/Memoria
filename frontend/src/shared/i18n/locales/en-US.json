@@ -47,7 +47,8 @@
     "sidebar": {
       "sections": {
         "features": "Features",
-        "about": "About us"
+        "about": "About us",
+        "my-decks": "My decks"
       },
       "navLinks": {
         "about": "About Memoria",

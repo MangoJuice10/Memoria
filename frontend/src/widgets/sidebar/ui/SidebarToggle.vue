@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject} from "vue";
-import IconButton from "@/shared/ui/IconButton.vue";
+import {IconButton} from "@/shared/ui";
 import {BurgerMenuIcon} from "@/shared/ui/icons";
 
 const sidebar = inject<{

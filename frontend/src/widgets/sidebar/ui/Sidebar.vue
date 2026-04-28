@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import SidebarToggle from "@/widgets/sidebar/ui/SidebarToggle.vue";
-import Logo from "@/shared/ui/logo/Logo.vue";
-import NavigationLink from "@/shared/ui/navigation/NavigationLink.vue";
-import {useViewerStore} from "@/entities/viewer";
 import {storeToRefs} from "pinia";
 import {useSidebar} from "@/widgets/sidebar/lib/useSidebar.ts";
-import {LocalizedLink} from "@/shared/ui";
+import {useViewerStore} from "@/entities/viewer";
+import {LocalizedLink, Logo} from "@/shared/ui";
+import SidebarToggle from "./SidebarToggle.vue";
+import SidebarSections from "./SidebarSections.vue";
 
 defineProps<{
   isVisible: boolean;
@@ -27,17 +26,7 @@ const {navigationSectionViews} = useSidebar(isAuthenticated);
         </LocalizedLink>
       </div>
       <div class="h-full overflow-auto px-sidebar">
-        <section v-for="navigationSectionView in navigationSectionViews"
-                 :key="navigationSectionView.id">
-          <h3 v-text="navigationSectionView.label" class="max-w-full my-heading truncate text-muted"/>
-          <nav class="flex flex-col items-start gap-5 h-full mb-section">
-            <NavigationLink v-for="navigationItemView in navigationSectionView.navigationItemViews"
-                            :key="navigationItemView.id"
-                            :navigation-item-view
-                            class="grow-0 w-full font-semibold px-2 py-1.5
-                                   border rounded-xl border-transparent hover:border-default hover:bg-hover"/>
-          </nav>
-        </section>
+        <SidebarSections :navigation-section-views/>
       </div>
     </aside>
   </Transition>

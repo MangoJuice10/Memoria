@@ -11,8 +11,8 @@ export function useSidebar(isAuthenticated: Ref<boolean>) {
 
     const navigationSectionViews = computed(() => {
         const sidebarLayout = isAuthenticated.value
-            ? SIDEBAR_GUEST_LAYOUT
-            : SIDEBAR_AUTHENTICATED_LAYOUT;
+            ? SIDEBAR_AUTHENTICATED_LAYOUT
+            : SIDEBAR_GUEST_LAYOUT;
 
         return sidebarLayout.navigationSections.map(
             (navigationSection): NavigationSectionView => {
