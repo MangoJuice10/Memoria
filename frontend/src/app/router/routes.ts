@@ -21,6 +21,11 @@ export const routes = [
                 component: Landing
             },
             {
+                path: "about",
+                name: "about",
+                component: Landing
+            },
+            {
                 path: "login",
                 name: "login",
                 component: Login,
