@@ -1,0 +1,1 @@
+export {default as ThemeSwitcher} from "src/features/user-preferences/change-theme/ui/ThemeSwitcher.vue";
