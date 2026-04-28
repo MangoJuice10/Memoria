@@ -3,11 +3,13 @@ import {type NavigationItemView} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {IconLabel} from "@/shared/ui";
 
-defineProps<{
+withDefaults(defineProps<{
   navigationItemView: NavigationItemView;
   iconClasses?: string;
   labelClasses?: string;
-}>();
+}>(), {
+  iconClasses: "w-7.5"
+});
 </script>
 
 <template>
@@ -23,7 +25,9 @@ defineProps<{
       </template>
     </IconLabel>
     <div v-else>
-
+      <span :class="labelClasses">
+          {{ navigationItemView.label }}
+      </span>
     </div>
   </LocalizedLink>
 </template>

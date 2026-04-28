@@ -46,30 +46,16 @@
     },
     "sidebar": {
       "sections": {
-        "features": {
-          "heading": "Features",
-          "navLinks": {
-            "feature-spaced-repetition": "Spaced Repetition",
-            "feature-ai-assistance": "AI Assistance",
-            "feature-trustworthy-answers": "Trustworthy Answers",
-            "feature-statistics": "Statistics"
-          }
-        },
-        "introduction": {
-          "heading": "Introduction",
-          "navLinks": {
-            "flashcards": "Flashcards",
-            "decks": "Decks",
-            "sharedDecks": "Shared Decks",
-            "educationalResources": "Educational Resources"
-          }
-        },
-        "about": {
-          "heading": "About us",
-          "navLinks": {
-            "memoria": "About Memoria"
-          }
-        }
+        "features": "Features",
+        "about": "About us",
+        "my-decks": "My decks"
+      },
+      "navLinks": {
+        "about": "About Memoria",
+        "feature-spaced-repetition": "Spaced Repetition",
+        "feature-ai-assistance": "AI Assistance",
+        "feature-trustworthy-answers": "Trustworthy Answers",
+        "feature-statistics": "Statistics"
       }
     },
     "footer": {
