@@ -3,18 +3,21 @@ import {computed} from "vue";
 import {getLocale, type Locale} from "@/shared/i18n";
 import type {RouteLocationNamedRaw} from "vue-router";
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   name: string;
   locale?: Locale;
-}>(), {
-  locale: getLocale(),
+}>();
+
+const locale = computed<Locale>((): Locale => {
+  if (props.locale) return props.locale;
+  return getLocale();
 });
 
 const localizedURL = computed((): RouteLocationNamedRaw =>
     ({
       name: props.name,
       params: {
-        locale: props.locale
+        locale: locale.value
       }
     })
 );
