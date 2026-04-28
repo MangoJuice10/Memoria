@@ -1,6 +1,8 @@
 export {default as Logo} from "./logo/Logo.vue";
 
-export {default as Button} from "./Button.vue";
+export {default as Button} from "./buttons/Button.vue";
+
+export {default as BurgerMenu} from "./buttons/BurgerMenu.vue";
 
 export {default as FormField} from "./form/FormField.vue";
 

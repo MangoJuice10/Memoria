@@ -2,7 +2,7 @@
 import {useNavbar} from "@/widgets/navbar/lib/useNavbar";
 import NavbarLinks from "./NavbarLinks.vue";
 import Logo from "@/shared/ui/logo/Logo.vue";
-import SidebarToggle from "@/widgets/sidebar/ui/SidebarToggle.vue";
+import {BurgerMenu} from "@/shared/ui";
 import {LocalizedLink} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
 import {storeToRefs} from "pinia";
@@ -11,7 +11,7 @@ import NavbarActions from "@/widgets/navbar/ui/NavbarActions.vue";
 
 const viewer = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewer);
-const {navigationItemViews} = useNavbar(isAuthenticated);
+const {navigationItemViews, sidebarControls} = useNavbar(isAuthenticated);
 
 </script>
 
@@ -19,7 +19,7 @@ const {navigationItemViews} = useNavbar(isAuthenticated);
   <header
       class="flex justify-between items-stretch gap-[3%] w-navbar h-navbar px-navbar border-b border-b-border bg-primary">
     <div class="shrink-0 inline-flex justify-center items-center gap-1">
-      <SidebarToggle class=""/>
+      <BurgerMenu @toggle="sidebarControls.toggle"/>
       <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
         <Logo has-logotype logotype-classes="max-lg:hidden" class="py-2"/>
       </LocalizedLink>

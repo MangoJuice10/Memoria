@@ -2,7 +2,7 @@ import {type Ref, type MaybeRefOrGetter, ref, toValue, toRaw, watch} from "vue";
 import {z, type ZodType, type ZodIssue} from "zod";
 import {groupBy, set, get} from "lodash";
 import {debounce} from "./debounce";
-import type {ErrorMessage} from "@/shared/types";
+import type {ErrorMessage} from "@/shared/model";
 import {i18n} from "@/shared/i18n";
 import {walkObject} from "@/shared/lib/walkObject.ts";
 

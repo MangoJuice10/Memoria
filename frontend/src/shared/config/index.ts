@@ -4,4 +4,4 @@ export {
     type NavigationItemView,
     type NavigationSection,
     type NavigationSectionView
-} from "./navigation.config";
+} from "./navigation.config.ts";

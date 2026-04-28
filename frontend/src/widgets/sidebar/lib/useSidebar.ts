@@ -1,10 +1,11 @@
-import {computed, type Ref} from "vue";
+import {computed, inject, type Ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {
     SIDEBAR_AUTHENTICATED_LAYOUT,
     SIDEBAR_GUEST_LAYOUT
 } from "@/widgets/sidebar/config/sidebar-layout.config.ts";
 import type {NavigationSectionView} from "@/shared/config";
+import type {Controls} from "@/shared/model";
 
 export function useSidebar(isAuthenticated: Ref<boolean>) {
     const {t} = useI18n();
@@ -42,8 +43,12 @@ export function useSidebar(isAuthenticated: Ref<boolean>) {
             }
         );
     });
-    
+
+    const controls = inject<Controls>("sidebar");
+    if (!controls) throw new Error("Sidebar Controls were not provided");
+
     return {
-        navigationSectionViews
-    }
+        navigationSectionViews,
+        controls
+    };
 }

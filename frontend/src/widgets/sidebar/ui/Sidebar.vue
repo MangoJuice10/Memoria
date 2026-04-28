@@ -3,7 +3,7 @@ import {storeToRefs} from "pinia";
 import {useSidebar} from "@/widgets/sidebar/lib/useSidebar.ts";
 import {useViewerStore} from "@/entities/viewer";
 import {LocalizedLink, Logo} from "@/shared/ui";
-import SidebarToggle from "./SidebarToggle.vue";
+import {BurgerMenu} from "@/shared/ui";
 import SidebarSections from "./SidebarSections.vue";
 
 defineProps<{
@@ -12,7 +12,7 @@ defineProps<{
 
 const viewer = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewer);
-const {navigationSectionViews} = useSidebar(isAuthenticated);
+const {navigationSectionViews, controls} = useSidebar(isAuthenticated);
 
 </script>
 
@@ -20,7 +20,7 @@ const {navigationSectionViews} = useSidebar(isAuthenticated);
   <Transition name="sidebar">
     <aside v-show="isVisible" class="flex flex-col w-sidebar h-sidebar border-r border-default bg-primary">
       <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
-        <SidebarToggle/>
+        <BurgerMenu @toggle="controls.toggle"/>
         <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
           <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
         </LocalizedLink>

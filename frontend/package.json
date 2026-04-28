@@ -26,6 +26,7 @@
   "devDependencies": {
     "@pinia/testing": "^1.0.3",
     "@playwright/test": "^1.58.1",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^24.10.9",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/test-utils": "^2.4.6",

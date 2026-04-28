@@ -4,20 +4,21 @@ import {useBackdrop} from "@/shared/lib/useBackdrop.ts";
 import {Navbar} from "@/widgets/navbar";
 import {Sidebar} from "@/widgets/sidebar";
 import {Resizable} from "@/shared/resizable";
+import type {Controls} from "@/shared/model";
 
 const backdrop = useBackdrop();
 
 const isBackdropVisible = ref(false);
-provide("sidebar", {
-  showSidebar: () => {
+provide<Controls>("sidebar", {
+  show: () => {
     backdrop.showBackdrop();
     isBackdropVisible.value = true;
   },
-  hideSidebar: () => {
+  hide: () => {
     backdrop.hideBackdrop();
     isBackdropVisible.value = false;
   },
-  toggleSidebar: () => {
+  toggle: () => {
     backdrop.toggleBackdrop();
     isBackdropVisible.value = !isBackdropVisible.value;
   }
