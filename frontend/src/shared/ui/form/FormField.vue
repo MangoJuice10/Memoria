@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {ErrorMessage} from "@/shared/model/ErrorMessage.ts";
+import type {ErrorMessage} from "@/shared/model/ErrorMessage.type.ts";
 import FormError from "@/shared/ui/form/FormError.vue";
 import {FormInput} from "@/shared/ui";
 

@@ -88,7 +88,7 @@ var wrapper;
             return [2 /*return*/];
         });
     }); });
-    (0, vitest_1.it)("should show validation errors on submitting an invalid form without user interaction", function () { return __awaiter(void 0, void 0, void 0, function () {
+    (0, vitest_1.it)("should show validation errors on submitting an invalid form without settings interaction", function () { return __awaiter(void 0, void 0, void 0, function () {
         var findForm, findValidationErrors, _a, emailError, passwordError;
         return __generator(this, function (_b) {
             switch (_b.label) {

@@ -11,7 +11,7 @@ import {
     TrustworthyAnswersFeatureIcon
 } from "@/shared/ui/icons";
 
-type NavigationItemId =
+export type NavigationItemId =
     | "feature-spaced-repetition"
     | "feature-ai-assistance"
     | "feature-trustworthy-answers"
@@ -22,14 +22,25 @@ type NavigationItemId =
     | "my-educational-resources"
     | "about";
 
-export type NavigationItem = {
-    id: NavigationItemId;
+export type ActionsItemId =
+    | "settings"
+    | "change-language"
+    | "change-theme"
+    | "logout";
+
+export type SettingsItemId =
+    | "profile"
+    | "language"
+    | "theme";
+
+export type MenuItem<Item extends string | number> = {
+    id: Item;
     routeName: string;
     labelKey: string;
     icon?: Component;
 }
 
-export type NavigationItemView = Omit<NavigationItem, "labelKey"> & {
+export type MenuItemView<Item extends string | number> = Omit<MenuItem<Item>, "labelKey"> & {
     label: string;
 }
 
@@ -38,21 +49,20 @@ export type NavigationSectionId =
     | "about"
     | "my-decks";
 
-export type NavigationSection = {
-    id: NavigationSectionId;
+export type MenuSection<Section extends string | number, Item extends string | number> = {
+    id: Section;
     labelKey: string;
-    navigationItems: NavigationItem[];
+    menuItems: MenuItem<Item>[];
     baseKey?: string;
 }
 
-export type NavigationSectionView =
-    Omit<NavigationSection, "labelKey" | "navigationItems" | "baseKey">
-    & {
+export type MenuSectionView<Section extends string | number, Item extends string | number> =
+    Omit<MenuSection<Section, Item>, "labelKey" | "menuItems" | "baseKey"> & {
     label: string;
-    navigationItemViews: NavigationItemView[];
+    menuItemViews: MenuItemView<Item>[];
 }
 
-export const NAVIGATION_ITEMS: Record<NavigationItemId, NavigationItem> = {
+export const NAVIGATION_ITEMS: Record<NavigationItemId, MenuItem<NavigationItemId>> = {
     "feature-spaced-repetition": {
         id: "feature-spaced-repetition",
         routeName: "feature-spaced-repetition",

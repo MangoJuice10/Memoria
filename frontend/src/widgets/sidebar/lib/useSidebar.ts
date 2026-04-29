@@ -4,7 +4,7 @@ import {
     SIDEBAR_AUTHENTICATED_LAYOUT,
     SIDEBAR_GUEST_LAYOUT
 } from "@/widgets/sidebar/config/sidebar-layout.config.ts";
-import type {NavigationSectionView} from "@/shared/config";
+import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/shared/config";
 import type {Controls} from "@/shared/model";
 
 export function useSidebar(isAuthenticated: Ref<boolean>) {
@@ -16,14 +16,14 @@ export function useSidebar(isAuthenticated: Ref<boolean>) {
             : SIDEBAR_GUEST_LAYOUT;
 
         return sidebarLayout.navigationSections.map(
-            (navigationSection): NavigationSectionView => {
+            (navigationSection): MenuSectionView<NavigationSectionId, NavigationItemId> => {
                 const navigationItemViews = !isAuthenticated
                     ? []
-                    : navigationSection.navigationItems.map(
+                    : navigationSection.menuItems.map(
                         (navigationItem) => {
-                            const {labelKey, ...navigationProperties} = navigationItem;
+                            const {labelKey, ...menuItemProperties} = navigationItem;
                             return {
-                                ...navigationProperties,
+                                ...menuItemProperties,
                                 label: t(`${navigationSection.baseKey}.${labelKey}`)
                             };
                         }
@@ -31,19 +31,19 @@ export function useSidebar(isAuthenticated: Ref<boolean>) {
 
                 const {
                     labelKey,
-                    navigationItems,
+                    menuItems,
                     baseKey,
                     ...sectionProperties
                 } = navigationSection;
+
                 return {
                     ...sectionProperties,
-                    navigationItemViews,
+                    menuItemViews: navigationItemViews,
                     label: t(`${sidebarLayout.baseKey}.${labelKey}`)
                 };
             }
         );
     });
-
     const controls = inject<Controls>("sidebar");
     if (!controls) throw new Error("Sidebar Controls were not provided");
 

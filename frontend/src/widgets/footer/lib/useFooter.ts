@@ -3,7 +3,12 @@ import {
     FOOTER_LAYOUT,
 } from "@/widgets/footer/config/footer-layout.config";
 import {computed} from "vue";
-import type {NavigationItemView, NavigationSectionView} from "@/shared/config";
+import type {
+    MenuItemView,
+    NavigationItemId,
+    MenuSectionView,
+    NavigationSectionId
+} from "@/shared/config";
 
 export function useFooter() {
     const {t} = useI18n();
@@ -12,21 +17,21 @@ export function useFooter() {
         const footerLayout = FOOTER_LAYOUT;
 
         return footerLayout.navigationSections.map(
-            (footerSection): NavigationSectionView => {
-                const navigationItemViews = footerSection.navigationItems.map(
-                    (navigationItem): NavigationItemView => {
-                        const {labelKey, icon, ...navigationProperties} = navigationItem;
+            (footerSection): MenuSectionView<NavigationSectionId, NavigationItemId> => {
+                const navigationItemViews = footerSection.menuItems.map(
+                    (navigationItem): MenuItemView<NavigationItemId> => {
+                        const {labelKey, icon, ...menuItemProperties} = navigationItem;
                         return {
-                            ...navigationProperties,
+                            ...menuItemProperties,
                             label: t(`${footerSection.baseKey}.${labelKey}`)
                         };
                     }
                 );
 
-                const {labelKey, navigationItems, baseKey, ...sectionProperties} = footerSection;
+                const {labelKey, menuItems, baseKey, ...sectionProperties} = footerSection;
                 return {
                     ...sectionProperties,
-                    navigationItemViews,
+                    menuItemViews: navigationItemViews,
                     label: t(`${footerLayout.baseKey}.${labelKey}`)
                 };
             }

@@ -3,7 +3,7 @@ import {computed, watch} from "vue";
 import {Select} from "@/shared/ui/select";
 import {SelectOption} from "@/shared/ui/select";
 import {initialLocale, isSupportedLocale, localesMeta, type Locale} from "@/shared/i18n";
-import {LanguageIcon} from "@/shared/ui/icons";
+import SelectLanguageIcon from "../ui/icons/SelectLanguageIcon.vue";
 import {ArrowIcon} from "@/shared/ui/icons";
 import {useRoute, useRouter} from "vue-router";
 
@@ -51,7 +51,7 @@ watch(locale, (value: string) => {
   <Select v-model="locale">
     <template v-slot:label>
       <div class="flex justify-center items-center gap-2">
-        <LanguageIcon class="icon-static w-7.5 aspect-square"/>
+        <SelectLanguageIcon class="icon-static w-7.5 aspect-square"/>
         <span :class="[selectedLanguageClasses]">
           {{ localeName }}
         </span>

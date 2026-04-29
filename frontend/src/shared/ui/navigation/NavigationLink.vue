@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {type NavigationItemView} from "@/shared/config";
+import {type MenuItemView, type NavigationItemId} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {IconLabel} from "@/shared/ui";
 
 withDefaults(defineProps<{
-  navigationItemView: NavigationItemView;
+  navigationItemView: MenuItemView<NavigationItemId>;
   isActive: boolean;
   iconClasses?: string;
   labelClasses?: string;
@@ -29,9 +29,10 @@ withDefaults(defineProps<{
       </template>
     </IconLabel>
     <div v-else>
-      <span :class="labelClasses">
+      <div class="px-3 py-1"
+            :class="labelClasses">
           {{ navigationItemView.label }}
-      </span>
+      </div>
     </div>
   </LocalizedLink>
 </template>

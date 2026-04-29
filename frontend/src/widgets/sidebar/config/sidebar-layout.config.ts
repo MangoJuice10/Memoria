@@ -1,10 +1,15 @@
-import {NAVIGATION_ITEMS, type NavigationSection} from "@/shared/config";
+import {
+    NAVIGATION_ITEMS,
+    type MenuSection,
+    type NavigationSectionId,
+    type NavigationItemId
+} from "@/shared/config";
 
-export const baseNavigationItemKey = "navigation.sidebar.navLinks";
+export const baseNavigationItemKey = "navigation.sidebar.navigation-links";
 export const baseNavigationSectionKey = "navigation.sidebar.sections";
 
 export type SidebarLayout = {
-    navigationSections: NavigationSection[];
+    navigationSections: MenuSection<NavigationSectionId, NavigationItemId>[];
     baseKey: string;
 }
 
@@ -13,7 +18,7 @@ export const SIDEBAR_GUEST_LAYOUT: SidebarLayout = {
         {
             id: "features",
             labelKey: "features",
-            navigationItems: [
+            menuItems: [
                 NAVIGATION_ITEMS["feature-spaced-repetition"],
                 NAVIGATION_ITEMS["feature-ai-assistance"],
                 NAVIGATION_ITEMS["feature-trustworthy-answers"],
@@ -24,7 +29,7 @@ export const SIDEBAR_GUEST_LAYOUT: SidebarLayout = {
         {
             id: "about",
             labelKey: "about",
-            navigationItems: [
+            menuItems: [
                 NAVIGATION_ITEMS["about"],
             ],
             baseKey: baseNavigationItemKey
@@ -38,7 +43,7 @@ export const SIDEBAR_AUTHENTICATED_LAYOUT: SidebarLayout = {
         {
             id: "my-decks",
             labelKey: "my-decks",
-            navigationItems: [],
+            menuItems: [],
         }
     ],
     baseKey: baseNavigationSectionKey

@@ -1,2 +1,2 @@
-export type {Controls} from "./Controls";
-export type {ErrorMessage} from "./ErrorMessage";
+export type {Controls} from "./Controls.type";
+export type {ErrorMessage} from "./ErrorMessage.type";

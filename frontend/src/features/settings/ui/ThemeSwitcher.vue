@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {useTheme} from "@/features/user-preferences/change-theme/lib/useTheme";
-import LightThemeIcon from "@/features/user-preferences/change-theme/ui/icons/LightThemeIcon.vue";
-import DarkThemeIcon from "@/features/user-preferences/change-theme/ui/icons/DarkThemeIcon.vue";
+import {useTheme} from "../lib/useTheme";
+import LightThemeIcon from "../ui/icons/LightThemeIcon.vue";
+import DarkThemeIcon from "../ui/icons/DarkThemeIcon.vue";
 
 const {theme, toggleTheme} = useTheme();
 

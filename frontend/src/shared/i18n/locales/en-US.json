@@ -35,7 +35,7 @@
   },
   "navigation": {
     "navbar": {
-      "navLinks": {
+      "navigation-links": {
         "feature-spaced-repetition": "Spaced Repetition",
         "feature-ai-assistance": "AI Assistance",
         "feature-trustworthy-answers": "Trustworthy Answers",
@@ -50,7 +50,7 @@
         "about": "About us",
         "my-decks": "My decks"
       },
-      "navLinks": {
+      "navigation-links": {
         "about": "About Memoria",
         "feature-spaced-repetition": "Spaced Repetition",
         "feature-ai-assistance": "AI Assistance",
@@ -62,7 +62,7 @@
       "sections": {
         "features": "Features"
       },
-      "navLinks": {
+      "navigation-links": {
         "feature-spaced-repetition": "About Spaced Repetition",
         "feature-ai-assistance": "About Large Language Models (LLMs)",
         "feature-trustworthy-answers": "About using credible sources",
@@ -71,8 +71,19 @@
       "copyright": "© 2025 Memoria, Inc."
     }
   },
-  "profile": {
-    "heading": "Settings and Preferences"
+  "actions": {
+    "settings": "Settings",
+    "change-language": "Change language",
+    "change-theme": "Change theme",
+    "logout": "Logout"
+  },
+  "settings": {
+    "heading": "Settings and Preferences",
+    "navigation-links": {
+      "profile": "Profile",
+      "language": "Language",
+      "theme": "Theme"
+    }
   },
   "landing": {
     "hero": {

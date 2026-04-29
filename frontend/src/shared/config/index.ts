@@ -1,7 +1,11 @@
 export {
     NAVIGATION_ITEMS,
-    type NavigationItem,
-    type NavigationItemView,
-    type NavigationSection,
-    type NavigationSectionView
-} from "./navigation.config.ts";
+    type NavigationItemId,
+    type ActionsItemId,
+    type SettingsItemId,
+    type MenuItem,
+    type MenuItemView,
+    type NavigationSectionId,
+    type MenuSection,
+    type MenuSectionView
+} from "./menu.config.ts";

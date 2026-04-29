@@ -47,7 +47,7 @@ describe("LoginForm", () => {
         expect(findSubmitButton().attributes("disabled")).toBeDefined();
     });
 
-    it("should show validation errors on submitting an invalid form without user interaction", async () => {
+    it("should show validation errors on submitting an invalid form without settings interaction", async () => {
         const {findForm, findValidationErrors} = mountedLoginForm;
         const [emailError, passwordError] = findValidationErrors();
         // Submit manually, as the submit button is disabled when the fields are invalid

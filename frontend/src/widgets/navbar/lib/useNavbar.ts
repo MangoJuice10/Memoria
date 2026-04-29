@@ -4,8 +4,9 @@ import {
     NAVBAR_AUTHENTICATED_LAYOUT,
     NAVBAR_GUEST_LAYOUT
 } from "@/widgets/navbar/config/navbar-layout.config.ts";
-import type {NavigationItemView} from "@/shared/config";
+import type {MenuItemView, NavigationItemId} from "@/shared/config";
 import type {Controls} from "@/shared/model";
+
 
 export function useNavbar(isAuthenticated: Ref<boolean>) {
     const {t} = useI18n();
@@ -16,10 +17,10 @@ export function useNavbar(isAuthenticated: Ref<boolean>) {
             : NAVBAR_GUEST_LAYOUT;
 
         return navbarLayout.navigationItems.map(
-            (navigationItem): NavigationItemView => {
-                const {labelKey, ...navigationProperties} = navigationItem;
+            (navigationItem): MenuItemView<NavigationItemId> => {
+                const {labelKey, ...menuItemProperties} = navigationItem;
                 return {
-                    ...navigationProperties,
+                    ...menuItemProperties,
                     label: t(`${navbarLayout.baseKey}.${navigationItem.labelKey}`)
                 };
             }

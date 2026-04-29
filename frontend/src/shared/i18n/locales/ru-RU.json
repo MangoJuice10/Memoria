@@ -35,7 +35,7 @@
   },
   "navigation": {
     "navbar": {
-      "navLinks": {
+      "navigation-links": {
         "spacedRepetition": "Интервальное повторение",
         "aiAssistance": "Помощь ИИ",
         "trustworthyAnswers": "Достоверные ответы"
@@ -45,7 +45,7 @@
       "sections": {
         "features": {
           "heading": "Функции",
-          "navLinks": {
+          "navigation-links": {
             "spacedRepetition": "Интервальное повторение",
             "aiAssistance": "Помощь ИИ",
             "trustworthyAnswers": "Достоверные ответы",
@@ -54,7 +54,7 @@
         },
         "introduction": {
           "heading": "Введение",
-          "navLinks": {
+          "navigation-links": {
             "flashcards": "Флеш-карточки",
             "decks": "Колоды",
             "sharedDecks": "Общие колоды",
@@ -63,7 +63,7 @@
         },
         "about": {
           "heading": "О нас",
-          "navLinks": {
+          "navigation-links": {
             "memoria": "О Memoria"
           }
         }
@@ -74,7 +74,7 @@
     "sections": {
       "features": {
         "heading": "Функции",
-        "navLinks": {
+        "navigation-links": {
           "spacedRepetition": "Об интервальном повторении",
           "aiAssistance": "О больших языковых моделях (LLM)",
           "trustworthyAnswers": "Об использовании достоверных источников",
@@ -83,7 +83,7 @@
       },
       "introduction": {
         "heading": "Введение",
-        "navLinks": {
+        "navigation-links": {
           "about": "О Memoria",
           "flashcards": "Флеш-карточки",
           "decks": "Колоды",

@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var test_1 = require("@playwright/test");
-(0, test_1.test)("user can login successfully", function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+(0, test_1.test)("settings can login successfully", function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
     var page = _b.page;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, page.goto("/login")];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, page.getByTestId("email").fill("user@example.com")];
+                return [4 /*yield*/, page.getByTestId("email").fill("settings@example.com")];
             case 2:
                 _c.sent();
                 return [4 /*yield*/, page.getByTestId("password").fill("password")];

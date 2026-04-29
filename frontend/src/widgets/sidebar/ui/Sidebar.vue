@@ -5,7 +5,7 @@ import {LocalizedLink, Logo} from "@/shared/ui";
 import {BurgerMenu} from "@/shared/ui";
 import {useSidebar} from "../lib/useSidebar.ts";
 import SidebarSections from "./SidebarSections.vue";
-import UserPanel from "./UserPanel.vue";
+import {UserPanel} from "@/features/settings";
 
 defineProps<{
   isVisible: boolean;

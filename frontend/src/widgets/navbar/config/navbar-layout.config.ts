@@ -1,9 +1,9 @@
-import {NAVIGATION_ITEMS, type NavigationItem} from "@/shared/config";
+import {NAVIGATION_ITEMS, type MenuItem, type NavigationItemId} from "@/shared/config";
 
-const baseNavigationItemKey = "navigation.navbar.navLinks";
+const baseNavigationItemKey = "navigation.navbar.navigation-links";
 
 export type NavbarLayout = {
-    navigationItems: NavigationItem[],
+    navigationItems: MenuItem<NavigationItemId>[],
     baseKey: string;
 }
 

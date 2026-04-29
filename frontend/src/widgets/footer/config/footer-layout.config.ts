@@ -1,10 +1,15 @@
-import {NAVIGATION_ITEMS, type NavigationSection} from "@/shared/config";
+import {
+    NAVIGATION_ITEMS,
+    type MenuSection,
+    type NavigationSectionId,
+    type NavigationItemId
+} from "@/shared/config";
 
-export const baseNavigationItemKey = "navigation.footer.navLinks";
+export const baseNavigationItemKey = "navigation.footer.navigation-links";
 export const baseNavigationSectionKey = "navigation.footer.sections";
 
 export type FooterLayout = {
-    navigationSections: NavigationSection[]
+    navigationSections: MenuSection<NavigationSectionId, NavigationItemId>[]
     baseKey: string;
 }
 
@@ -13,7 +18,7 @@ export const FOOTER_LAYOUT: FooterLayout = {
         {
             id: "features",
             labelKey: "features",
-            navigationItems: [
+            menuItems: [
                 NAVIGATION_ITEMS["feature-spaced-repetition"],
                 NAVIGATION_ITEMS["feature-ai-assistance"],
                 NAVIGATION_ITEMS["feature-trustworthy-answers"],

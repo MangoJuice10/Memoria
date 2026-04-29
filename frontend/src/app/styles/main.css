@@ -85,7 +85,6 @@
     /*
     Semantic design tokens mapping
     */
-
     /*
     Mobile mapping
     */
@@ -206,7 +205,6 @@
     /*
     Elements styling
     */
-
     /*
     Root styling
     */
@@ -391,6 +389,18 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility border-default {
     border-color: var(--color-border-default);
+}
+
+@utility divide-x-default {
+    :where(& > :not(:last-child)) {
+        border-color: var(--color-border-default);
+    }
+}
+
+@utility divide-y-default {
+    :where(& > :not(:last-child)) {
+        border-color: var(--color-border-default);
+    }
 }
 
 @utility outline-active {
