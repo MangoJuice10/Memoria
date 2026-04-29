@@ -45,6 +45,7 @@ export const useViewerStore = defineStore("viewer", {
         async logout() {
             try {
                 await auth.logout();
+            } catch {
             } finally {
                 this.resetViewer();
             }

@@ -1,15 +1,36 @@
 <script setup lang="ts">
 import {useViewerStore} from "@/entities/viewer";
 import {storeToRefs} from "pinia";
+import {useRouter} from "vue-router";
 import {asset} from "@/shared/lib";
 import {ArrowIcon} from "@/shared/ui/icons";
 import {MenuContainer} from "@/shared/ui";
 import {MenuItem} from "@/shared/ui";
 import {useUserPanel} from "@/features/settings/model/useUserPanel.ts";
+import {useBackdrop} from "@/shared/lib/useBackdrop.ts";
+
+const router = useRouter();
 
 const viewerStore = useViewerStore();
 const {viewer} = storeToRefs(viewerStore);
+
+const {hideBackdrop} = useBackdrop();
+
 const {userPanelItemViews} = useUserPanel();
+
+function setupMenuCallbacks() {
+  const logoutItem = userPanelItemViews.find(({id}) => id === "logout");
+  if (!logoutItem) throw new Error("Logout menu item is missing");
+  logoutItem.callback = async () => {
+    await viewerStore.logout();
+    await router.push({
+      name: "home"
+    });
+    hideBackdrop();
+  };
+}
+
+setupMenuCallbacks();
 </script>
 
 <template>
@@ -36,7 +57,8 @@ const {userPanelItemViews} = useUserPanel();
                           group-hover/container:translate-y-0 peer-hover/panel:translate-y-0
                           group-hover/container:pointer-events-auto peer-hover/panel:pointer-events-auto">
       <MenuItem v-for="userPanelItemView in userPanelItemViews"
-                :menu-item-view="userPanelItemView"/>
+                :menu-item-view="userPanelItemView"
+                @click="userPanelItemView.callback"/>
     </MenuContainer>
   </div>
 </template>
