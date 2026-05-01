@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const ICON_DIR = "./src/components/icons";
+const ICON_DIR = "./src/shared/ui/icons";
 
 const replacements = [
     {regex: /#fff\b|#ffffff\b/gi, value: "var(--color-icon-default)"},
