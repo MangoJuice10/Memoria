@@ -28,6 +28,7 @@ export {default as LanguageIcon} from "./settings/LanguageIcon.vue";
 export {default as LogoutIcon} from "./actions/LogoutIcon.vue";
 
 export {default as ArrowIcon} from "./common/ArrowIcon.vue";
+export {default as PinIcon} from "./common/PinIcon.vue";
 export {default as CancelIcon} from "./common/CancelIcon.vue";
 export {default as BurgerMenuIcon} from "./common/BurgerMenuIcon.vue";
 export {default as HiddenIcon} from "./common/HiddenIcon.vue";

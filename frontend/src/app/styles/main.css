@@ -20,6 +20,7 @@
         --color-surface-focus: var(--color-gray-200);
         --color-surface-active: var(--color-gray-1400);
         --color-surface-disabled: var(--color-gray-1100);
+        --color-surface-danger: var(--color-red-300);
 
         --color-border-default: var(--color-gray-600);
         --color-outline-active: var(--color-gray-1400);
@@ -52,6 +53,7 @@
         --color-surface-focus: var(--color-gray-650);
         --color-surface-active: var(--color-gray-0);
         --color-surface-disabled: var(--color-gray-400);
+        --color-surface-danger: var(--color-red-150);
 
         --color-border-default: var(--color-gray-300);
         --color-outline-active: var(--color-gray-0);
@@ -334,6 +336,11 @@
 }
 
 @layer components {
+    .icon-dynamic-disabled {
+        --color-icon-default: var(--color-primary);
+        --color-icon-inverse: var(--color-surface-disabled);
+    }
+
     .icon-static {
         --color-icon-default: var(--color-gray-0);
         --color-icon-inverse: var(--color-gray-1400);
@@ -385,6 +392,10 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility bg-disabled {
     background-color: var(--color-surface-disabled);
+}
+
+@utility bg-danger {
+    background-color: var(--color-surface-danger);
 }
 
 @utility border-default {

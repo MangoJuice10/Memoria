@@ -55,7 +55,7 @@ watch(locale, (value: string) => {
         <span :class="[selectedLanguageClasses]">
           {{ localeName }}
         </span>
-        <ArrowIcon class="icon-static w-4 aspect-square rotate-90" :class="[arrowClasses]"/>
+        <ArrowIcon class="icon-dynamic-inverse w-4 aspect-square rotate-90" :class="[arrowClasses]"/>
       </div>
     </template>
     <SelectOption optionValue="en-US">English</SelectOption>

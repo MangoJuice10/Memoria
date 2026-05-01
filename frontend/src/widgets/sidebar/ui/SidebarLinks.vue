@@ -16,6 +16,8 @@ const {isNavigationLinkActive} = useNavigation();
                     :key="navigationItemView.id"
                     :navigation-item-view
                     :is-active="isNavigationLinkActive(navigationItemView)"
+                    iconClasses="icon-static
+                                w-7.5"
                     class="grow-0 w-full font-semibold px-5 py-2
                            border rounded-xl border-transparent"/>
   </nav>

@@ -6,22 +6,33 @@ import {BurgerMenu} from "@/shared/ui";
 import {useSidebar} from "../lib/useSidebar.ts";
 import SidebarSections from "./SidebarSections.vue";
 import {UserPanel} from "@/features/settings";
+import {useBackdropStore} from "@/shared/model";
+import {useSidebarStore} from "@/shared/model";
 
-defineProps<{
-  isVisible: boolean;
-}>();
+const viewerStore = useViewerStore();
+const {isAuthenticated} = storeToRefs(viewerStore);
 
-const viewer = useViewerStore();
-const {isAuthenticated} = storeToRefs(viewer);
-const {navigationSectionViews, controls} = useSidebar(isAuthenticated);
+const sidebarStore = useSidebarStore();
+const backdropStore = useBackdropStore();
 
+const {navigationSectionViews} = useSidebar(isAuthenticated);
+
+function handleToggle() {
+  sidebarStore.toggle();
+
+  if (sidebarStore.isVisible) backdropStore.show();
+  else backdropStore.hide();
+  backdropStore.setCallback(() => {
+    sidebarStore.hide();
+  });
+}
 </script>
 
 <template>
   <Transition name="sidebar">
-    <aside v-show="isVisible" class="flex flex-col w-sidebar h-sidebar border-r border-default bg-primary">
+    <aside v-show="sidebarStore.isVisible" class="flex flex-col w-sidebar h-sidebar border-r border-default bg-primary">
       <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
-        <BurgerMenu @toggle="controls.toggle"/>
+        <BurgerMenu @toggle="handleToggle"/>
         <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
           <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
         </LocalizedLink>
@@ -29,7 +40,7 @@ const {navigationSectionViews, controls} = useSidebar(isAuthenticated);
       <div class="h-full overflow-auto px-sidebar">
         <SidebarSections :navigation-section-views/>
       </div>
-      <UserPanel/>
+      <UserPanel v-if="isAuthenticated"/>
     </aside>
   </Transition>
 </template>

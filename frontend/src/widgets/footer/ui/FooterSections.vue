@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import FooterLinks from "@/widgets/footer/ui/FooterLinks.vue";
-import type {NavigationSectionView} from "@/shared/config";
+import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/shared/config";
 
 defineProps<{
-  navigationSectionViews: NavigationSectionView[];
+  navigationSectionViews: MenuSectionView<NavigationSectionId, NavigationItemId>[];
 }>();
 
 </script>

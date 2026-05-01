@@ -77,6 +77,16 @@
     "change-theme": "Change theme",
     "logout": "Logout"
   },
+  "modals": {
+    "logout": {
+      "heading": "Are you sure you want to log out?",
+      "content": "You will have to log in again to access your account",
+      "buttons": {
+        "confirm": "Logout",
+        "cancel": "Cancel"
+      }
+    }
+  },
   "settings": {
     "heading": "Settings and Preferences",
     "navigation-links": {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {useBackdrop} from "@/shared/lib/useBackdrop.ts";
 import {getLocale, type Locale} from "@/shared/i18n";
+import {useBackdropStore, useSidebarStore} from "@/shared/model";
 import type {RouteLocationNamedRaw} from "vue-router";
 
 const props = defineProps<{
@@ -9,7 +9,8 @@ const props = defineProps<{
   locale?: Locale;
 }>();
 
-const {hideBackdrop} = useBackdrop();
+const backdropStore = useBackdropStore();
+const sidebarStore = useSidebarStore();
 
 const locale = computed<Locale>((): Locale => {
   if (props.locale) return props.locale;
@@ -24,11 +25,16 @@ const localizedURL = computed((): RouteLocationNamedRaw =>
       }
     })
 );
+
+function handleClick() {
+  backdropStore.hide();
+  sidebarStore.hide();
+}
 </script>
 
 <template>
   <RouterLink :to="localizedURL"
-              @click="hideBackdrop">
+              @click="handleClick">
     <slot/>
   </RouterLink>
 </template>

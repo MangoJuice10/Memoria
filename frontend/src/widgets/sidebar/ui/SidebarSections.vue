@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type {NavigationSectionView} from "@/shared/config";
+import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/shared/config";
 import SidebarLinks from "./SidebarLinks.vue";
 
 defineProps<{
-  navigationSectionViews: NavigationSectionView[]
+  navigationSectionViews: MenuSectionView<NavigationSectionId, NavigationItemId>[]
 }>();
 </script>
 
@@ -11,6 +11,6 @@ defineProps<{
   <section v-for="navigationSectionView in navigationSectionViews"
            :key="navigationSectionView.id">
     <h3 v-text="navigationSectionView.label" class="max-w-full my-heading truncate text-muted"/>
-    <SidebarLinks :navigation-item-views="navigationSectionView.navigationItemViews"/>
+    <SidebarLinks :navigation-item-views="navigationSectionView.menuItemViews"/>
   </section>
 </template>

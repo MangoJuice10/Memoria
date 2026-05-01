@@ -18,6 +18,8 @@ const {isNavigationLinkActive} = useNavigation();
                     :navigation-item-view
                     :is-active="isNavigationLinkActive(navigationItemView)"
                     label-classes="inline-block h-[2lh] content-center truncate text-wrap"
+                    icon-classes="icon-static
+                                  w-7.5"
                     class="inline-flex justify-center items-center w-full px-2 py-1.5 font-semibold border rounded-xl">
     </NavigationLink>
   </nav>
