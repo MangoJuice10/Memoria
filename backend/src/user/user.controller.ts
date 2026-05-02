@@ -1,7 +1,9 @@
-import { Controller, Get, NotFoundException } from "@nestjs/common";
-import { User } from "src/auth/decorators/user.decorator";
+import { Body, Controller, Get, Patch } from "@nestjs/common";
+import { User } from "src/auth/decorators";
 import { UserService } from "src/user/user.service";
-import { UserResponseDto } from "src/user/dto/user-response.dto";
+import { type UserResponseDto } from "src/user/dto";
+import { updateUserSchema, type UpdateUserDto } from "src/user/schemas";
+import { ZodValidationPipe } from "src/common";
 
 @Controller("users")
 export class UserController {
@@ -9,9 +11,14 @@ export class UserController {
 
   @Get("me")
   async getMe(@User("id") userId: number): Promise<UserResponseDto> {
-    const user = await this.userService.getCurrentUser(userId);
-    if (!user) throw new NotFoundException("User not found");
+    return await this.userService.getCurrentUser(userId);
+  }
 
-    return user;
+  @Patch("me")
+  async updateUser(
+    @User("id") userId: number,
+    @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
+  ) {
+    return await this.userService.updateUser(userId, updateUserDto);
   }
 }

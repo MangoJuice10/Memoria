@@ -1,11 +1,9 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { ZodFilter } from "src/common";
 import cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalFilters(new ZodFilter());
   app.enableCors({
     origin: "http://localhost:5173",
     credentials: true,

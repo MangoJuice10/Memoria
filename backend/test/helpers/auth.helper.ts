@@ -4,8 +4,8 @@ import { LoginDto, RegisterDto } from "src/auth/schemas";
 
 export function createAuthHelpers(
   httpServer: ReturnType<INestApplication["getHttpServer"]>,
-  defaultRegisterDto: (...args: unknown[]) => Partial<RegisterDto>,
-  defaultLoginDto: (...arts: unknown[]) => Partial<LoginDto>,
+  defaultRegisterDto: (...args: unknown[]) => RegisterDto,
+  defaultLoginDto: (...arts: unknown[]) => LoginDto,
 ) {
   const register = (registerDto: Partial<RegisterDto> = defaultRegisterDto()) => {
     return request(httpServer).post("/auth/register").send(registerDto);

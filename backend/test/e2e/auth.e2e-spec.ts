@@ -6,10 +6,11 @@ import { createAuthFixtures } from "test/fixtures/auth.fixture";
 describe("/auth E2E", () => {
   let helpers: ReturnType<typeof createAuthHelpers>;
   let testingApp: TestingApp;
+  const username = "User";
   const email = "user@example.com";
   const password = "userPassword";
 
-  const { createRegisterDto, createLoginDto } = createAuthFixtures(email, password);
+  const { createRegisterDto, createLoginDto } = createAuthFixtures(username, email, password);
 
   beforeAll(async () => {
     testingApp = await createTestingApp();

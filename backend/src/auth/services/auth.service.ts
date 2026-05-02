@@ -1,10 +1,11 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import * as argon from "argon2";
 import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { RegisterDto } from "../schemas";
-import * as argon from "argon2";
 import { JwtPayload, Tokens } from "../types";
+import { EmailAlreadyExistsError } from "src/user/errors";
 
 @Injectable()
 export class AuthService {
@@ -14,27 +15,16 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async register({ email, password }: RegisterDto): Promise<Tokens> {
-    const userExists = await this.prismaService.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (userExists) throw new BadRequestException("Credentials taken");
+  async register({ username, email, password }: RegisterDto): Promise<Tokens> {
+    const isEmailAvailable = await this.checkEmailAvailability(email);
+    if (!isEmailAvailable) throw new EmailAlreadyExistsError(email);
 
-    const hash = await this.hash(password);
-    const newUser = await this.prismaService.user.create({
-      data: {
-        username: "TODO",
-        email: email,
-        passwordHash: hash,
-      },
-    });
+    const newUser = await this.createUser(username, email, password);
 
     return this.issueTokens(newUser.id);
   }
 
-  login(userId: number) {
+  async login(userId: number) {
     return this.issueTokens(userId);
   }
 
@@ -49,24 +39,60 @@ export class AuthService {
     });
   }
 
-  refresh(userId: number) {
+  async refresh(userId: number) {
     return this.issueTokens(userId);
   }
 
-  async validateUser(email: string, password: string) {
+  async createUser(username: string, email: string, password: string) {
+    const hash = await this.hash(password);
+    return this.prismaService.user.create({
+      data: {
+        username: username,
+        email: email,
+        passwordHash: hash,
+      },
+    });
+  }
+
+  private async updateRefreshToken(userId: number, refreshToken: string) {
+    const refreshTokenHash = await this.hash(refreshToken);
+    await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refreshTokenHash,
+      },
+    });
+  }
+
+  async checkEmailAvailability(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
         email,
       },
+      select: {
+        id: true,
+      },
     });
-    if (!user) return null;
-
-    const passwordMatches = await this.verifyPassword(user.passwordHash, password);
-    if (!passwordMatches) return null;
-    return user;
+    return !user;
   }
 
-  async validateRefreshToken(userId: number, refreshToken: string) {
+  async checkPassword(id: number, password: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        passwordHash: true,
+      },
+    });
+    if (!user) return false;
+
+    return this.verifyPassword(user.passwordHash, password);
+  }
+
+  async checkRefreshToken(userId: number, refreshToken: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
@@ -76,10 +102,23 @@ export class AuthService {
 
     if (!user.refreshTokenHash) return false;
 
-    const refreshTokenMatches = await this.verifyRefreshToken(user.refreshTokenHash, refreshToken);
-    if (!refreshTokenMatches) return false;
+    return this.verifyRefreshToken(user.refreshTokenHash, refreshToken);
+  }
 
-    return true;
+  async verifyCredentials(email: string, password: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (!user) return null;
+    const passwordsMatch = await this.verifyPassword(user.passwordHash, password);
+    if (!passwordsMatch) return null;
+    return user;
+  }
+
+  hash(password: string) {
+    return argon.hash(password);
   }
 
   private async issueTokens(userId: number): Promise<Tokens> {
@@ -105,22 +144,6 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
-  }
-
-  private async updateRefreshToken(userId: number, refreshToken: string) {
-    const refreshTokenHash = await this.hash(refreshToken);
-    await this.prismaService.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        refreshTokenHash,
-      },
-    });
-  }
-
-  private hash(password: string) {
-    return argon.hash(password);
   }
 
   private async verifyPassword(passwordHash: string, password: string) {

@@ -30,6 +30,9 @@ import { LoginValidationMiddleware } from "./middleware/login-validation.middlew
       useClass: JwtAccessAuthGuard,
     },
   ],
+  exports: [
+    AuthService
+  ]
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

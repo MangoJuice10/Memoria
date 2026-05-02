@@ -25,7 +25,7 @@ export class RefreshTokenStrategy extends PassportStrategy(Strategy, "jwt-refres
     const refreshToken = RefreshTokenStrategy.extractRefreshTokenFromCookie(req);
     if (!refreshToken) throw new UnauthorizedException();
 
-    const isRefreshTokenValid = await this.authService.validateRefreshToken(payload.sub, refreshToken);
+    const isRefreshTokenValid = await this.authService.checkRefreshToken(payload.sub, refreshToken);
 
     if (!isRefreshTokenValid) throw new UnauthorizedException();
 
