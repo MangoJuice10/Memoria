@@ -8,6 +8,7 @@ import SidebarSections from "./SidebarSections.vue";
 import {UserPanel} from "@/features/settings";
 import {useBackdropStore} from "@/shared/model";
 import {useSidebarStore} from "@/shared/model";
+import {Resizable} from "@/shared/resizable";
 
 const viewerStore = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewerStore);
@@ -30,17 +31,24 @@ function handleToggle() {
 
 <template>
   <Transition name="sidebar">
-    <aside v-show="sidebarStore.isVisible" class="flex flex-col w-sidebar h-sidebar border-r border-default bg-primary">
-      <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
-        <BurgerMenu @toggle="handleToggle"/>
-        <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
-          <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
-        </LocalizedLink>
-      </div>
-      <div class="h-full overflow-auto px-sidebar">
-        <SidebarSections :navigation-section-views/>
-      </div>
-      <UserPanel v-if="isAuthenticated"/>
+    <aside v-show="sidebarStore.isVisible" class="fixed inset-y-0 left-0 z-40
+                                                  w-fit border-r border-default
+                                                  bg-primary">
+      <Resizable has-right-resize-handle
+                 class="w-sidebar min-w-[25vw] h-sidebar">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
+            <BurgerMenu @toggle="handleToggle"/>
+            <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
+              <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
+            </LocalizedLink>
+          </div>
+          <div class="h-full overflow-auto px-sidebar">
+            <SidebarSections :navigation-section-views/>
+          </div>
+          <UserPanel v-if="isAuthenticated"/>
+        </div>
+      </Resizable>
     </aside>
   </Transition>
 </template>

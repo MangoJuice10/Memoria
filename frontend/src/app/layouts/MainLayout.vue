@@ -10,14 +10,8 @@ const modalStore = useModalStore();
 </script>
 
 <template>
-  <div class="fixed inset-x-0 top-0 z-40">
-    <Navbar/>
-  </div>
-  <div v-show="sidebarStore.isVisible" class="fixed inset-y-0 left-0 z-50">
-    <Resizable has-right-resize-handle min-width="25vw">
-      <Sidebar/>
-    </Resizable>
-  </div>
+  <Navbar/>
+  <Sidebar/>
   <Backdrop/>
   <component v-if="modalStore.isVisible"
              :is="modalStore.component"

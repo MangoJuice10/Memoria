@@ -10,6 +10,10 @@ import {capitalize} from "@/shared/lib/capitalize.ts";
 import type {Axis, Side, Dimension} from "@/shared/lib/dom.ts";
 
 export const useResizable = (options: {
+    hasTopResizeHandle?: boolean;
+    hasRightResizeHandle?: boolean;
+    hasBottomResizeHandle?: boolean;
+    hasLeftResizeHandle?: boolean;
     minWidth?: string;
     minHeight?: string;
 }) => {
@@ -83,32 +87,13 @@ export const useResizable = (options: {
         y: 0,
     };
 
-    const cloneRzContainer = () => {
-        const rzContainerClone = rzContainer.cloneNode(true) as HTMLElement;
-        rzContainerClone.style.position = "absolute";
-        rzContainerClone.style.visibility = "hidden";
-
-        if (!rzContainerClone.firstElementChild) throw new Error("Resizable container clone is empty");
-        const rzElClone = rzContainerClone.firstElementChild as HTMLElement;
-        rzElClone.style.removeProperty("display");
-        return rzContainerClone;
-    };
-
     const computeRzContainerBaseSize = (dimension: Dimension) => {
-        const rzContainerClone = cloneRzContainer();
-        document.body.appendChild(rzContainerClone);
-        const result = computeSize(rzContainerClone, dimension);
-        document.body.removeChild(rzContainerClone);
-        return result;
+        return computeSize(rzContainer, dimension);
     };
 
     const computeRzContainerMinSize = (dimension: Dimension) => {
         if (rzEl instanceof HTMLImageElement) return 0;
-        const rzContainerClone = cloneRzContainer();
-        document.body.appendChild(rzContainerClone);
-        const result = computeMinSize(rzContainerClone, dimension, "min-content");
-        document.body.removeChild(rzContainerClone);
-        return result;
+        return computeMinSize(rzContainer, dimension, "min-content");
     };
 
     const setRzContainerMinDimensions = () => {
@@ -128,10 +113,15 @@ export const useResizable = (options: {
     };
 
     const setRzContainerBaseDimensions = () => {
-        rzContainerMeta.width.base = Math.max(rzContainerMeta.width.min, computeRzContainerBaseSize("width"));
-        rzContainerMeta.height.base = Math.max(rzContainerMeta.height.min, computeRzContainerBaseSize("height"));
-        rzContainer.style.width = `${rzContainerMeta.width.base}px`;
-        rzContainer.style.height = `${rzContainerMeta.height.base}px`;
+        if (options.hasLeftResizeHandle || options.hasRightResizeHandle) {
+            rzContainerMeta.width.base = Math.max(rzContainerMeta.width.min, computeRzContainerBaseSize("width"));
+            rzContainer.style.width = `${rzContainerMeta.width.base}px`;
+        }
+
+        if (options.hasTopResizeHandle || options.hasBottomResizeHandle) {
+            rzContainerMeta.height.base = Math.max(rzContainerMeta.height.min, computeRzContainerBaseSize("height"));
+            rzContainer.style.height = `${rzContainerMeta.height.base}px`;
+        }
     };
 
     const handleBreakpointChange = () => {
@@ -201,5 +191,5 @@ export const useResizable = (options: {
 
     return {
         startResize,
-    }
-}
+    };
+};
