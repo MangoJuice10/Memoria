@@ -10,7 +10,6 @@ defineOptions({
 withDefaults(defineProps<{
   id: string;
   label: string;
-  modelValue: string;
   type?: string;
   error?: ErrorMessage;
   touched?: boolean;
@@ -20,20 +19,19 @@ withDefaults(defineProps<{
   touched: false,
 });
 
-const emit = defineEmits<{
-  (e: "update:modelValue", value: string): void;
-}>();
+const modelValue = defineModel<string>();
 </script>
 
 <template>
   <div class="flex flex-col items-start justify-start gap-1.25 w-full">
     <label v-text="label" :for="id" class="font-semibold"/>
     <FormInput
-        :type="type"
-        :model-value="modelValue"
+        v-model="modelValue"
         v-bind="$attrs"
-        @update:modelValue="emit('update:modelValue', $event)"
+        :type="type"
         :data-testid="id"/>
-    <FormError :error :touched :data-testid="`${id}-validation-error`"/>
+    <FormError :error
+               :touched
+               :data-testid="`${id}-validation-error`"/>
   </div>
 </template>

@@ -8,16 +8,18 @@ defineProps<{
 </script>
 
 <template>
-  <IconLabel class="justify-start w-full px-7 py-3 cursor-pointer
-                    hover:bg-hover">
-    <template #icon>
-      <component :is="menuItemView.icon"
-                 class="w-10"/>
-    </template>
-    <template #label>
+  <div class="w-full px-7 py-3 cursor-pointer
+              hover:bg-hover">
+    <IconLabel>
+      <template #icon>
+        <component :is="menuItemView.icon"
+                   class="w-10"/>
+      </template>
+      <template #label>
       <span class="font-semibold">
         {{ menuItemView.label }}
       </span>
-    </template>
-  </IconLabel>
+      </template>
+    </IconLabel>
+  </div>
 </template>

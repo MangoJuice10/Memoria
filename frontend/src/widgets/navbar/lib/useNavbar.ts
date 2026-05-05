@@ -3,7 +3,7 @@ import {useI18n} from "vue-i18n";
 import {
     NAVBAR_AUTHENTICATED_LAYOUT,
     NAVBAR_GUEST_LAYOUT
-} from "@/widgets/navbar/config/navbar-layout.config.ts";
+} from "../config/navbar-layout.config.ts";
 import type {MenuItemView, NavigationItemId} from "@/shared/config";
 
 
@@ -20,7 +20,7 @@ export function useNavbar(isAuthenticated: Ref<boolean>) {
                 const {labelKey, ...menuItemProperties} = navigationItem;
                 return {
                     ...menuItemProperties,
-                    label: t(`${navbarLayout.baseKey}.${navigationItem.labelKey}`)
+                    label: t(`${navbarLayout.baseKey}.${labelKey}`)
                 };
             }
         );

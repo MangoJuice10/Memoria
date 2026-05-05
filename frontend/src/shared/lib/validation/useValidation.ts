@@ -1,10 +1,10 @@
 import {type Ref, type MaybeRefOrGetter, ref, toValue, toRaw, watch} from "vue";
-import {z, type ZodType, type ZodIssue} from "zod";
-import {groupBy, set, get} from "lodash";
-import {debounce} from "./debounce";
+import {z, type ZodError, type ZodType} from "zod";
+import {set, get} from "lodash";
+import {debounce} from "@/shared/lib/debounce";
 import type {ErrorMessage} from "@/shared/model";
 import {i18n} from "@/shared/i18n";
-import {walkObject} from "@/shared/lib/walkObject.ts";
+import {walkObject} from "@/shared/lib/walkObject";
 
 type ValidationOptions = {
     mode: "lazy",
@@ -26,19 +26,47 @@ export const useValidation = <Schema extends ZodType>(
 
     const isValid = ref(false);
 
-    const errors = ref<Record<string, ZodIssue[]> | null>(null);
+    const errors = ref(new Map<string, string[]>());
+
+    const createErrorsMap = (error: ZodError) => {
+        const errorsMap = new Map<string, string[]>();
+        for (const issue of error.issues) {
+            const path = issue.path.map(String);
+            const key = path.join(".");
+
+            const keyErrors = errorsMap.get(key);
+            if (keyErrors) {
+                keyErrors.push(issue.message);
+            } else {
+                errorsMap.set(key, [issue.message]);
+            }
+        }
+        return errorsMap;
+    }
     const getFirstError = (path: string): ErrorMessage => {
-        const error = errors.value
-            ?.[path]
-            ?.[0]
-            ?.message;
-        return error ? error : null;
+        return errors.value.get(path)?.[0] ?? null;
     };
-    const clearErrors = () => errors.value = null;
+
+    const clearErrors = () => errors.value.clear();
 
     const touched = ref<Record<string, boolean>>({});
-    const isTouched = (path: string) => get(touched.value, path, false);
+
+    const isFieldTouched = (path: string) => get(touched.value, path, false);
+
+    const isFormTouched = () => {
+        let result = false;
+
+        walkObject(touched.value, (path: string) => {
+            if (get(touched.value, path) === true) {
+                result = true;
+            }
+        });
+
+        return result;
+    };
+
     const touch = (path: string) => set(touched.value, path, true);
+
     const touchAll = () => {
         walkObject(data.value, touch);
     };
@@ -46,18 +74,17 @@ export const useValidation = <Schema extends ZodType>(
     const parseSchema = async () =>
         await toValue(schema).safeParseAsync(data.value);
 
-    let lastValidationIdx = 0;
     const validate = async () => {
-        const validationIdx = ++lastValidationIdx;
         const result = await parseSchema();
-        if (validationIdx !== lastValidationIdx) return;
-
         isValid.value = result.success;
-        if (!result.success) {
-            errors.value = groupBy(result.error.issues, issue => issue.path.join("."));
-        } else {
-            errors.value = null;
+
+        if (result.error) {
+            errors.value = createErrorsMap(result.error);
+            return null;
         }
+
+        errors.value.clear();
+        return result.data;
     };
 
     const reset = () => {
@@ -91,7 +118,8 @@ export const useValidation = <Schema extends ZodType>(
         errors,
         getFirstError,
         clearErrors,
-        isTouched,
+        isFieldTouched,
+        isFormTouched,
         touch,
         touchAll,
         validate,

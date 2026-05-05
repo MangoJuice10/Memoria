@@ -12,25 +12,21 @@ export const USER_PANEL_LAYOUT: UserPanelLayout = {
     menuItems: [
         {
             id: "settings",
-            routeName: "settings",
             labelKey: "settings",
             icon: SettingsIcon,
         },
         {
             id: "change-language",
-            routeName: "settings",
             labelKey: "change-language",
             icon: LanguageIcon
         },
         {
             id: "change-theme",
-            routeName: "settings",
             labelKey: "change-theme",
             icon: LightThemeIcon
         },
         {
             id: "logout",
-            routeName: "logout",
             labelKey: "logout",
             icon: LogoutIcon,
         }

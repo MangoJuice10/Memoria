@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {registerSchema} from "@/pages/register/model/register.schema";
-import {useValidation} from "@/shared/lib";
-import {FormField} from "@/shared/ui";
-import {Button} from "@/shared/ui";
-import {LocalizedLink} from "@/shared/ui";
-import Error from "@/shared/ui/Error.vue";
-import {useViewerStore} from "@/entities/viewer";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {createRegisterSchema, type RegisterDto} from "@/shared/model";
+import {Form, FormField, LocalizedLink} from "@/shared/ui";
+import {useValidation} from "@/shared/lib";
+import {useViewerStore} from "@/entities/viewer";
 
 const viewer = useViewerStore();
 const router = useRouter();
 const route = useRoute();
 const {t} = useI18n();
 
-const data = ref({
+const data = ref<RegisterDto>({
+  username: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -24,12 +22,12 @@ const data = ref({
 const {
   isValid,
   getFirstError,
-  isTouched,
+  isFieldTouched,
   touch,
   touchAll,
   validate,
   reset: resetForm
-} = useValidation(data, registerSchema, {
+} = useValidation(data, createRegisterSchema(t), {
   mode: "eager",
   delay: 300
 });
@@ -37,11 +35,13 @@ const {
 const authError = ref<string | null>(null);
 
 const submit = async () => {
-  await validate();
+  const validatedData = await validate();
   touchAll();
+
   if (!isValid.value) return;
+
   try {
-    await viewer.register(data.value.email, data.value.password, data.value.confirmPassword);
+    await viewer.register(validatedData);
     authError.value = null;
 
     await router.push({
@@ -62,25 +62,42 @@ const resetAll = () => {
 </script>
 
 <template>
-  <form @submit.prevent="submit"
+  <Form :formError="authError"
+        :is-submit-enabled="isValid"
+        :is-reset-enabled="true"
+        submit-classes="w-40 h-9 font-semibold"
+        reset-classes="w-20 h-9 font-semibold"
         class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
-        data-testid="register-form">
-    <div class="flex justify-center items-center gap-5 mb-3">
-      <LocalizedLink name="login">
-        <h2 class="text-muted hover:text-default">{{ $t("auth.login.heading") }}</h2>
-      </LocalizedLink>
-      <LocalizedLink name="register">
-        <h2 class="underline">{{ $t("auth.register.heading") }}</h2>
-      </LocalizedLink>
-    </div>
-    <Error :error="authError" class="mb-5"
-           data-testid="auth-error"/>
-    <div class="flex flex-col gap-4">
+        data-testid="register-form"
+        @submit.prevent="submit"
+        @reset.prevent="resetAll">
+    <template #heading>
+      <div class="flex justify-center items-center gap-5 mb-3">
+        <LocalizedLink name="login">
+          <h2 class="text-muted hover:text-default">{{ $t("auth.login.heading") }}</h2>
+        </LocalizedLink>
+        <LocalizedLink name="register">
+          <h2 class="underline">{{ $t("auth.register.heading") }}</h2>
+        </LocalizedLink>
+      </div>
+    </template>
+
+    <template #fields>
+      <FormField id="username"
+                 v-model="data.username"
+                 :label="$t('auth.register.username.title')"
+                 :placeholder="$t('auth.register.username.placeholder')"
+                 :touched="isFieldTouched('username')"
+                 :error="getFirstError('username')"
+                 @blur="() => {
+                   validate();
+                   touch('username');
+                 }"/>
       <FormField id="email"
                  v-model="data.email"
                  :label="$t('auth.register.email.title')"
                  :placeholder="$t('auth.register.email.placeholder')"
-                 :touched="isTouched('email')"
+                 :touched="isFieldTouched('email')"
                  :error="getFirstError('email')"
                  @blur="() => {
                    validate();
@@ -91,7 +108,7 @@ const resetAll = () => {
                  :label="$t('auth.register.password.title')"
                  :placeholder="$t('auth.register.password.placeholder')"
                  type="password"
-                 :touched="isTouched('password')"
+                 :touched="isFieldTouched('password')"
                  :error="getFirstError('password')"
                  @blur="() => {
                    validate();
@@ -102,22 +119,16 @@ const resetAll = () => {
                  :label="$t('auth.register.confirmPassword.title')"
                  :placeholder="$t('auth.register.confirmPassword.placeholder')"
                  type="password"
-                 :touched="isTouched('confirmPassword')"
+                 :touched="isFieldTouched('confirmPassword')"
                  :error="getFirstError('confirmPassword')"
                  @blur="() => {
                    validate();
                    touch('confirmPassword');
                  }"/>
-      <div class="flex justify-between items-center">
-        <Button type="submit" class="w-40 h-9 font-semibold" :disabled="!isValid"
-                data-testid="submit">
-          {{ $t("auth.login.action") }}
-        </Button>
-        <Button @click.prevent="resetAll" type="reset" class="w-20 h-9 font-semibold"
-                data-testid="reset">
-          {{ $t("auth.login.reset") }}
-        </Button>
-      </div>
-    </div>
-  </form>
+    </template>
+
+    <template #submit>
+      {{ $t("form.actions.register") }}
+    </template>
+  </Form>
 </template>

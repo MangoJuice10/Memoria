@@ -5,7 +5,7 @@ import {useUserPanel} from "../model/useUserPanel.ts";
 import {useViewerStore} from "@/entities/viewer";
 import {useSidebarStore} from "@/shared/model";
 import {useBackdropStore, useModalStore} from "@/shared/model";
-import {asset} from "@/shared/lib";
+import {asset, showOne} from "@/shared/lib";
 import {MenuContainer} from "@/shared/ui";
 import {MenuItem} from "@/shared/ui";
 import {ArrowIcon, PinIcon} from "@/shared/ui/icons";
@@ -24,9 +24,16 @@ function setupMenuCallbacks() {
   if (!logoutItem) throw new Error("Logout menu item is missing");
   logoutItem.callback = async () => {
     const logoutModalComponent = defineAsyncComponent(() => import("./modals/LogoutModal.vue"));
-    sidebarStore.hide();
-    backdropStore.show();
+    showOne(backdropStore, sidebarStore);
     modalStore.show(logoutModalComponent);
+  };
+
+  const settingsItem = userPanelItemViews.find(({id}) => id === "settings");
+  if (!settingsItem) throw new Error("Settings item is missing");
+  settingsItem.callback = async () => {
+    const settingsModalComponent = defineAsyncComponent(() => import("./modals/SettingsModal.vue"));
+    showOne(backdropStore, sidebarStore);
+    modalStore.show(settingsModalComponent);
   };
 }
 
@@ -60,8 +67,9 @@ setupMenuCallbacks();
                       ? 'icon-dynamic-inverse rotate-0 scale-110'
                       : 'icon-dynamic-disabled -rotate-45 scale-100'"/>
     </div>
-    <MenuContainer class="left-1/2 bottom-full -translate-x-1/2
-                          w-4/5 rounded-xl
+    <MenuContainer class="absolute left-1/2 bottom-full -translate-x-1/2
+                          w-4/5 overflow-hidden
+                          border border-default rounded-xl
                           transition-all duration-400 ease-out"
                    :class="{'opacity-0 translate-y-10 pointer-events-none \
                             group-hover/container:opacity-100 peer-hover/panel:opacity-100 \

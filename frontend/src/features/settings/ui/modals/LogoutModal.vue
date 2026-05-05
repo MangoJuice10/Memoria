@@ -2,7 +2,7 @@
 import {useRouter} from "vue-router";
 import {useViewerStore} from "@/entities/viewer";
 import {useBackdropStore, useModalStore} from "@/shared/model";
-import {Modal} from "@/shared/ui";
+import {ActionModal} from "@/shared/ui";
 import {onMounted} from "vue";
 
 const router = useRouter();
@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Modal class="p-10"
+  <ActionModal
          @confirm="handleConfirm"
          @cancel="handleCancel">
     <template #heading>
@@ -51,5 +51,5 @@ onMounted(() => {
     <template #confirm>
       {{ $t("modals.logout.buttons.confirm") }}
     </template>
-  </Modal>
+  </ActionModal>
 </template>

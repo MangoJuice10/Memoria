@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {Navbar} from "@/widgets/navbar";
 import {Sidebar} from "@/widgets/sidebar";
-import {Resizable} from "@/shared/resizable";
 import {Backdrop} from "@/shared/ui";
-import {useModalStore, useSidebarStore} from "@/shared/model";
+import {useModalStore} from "@/shared/model";
 
-const sidebarStore = useSidebarStore();
 const modalStore = useModalStore();
 </script>
 

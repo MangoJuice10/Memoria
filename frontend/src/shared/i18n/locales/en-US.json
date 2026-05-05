@@ -19,6 +19,10 @@
     "register": {
       "action": "Register",
       "heading": "Register",
+      "username": {
+        "title": "Username",
+        "placeholder": "Enter your username"
+      },
       "email": {
         "title": "Email",
         "placeholder": "Enter your email address"
@@ -69,6 +73,67 @@
         "feature-statistics": "Statistics"
       },
       "copyright": "© 2025 Memoria, Inc."
+    }
+  },
+  "form": {
+    "fields": {
+      "username": {
+        "title": "Username",
+        "placeholder": "Enter your username"
+      },
+      "email": {
+        "title": "Email",
+        "placeholder": "Enter your email address"
+      },
+      "password": {
+        "title": "Password",
+        "placeholder": "Enter your password"
+      },
+      "newUsername": {
+        "title": "New username",
+        "placeholder": "Enter a new username"
+      },
+      "newEmail": {
+        "title": "New email",
+        "placeholder": "Enter a new email"
+      },
+      "old-password": {
+        "title": "Old password",
+        "placeholder": "Enter your old password"
+      },
+      "new-password": {
+        "title": "New password",
+        "placeholder": "Enter your new password"
+      },
+      "confirm-password": {
+        "title": "Confirm password",
+        "placeholder": "Repeat your password"
+      }
+    },
+    "actions": {
+      "submit": "Submit",
+      "reset": "Reset",
+      "login": "Login",
+      "register": "Register"
+    }
+  },
+  "errors": {
+    "domain": {
+      "validation": {
+        "name": "Validation Error",
+        "details": {
+          "required": "{fieldName} is required",
+          "min-length": "{fieldName} must be at least {n} characters long | {fieldName} must be at least {n} character long | {fieldName} must be at least {n} characters long",
+          "email": "Email address is invalid",
+          "email-already-exists": "Email already exists",
+          "invalid-password": "The password is invalid",
+          "duplicate-password": "The passwords must not match",
+          "confirm-password": "The passwords must match"
+        }
+      },
+      "not-found": {
+        "name": "Not Found Error"
+      }
     }
   },
   "actions": {
@@ -133,18 +198,6 @@
     "sharedDecks": {
       "headline": "Popular Shared Decks",
       "subheadline": "Here are shared decks popular among other learners. Make sure to check them out!"
-    }
-  },
-  "validation": {
-    "rules": {
-      "required": "{fieldName} is required",
-      "minLength": "{fieldName} must be at least {n} characters long | {fieldName} must be at least {n} character long | {fieldName} must be at least {n} characters long",
-      "email": "Email address is invalid",
-      "confirmPassword": "The passwords do not match"
-    },
-    "fields": {
-      "email": "Email",
-      "password": "Password"
     }
   },
   "pagination": {

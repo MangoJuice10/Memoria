@@ -70,3 +70,5 @@ export const loadLocaleMessages = async (locale: Locale) => {
     i18n.global.setLocaleMessage(locale, messages.default);
     return nextTick();
 };
+
+export {codeToKey} from "./codeToKey.ts";

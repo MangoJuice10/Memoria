@@ -35,7 +35,7 @@ export const computeMinSize = (el: HTMLElement, dimension: Dimension, value: "0"
         clone.style[dimension] = value;
 
         document.body.appendChild(clone);
-        result = el.getBoundingClientRect()[dimension];
+        result = clone.getBoundingClientRect()[dimension];
         document.body.removeChild(clone);
     }
     return result;

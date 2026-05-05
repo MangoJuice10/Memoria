@@ -35,7 +35,7 @@ export type SettingsItemId =
 
 export type MenuItem<Item extends string | number> = {
     id: Item;
-    routeName: string;
+    routeName?: string;
     callback?: () => void | Promise<void>;
     labelKey: string;
     icon?: Component;

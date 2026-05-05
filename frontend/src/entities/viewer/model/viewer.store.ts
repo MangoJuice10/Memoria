@@ -1,8 +1,8 @@
 import {defineStore} from "pinia";
 import type {Viewer} from "@/entities/viewer";
-import {auth} from "@/shared/api";
-import {users} from "@/shared/api/endpoints/users.ts";
+import {auth, users} from "@/shared/api";
 import {clearAccessToken} from "@/shared/auth";
+import type {RegisterDto, LoginDto, UpdateMeDto} from "@/shared/model";
 
 type ViewerState = {
     viewer: Viewer | null;
@@ -23,7 +23,7 @@ export const useViewerStore = defineStore("viewer", {
         async initialize() {
             try {
                 await auth.refresh();
-                this.viewer = await users();
+                this.viewer = await users.getMe();
             } catch {
                 clearAccessToken();
                 this.viewer = null;
@@ -32,14 +32,15 @@ export const useViewerStore = defineStore("viewer", {
             }
         },
 
-        async register(email: string, password: string, confirmPassword: string) {
-            await auth.register({email, password, confirmPassword});
-            this.viewer = await users();
+        async register(registerDto: RegisterDto) {
+            console.log(registerDto);
+            await auth.register(registerDto);
+            this.viewer = await users.getMe();
         },
 
-        async login(email: string, password: string) {
-            await auth.login({email, password});
-            this.viewer = await users();
+        async login(loginDto: LoginDto) {
+            await auth.login(loginDto);
+            this.viewer = await users.getMe();
         },
 
         async logout() {
@@ -49,6 +50,10 @@ export const useViewerStore = defineStore("viewer", {
             } finally {
                 this.resetViewer();
             }
+        },
+
+        async updateMe(updateUserDto: UpdateMeDto) {
+            this.viewer = await users.updateMe(updateUserDto);
         },
 
         resetViewer() {

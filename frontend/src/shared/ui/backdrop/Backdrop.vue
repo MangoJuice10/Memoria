@@ -12,7 +12,7 @@ const handleClick = () => {
 <template>
   <Transition name="backdrop">
     <div v-if="backdropStore.isVisible"
-         class="fixed inset-0 bg-primary/50 backdrop-blur-xs z-40"
+         class="fixed inset-0 bg-primary/50 backdrop-blur-xs z-30"
          @click="handleClick"/>
   </Transition>
 </template>

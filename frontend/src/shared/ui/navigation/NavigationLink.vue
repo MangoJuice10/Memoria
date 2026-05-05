@@ -2,8 +2,9 @@
 import {type MenuItemView, type NavigationItemId} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {IconLabel} from "@/shared/ui";
+import {onMounted} from "vue";
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   navigationItemView: MenuItemView<NavigationItemId>;
   isActive: boolean;
   iconClasses?: string;
@@ -11,10 +12,14 @@ withDefaults(defineProps<{
 }>(), {
   iconClasses: "w-7.5"
 });
+
+onMounted(() => {
+  if (!props.navigationItemView.routeName) throw new Error("The route name is missing");
+})
 </script>
 
 <template>
-  <LocalizedLink :name="navigationItemView.routeName"
+  <LocalizedLink :name="navigationItemView.routeName!"
                  :class="isActive
                  ? 'border-landing text-inverse bg-secondary'
                  : 'border-transparent text-landing hover:border-landing hover:bg-hover'">
