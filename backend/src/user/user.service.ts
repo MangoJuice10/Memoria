@@ -1,8 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDto } from "src/user/schemas";
 import { AuthService } from "src/auth/services/auth.service";
 import { EmailAlreadyExistsError, InvalidPasswordError, UserNotFoundError } from "src/user/errors";
+import { User } from "@prisma/client";
+import { userInputErrorCodes } from "src/common/constants";
 
 @Injectable()
 export class UserService {
@@ -24,12 +26,15 @@ export class UserService {
         id: userId,
       },
     });
-    if (!user) throw new UserNotFoundError(userId);
+    if (!user) throw new UserNotFoundError();
 
     return user;
   }
 
-  async updateUser(userId: number, { newUsername, newEmail, oldPassword, newPassword }: UpdateUserDto) {
+  async updateCurrentUser(
+    userId: number,
+    { newUsername, newEmail, oldPassword, newPassword }: UpdateUserDto,
+  ) {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: userId,
@@ -40,22 +45,38 @@ export class UserService {
         passwordHash: true,
       },
     });
-    if (!user) throw new UserNotFoundError(userId);
+    if (!user) throw new UserNotFoundError();
 
-    if (newUsername) user.username = newUsername;
+    const newUser: Partial<User> = {};
+
+    if (newUsername) newUser.username = newUsername;
 
     if (newEmail) {
       const isEmailAvailable = await this.authService.checkEmailAvailability(newEmail);
-      if (!isEmailAvailable) throw new EmailAlreadyExistsError(newEmail);
+      if (!isEmailAvailable)
+        throw new EmailAlreadyExistsError([
+          {
+            path: "newEmail",
+            code: userInputErrorCodes.EMAIL_ALREADY_EXISTS,
+            message: "Email already exists",
+          },
+        ]);
 
-      user.email = newEmail;
+      newUser.email = newEmail;
     }
 
     if (oldPassword && newPassword) {
       const oldPasswordMatches = await this.authService.checkPassword(userId, oldPassword);
-      if (!oldPasswordMatches) throw new InvalidPasswordError(oldPassword);
+      if (!oldPasswordMatches)
+        throw new InvalidPasswordError([
+          {
+            path: "oldPassword",
+            code: userInputErrorCodes.INVALID_PASSWORD,
+            message: "The password is invalid",
+          },
+        ]);
 
-      user.passwordHash = await this.authService.hash(newPassword);
+      newUser.passwordHash = await this.authService.hash(newPassword);
     }
 
     return this.prismaService.user.update({
@@ -63,7 +84,7 @@ export class UserService {
         id: userId,
       },
       data: {
-        ...user
+        ...newUser,
       },
       select: {
         id: true,
@@ -71,7 +92,7 @@ export class UserService {
         email: true,
         createdAt: true,
         updatedAt: true,
-      }
+      },
     });
   }
 }

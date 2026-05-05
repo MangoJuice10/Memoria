@@ -1,8 +1,8 @@
-import { DomainError } from "src/common/errors";
+import { ValidationError } from "src/common/errors";
+import { ErrorDetail } from "src/common/types";
 
-export class EmailAlreadyExistsError extends DomainError {
-  constructor(email: string) {
-    super(`Email ${email} already exists.`);
-    this.name = "EmailAlreadyExistsError";
+export class EmailAlreadyExistsError extends ValidationError {
+  constructor(details: ErrorDetail[]) {
+    super("Email already exists", details);
   }
 }

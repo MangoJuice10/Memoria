@@ -1,8 +1,7 @@
-import { DomainError } from "src/common/errors";
+import { NotFoundError } from "src/common/errors";
 
-export class FlashcardNotFoundError extends DomainError {
-  constructor(flashcardId: number) {
-    super(`Flashcard with id ${flashcardId} not found`);
-    this.name = "FlashcardNotFoundError";
+export class FlashcardNotFoundError extends NotFoundError {
+  constructor() {
+    super("Flashcard not found");
   }
 }

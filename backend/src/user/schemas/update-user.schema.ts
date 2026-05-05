@@ -1,9 +1,14 @@
 import { z } from "zod";
+import { userInputErrorCodes } from "src/common/constants/error-codes.constants";
 
 const rawUpdateUserSchema = z
   .object({
     newUsername: z.string().min(2).optional(),
-    newEmail: z.email().optional(),
+    newEmail: z
+      .email({
+        message: userInputErrorCodes.EMAIL,
+      })
+      .optional(),
     oldPassword: z.string().optional(),
     newPassword: z.string().min(8).optional(),
     confirmPassword: z.string().optional(),
@@ -17,7 +22,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["oldPassword"],
-      error: "The old password is required when changing password",
+      error: userInputErrorCodes.REQUIRED,
     },
   )
   .refine(
@@ -29,7 +34,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["newPassword"],
-      error: "The new password is required when changing password",
+      error: userInputErrorCodes.REQUIRED,
     },
   )
   .refine(
@@ -41,7 +46,17 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["confirmPassword"],
-      error: "The password confirmation is required when changing password",
+      error: userInputErrorCodes.REQUIRED,
+    },
+  )
+  .refine(
+    ({ oldPassword, newPassword }) => {
+      if (oldPassword && newPassword && oldPassword === newPassword) return false;
+      return true;
+    },
+    {
+      path: ["newPassword"],
+      error: userInputErrorCodes.DUPLICATE_PASSWORD,
     },
   )
   .refine(
@@ -51,7 +66,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["confirmPassword"],
-      error: "The passwords must match",
+      error: userInputErrorCodes.CONFIRM_PASSWORD,
     },
   );
 

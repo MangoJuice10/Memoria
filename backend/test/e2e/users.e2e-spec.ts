@@ -3,6 +3,7 @@ import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
 import { createAuthHelpers } from "test/helpers/auth.helper";
 import { createAuthFixtures } from "test/fixtures/auth.fixture";
 import { UpdateUserDto } from "src/user/schemas";
+import { ErrorDetail } from "src/common/types";
 
 describe("/users E2E", () => {
   let testingApp: TestingApp;
@@ -184,7 +185,9 @@ describe("/users E2E", () => {
           })
           .send(updateUserDto)
           .expect(422);
-        expect(res.body.errors.fieldErrors.oldPassword).toBeDefined();
+        expect(
+          res.body.error.details.find(({ path }: ErrorDetail) => path.includes("oldPassword")),
+        ).toBeDefined();
       });
 
       it("should fail to update the password due to empty newPassword", async () => {
@@ -202,7 +205,9 @@ describe("/users E2E", () => {
           })
           .send(updateUserDto)
           .expect(422);
-        expect(res.body.errors.fieldErrors.newPassword).toBeDefined();
+        expect(
+          res.body.error.details.find(({ path }: ErrorDetail) => path.includes("newPassword")),
+        ).toBeDefined();
       });
 
       it("should fail to update the password due to empty confirmPassword", async () => {
@@ -220,10 +225,12 @@ describe("/users E2E", () => {
           })
           .send(updateUserDto)
           .expect(422);
-        expect(res.body.errors.fieldErrors.confirmPassword).toBeDefined();
+        expect(
+          res.body.error.details.find(({ path }: ErrorDetail) => path.includes("confirmPassword")),
+        ).toBeDefined();
       });
 
-      it("should fail to update the password with the 401 Unauthorized Status Code", async () => {
+      it("should fail to update the password with the 422 Unauthorized Status Code", async () => {
         const oldPassword = "invalidpassword";
         const newPassword = "newpassword";
         const confirmPassword = "newpassword";
@@ -239,7 +246,7 @@ describe("/users E2E", () => {
             Authorization: `Bearer ${accessToken}`,
           })
           .send(updateUserDto)
-          .expect(401);
+          .expect(422);
       });
     });
   });

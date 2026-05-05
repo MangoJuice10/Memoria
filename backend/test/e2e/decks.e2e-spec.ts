@@ -6,13 +6,14 @@ import { createAuthFixtures } from "test/fixtures/auth.fixture";
 describe("Deck", () => {
   let testingApp: TestingApp;
   let helpers: ReturnType<typeof createAuthHelpers>;
+  const username = "User";
   const email = "user@example.com";
   const password = "userPassword";
 
   beforeAll(async () => {
     testingApp = await createTestingApp();
     await testingApp.prismaService.cleanDatabase();
-    const { createRegisterDto, createLoginDto } = createAuthFixtures(email, password);
+    const { createRegisterDto, createLoginDto } = createAuthFixtures(username, email, password);
     helpers = createAuthHelpers(testingApp.httpServer, createRegisterDto, createLoginDto);
   });
 

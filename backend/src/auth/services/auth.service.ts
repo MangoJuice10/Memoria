@@ -6,6 +6,7 @@ import { ConfigService } from "@nestjs/config";
 import { RegisterDto } from "../schemas";
 import { JwtPayload, Tokens } from "../types";
 import { EmailAlreadyExistsError } from "src/user/errors";
+import { userInputErrorCodes } from "src/common/constants";
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,14 @@ export class AuthService {
 
   async register({ username, email, password }: RegisterDto): Promise<Tokens> {
     const isEmailAvailable = await this.checkEmailAvailability(email);
-    if (!isEmailAvailable) throw new EmailAlreadyExistsError(email);
+    if (!isEmailAvailable)
+      throw new EmailAlreadyExistsError([
+        {
+          path: "email",
+          code: userInputErrorCodes.EMAIL_ALREADY_EXISTS,
+          message: "Email already exists",
+        },
+      ]);
 
     const newUser = await this.createUser(username, email, password);
 

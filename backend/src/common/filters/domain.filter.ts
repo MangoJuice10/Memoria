@@ -1,43 +1,66 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from "@nestjs/common";
 import type { Response } from "express";
-import { DomainError } from "src/common/errors";
-import { InvalidPasswordError, UserNotFoundError } from "src/user/errors";
-import { FlashcardNotFoundError } from "src/flashcard/errors/flashcard-not-found.error";
-import { EmailAlreadyExistsError } from "src/user/errors/email-already-exists.error";
+import { DomainError, NotFoundError, ValidationError } from "src/common/errors";
+import { EmailAlreadyExistsError } from "src/user/errors";
+import type { ErrorResponse } from "src/common/types";
 
 @Catch(DomainError)
 export class DomainFilter implements ExceptionFilter {
   catch(exception: DomainError, host: ArgumentsHost) {
     const res = host.switchToHttp().getResponse<Response>();
-    switch (exception.constructor) {
-      case UserNotFoundError:
-      case FlashcardNotFoundError:
-        res.status(HttpStatus.NOT_FOUND).json({
-          statusCode: HttpStatus.NOT_FOUND,
-          error: "Unauthorized",
-          message: exception.message,
-        });
+    switch (true) {
+      case exception instanceof NotFoundError: {
+        const statusCode = HttpStatus.NOT_FOUND;
+        const body: ErrorResponse = {
+          status: "error",
+          statusCode,
+          error: {
+            message: exception.message,
+            code: exception.code,
+          },
+        };
+        res.status(statusCode).json(body);
         break;
-      case EmailAlreadyExistsError:
-        res.status(HttpStatus.CONFLICT).json({
-          statusCode: HttpStatus.CONFLICT,
-          error: "Conflict",
-          message: exception.message,
-        });
+      }
+      case exception instanceof EmailAlreadyExistsError: {
+        const statusCode = HttpStatus.CONFLICT;
+        const body: ErrorResponse = {
+          status: "error",
+          statusCode,
+          error: {
+            message: exception.message,
+            code: exception.code,
+            details: exception.details,
+          },
+        };
+        res.status(statusCode).json(body);
         break;
-      case InvalidPasswordError:
-        res.status(HttpStatus.UNAUTHORIZED).json({
-          statusCode: HttpStatus.UNAUTHORIZED,
-          error: "Unauthorized",
-          message: exception.message,
-        });
+      }
+      case exception instanceof ValidationError: {
+        const statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
+        const body: ErrorResponse = {
+          status: "error",
+          statusCode,
+          error: {
+            message: exception.message,
+            code: exception.code,
+            details: exception.details,
+          },
+        };
+        res.status(statusCode).json(body);
         break;
+      }
       default:
-        res.status(HttpStatus.BAD_REQUEST).json({
-          statusCode: HttpStatus.BAD_REQUEST,
-          error: "Bad Request",
-          message: exception.message,
-        });
+        const statusCode = HttpStatus.BAD_REQUEST;
+        const body: ErrorResponse = {
+          status: "error",
+          statusCode,
+          error: {
+            message: exception.message,
+            code: exception.code,
+          },
+        };
+        res.status(statusCode).json(body);
         break;
     }
   }

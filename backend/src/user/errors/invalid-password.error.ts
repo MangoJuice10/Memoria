@@ -1,8 +1,8 @@
-import { DomainError } from "src/common/errors";
+import { ValidationError } from "src/common/errors";
+import { ErrorDetail } from "src/common/types";
 
-export class InvalidPasswordError extends DomainError {
-  constructor(password: string) {
-    super(`Invalid password ${password}`);
-    this.name = "InvalidPasswordError";
+export class InvalidPasswordError extends ValidationError {
+  constructor(details: ErrorDetail[]) {
+    super("Invalid password", details);
   }
 }

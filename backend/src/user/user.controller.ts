@@ -15,10 +15,10 @@ export class UserController {
   }
 
   @Patch("me")
-  async updateUser(
+  async updateMe(
     @User("id") userId: number,
     @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
   ) {
-    return await this.userService.updateUser(userId, updateUserDto);
+    return await this.userService.updateCurrentUser(userId, updateUserDto);
   }
 }
