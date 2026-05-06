@@ -6,8 +6,10 @@ import {createRegisterSchema, type RegisterDto} from "@/shared/model";
 import {Form, FormField, LocalizedLink} from "@/shared/ui";
 import {useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";
+import axios from "axios";
+import type {ErrorResponse} from "@/shared/api";
 
-const viewer = useViewerStore();
+const {register} = useViewerStore();
 const router = useRouter();
 const route = useRoute();
 const {t} = useI18n();
@@ -21,28 +23,27 @@ const data = ref<RegisterDto>({
 
 const {
   isValid,
-  getFirstError,
+  getError,
+  getFormError,
   isFieldTouched,
   touch,
   touchAll,
-  validate,
-  reset: resetForm
+  clientValidate,
+  serverValidate,
+  reset
 } = useValidation(data, createRegisterSchema(t), {
   mode: "eager",
-  delay: 300
+  delay: 300,
+  t
 });
 
-const authError = ref<string | null>(null);
-
 const submit = async () => {
-  const validatedData = await validate();
   touchAll();
-
-  if (!isValid.value) return;
+  const validatedData = await clientValidate();
+  if (!validatedData) return;
 
   try {
-    await viewer.register(validatedData);
-    authError.value = null;
+    await register(validatedData);
 
     await router.push({
       name: "home",
@@ -50,27 +51,26 @@ const submit = async () => {
       query: route.query,
       hash: route.hash
     });
-  } catch {
-    authError.value = t("auth.register.errors.failure");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const body = error.response?.data as ErrorResponse;
+      await serverValidate(body);
+    }
   }
-};
-
-const resetAll = () => {
-  authError.value = null;
-  resetForm();
 };
 </script>
 
 <template>
-  <Form :formError="authError"
+  <Form :formError="getFormError()"
         :is-submit-enabled="isValid"
         :is-reset-enabled="true"
+        form-error-classes="text-center"
         submit-classes="w-40 h-9 font-semibold"
         reset-classes="w-20 h-9 font-semibold"
         class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
         data-testid="register-form"
-        @submit.prevent="submit"
-        @reset.prevent="resetAll">
+        @submit="submit"
+        @reset="reset">
     <template #heading>
       <div class="flex justify-center items-center gap-5 mb-3">
         <LocalizedLink name="login">
@@ -88,9 +88,9 @@ const resetAll = () => {
                  :label="$t('auth.register.username.title')"
                  :placeholder="$t('auth.register.username.placeholder')"
                  :touched="isFieldTouched('username')"
-                 :error="getFirstError('username')"
+                 :error="getError('username')"
                  @blur="() => {
-                   validate();
+                   clientValidate();
                    touch('username');
                  }"/>
       <FormField id="email"
@@ -98,9 +98,9 @@ const resetAll = () => {
                  :label="$t('auth.register.email.title')"
                  :placeholder="$t('auth.register.email.placeholder')"
                  :touched="isFieldTouched('email')"
-                 :error="getFirstError('email')"
+                 :error="getError('email')"
                  @blur="() => {
-                   validate();
+                   clientValidate();
                    touch('email');
                  }"/>
       <FormField id="password"
@@ -109,9 +109,9 @@ const resetAll = () => {
                  :placeholder="$t('auth.register.password.placeholder')"
                  type="password"
                  :touched="isFieldTouched('password')"
-                 :error="getFirstError('password')"
+                 :error="getError('password')"
                  @blur="() => {
-                   validate();
+                   clientValidate();
                    touch('password');
                  }"/>
       <FormField id="confirmPassword"
@@ -120,9 +120,9 @@ const resetAll = () => {
                  :placeholder="$t('auth.register.confirmPassword.placeholder')"
                  type="password"
                  :touched="isFieldTouched('confirmPassword')"
-                 :error="getFirstError('confirmPassword')"
+                 :error="getError('confirmPassword')"
                  @blur="() => {
-                   validate();
+                   clientValidate();
                    touch('confirmPassword');
                  }"/>
     </template>

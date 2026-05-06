@@ -6,6 +6,8 @@ import {createLoginSchema, type LoginDto} from "@/shared/model";
 import {Form, FormField, LocalizedLink} from "@/shared/ui";
 import {useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";
+import axios from "axios";
+import type {ErrorResponse} from "@/shared/api";
 
 const viewer = useViewerStore();
 const route = useRoute();
@@ -19,56 +21,54 @@ const data = ref<LoginDto>({
 
 const {
   isValid,
-  getFirstError,
+  getError,
+  getFormError,
   isFieldTouched,
   touch,
   touchAll,
-  validate,
-  reset: resetForm
+  clientValidate,
+  serverValidate,
+  reset
 } = useValidation(data, createLoginSchema(t), {
   mode: "eager",
-  delay: 300
+  delay: 300,
+  t
 });
 
-const authError = ref<string | null>(null);
-
 const submit = async () => {
-  const validatedData = await validate();
   touchAll();
 
-  if (!isValid.value) return;
+  const validatedData = await clientValidate();
+  if (!validatedData) return;
 
   try {
     await viewer.login(validatedData);
-    authError.value = null;
-
     await router.push({
       name: "home",
       params: route.params,
       query: route.query,
       hash: route.hash
     });
-  } catch {
-    authError.value = t("auth.login.errors.failure");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const body = error.response?.data as ErrorResponse;
+      await serverValidate(body);
+    }
   }
-};
-
-const resetAll = () => {
-  authError.value = null;
-  resetForm();
 };
 </script>
 
 <template>
-  <Form :form-error="authError"
+  <Form :form-error="getFormError()"
         :is-submit-enabled="isValid"
         :is-reset-enabled="true"
+        form-error-classes="text-center"
         submit-classes="w-40 h-9 font-semibold"
         reset-classes="w-30 h-9 font-semibold"
         class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
         data-testid="login-form"
         @submit="submit"
-        @reset="resetAll">
+        @reset="reset">
     <template #heading>
       <div class="flex justify-center items-center gap-5 mb-3">
         <LocalizedLink name="login">
@@ -87,10 +87,10 @@ const resetAll = () => {
                    :label="$t('auth.login.email.title')"
                    :placeholder="$t('auth.login.email.placeholder')"
                    :touched="isFieldTouched('email')"
-                   :error="getFirstError('email')"
+                   :error="getError('email')"
                    @blur="() => {
                      touch('email');
-                     validate();
+                     clientValidate();
                    }"
                    class="text-lg"/>
         <FormField id="password"
@@ -99,10 +99,10 @@ const resetAll = () => {
                    type="password"
                    :placeholder="$t('auth.login.password.placeholder')"
                    :touched="isFieldTouched('password')"
-                   :error="getFirstError('password')"
+                   :error="getError('password')"
                    @blur="() => {
                      touch('password');
-                     validate();
+                     clientValidate();
                    }"
                    class="text-lg"/>
       </div>

@@ -1,4 +1,4 @@
-import {ref, type Component, type Ref, type UnwrapRef} from "vue";
+import {ref, shallowRef, type Component, type Ref, type UnwrapRef, markRaw} from "vue";
 import {defineStore} from "pinia";
 import {useVisibility} from "@/shared/lib";
 import type {VisibilityControls} from "./VisibilityControls.type";
@@ -11,14 +11,14 @@ export type ModalVisibilityControls = VisibilityControls & {
 export type StoreModalVisibilityControls = UnwrapRef<ModalVisibilityControls>;
 
 export const useModalStore = defineStore("modal", () => {
-    const component = ref<Component | null>(null);
+    const component = shallowRef<Component | null>(null);
     const props = ref<Record<string, unknown>>({});
 
     const visibility = useVisibility();
 
     const show = (newComponent: Component, newProps: Record<string, unknown> = {}) => {
         visibility.show();
-        component.value = newComponent;
+        component.value = markRaw(newComponent);
         props.value = newProps;
     };
 

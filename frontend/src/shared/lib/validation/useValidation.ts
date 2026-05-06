@@ -3,15 +3,27 @@ import {z, type ZodError, type ZodType} from "zod";
 import {set, get} from "lodash";
 import {debounce} from "@/shared/lib/debounce";
 import type {ErrorMessage} from "@/shared/model";
-import {i18n} from "@/shared/i18n";
+import {codeToKey, i18n} from "@/shared/i18n";
 import {walkObject} from "@/shared/lib/walkObject";
+import type {Composer} from "vue-i18n";
+import type {DomainErrorCode, UserInputErrorCode} from "@/shared/config";
+import {type ErrorResponse} from "@/shared/api";
 
-type ValidationOptions = {
-    mode: "lazy",
+type DelayOptions = {
+    mode: "lazy"
 } | {
     mode: "eager",
     delay: number;
 }
+
+type TranslationOptions = {
+    t?: Composer["t"];
+    tOptions?: {
+        formError: Partial<Record<DomainErrorCode, Record<string, unknown>>>
+    } & Record<string, Partial<Record<UserInputErrorCode, Record<string, unknown>>>>
+}
+
+type ValidationOptions = DelayOptions & TranslationOptions;
 
 export const useValidation = <Schema extends ZodType>(
     data: Ref<z.infer<Schema>>,
@@ -26,28 +38,44 @@ export const useValidation = <Schema extends ZodType>(
 
     const isValid = ref(false);
 
-    const errors = ref(new Map<string, string[]>());
+    const clientErrors = ref(new Map<string, string>());
+    const serverErrors = ref(new Map<string, string>());
+    const formError = ref<string | null>(null);
 
     const createErrorsMap = (error: ZodError) => {
-        const errorsMap = new Map<string, string[]>();
+        const errorsMap = new Map<string, string>();
         for (const issue of error.issues) {
-            const path = issue.path.map(String);
-            const key = path.join(".");
+            const path = issue.path.map(String).join(".");
 
-            const keyErrors = errorsMap.get(key);
-            if (keyErrors) {
-                keyErrors.push(issue.message);
-            } else {
-                errorsMap.set(key, [issue.message]);
+            const pathErrors = errorsMap.get(path);
+            if (!pathErrors) {
+                errorsMap.set(path, issue.message);
             }
         }
         return errorsMap;
-    }
-    const getFirstError = (path: string): ErrorMessage => {
-        return errors.value.get(path)?.[0] ?? null;
     };
 
-    const clearErrors = () => errors.value.clear();
+    const getError = (path: string): ErrorMessage => {
+        const clientError = clientErrors.value.get(path) ?? null;
+        if (clientError) return clientError;
+        const serverError = serverErrors.value.get(path) ?? null;
+        if (serverError) return serverError;
+        return null;
+    };
+
+    const getFormError = () => {
+        return formError.value;
+    };
+
+    const clearClientErrors = () => clientErrors.value.clear();
+    const clearServerErrors = () => serverErrors.value.clear();
+    const clearFormError = () => formError.value = null;
+
+    const clearErrors = () => {
+        clearClientErrors();
+        clearServerErrors();
+        clearFormError();
+    };
 
     const touched = ref<Record<string, boolean>>({});
 
@@ -74,17 +102,57 @@ export const useValidation = <Schema extends ZodType>(
     const parseSchema = async () =>
         await toValue(schema).safeParseAsync(data.value);
 
-    const validate = async () => {
+    const clientValidate = async () => {
+        clearErrors();
+
         const result = await parseSchema();
         isValid.value = result.success;
 
+
         if (result.error) {
-            errors.value = createErrorsMap(result.error);
+            clientErrors.value = createErrorsMap(result.error);
             return null;
         }
-
-        errors.value.clear();
         return result.data;
+    };
+
+    const serverValidate = async (errorRes: ErrorResponse) => {
+        clearErrors();
+        switch (errorRes.statusCode) {
+            case 409:
+            case 422: {
+                for (const {path, code} of errorRes.error.details) {
+                    if (!options?.t) {
+                        serverErrors.value.set(path, code);
+                        continue;
+                    }
+
+                    const tOptions = options.tOptions?.[path]?.[code];
+                    if (tOptions) {
+                        serverErrors.value.set(path, options.t(codeToKey(code), tOptions));
+                        continue;
+                    }
+
+                    serverErrors.value.set(path, options.t(codeToKey(code)));
+                }
+                break;
+            }
+            default: {
+                if (!options?.t) {
+                    formError.value = errorRes.error.code;
+                    break;
+                }
+
+                const tOptions = options.tOptions?.formError?.[errorRes.error.code];
+                if (tOptions) {
+                    formError.value = options.t(codeToKey(errorRes.error.code), tOptions);
+                    break;
+                }
+
+                formError.value = options.t(codeToKey(errorRes.error.code));
+                break;
+            }
+        }
     };
 
     const reset = () => {
@@ -103,26 +171,29 @@ export const useValidation = <Schema extends ZodType>(
     };
 
     if (optionsWithDefaults.mode == "eager") {
-        const validateDebounced = debounce(validate, optionsWithDefaults.delay);
+        const validateDebounced = debounce(clientValidate, optionsWithDefaults.delay);
         startWatching(validateDebounced);
     }
 
-    validate()
+    clientValidate()
         .catch(() => {
         });
 
-    watch(i18n.global.locale, () => validate());
+    watch(i18n.global.locale, () => clientValidate());
 
     return {
         isValid,
-        errors,
-        getFirstError,
+        getError,
+        getFormError,
+        clearClientErrors,
+        clearServerErrors,
         clearErrors,
         isFieldTouched,
         isFormTouched,
         touch,
         touchAll,
-        validate,
+        clientValidate,
+        serverValidate,
         reset,
     };
 };

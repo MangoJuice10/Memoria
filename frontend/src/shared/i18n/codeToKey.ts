@@ -3,9 +3,10 @@ import type {ErrorCode} from "@/shared/config";
 const baseDomainErrorKey = "errors.domain";
 const baseUserInputErrorKey = `${baseDomainErrorKey}.validation.details`;
 
-export const codesToMessages: Record<ErrorCode, string> = {
-    VALIDATION: `${baseDomainErrorKey}.validation`,
-    NOT_FOUND: `${baseDomainErrorKey}.not-found`,
+export const codesToKeys: Record<ErrorCode, string> = {
+    VALIDATION_ERROR: `${baseDomainErrorKey}.validation.name`,
+    NOT_FOUND_ERROR: `${baseDomainErrorKey}.not-found.name`,
+    UNAUTHORIZED: `${baseDomainErrorKey}.unauthorized.name`,
     REQUIRED: `${baseUserInputErrorKey}.required`,
     EMAIL: `${baseUserInputErrorKey}.email`,
     EMAIL_ALREADY_EXISTS: `${baseUserInputErrorKey}.email-already-exists`,
@@ -18,5 +19,5 @@ export const codesToMessages: Record<ErrorCode, string> = {
 };
 
 export function codeToKey(code: ErrorCode) {
-    return codesToMessages[code];
+    return codesToKeys[code] ?? "Error";
 }

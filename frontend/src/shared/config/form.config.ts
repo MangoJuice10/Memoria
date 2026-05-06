@@ -4,14 +4,14 @@ const titleKey = "title";
 const placeholderKey = "placeholder";
 
 export type FormTitle =
-    | "username"
-    | "email"
-    | "password"
-    | "newUsername"
-    | "newEmail"
-    | "oldPassword"
-    | "newPassword"
-    | "confirmPassword";
+    | "USERNAME"
+    | "EMAIL"
+    | "PASSWORD"
+    | "NEW_USERNAME"
+    | "NEW_EMAIL"
+    | "OLD_PASSWORD"
+    | "NEW_PASSWORD"
+    | "CONFIRM_PASSWORD";
 
 export type FormField = {
     title: string;
@@ -19,35 +19,35 @@ export type FormField = {
 }
 
 export const FormFields: Record<FormTitle, FormField> = {
-    username: {
+    USERNAME: {
         title: `${baseKey}.username.${titleKey}`,
         placeholder: `${baseKey}.username.${placeholderKey}`
     },
-    email: {
+    EMAIL: {
         title: `${baseKey}.email.${titleKey}`,
         placeholder: `${baseKey}.email.${placeholderKey}`
     },
-    password: {
+    PASSWORD: {
         title: `${baseKey}.password.${titleKey}`,
         placeholder: `${baseKey}.password.${placeholderKey}`
     },
-    newUsername: {
+    NEW_USERNAME: {
         title: `${baseKey}.newUsername.${titleKey}`,
         placeholder: `${baseKey}.newUsername.${placeholderKey}`
     },
-    newEmail: {
+    NEW_EMAIL: {
         title: `${baseKey}.newEmail.${titleKey}`,
         placeholder: `${baseKey}.newEmail.${placeholderKey}`
     },
-    oldPassword: {
+    OLD_PASSWORD: {
         title: `${baseKey}.old-password.${titleKey}`,
         placeholder: `${baseKey}.old-password.${placeholderKey}`
     },
-    newPassword: {
+    NEW_PASSWORD: {
         title: `${baseKey}.new-password.${titleKey}`,
         placeholder: `${baseKey}.new-password.${placeholderKey}`
     },
-    confirmPassword: {
+    CONFIRM_PASSWORD: {
         title: `${baseKey}.confirm-password.${titleKey}`,
         placeholder: `${baseKey}.confirm-password.${placeholderKey}`
     },

@@ -5,10 +5,9 @@ import {useValidation} from "@/shared/lib";
 import {createUpdateMeSchema, type UpdateMeDto} from "@/shared/model";
 import {Form, FormField} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {FormFields, type UserInputErrorCode} from "@/shared/config";
-import {codeToKey} from "@/shared/i18n";
-import type {ErrorResponse} from "@/shared/api";
+import {domainErrorCodes, FormFields, userInputErrorCodes} from "@/shared/config";
 import axios from "axios";
+import type {ErrorResponse} from "@/shared/api";
 
 const {t} = useI18n();
 
@@ -22,21 +21,48 @@ const data = ref<UpdateMeDto>({
   confirmPassword: undefined,
 });
 
+const tOptions = {
+  formError: {
+    [domainErrorCodes.NOT_FOUND_ERROR.name]: {
+      resourceName: "User"
+    }
+  },
+  newUsername: {
+    [userInputErrorCodes.MIN_LENGTH]: {
+      n: 2,
+      fieldName: t(FormFields.NEW_USERNAME.title)
+    }
+  },
+  newEmail: {
+    [userInputErrorCodes.EMAIL]: {
+      fieldName: t(FormFields.NEW_EMAIL.title)
+    }
+  },
+  newPassword: {
+    [userInputErrorCodes.MIN_LENGTH]: {
+      n: 8,
+      fieldName: t(FormFields.NEW_PASSWORD.title)
+    }
+  }
+};
+
 const {
   isValid,
-  getFirstError,
+  getError,
+  getFormError,
   isFieldTouched,
   isFormTouched,
   touch,
   touchAll,
-  validate,
+  clientValidate,
+  serverValidate,
   reset
 } = useValidation(data, createUpdateMeSchema(t), {
   mode: "eager",
-  delay: 300
+  delay: 300,
+  t,
+  tOptions
 });
-
-const serverErrors = ref(new Map<string, UserInputErrorCode>());
 
 const isSubmitEnabled = computed(() => isFormTouched() && isValid.value);
 
@@ -47,39 +73,27 @@ const touchPasswordFields = () => {
 };
 
 const submit = async () => {
-  const validatedData = await validate();
+  touchAll();
+
+  const validatedData = await clientValidate();
   if (!validatedData) return;
+
   try {
     await updateMe(validatedData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
-      if (body.statusCode === 409 || body.statusCode === 422) {
-        for (const {path, code} of body.error.details) {
-          serverErrors.value.set(path, code);
-        }
-      }
+      await serverValidate(body);
     }
   }
-  touchAll();
-};
-
-const getError = (path: string) => {
-  const clientError = getFirstError(path);
-  if (clientError) return clientError;
-
-  const serverErrorCode = serverErrors.value.get(path);
-  if (serverErrorCode) return t(codeToKey(serverErrorCode));
 };
 </script>
 
 <template>
   <Form
-      form-error=""
+      :form-error="getFormError()"
       :is-submit-enabled="isSubmitEnabled"
       :is-reset-enabled="true"
-      submit-classes=""
-      reset-classes=""
       @submit="submit"
       @reset="reset">
     <template #heading-content>
@@ -89,56 +103,56 @@ const getError = (path: string) => {
     <template #fields>
       <FormField id="username"
                  v-model="data.newUsername"
-                 :label="$t(FormFields.newUsername.title)"
-                 :placeholder="$t(FormFields.newUsername.placeholder)"
+                 :label="$t(FormFields.NEW_USERNAME.title)"
+                 :placeholder="$t(FormFields.NEW_USERNAME.placeholder)"
                  :touched="isFieldTouched('newUsername')"
-                 :error="getFirstError('newUsername')"
+                 :error="getError('newUsername')"
                  @blur="() => {
                         touch('newUsername');
-                        validate();
+                        clientValidate();
                       }"/>
       <FormField id="email"
                  v-model="data.newEmail"
-                 :label="$t(FormFields.newEmail.title)"
-                 :placeholder="$t(FormFields.newEmail.placeholder)"
+                 :label="$t(FormFields.NEW_EMAIL.title)"
+                 :placeholder="$t(FormFields.NEW_EMAIL.placeholder)"
                  :touched="isFieldTouched('newEmail')"
                  :error="getError('newEmail')"
                  @blur="() => {
                         touch('newEmail');
-                        validate();
+                        clientValidate();
                         }"/>
 
       <FormField id="oldPassword"
                  v-model="data.oldPassword"
-                 :label="$t(FormFields.oldPassword.title)"
-                 :placeholder="$t(FormFields.oldPassword.placeholder)"
+                 :label="$t(FormFields.OLD_PASSWORD.title)"
+                 :placeholder="$t(FormFields.OLD_PASSWORD.placeholder)"
                  :touched="isFieldTouched('oldPassword')"
-                 :error="getFirstError('oldPassword')"
+                 :error="getError('oldPassword')"
                  @blur="() => {
                         touchPasswordFields();
-                        validate();
+                        clientValidate();
                         }"/>
 
       <FormField id="newPassword"
                  v-model="data.newPassword"
-                 :label="$t(FormFields.newPassword.title)"
-                 :placeholder="$t(FormFields.newPassword.placeholder)"
+                 :label="$t(FormFields.NEW_PASSWORD.title)"
+                 :placeholder="$t(FormFields.NEW_PASSWORD.placeholder)"
                  :touched="isFieldTouched('newPassword')"
-                 :error="getFirstError('newPassword')"
+                 :error="getError('newPassword')"
                  @blur="() => {
                         touchPasswordFields();
-                        validate();
+                        clientValidate();
                         }"/>
 
       <FormField id="confirmPassword"
                  v-model="data.confirmPassword"
-                 :label="$t(FormFields.confirmPassword.title)"
-                 :placeholder="$t(FormFields.confirmPassword.placeholder)"
+                 :label="$t(FormFields.CONFIRM_PASSWORD.title)"
+                 :placeholder="$t(FormFields.CONFIRM_PASSWORD.placeholder)"
                  :touched="isFieldTouched('confirmPassword')"
-                 :error="getFirstError('confirmPassword')"
+                 :error="getError('confirmPassword')"
                  @blur="() => {
                         touchPasswordFields();
-                        validate();
+                        clientValidate();
                         }"/>
     </template>
   </Form>

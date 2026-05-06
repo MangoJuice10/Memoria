@@ -6,8 +6,9 @@ defineProps<{
   formError: ErrorMessage;
   isSubmitEnabled: boolean;
   isResetEnabled: boolean;
-  submitClasses: string;
-  resetClasses: string;
+  formErrorClasses?: string;
+  submitClasses?: string;
+  resetClasses?: string;
 }>();
 
 defineEmits<{
@@ -28,8 +29,8 @@ defineEmits<{
         </h2>
       </div>
       <Error :error="formError"
-             class="mb-5"
-             data-testid="auth-error"/>
+             class="mb-2"
+             :class="formErrorClasses"/>
     </div>
     <slot name="fields"/>
     <div class="flex justify-between items-center">

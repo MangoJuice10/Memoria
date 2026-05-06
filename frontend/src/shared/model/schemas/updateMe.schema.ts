@@ -11,7 +11,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             z.string()
                 .min(2, {
                     error: () => t(codeToKey(userInputErrorCodes.MIN_LENGTH), {
-                        fieldName: t(FormFields.newUsername.title),
+                        fieldName: t(FormFields.NEW_USERNAME.title),
                         n: 2
                     })
                 })
@@ -22,12 +22,12 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             z.string()
                 .email({
                     error: () => t(codeToKey(userInputErrorCodes.EMAIL), {
-                        fieldName: t(FormFields.newEmail.title)
+                        fieldName: t(FormFields.NEW_EMAIL.title)
                     })
                 })
                 .min(8, {
                     error: () => t(codeToKey(userInputErrorCodes.MIN_LENGTH), {
-                        fieldName: t(FormFields.newEmail.title),
+                        fieldName: t(FormFields.NEW_EMAIL.title),
                         n: 8,
                     })
                 })
@@ -43,7 +43,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             z.string()
                 .min(8, {
                     error: () => t(codeToKey(userInputErrorCodes.MIN_LENGTH), {
-                        fieldName: t(FormFields.newPassword.title),
+                        fieldName: t(FormFields.NEW_PASSWORD.title),
                         n: 8
                     })
                 })
@@ -63,7 +63,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
         }, {
             path: ["oldPassword"],
             error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                fieldName: t(FormFields.oldPassword.title),
+                fieldName: t(FormFields.OLD_PASSWORD.title),
                 n: 8
             })
         })
@@ -75,7 +75,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
         }, {
             path: ["newPassword"],
             error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                fieldName: t(FormFields.newPassword.title),
+                fieldName: t(FormFields.NEW_PASSWORD.title),
                 n: 8
             })
         })
@@ -87,8 +87,19 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
         }, {
             path: ["confirmPassword"],
             error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                fieldName: t(FormFields.confirmPassword.title),
+                fieldName: t(FormFields.CONFIRM_PASSWORD.title),
                 n: 8
+            })
+        })
+        .refine(({oldPassword, newPassword, confirmPassword}) => {
+            const isChangingPassword = oldPassword || newPassword || confirmPassword;
+
+            if (isChangingPassword && oldPassword === newPassword) return false;
+            return true;
+        }, {
+            path: ["newPassword"],
+            error: () => t(codeToKey(userInputErrorCodes.DUPLICATE_PASSWORD), {
+                fieldName: t(FormFields.NEW_PASSWORD.title)
             })
         })
         .refine(({newPassword, confirmPassword}) => {
@@ -97,7 +108,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
         }, {
             path: ["confirmPassword"],
             error: () => t(codeToKey(userInputErrorCodes.CONFIRM_PASSWORD), {
-                fieldName: t(FormFields.confirmPassword.title),
+                fieldName: t(FormFields.CONFIRM_PASSWORD.title),
                 n: 8
             })
         });

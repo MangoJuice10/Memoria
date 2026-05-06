@@ -8,35 +8,35 @@ export const createRegisterSchema = (t: Composer["t"]) => {
         username: z.string()
             .nonempty({
                 error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.username.title),
+                    fieldName: t(FormFields.USERNAME.title),
                 }),
             })
             .min(2, {
                 error: () => t(codeToKey(userInputErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.username.title),
+                    fieldName: t(FormFields.USERNAME.title),
                     n: 2
                 })
             }),
         email: z.string()
             .nonempty({
                 error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.email.title)
+                    fieldName: t(FormFields.EMAIL.title)
                 })
             })
             .email({
                 error: () => t(codeToKey(userInputErrorCodes.EMAIL), {
-                    fieldName: t(FormFields.email.placeholder)
+                    fieldName: t(FormFields.EMAIL.placeholder)
                 })
             }),
         password: z.string()
             .nonempty({
                 error: () => t(codeToKey(userInputErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.password.title)
+                    fieldName: t(FormFields.PASSWORD.title)
                 })
             })
             .min(8, {
                 error: () => t(codeToKey(userInputErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.password.placeholder),
+                    fieldName: t(FormFields.PASSWORD.placeholder),
                     n: 8
                 })
             }),

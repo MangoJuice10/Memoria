@@ -1,6 +1,6 @@
 export const domainErrorCodes = {
-    VALIDATION: {
-        name: "VALIDATION",
+    VALIDATION_ERROR: {
+        name: "VALIDATION_ERROR",
         details: {
             REQUIRED: "REQUIRED",
             EMAIL: "EMAIL",
@@ -13,8 +13,11 @@ export const domainErrorCodes = {
             UNRECOGNIZED: "UNRECOGNIZED",
         } as const,
     },
-    NOT_FOUND: {
-        name: "NOT_FOUND",
+    UNAUTHORIZED: {
+        name: "UNAUTHORIZED",
+    },
+    NOT_FOUND_ERROR: {
+        name: "NOT_FOUND_ERROR",
     },
 } as const;
 
@@ -26,7 +29,7 @@ export const isDomainErrorCode = (value: unknown): value is DomainErrorCode => {
     );
 };
 
-export const userInputErrorCodes = domainErrorCodes.VALIDATION.details;
+export const userInputErrorCodes = domainErrorCodes.VALIDATION_ERROR.details;
 
 export type UserInputErrorCode = keyof typeof userInputErrorCodes;
 
