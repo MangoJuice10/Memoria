@@ -26,30 +26,30 @@ model User {
   @@map("users")
 }
 
-model Flashcard {
-  id        Int      @id @default(autoincrement())
-  front     String
-  back      String
-  deckID    Int      @map("deck_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  deck Deck @relation(fields: [deckID], references: [id], onUpdate: Cascade, onDelete: Cascade)
-
-  @@map("flashcards")
-}
-
 model Deck {
   id          Int      @id @default(autoincrement())
   name        String
   description String
   isPublic    Boolean  @default(false) @map("is_public")
-  userID      Int      @map("user_id")
+  userId      Int      @map("user_id")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  user       User        @relation(fields: [userID], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   flashcards Flashcard[]
 
   @@map("decks")
+}
+
+model Flashcard {
+  id        Int      @id @default(autoincrement())
+  front     String
+  back      String
+  deckId    Int      @map("deck_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deck Deck @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("flashcards")
 }
