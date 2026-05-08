@@ -230,7 +230,7 @@ describe("/users E2E", () => {
         ).toBeDefined();
       });
 
-      it("should fail to update the password with the 422 Unauthorized Status Code", async () => {
+      it("should fail to update the password with a 422 Unauthorized status code", async () => {
         const oldPassword = "invalidpassword";
         const newPassword = "newpassword";
         const confirmPassword = "newpassword";
