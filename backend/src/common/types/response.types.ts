@@ -1,23 +1,27 @@
-import { DomainErrorCode, UserInputErrorCode } from "src/common/constants";
+import { ValidationErrorCode } from "src/common/constants";
+import { ErrorCode } from "src/common/constants";
+
+export type SupportedSuccessStatusCodes = 200 | 201;
+export type SupportedErrorStatusCodes = 400 | 401 | 403 | 404 | 409 | 422 | 500;
 
 export type SuccessResponse<T> = {
   status: "success";
-  statusCode: 200 | 201;
+  statusCode: SupportedSuccessStatusCodes;
   data: T;
 };
 
 export type ErrorDetail = {
   path: string;
-  code: UserInputErrorCode;
+  code: ValidationErrorCode;
   message: string;
 };
 
 export type ErrorResponse =
   | {
       status: "error";
-      statusCode: 400 | 401 | 403 | 404;
+      statusCode: Exclude<SupportedErrorStatusCodes, 409 | 422>;
       error: {
-        code: DomainErrorCode;
+        code: ErrorCode;
         message: string;
       };
     }
@@ -25,9 +29,9 @@ export type ErrorResponse =
       status: "error";
       statusCode: 409 | 422;
       error: {
-        code: DomainErrorCode;
+        code: ErrorCode;
         message: string;
-        details: Array<ErrorDetail>;
+        details?: Array<ErrorDetail>;
       };
     };
 

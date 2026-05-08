@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { userInputErrorCodes } from "src/common/constants/error-codes.constants";
+import { validationErrorCodes } from "src/common/constants";
 
 const rawUpdateUserSchema = z
   .object({
     newUsername: z.string().min(2).optional(),
     newEmail: z
       .email({
-        message: userInputErrorCodes.EMAIL,
+        message: validationErrorCodes.EMAIL,
       })
       .optional(),
     oldPassword: z.string().optional(),
@@ -22,7 +22,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["oldPassword"],
-      error: userInputErrorCodes.REQUIRED,
+      error: validationErrorCodes.REQUIRED,
     },
   )
   .refine(
@@ -34,7 +34,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["newPassword"],
-      error: userInputErrorCodes.REQUIRED,
+      error: validationErrorCodes.REQUIRED,
     },
   )
   .refine(
@@ -46,7 +46,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["confirmPassword"],
-      error: userInputErrorCodes.REQUIRED,
+      error: validationErrorCodes.REQUIRED,
     },
   )
   .refine(
@@ -56,7 +56,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["newPassword"],
-      error: userInputErrorCodes.DUPLICATE_PASSWORD,
+      error: validationErrorCodes.DUPLICATE_PASSWORD,
     },
   )
   .refine(
@@ -66,7 +66,7 @@ const rawUpdateUserSchema = z
     },
     {
       path: ["confirmPassword"],
-      error: userInputErrorCodes.CONFIRM_PASSWORD,
+      error: validationErrorCodes.CONFIRM_PASSWORD,
     },
   );
 

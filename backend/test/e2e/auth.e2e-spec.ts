@@ -49,7 +49,7 @@ describe("/auth E2E", () => {
 
     it("should register", async () => {
       const res = await helpers.register().expect(201);
-      expect(res.body).toHaveProperty("accessToken");
+      expect(res.body.data).toHaveProperty("accessToken");
       expect(res.headers["set-cookie"]).toBeDefined();
     });
   });
@@ -77,7 +77,7 @@ describe("/auth E2E", () => {
 
     it("should login", async () => {
       const res = await helpers.login().expect(200);
-      expect(res.body).toHaveProperty("accessToken");
+      expect(res.body.data).toHaveProperty("accessToken");
       expect(res.headers["set-cookie"]).toBeDefined();
     });
   });
@@ -91,7 +91,7 @@ describe("/auth E2E", () => {
           Cookie: refreshTokenCookie,
         })
         .expect(200);
-      expect(res.body).toHaveProperty("accessToken");
+      expect(res.body.data).toHaveProperty("accessToken");
       expect(res.headers["set-cookie"]).toBeDefined();
     });
   });

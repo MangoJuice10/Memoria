@@ -1,1 +1,7 @@
-export type { ErrorDetail, ErrorResponse } from "./response.types";
+export type {
+  SupportedSuccessStatusCodes,
+  SupportedErrorStatusCodes,
+  SuccessResponse,
+  ErrorDetail,
+  ErrorResponse,
+} from "./response.types";

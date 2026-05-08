@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UpdateUserDto } from "src/user/schemas";
 import { AuthService } from "src/auth/services/auth.service";
 import { EmailAlreadyExistsError, InvalidPasswordError, UserNotFoundError } from "src/user/errors";
 import { User } from "@prisma/client";
-import { userInputErrorCodes } from "src/common/constants";
+import { validationErrorCodes } from "src/common/constants";
 
 @Injectable()
 export class UserService {
@@ -57,7 +57,7 @@ export class UserService {
         throw new EmailAlreadyExistsError([
           {
             path: "newEmail",
-            code: userInputErrorCodes.EMAIL_ALREADY_EXISTS,
+            code: validationErrorCodes.EMAIL_ALREADY_EXISTS,
             message: "Email already exists",
           },
         ]);
@@ -71,7 +71,7 @@ export class UserService {
         throw new InvalidPasswordError([
           {
             path: "oldPassword",
-            code: userInputErrorCodes.INVALID_PASSWORD,
+            code: validationErrorCodes.INVALID_PASSWORD,
             message: "The password is invalid",
           },
         ]);

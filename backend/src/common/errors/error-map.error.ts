@@ -1,16 +1,18 @@
 import { ZodIssue } from "zod";
-import { userInputErrorCodes } from "src/common/constants";
+import { validationErrorCodes } from "src/common/constants";
 
 export function errorMap(issue: any) {
   switch ((issue as ZodIssue).code) {
-    case "invalid_type":
-      return userInputErrorCodes.REQUIRED;
+    case "invalid_type": {
+      if (issue.input) return validationErrorCodes.INVALID_TYPE;
+      return validationErrorCodes.REQUIRED;
+    }
     case "unrecognized_keys":
-      return userInputErrorCodes.UNRECOGNIZED;
+      return validationErrorCodes.UNRECOGNIZED;
     case "too_small":
-      return userInputErrorCodes.MIN_LENGTH;
+      return validationErrorCodes.MIN_LENGTH;
     case "too_big":
-      return userInputErrorCodes.MAX_LENGTH;
+      return validationErrorCodes.MAX_LENGTH;
 
     default:
       return undefined;

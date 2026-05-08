@@ -1,8 +1,15 @@
 export {
-  userInputErrorCodes,
+  httpExceptionErrorCodes,
+  validationErrorCodes,
+  notFoundErrorCodes,
+  forbiddenErrorCodes,
   domainErrorCodes,
-  type UserInputErrorCode,
+  type HttpExceptionErrorCode,
+  type ValidationErrorCode,
+  type NotFoundErrorCode,
+  type ForbiddenErrorCode,
   type DomainErrorCode,
-  isUserInputErrorCode,
+  type ErrorCode,
+  isValidationErrorCode,
   isDomainErrorCode,
-} from "src/common/constants/error-codes.constants";
+} from "./error-codes.constants";

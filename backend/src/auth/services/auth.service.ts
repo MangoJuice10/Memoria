@@ -6,7 +6,7 @@ import { ConfigService } from "@nestjs/config";
 import { RegisterDto } from "../schemas";
 import { JwtPayload, Tokens } from "../types";
 import { EmailAlreadyExistsError } from "src/user/errors";
-import { userInputErrorCodes } from "src/common/constants";
+import { validationErrorCodes } from "src/common/constants";
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
       throw new EmailAlreadyExistsError([
         {
           path: "email",
-          code: userInputErrorCodes.EMAIL_ALREADY_EXISTS,
+          code: validationErrorCodes.EMAIL_ALREADY_EXISTS,
           message: "Email already exists",
         },
       ]);

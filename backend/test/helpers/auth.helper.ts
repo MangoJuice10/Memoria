@@ -16,7 +16,7 @@ export function createAuthHelpers(
   };
 
   const retrieveAccessToken = (res: request.Response) => {
-    return res.body.accessToken as string;
+    return res.body.data.accessToken as string;
   };
 
   const retrieveRefreshTokenCookie = (res: request.Response) => {

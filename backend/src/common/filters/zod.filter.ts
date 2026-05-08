@@ -2,7 +2,7 @@ import { Catch, ExceptionFilter, ArgumentsHost, HttpStatus } from "@nestjs/commo
 import { Response } from "express";
 import { ZodError } from "zod";
 import { ErrorDetail, ErrorResponse } from "src/common/types";
-import { isUserInputErrorCode } from "src/common/constants";
+import { isValidationErrorCode } from "src/common/constants";
 
 @Catch(ZodError)
 export class ZodFilter implements ExceptionFilter {
@@ -13,7 +13,7 @@ export class ZodFilter implements ExceptionFilter {
 
     const errorsMap = new Map<string, ErrorDetail>();
     for (const issue of exception.issues) {
-      if (!isUserInputErrorCode(issue.message)) continue;
+      if (!isValidationErrorCode(issue.message)) continue;
 
       const path = issue.path.map(String).join(".");
 

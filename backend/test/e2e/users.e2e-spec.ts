@@ -76,7 +76,7 @@ describe("/users E2E", () => {
           })
           .send(updateUserDto)
           .expect(200);
-        expect(res.body.username).toEqual(newUsername);
+        expect(res.body.data.username).toEqual(newUsername);
       });
 
       it("should fail to update username", async () => {
@@ -109,7 +109,7 @@ describe("/users E2E", () => {
           })
           .send(updateUserDto)
           .expect(200);
-        expect(res.body.email).toEqual(newEmail);
+        expect(res.body.data.email).toEqual(newEmail);
       });
 
       it("should fail to update email with a 422 Unprocessable Entity status code", async () => {
