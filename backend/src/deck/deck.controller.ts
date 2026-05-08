@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { User } from "src/auth/decorators";
 import { DeckService } from "src/deck/deck.service";
-import { createDeckSchema, type CreateDeckDto } from "src/deck/schemas/createDeck.schema";
+import { createDeckSchema, type CreateDeckDto } from "src/deck/schemas/create-deck.schema";
 import { ZodValidationPipe } from "src/common";
 import { UpdateDeckDto, updateDeckSchema } from "src/deck/schemas";
 import { DeckOwnershipGuard } from "src/deck/guards/deck-ownership.guard";
@@ -36,27 +36,27 @@ export class DeckController {
     return this.deckService.findAll(userId);
   }
 
-  @Get(":id")
+  @Get(":deckId")
   @HttpCode(200)
   @UseGuards(DeckOwnershipGuard)
-  async findOne(@Param("id", new ParseIntPipe()) deckId: number) {
+  async findOne(@Param("deckId", new ParseIntPipe()) deckId: number) {
     return this.deckService.findOne(deckId);
   }
 
-  @Patch(":id")
+  @Patch(":deckId")
   @HttpCode(200)
   @UseGuards(DeckOwnershipGuard)
   async update(
-    @Param("id", new ParseIntPipe()) deckId: number,
+    @Param("deckId", new ParseIntPipe()) deckId: number,
     @Body(new ZodValidationPipe(updateDeckSchema)) updateDeckDto: UpdateDeckDto,
   ) {
     return this.deckService.update(deckId, updateDeckDto);
   }
 
-  @Delete(":id")
+  @Delete(":deckId")
   @HttpCode(204)
   @UseGuards(DeckOwnershipGuard)
-  async remove(@Param("id", new ParseIntPipe()) deckId: number) {
-    return this.deckService.remove(deckId);
+  async remove(@Param("deckId", new ParseIntPipe()) deckId: number) {
+    await this.deckService.remove(deckId);
   }
 }

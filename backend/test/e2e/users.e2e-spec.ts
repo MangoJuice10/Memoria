@@ -1,16 +1,15 @@
 import request from "supertest";
 import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
-import { createAuthHelpers } from "test/helpers/auth.helper";
-import { createAuthFixtures } from "test/fixtures/auth.fixture";
+import { createAuthHelpers } from "test/helpers/auth/auth.helper";
+import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
 import { UpdateUserDto } from "src/user/schemas";
 import { ErrorDetail } from "src/common/types";
+import { defaultAuthData } from "test/fixtures/auth/auth.data";
 
 describe("/users E2E", () => {
   let testingApp: TestingApp;
 
-  const username = "username";
-  const email = "email@example.com";
-  const password = "password";
+  const { username, email, password } = defaultAuthData;
 
   const { createRegisterDto, createLoginDto } = createAuthFixtures(username, email, password);
   let helpers: ReturnType<typeof createAuthHelpers>;

@@ -4,7 +4,7 @@ import { AuthenticatedUser } from "src/auth/types";
 
 type DeckRequest = {
   params: {
-    id: string;
+    deckId: string;
   };
   user: AuthenticatedUser;
 };
@@ -16,7 +16,7 @@ export class DeckOwnershipGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<DeckRequest>();
 
-    await this.deckService.assertOwnership(request.user.id, Number(request.params.id));
+    await this.deckService.assertOwnership(request.user.id, Number(request.params.deckId));
 
     return true;
   }

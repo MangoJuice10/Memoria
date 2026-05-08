@@ -1,7 +1,7 @@
 import request from "supertest";
 import { INestApplication } from "@nestjs/common";
 import { CreateDeckDto, UpdateDeckDto } from "src/deck/schemas";
-import { setAccessToken } from "./setAccessToken.helper";
+import { setAccessToken } from "test/helpers/setAccessToken.helper";
 
 export function createDecksHelpers(
   httpServer: ReturnType<INestApplication["getHttpServer"]>,

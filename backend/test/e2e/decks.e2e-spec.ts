@@ -1,25 +1,20 @@
 import request from "supertest";
 import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
-import { createAuthHelpers } from "test/helpers/auth.helper";
-import { createAuthFixtures } from "test/fixtures/auth.fixture";
-import { createDecksHelpers } from "test/helpers/decks.helper";
-import { createDecksFixtures } from "test/fixtures/decks.fixture";
+import { createAuthHelpers } from "test/helpers/auth/auth.helper";
+import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
+import { createDecksHelpers } from "test/helpers/decks/decks.helper";
+import { createDecksFixtures } from "test/fixtures/decks/decks.fixture";
 import { setAccessToken } from "test/helpers/setAccessToken.helper";
+import { defaultAuthData } from "test/fixtures/auth/auth.data";
+import { defaultDecksData, newDecksData } from "test/fixtures/decks/decks.data";
 
 describe("Deck", () => {
   let testingApp: TestingApp;
   let authHelpers: ReturnType<typeof createAuthHelpers>;
   let decksHelpers: ReturnType<typeof createDecksHelpers>;
 
-  const username = "User";
-  const email = "user@example.com";
-  const password = "userPassword";
-
-  const otherEmail = "otheruser@example.com";
-
-  const name = "Deck name";
-  const description = "Deck's description";
-  const isPublic = true;
+  const { username, email, password, otherEmail } = defaultAuthData;
+  const { name, description, isPublic } = defaultDecksData;
 
   let accessToken: string;
   let otherAccessToken: string;
@@ -63,6 +58,21 @@ describe("Deck", () => {
     });
   });
 
+  describe("Get all decks", () => {
+    it("should get all decks", async () => {
+      const DECKS_NUM = 10;
+      for (let i = 0; i < DECKS_NUM; i++) {
+        await decksHelpers.create(accessToken);
+      }
+
+      const res = await setAccessToken(
+        request(testingApp.httpServer).get("/decks"),
+        accessToken,
+      ).expect(200);
+      expect(res.body.data).toHaveLength(DECKS_NUM);
+    });
+  });
+
   describe("Get deck by id", () => {
     it("should get one deck", async () => {
       const {
@@ -85,30 +95,13 @@ describe("Deck", () => {
         },
       } = await decksHelpers.create(otherAccessToken);
 
-      await decksHelpers.findOne(id, otherAccessToken).expect(200);
       await decksHelpers.findOne(id, accessToken).expect(404);
-    });
-  });
-
-  describe("Get all decks", () => {
-    it("should get all decks", async () => {
-      const DECKS_NUM = 10;
-      for (let i = 0; i < DECKS_NUM; i++) {
-        await decksHelpers.create(accessToken);
-      }
-
-      const res = await setAccessToken(
-        request(testingApp.httpServer).get("/decks"),
-        accessToken,
-      ).expect(200);
-      expect(res.body.data).toHaveLength(DECKS_NUM);
+      await decksHelpers.findOne(id, otherAccessToken).expect(200);
     });
   });
 
   describe("Update deck by id", () => {
-    const newName = "New deck name";
-    const newDescription = "New deck's description";
-    const newIsPublic = false;
+    const { newName, newDescription, newIsPublic } = newDecksData;
 
     it("should update the deck", async () => {
       const {
@@ -139,14 +132,6 @@ describe("Deck", () => {
         },
       } = await decksHelpers.create(otherAccessToken);
 
-      await setAccessToken(request(testingApp.httpServer).patch(`/decks/${id}`), otherAccessToken)
-        .send({
-          name: newName,
-          description: newDescription,
-          isPublic: newIsPublic,
-        })
-        .expect(200);
-
       await setAccessToken(request(testingApp.httpServer).patch(`/decks/${id}`), accessToken)
         .send({
           name: newName,
@@ -154,6 +139,14 @@ describe("Deck", () => {
           isPublic: newIsPublic,
         })
         .expect(404);
+
+      await setAccessToken(request(testingApp.httpServer).patch(`/decks/${id}`), otherAccessToken)
+        .send({
+          name: newName,
+          description: newDescription,
+          isPublic: newIsPublic,
+        })
+        .expect(200);
     });
   });
 
@@ -191,13 +184,13 @@ describe("Deck", () => {
 
       await setAccessToken(
         request(testingApp.httpServer).delete(`/decks/${id}`),
-        otherAccessToken,
-      ).expect(204);
+        accessToken,
+      ).expect(404);
 
       await setAccessToken(
         request(testingApp.httpServer).delete(`/decks/${id}`),
-        accessToken,
-      ).expect(404);
+        otherAccessToken,
+      ).expect(204);
     });
   });
 });

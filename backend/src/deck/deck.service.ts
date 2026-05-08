@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { CreateDeckDto } from "src/deck/schemas/createDeck.schema";
+import { CreateDeckDto } from "src/deck/schemas/create-deck.schema";
 import { UpdateDeckDto } from "src/deck/schemas";
 import { DeckNotFoundError } from "src/deck/errors/deck-not-found.error";
 
