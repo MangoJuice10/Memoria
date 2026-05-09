@@ -1,6 +1,4 @@
 export type {
-  SupportedSuccessStatusCodes,
-  SupportedErrorStatusCodes,
   SuccessResponse,
   ErrorDetail,
   ErrorResponse,

@@ -1,8 +1,9 @@
-import { ValidationErrorCode } from "src/common/constants";
-import { ErrorCode } from "src/common/constants";
-
-export type SupportedSuccessStatusCodes = 200 | 201;
-export type SupportedErrorStatusCodes = 400 | 401 | 403 | 404 | 409 | 422 | 500;
+import type {
+  SupportedSuccessStatusCodes,
+  SupportedErrorStatusCodes,
+  ValidationErrorCode,
+  ErrorCode,
+} from "src/common/constants";
 
 export type SuccessResponse<T> = {
   status: "success";

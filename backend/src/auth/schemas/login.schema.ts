@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { validationErrorCodes } from "src/common/constants/error-codes.constants";
+import { validationErrorCodes } from "src/common/constants/domain-error-codes.constants";
 
 export const loginSchema = z.strictObject({
   email: z.email({

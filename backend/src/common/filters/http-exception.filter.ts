@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
 import type { Response } from "express";
-import type { ErrorResponse, SupportedErrorStatusCodes } from "src/common/types";
+import { SupportedErrorStatusCodes } from "src/common/constants";
+import type { ErrorResponse } from "src/common/types";
 import { httpExceptionErrorCodes } from "src/common/constants";
 
 @Catch(HttpException)

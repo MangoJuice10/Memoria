@@ -1,10 +1,10 @@
 import { DomainError } from "./domain.error";
-import type { ForbiddenErrorCode } from "src/common/constants";
+import type { MissingPermissionsErrorCode } from "src/common/constants";
 
 export class ForbiddenError extends DomainError {
   constructor(
     message: string,
-    public code: ForbiddenErrorCode,
+    public code: MissingPermissionsErrorCode,
   ) {
     super(message, code);
   }

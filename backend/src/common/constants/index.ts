@@ -1,15 +1,21 @@
 export {
   httpExceptionErrorCodes,
+  type SupportedSuccessStatusCodes,
+  type SupportedErrorStatusCodes,
+  type HttpExceptionErrorCode,
+} from "./http-exception-error-codes.constants";
+
+export {
   validationErrorCodes,
   notFoundErrorCodes,
-  forbiddenErrorCodes,
+  missingPermissionsErrorCodes,
   domainErrorCodes,
-  type HttpExceptionErrorCode,
   type ValidationErrorCode,
   type NotFoundErrorCode,
-  type ForbiddenErrorCode,
+  type MissingPermissionsErrorCode,
   type DomainErrorCode,
-  type ErrorCode,
   isValidationErrorCode,
   isDomainErrorCode,
-} from "./error-codes.constants";
+} from "./domain-error-codes.constants";
+
+export { errorCodes, type ErrorCode } from "./error-codes.constants";
