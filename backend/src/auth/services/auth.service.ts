@@ -86,10 +86,23 @@ export class AuthService {
     return !user;
   }
 
-  async checkPassword(id: number, password: string) {
+  async checkEmailOwnership(userId: number, email: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
-        id,
+        id: userId,
+        email,
+      },
+      select: {
+        id: true,
+      },
+    });
+    return !!user;
+  }
+
+  async checkPassword(userId: number, password: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: userId,
       },
       select: {
         passwordHash: true,

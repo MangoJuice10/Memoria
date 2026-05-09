@@ -5,6 +5,7 @@ import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
 import { UpdateUserDto } from "src/user/schemas";
 import { ErrorDetail } from "src/common/types";
 import { defaultAuthData } from "test/fixtures/auth/auth.data";
+import { setAccessToken } from "test/helpers/setAccessToken.helper";
 
 describe("/users E2E", () => {
   let testingApp: TestingApp;
@@ -36,12 +37,9 @@ describe("/users E2E", () => {
 
   describe("Get me", () => {
     it("should get me", async () => {
-      await request(testingApp.httpServer)
-        .get("/users/me")
-        .set({
-          Authorization: `Bearer ${accessToken}`,
-        })
-        .expect(200);
+      await setAccessToken(request(testingApp.httpServer).get("/users/me"), accessToken).expect(
+        200,
+      );
     });
 
     it("should fail to get me with a 404 Not Found status code", async () => {
@@ -51,12 +49,9 @@ describe("/users E2E", () => {
         },
       });
 
-      await request(testingApp.httpServer)
-        .get("/users/me")
-        .set({
-          Authorization: `Bearer ${accessToken}`,
-        })
-        .expect(404);
+      await setAccessToken(request(testingApp.httpServer).get("/users/me"), accessToken).expect(
+        404,
+      );
     });
   });
 
@@ -68,11 +63,10 @@ describe("/users E2E", () => {
           newUsername: newUsername,
         };
 
-        const res = await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        const res = await setAccessToken(
+          request(testingApp.httpServer).patch("/users/me"),
+          accessToken,
+        )
           .send(updateUserDto)
           .expect(200);
         expect(res.body.data.username).toEqual(newUsername);
@@ -84,11 +78,7 @@ describe("/users E2E", () => {
           newUsername: shortUsername,
         };
 
-        await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
           .send(updateUserDto)
           .expect(422);
       });
@@ -101,14 +91,24 @@ describe("/users E2E", () => {
           newEmail: newEmail,
         };
 
-        const res = await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        const res = await setAccessToken(
+          request(testingApp.httpServer).patch("/users/me"),
+          accessToken,
+        )
           .send(updateUserDto)
           .expect(200);
         expect(res.body.data.email).toEqual(newEmail);
+      });
+
+      it("should respond with a 200 Success status code when the newEmail is the same as the email", async () => {
+        const sameEmail = email;
+        const updateUserDto: UpdateUserDto = {
+          newEmail: sameEmail,
+        };
+
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
+          .send(updateUserDto)
+          .expect(200);
       });
 
       it("should fail to update email with a 422 Unprocessable Entity status code", async () => {
@@ -117,11 +117,7 @@ describe("/users E2E", () => {
           newEmail: invalidEmail,
         };
 
-        await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
           .send(updateUserDto)
           .expect(422);
       });
@@ -139,11 +135,7 @@ describe("/users E2E", () => {
           newEmail: takenEmail,
         };
 
-        await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
           .send(updateUserDto)
           .expect(409);
       });
@@ -160,11 +152,7 @@ describe("/users E2E", () => {
           confirmPassword,
         };
 
-        await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
           .send(updateUserDto)
           .expect(200);
       });
@@ -177,11 +165,10 @@ describe("/users E2E", () => {
           confirmPassword,
         };
 
-        const res = await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        const res = await setAccessToken(
+          request(testingApp.httpServer).patch("/users/me"),
+          accessToken,
+        )
           .send(updateUserDto)
           .expect(422);
         expect(
@@ -197,11 +184,10 @@ describe("/users E2E", () => {
           confirmPassword,
         };
 
-        const res = await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        const res = await setAccessToken(
+          request(testingApp.httpServer).patch("/users/me"),
+          accessToken,
+        )
           .send(updateUserDto)
           .expect(422);
         expect(
@@ -217,11 +203,10 @@ describe("/users E2E", () => {
           newPassword,
         };
 
-        const res = await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        const res = await setAccessToken(
+          request(testingApp.httpServer).patch("/users/me"),
+          accessToken,
+        )
           .send(updateUserDto)
           .expect(422);
         expect(
@@ -239,11 +224,7 @@ describe("/users E2E", () => {
           confirmPassword,
         };
 
-        await request(testingApp.httpServer)
-          .patch("/users/me")
-          .set({
-            Authorization: `Bearer ${accessToken}`,
-          })
+        await setAccessToken(request(testingApp.httpServer).patch("/users/me"), accessToken)
           .send(updateUserDto)
           .expect(422);
       });

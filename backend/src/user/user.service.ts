@@ -5,6 +5,7 @@ import { AuthService } from "src/auth/services/auth.service";
 import { EmailAlreadyExistsError, InvalidPasswordError, UserNotFoundError } from "src/user/errors";
 import { User } from "@prisma/client";
 import { validationErrorCodes } from "src/common/constants";
+import { email } from "zod";
 
 @Injectable()
 export class UserService {
@@ -53,7 +54,8 @@ export class UserService {
 
     if (newEmail) {
       const isEmailAvailable = await this.authService.checkEmailAvailability(newEmail);
-      if (!isEmailAvailable)
+      const isOwnEmail = await this.authService.checkEmailOwnership(userId, newEmail);
+      if (!isEmailAvailable && !isOwnEmail)
         throw new EmailAlreadyExistsError([
           {
             path: "newEmail",
