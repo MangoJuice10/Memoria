@@ -56,6 +56,16 @@ describe("Deck", () => {
       expect(res.body.data).toHaveProperty("description", description);
       expect(res.body.data).toHaveProperty("isPublic", isPublic);
     });
+
+    it("should fail to create a deck if a required field is missing", async () => {
+      const { name, ...missingFieldCreateDeckDto } = createCreateDeckDto();
+      await decksHelpers.create(accessToken, missingFieldCreateDeckDto).expect(422);
+    });
+
+    it("should fail to create a deck if there is an extra field", async () => {
+      const extraFieldCreateDeckDto = { extraField: "extra", ...createCreateDeckDto() };
+      await decksHelpers.create(accessToken, extraFieldCreateDeckDto).expect(422);
+    });
   });
 
   describe("Get all decks", () => {

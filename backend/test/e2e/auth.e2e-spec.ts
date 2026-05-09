@@ -42,8 +42,7 @@ describe("/auth E2E", () => {
     });
 
     it("should fail to register if there is an extra field", async () => {
-      const registerDto = createRegisterDto();
-      const extraFieldRegisterDto = { extraField: "extra", ...registerDto };
+      const extraFieldRegisterDto = { extraField: "extra", ...createRegisterDto() };
       await helpers.register(extraFieldRegisterDto).expect(422);
     });
 
@@ -70,8 +69,7 @@ describe("/auth E2E", () => {
     });
 
     it("should fail to login if there is an extra field", async () => {
-      const loginDto = createLoginDto();
-      const extraFieldLoginDto = { extraField: "extra", ...loginDto };
+      const extraFieldLoginDto = { extraField: "extra", ...createLoginDto() };
       await helpers.login(extraFieldLoginDto).expect(422);
     });
 

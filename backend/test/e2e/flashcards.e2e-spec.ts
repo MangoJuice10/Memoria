@@ -69,6 +69,18 @@ describe("Flashcards", () => {
       expect(res.body.data).toHaveProperty("front", front);
       expect(res.body.data).toHaveProperty("back", back);
     });
+
+    it("should fail to create a flashcard if a required field is missing", async () => {
+      const { front, ...missingFieldCreateFlashcardDto } = createCreateFlashcardDto();
+      await flashcardsHelpers
+        .create(deckId, accessToken, missingFieldCreateFlashcardDto)
+        .expect(422);
+    });
+
+    it("should fail to create a flashcard if there is an extra field", async () => {
+      const extraCreateFlashcardDto = { extraField: "extra", ...createCreateFlashcardDto() };
+      await flashcardsHelpers.create(deckId, accessToken, extraCreateFlashcardDto).expect(422);
+    });
   });
 
   describe("Get all flashcards", () => {

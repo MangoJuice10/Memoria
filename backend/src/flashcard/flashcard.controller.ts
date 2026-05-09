@@ -11,9 +11,15 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { FlashcardService } from "src/flashcard/flashcard.service";
-import { CreateFlashcardDto, UpdateFlashcardDto } from "src/flashcard/schemas";
+import {
+  CreateFlashcardDto,
+  createFlashcardSchema,
+  UpdateFlashcardDto,
+  updateFlashcardSchema,
+} from "src/flashcard/schemas";
 import { DeckOwnershipGuard } from "src/deck/guards/deck-ownership.guard";
 import { FlashcardOwnershipGuard } from "src/flashcard/guards/flashcard-ownership.guard";
+import { ZodValidationPipe } from "src/common";
 
 @UseGuards(DeckOwnershipGuard)
 @Controller("decks/:deckId/flashcards")
@@ -23,22 +29,22 @@ export class FlashcardController {
   @Post()
   @HttpCode(201)
   async create(
-    @Param("deckId", new ParseIntPipe()) deckId: number,
-    @Body() createFlashcardDto: CreateFlashcardDto,
+    @Param("deckId", ParseIntPipe) deckId: number,
+    @Body(new ZodValidationPipe(createFlashcardSchema)) createFlashcardDto: CreateFlashcardDto,
   ) {
     return this.flashcardService.create(deckId, createFlashcardDto);
   }
 
   @Get()
   @HttpCode(200)
-  async findAll(@Param("deckId", new ParseIntPipe()) deckId: number) {
+  async findAll(@Param("deckId", ParseIntPipe) deckId: number) {
     return this.flashcardService.findAll(deckId);
   }
 
   @Get(":flashcardId")
   @HttpCode(200)
   @UseGuards(FlashcardOwnershipGuard)
-  async findOne(@Param("flashcardId", new ParseIntPipe()) flashcardId: number) {
+  async findOne(@Param("flashcardId", ParseIntPipe) flashcardId: number) {
     return this.flashcardService.findOne(flashcardId);
   }
 
@@ -46,8 +52,8 @@ export class FlashcardController {
   @HttpCode(200)
   @UseGuards(FlashcardOwnershipGuard)
   async update(
-    @Param("flashcardId", new ParseIntPipe()) flashcardId: number,
-    @Body() updateFlashcardDto: UpdateFlashcardDto,
+    @Param("flashcardId", ParseIntPipe) flashcardId: number,
+    @Body(new ZodValidationPipe(updateFlashcardSchema)) updateFlashcardDto: UpdateFlashcardDto,
   ) {
     return this.flashcardService.update(flashcardId, updateFlashcardDto);
   }
@@ -55,7 +61,7 @@ export class FlashcardController {
   @Delete(":flashcardId")
   @HttpCode(204)
   @UseGuards(FlashcardOwnershipGuard)
-  async remove(@Param("flashcardId", new ParseIntPipe()) flashcardId: number) {
+  async remove(@Param("flashcardId", ParseIntPipe) flashcardId: number) {
     await this.flashcardService.remove(flashcardId);
   }
 }
