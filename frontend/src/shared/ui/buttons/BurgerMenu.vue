@@ -8,7 +8,8 @@ defineEmits<{
 </script>
 
 <template>
-  <IconButton @click="$emit('toggle')">
-    <BurgerMenuIcon class="w-12 icon-dynamic"/>
+  <IconButton :size-rem="3"
+      @click="$emit('toggle')">
+    <BurgerMenuIcon class="icon-dynamic"/>
   </IconButton>
 </template>

@@ -7,6 +7,45 @@
 @import "./tokens/primitive";
 @import "./tokens/semantic";
 
+@theme {
+    --font-weight-thin: var(--font-weight-100);
+    --font-weight-extralight: var(--font-weight-200);
+    --font-weight-light: var(--font-weight-300);
+    --font-weight-normal: var(--font-weight-400);
+    --font-weight-medium: var(--font-weight-500);
+    --font-weight-semibold: var(--font-weight-600);
+    --font-weight-bold: var(--font-weight-700);
+    --font-weight-extrabold: var(--font-weight-800);
+    --font-weight-black: var(--font-weight-900);
+
+    --text-xs: var(--font-size-xs);
+    --text-xs--line-height: var(--line-height-xs);
+    --text-sm: var(--font-size-sm);
+    --text-sm--line-height: var(--line-height-sm);
+    --text-base: var(--font-size-base);
+    --text-base--line-height: var(--line-height-base);
+    --text-lg: var(--font-size-lg);
+    --text-lg--line-height: var(--line-height-lg);
+    --text-xl: var(--font-size-xl);
+    --text-xl--line-height: var(--line-height-xl);
+    --text-2xl: var(--font-size-2xl);
+    --text-2xl--line-height: var(--line-height-2xl);
+    --text-3xl: var(--font-size-3xl);
+    --text-3xl--line-height: var(--line-height-3xl);
+    --text-4xl: var(--font-size-4xl);
+    --text-4xl--line-height: var(--line-height-4xl);
+    --text-5xl: var(--font-size-5xl);
+    --text-5xl--line-height: var(--line-height-5xl);
+    --text-6xl: var(--font-size-6xl);
+    --text-6xl--line-height: var(--line-height-6xl);
+    --text-7xl: var(--font-size-7xl);
+    --text-7xl--line-height: var(--line-height-7xl);
+    --text-8xl: var(--font-size-8xl);
+    --text-8xl--line-height: var(--line-height-8xl);
+    --text-9xl: var(--font-size-9xl);
+    --text-9xl--line-height: var(--line-height-9xl);
+}
+
 @layer theme {
     /*
     Light theme mapping
@@ -92,20 +131,28 @@
     */
     :root {
         --font-weight-default: var(--font-weight-400);
-        --font-size--line-height-default: var(--font-size--line-height-base);
         --font-family-default: var(--font-family-inter), var(--font-family-sans-serif);
+        --font-size-default: var(--font-size-base);
+        --line-height-default: var(--line-height-base);
 
-        --font-size--line-height-h1: var(--font-size--line-height-3xl);
-        --font-size--line-height-h2: var(--font-size--line-height-3xl);
-        --font-size--line-height-h3: var(--font-size--line-height-lg);
-        --font-size--line-height-h4: var(--font-size--line-height-base);
-
+        --font-size-h1: var(--font-size-3xl);
+        --line-height-h1: var(--line-height-3xl);
         --font-weight-h1: var(--font-weight-600);
+
+        --font-size-h2: var(--font-size-3xl);
+        --line-height-h2: var(--line-height-3xl);
         --font-weight-h2: var(--font-weight-600);
+
+        --font-size-h3: var(--font-size-lg);
+        --line-height-h3: var(--line-height-lg);
         --font-weight-h3: var(--font-weight-400);
+
+        --font-size-h4: var(--font-size-base);
+        --line-height-h4: var(--line-height-base);
         --font-weight-h4: var(--font-weight-400);
 
-        --font-size--line-height-p: var(--font-size--line-height-base);
+        --font-size-p: var(--font-size-base);
+        --line-height-p: var(--line-height-base);
 
         /*
         100vw doesn't take the vertical sidebar's width into account,
@@ -137,6 +184,12 @@
 
         --padding-top-button: var(--spacing-2);
         --padding-left-button: var(--spacing-4);
+
+        --flashcard-width: 200px;
+        --flashcard-height: 300px;
+
+        --deck-width: 400px;
+        --deck-height: 500px;
     }
 
     /*
@@ -163,9 +216,11 @@
     */
     @media (min-width: 48rem) {
         :root {
-            --font-size--line-height-default: var(--font-size--line-height-sm);
+            --font-size-default: var(--font-size-sm);
+            --line-height-default: var(--line-height-sm);
 
-            --font-size--line-height-p: var(--font-size--line-height-lg);
+            --font-size-p: var(--font-size-lg);
+            --line-height-p: var(--line-height-lg);
 
             --padding-right-page: var(--spacing-4);
             --padding-left-page: var(--spacing-4);
@@ -177,9 +232,12 @@
     */
     @media (min-width: 64rem) {
         :root {
-            --font-size--line-height-h1: var(--font-size--line-height-4xl);
-            --font-size--line-height-h2: var(--font-size--line-height-2xl);
-            --font-size--line-height-h3: var(--font-size--line-height-xl);
+            --font-size-h1: var(--font-size-4xl);
+            --line-height-h1: var(--line-height-4xl);
+            --font-size-h2: var(--font-size-2xl);
+            --line-height-h2: var(--line-height-2xl);
+            --font-size-h3: var(--font-size-xl);
+            --line-height-h3: var(--line-height-xl);
             --padding-right-page: var(--spacing-8);
             --padding-left-page: var(--spacing-8);
         }
@@ -213,12 +271,19 @@
     :root {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        font: var(--font-default);
+        font-family: var(--font-family-default);
+        font-size: var(--font-size-default);
+        font-weight: var(--font-weight-default);
+        line-height: var(--line-height-default);
         color: var(--color-text-default);
         color-scheme: light dark;
         font-synthesis: none;
         text-rendering: optimizeLegibility;
         cursor: var(--cursor-default);
+    }
+
+    body {
+        font-size: var(--font-size-default);
     }
 
     /*
@@ -242,23 +307,32 @@
     Headings styling
     */
     h1 {
-        font: var(--font-weight-h1) var(--font-size--line-height-h1) var(--font-family-default);
+        font-size: var(--font-size-h1);
+        font-weight: var(--font-weight-h1);
+        line-height: var(--line-height-h1);
     }
 
     h2 {
-        font: var(--font-weight-h2) var(--font-size--line-height-h2) var(--font-family-default);
+        font-size: var(--font-size-h2);
+        font-weight: var(--font-weight-h2);
+        line-height: var(--line-height-h2);
     }
 
     h3 {
-        font: var(--font-weight-h3) var(--font-size--line-height-h3) var(--font-family-default);
+        font-size: var(--font-size-h3);
+        font-weight: var(--font-weight-h3);
+        line-height: var(--line-height-h3);
     }
 
     h4 {
-        font: var(--font-weight-h4) var(--font-size--line-height-h4) var(--font-family-default);
+        font-size: var(--font-size-h4);
+        font-weight: var(--font-weight-h4);
+        line-height: var(--line-height-h4);
     }
 
     p {
-        font: var(--font-size--line-height-p) var(--font-family-default);
+        font-size: var(--font-size-p);
+        line-height: var(--line-height-p);
     }
 
     a, button:enabled {
@@ -280,6 +354,10 @@
         color: var(--color-text-inverse);
         background-color: var(--color-surface-secondary);
     }
+
+    textarea {
+        resize: none;
+    }
 }
 
 @layer layout {
@@ -291,7 +369,6 @@
         "height" of 100% makes the root fill the viewport
         */
         height: 100%;
-        width: 100%;
     }
 
     body {
@@ -301,7 +378,6 @@
         expand, as its "height" is set to "auto" by landing
         */
         min-height: 100%;
-        min-width: 100%;
     }
 
     #app {
@@ -314,7 +390,6 @@
         expand, as its "height" is set to "auto" by landing
         */
         min-height: 100vh;
-        min-width: 100%;
     }
 
     #app > *:first-child {
@@ -324,7 +399,6 @@
         is set to "auto" by landing
         */
         min-height: 100vh;
-        min-width: 100%;
     }
 
     #app > *:first-child {
@@ -402,13 +476,7 @@ Utility classes used to quickly apply semantic tokens to the elements
     border-color: var(--color-border-default);
 }
 
-@utility divide-x-default {
-    :where(& > :not(:last-child)) {
-        border-color: var(--color-border-default);
-    }
-}
-
-@utility divide-y-default {
+@utility divide-default {
     :where(& > :not(:last-child)) {
         border-color: var(--color-border-default);
     }
@@ -471,6 +539,14 @@ Size and spacing utility classes
 
 @utility min-h-footer {
     min-height: var(--height-footer);
+}
+
+@utility w-flashcard {
+    width: var(--flashcard-width);
+}
+
+@utility h-flashcard {
+    height: var(--flashcard-height);
 }
 
 @utility pt-page {

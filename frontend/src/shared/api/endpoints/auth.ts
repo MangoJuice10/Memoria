@@ -2,25 +2,23 @@ import {client} from "@/shared/api";
 import {setAccessToken, clearAccessToken} from "@/shared/auth/token.storage.ts";
 import type {RegisterDto} from "@/shared/model/schemas/register.schema.ts";
 import type {LoginDto} from "@/shared/model/schemas/login.schema.ts";
+import type {SuccessResponse} from "@/shared/api/response.types";
+import type {AccessTokenResponseDto} from "../dto/access-token-response.dto";
 
-export type AccessTokenResponseDto = {
-    accessToken: string;
-}
-
-export async function register(dto: RegisterDto): Promise<AccessTokenResponseDto> {
-    const {data} = await client.post<AccessTokenResponseDto>("/auth/register", dto);
+export async function register(registerDto: RegisterDto): Promise<AccessTokenResponseDto> {
+    const {data: {data}} = await client.post<SuccessResponse<AccessTokenResponseDto>>("/auth/register", registerDto);
     setAccessToken(data.accessToken);
     return data;
 }
 
-export async function login(dto: LoginDto): Promise<AccessTokenResponseDto> {
-    const {data} = await client.post<AccessTokenResponseDto>("/auth/login", dto);
+export async function login(loginDto: LoginDto): Promise<AccessTokenResponseDto> {
+    const {data: {data}} = await client.post<SuccessResponse<AccessTokenResponseDto>>("/auth/login", loginDto);
     setAccessToken(data.accessToken);
     return data;
 }
 
 export async function refresh(): Promise<AccessTokenResponseDto> {
-    const {data} = await client.post<AccessTokenResponseDto>("/auth/refresh");
+    const {data: {data}} = await client.post<SuccessResponse<AccessTokenResponseDto>>("/auth/refresh");
     setAccessToken(data.accessToken);
     return data;
 }

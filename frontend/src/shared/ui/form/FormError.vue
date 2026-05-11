@@ -2,15 +2,12 @@
 import type {ErrorMessage} from "@/shared/model";
 
 defineProps<{
-  error: ErrorMessage,
-  touched: boolean,
+  error: ErrorMessage;
 }>();
-
 </script>
 
 <template>
-  <div class="text-xs text-error font-semibold">
-    <div v-if="error !== null && touched" v-text="error"/>
-    <div v-else>&nbsp</div>
-  </div>
+<div class="font-semibold text-error">
+  {{error ?? "&nbsp"}}
+</div>
 </template>

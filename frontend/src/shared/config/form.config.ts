@@ -3,7 +3,7 @@ const baseKey = "form.fields";
 const titleKey = "title";
 const placeholderKey = "placeholder";
 
-export type FormTitle =
+export type AuthTitle =
     | "USERNAME"
     | "EMAIL"
     | "PASSWORD"
@@ -12,6 +12,17 @@ export type FormTitle =
     | "OLD_PASSWORD"
     | "NEW_PASSWORD"
     | "CONFIRM_PASSWORD";
+
+export type DecksTitle =
+    | "NAME"
+    | "DESCRIPTION"
+    | "IS_PUBLIC";
+
+export type FlashcardsTitle =
+    | "FRONT"
+    | "BACK";
+
+export type FormTitle = AuthTitle | DecksTitle | FlashcardsTitle;
 
 export type FormField = {
     title: string;
@@ -51,4 +62,24 @@ export const FormFields: Record<FormTitle, FormField> = {
         title: `${baseKey}.confirm-password.${titleKey}`,
         placeholder: `${baseKey}.confirm-password.${placeholderKey}`
     },
+    NAME: {
+        title: `${baseKey}.name.${titleKey}`,
+        placeholder: `${baseKey}.name.${placeholderKey}`
+    },
+    DESCRIPTION: {
+        title: `${baseKey}.description.${titleKey}`,
+        placeholder: `${baseKey}.description.${placeholderKey}`
+    },
+    IS_PUBLIC: {
+        title: `${baseKey}.is-public.${titleKey}`,
+        placeholder: `${baseKey}.is-public.${placeholderKey}`
+    },
+    FRONT: {
+        title: `${baseKey}.front.${titleKey}`,
+        placeholder: `${baseKey}.front.${placeholderKey}`
+    },
+    BACK: {
+        title: `${baseKey}.back.${titleKey}`,
+        placeholder: `${baseKey}.back.${placeholderKey}`
+    }
 };

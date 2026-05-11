@@ -5,7 +5,7 @@ import {useValidation} from "@/shared/lib";
 import {createUpdateMeSchema, type UpdateMeDto} from "@/shared/model";
 import {Form, FormField} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {domainErrorCodes, FormFields, userInputErrorCodes} from "@/shared/config";
+import {FormFields, validationErrorCodes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 
@@ -22,24 +22,19 @@ const data = ref<UpdateMeDto>({
 });
 
 const tOptions = {
-  formError: {
-    [domainErrorCodes.NOT_FOUND_ERROR.name]: {
-      resourceName: "User"
-    }
-  },
   newUsername: {
-    [userInputErrorCodes.MIN_LENGTH]: {
+    [validationErrorCodes.MIN_LENGTH]: {
       n: 2,
       fieldName: t(FormFields.NEW_USERNAME.title)
     }
   },
   newEmail: {
-    [userInputErrorCodes.EMAIL]: {
+    [validationErrorCodes.EMAIL]: {
       fieldName: t(FormFields.NEW_EMAIL.title)
     }
   },
   newPassword: {
-    [userInputErrorCodes.MIN_LENGTH]: {
+    [validationErrorCodes.MIN_LENGTH]: {
       n: 8,
       fieldName: t(FormFields.NEW_PASSWORD.title)
     }
@@ -154,6 +149,9 @@ const submit = async () => {
                         touchPasswordFields();
                         clientValidate();
                         }"/>
+    </template>
+    <template #submit>
+      {{ $t("form.actions.update")}}
     </template>
   </Form>
 </template>

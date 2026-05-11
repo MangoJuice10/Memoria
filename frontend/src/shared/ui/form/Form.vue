@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {Button, Error} from "@/shared/ui";
+import FormError from "./FormError.vue";
+import {Button} from "@/shared/ui";
 import type {ErrorMessage} from "@/shared/model";
 
 defineProps<{
@@ -28,7 +29,7 @@ defineEmits<{
           <slot name="heading-content"/>
         </h2>
       </div>
-      <Error :error="formError"
+      <FormError :error="formError"
              class="mb-2"
              :class="formErrorClasses"/>
     </div>

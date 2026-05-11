@@ -8,3 +8,5 @@ export const router = createRouter({
 });
 
 registerNavigationGuards(router);
+
+export {getIdRouteParam} from "./getIdRouteParam";

@@ -1,33 +1,37 @@
-import type { DomainErrorCode, UserInputErrorCode } from "@/shared/config";
+import type {
+    SupportedSuccessStatusCodes,
+    SupportedErrorStatusCodes,
+    ValidationErrorCode,
+    ErrorCode,
+} from "@/shared/config";
 
 export type SuccessResponse<T> = {
     status: "success";
-    statusCode: 200 | 201;
+    statusCode: SupportedSuccessStatusCodes;
     data: T;
 };
 
 export type ErrorDetail = {
     path: string;
-    code: UserInputErrorCode;
+    code: ValidationErrorCode;
     message: string;
 };
 
 export type ErrorResponse =
     | {
     status: "error";
-    statusCode: 400 | 401 | 403 | 404;
+    statusCode: Exclude<SupportedErrorStatusCodes, 409 | 422>;
     error: {
-        code: DomainErrorCode;
+        code: ErrorCode;
         message: string;
     };
-}
-    | {
+} | {
     status: "error";
     statusCode: 409 | 422;
     error: {
-        code: DomainErrorCode;
+        code: ErrorCode;
         message: string;
-        details: Array<ErrorDetail>;
+        details?: Array<ErrorDetail>;
     };
 };
 

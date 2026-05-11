@@ -1,20 +1,17 @@
 import {
     NAVIGATION_ITEMS,
-    type MenuSection,
     type NavigationSectionId,
+    type MenuLayout,
     type NavigationItemId
 } from "@/shared/config";
 
 export const baseNavigationItemKey = "navigation.sidebar.navigation-links";
 export const baseNavigationSectionKey = "navigation.sidebar.sections";
 
-export type SidebarLayout = {
-    navigationSections: MenuSection<NavigationSectionId, NavigationItemId>[];
-    baseKey: string;
-}
-
-export const SIDEBAR_GUEST_LAYOUT: SidebarLayout = {
-    navigationSections: [
+export const SIDEBAR_GUEST_LAYOUT = {
+    menuItems: [],
+    baseItemsKey: "",
+    menuSections: [
         {
             id: "features",
             labelKey: "features",
@@ -24,7 +21,7 @@ export const SIDEBAR_GUEST_LAYOUT: SidebarLayout = {
                 NAVIGATION_ITEMS["feature-trustworthy-answers"],
                 NAVIGATION_ITEMS["feature-statistics"],
             ],
-            baseKey: baseNavigationItemKey
+            baseItemsKey: baseNavigationItemKey
         },
         {
             id: "about",
@@ -32,19 +29,22 @@ export const SIDEBAR_GUEST_LAYOUT: SidebarLayout = {
             menuItems: [
                 NAVIGATION_ITEMS["about"],
             ],
-            baseKey: baseNavigationItemKey
+            baseItemsKey: baseNavigationItemKey
         },
     ],
-    baseKey: baseNavigationSectionKey
-};
+    baseSectionsKey: baseNavigationSectionKey,
+} as const satisfies MenuLayout<NavigationSectionId, NavigationItemId>;
 
-export const SIDEBAR_AUTHENTICATED_LAYOUT: SidebarLayout = {
-    navigationSections: [
+/*
+export const SIDEBAR_AUTHENTICATED_LAYOUT = {
+    hasSections: true,
+    menuSections: [
         {
-            id: "my-decks",
-            labelKey: "my-decks",
+            id: "decks",
+            labelKey: "decks",
             menuItems: [],
         }
     ],
     baseKey: baseNavigationSectionKey
-};
+} as const satisfies MenuLayout<NavigationSectionId, any>;
+*/

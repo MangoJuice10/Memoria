@@ -12,7 +12,7 @@ const modalStore = useModalStore();
   <Sidebar/>
   <Backdrop/>
   <component v-if="modalStore.isVisible"
-             :is="modalStore.component"
-             v-bind="modalStore.props"/>
-  <RouterView/>
+             :is="modalStore.getComponent()"
+             v-bind="modalStore.getProps()"/>
+  <RouterView class="py-page"/>
 </template>

@@ -9,7 +9,7 @@ import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
 
 </script>
 <template>
-  <div class="grid auto-rows-[minmax(min-content,1fr)] w- pt-page">
+  <div class="grid auto-rows-[minmax(min-content,1fr)] pt-page">
     <Hero class="bg-tertiary"/>
     <Feature :isReverse="true" class="bg-primary">
       <template #content>

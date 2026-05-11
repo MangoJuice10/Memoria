@@ -13,8 +13,10 @@ defineEmits<{
 </script>
 
 <template>
-    <IconButton @click="$emit('update:isHidden', !isHidden)" class="absolute top-1/2 right-2 -translate-y-1/2">
-        <VisibleIcon v-if="isHidden" class="w-10 icon-dynamic"/>
-        <HiddenIcon v-else class="w-10 icon-dynamic"/>
+    <IconButton :size-rem="2.5"
+        class="absolute top-1/2 right-2 -translate-y-1/2"
+                @click="$emit('update:isHidden', !isHidden)">
+        <VisibleIcon v-if="isHidden" class="icon-dynamic"/>
+        <HiddenIcon v-else class="icon-dynamic"/>
     </IconButton>
 </template>

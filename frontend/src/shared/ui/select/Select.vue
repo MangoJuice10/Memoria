@@ -27,7 +27,10 @@ provide("select", {
     </div>
     <Transition name="dropdown">
       <div v-if="isOpen"
-           class="flex flex-col divide-y divide-(--color-border) absolute left-0 top-full min-w-fit w-full overflow-hidden border rounded-b-lg border-default bg-primary">
+           class="flex flex-col divide-y divide-default
+                  absolute left-0 top-full
+                  min-w-fit w-full overflow-hidden border rounded-b-lg border-default
+                  bg-primary">
         <slot/>
       </div>
     </Transition>

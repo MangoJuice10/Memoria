@@ -1,6 +1,8 @@
 import {defineStore} from "pinia";
 import type {Viewer} from "@/entities/viewer";
-import {auth, users} from "@/shared/api";
+import {auth} from "@/shared/api";
+import {getMe} from "../api/getMe";
+import {updateMe} from "../api/updateMe";
 import {clearAccessToken} from "@/shared/auth";
 import type {RegisterDto, LoginDto, UpdateMeDto} from "@/shared/model";
 
@@ -23,7 +25,7 @@ export const useViewerStore = defineStore("viewer", {
         async initialize() {
             try {
                 await auth.refresh();
-                this.viewer = await users.getMe();
+                this.viewer = await getMe();
             } catch {
                 clearAccessToken();
                 this.viewer = null;
@@ -35,12 +37,12 @@ export const useViewerStore = defineStore("viewer", {
         async register(registerDto: RegisterDto) {
             console.log(registerDto);
             await auth.register(registerDto);
-            this.viewer = await users.getMe();
+            this.viewer = await getMe();
         },
 
         async login(loginDto: LoginDto) {
             await auth.login(loginDto);
-            this.viewer = await users.getMe();
+            this.viewer = await getMe();
         },
 
         async logout() {
@@ -53,7 +55,7 @@ export const useViewerStore = defineStore("viewer", {
         },
 
         async updateMe(updateUserDto: UpdateMeDto) {
-            this.viewer = await users.updateMe(updateUserDto);
+            this.viewer = await updateMe(updateUserDto);
         },
 
         resetViewer() {

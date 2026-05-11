@@ -1,14 +1,12 @@
-import type {ActionsItemId, MenuItem} from "@/shared/config";
+import {
+    type ActionsItemId,
+    type MenuLayout,
+} from "@/shared/config";
 import {LanguageIcon, SettingsIcon} from "@/shared/ui/icons";
 import {LogoutIcon} from "@/shared/ui/icons";
 import LightThemeIcon from "@/features/settings/ui/icons/LightThemeIcon.vue";
 
-export type UserPanelLayout = {
-    menuItems: MenuItem<ActionsItemId>[];
-    baseKey: string;
-}
-
-export const USER_PANEL_LAYOUT: UserPanelLayout = {
+export const USER_PANEL_LAYOUT = {
     menuItems: [
         {
             id: "settings",
@@ -31,5 +29,7 @@ export const USER_PANEL_LAYOUT: UserPanelLayout = {
             icon: LogoutIcon,
         }
     ],
-    baseKey: "actions"
-};
+    baseItemsKey: "actions",
+    menuSections: [],
+    baseSectionsKey: ""
+} as const satisfies MenuLayout<any, ActionsItemId>;

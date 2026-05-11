@@ -1,5 +1,6 @@
-export type {ErrorMessage} from "./ErrorMessage.type";
-export type {VisibilityControls, StoreVisibilityControls} from "./VisibilityControls.type";
+export type {ErrorMessage} from "src/shared/model/error-message.type.ts";
+export type {VisibilityControls, StoreVisibilityControls} from "./visibility-controls.type";
+export type {DynamicComponentControls, StoreDynamicComponentControls} from "./dynamic-component-controls";
 export {useModalStore} from "./modal.store";
 export {useBackdropStore} from "./backdrop.store";
 export {useSidebarStore} from "./sidebar.store";

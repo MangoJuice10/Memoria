@@ -6,7 +6,7 @@ import type {ErrorMessage} from "@/shared/model";
 import {codeToKey, i18n} from "@/shared/i18n";
 import {walkObject} from "@/shared/lib/walkObject";
 import type {Composer} from "vue-i18n";
-import type {DomainErrorCode, UserInputErrorCode} from "@/shared/config";
+import type {ErrorCode, ValidationErrorCode} from "@/shared/config";
 import {type ErrorResponse} from "@/shared/api";
 
 type DelayOptions = {
@@ -19,8 +19,8 @@ type DelayOptions = {
 type TranslationOptions = {
     t?: Composer["t"];
     tOptions?: {
-        formError: Partial<Record<DomainErrorCode, Record<string, unknown>>>
-    } & Record<string, Partial<Record<UserInputErrorCode, Record<string, unknown>>>>
+        formError?: Partial<Record<ErrorCode, Record<string, unknown>>>
+    } & Record<string, Partial<Record<ValidationErrorCode, Record<string, unknown>>>>
 }
 
 type ValidationOptions = DelayOptions & TranslationOptions;
@@ -121,6 +121,8 @@ export const useValidation = <Schema extends ZodType>(
         switch (errorRes.statusCode) {
             case 409:
             case 422: {
+                if (!errorRes.error.details) break;
+
                 for (const {path, code} of errorRes.error.details) {
                     if (!options?.t) {
                         serverErrors.value.set(path, code);

@@ -43,16 +43,16 @@
         "feature-spaced-repetition": "Spaced Repetition",
         "feature-ai-assistance": "AI Assistance",
         "feature-trustworthy-answers": "Trustworthy Answers",
-        "my-decks": "My Decks",
+        "decks": "My Decks",
         "shared-decks": "Shared Decks",
-        "my-educational-resources": "My Resources"
+        "educational-resources": "My Resources"
       }
     },
     "sidebar": {
       "sections": {
         "features": "Features",
         "about": "About us",
-        "my-decks": "My decks"
+        "decks": "My decks"
       },
       "navigation-links": {
         "about": "About Memoria",
@@ -108,13 +108,27 @@
       "confirm-password": {
         "title": "Confirm password",
         "placeholder": "Repeat your password"
+      },
+      "front": {
+        "title": "Front side",
+        "placeholder": "Enter the question on the front side of the flashcard"
+      },
+      "back": {
+        "title": "Back side",
+        "placeholder": "Enter the answer on the back side of the flashcard"
       }
     },
     "actions": {
       "submit": "Submit",
       "reset": "Reset",
       "login": "Login",
-      "register": "Register"
+      "register": "Register",
+      "create": "Create",
+      "update": "Update"
+    },
+    "headings": {
+      "create-flashcard": "Create Flashcard",
+      "update-flashcard": "Update flashcard"
     }
   },
   "resources": {
@@ -149,6 +163,16 @@
     "logout": "Logout"
   },
   "modals": {
+    "flashcard": {
+      "delete": {
+        "heading": "Are you sure you want to delete the flashcard?",
+        "content": "You will lose the flashcard together with its spaced repetition data!",
+        "buttons": {
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      }
+    },
     "logout": {
       "heading": "Are you sure you want to log out?",
       "content": "You will have to log in again to access your account",
@@ -211,5 +235,9 @@
     "last": "Last",
     "previous": "Previous",
     "next": "Next"
+  },
+  "options": {
+    "edit": "Edit flashcard",
+    "delete": "Delete flashcard"
   }
 }

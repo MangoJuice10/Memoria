@@ -3,7 +3,6 @@ import {
     AIAssistanceIcon,
     DecksIntroductionIcon,
     EducationalResourcesIntroductionIcon,
-    FlashcardsIntroductionIcon,
     LogomarkIcon,
     SharedDecksIntroductionIcon,
     SpacedRepetitionFeatureIcon,
@@ -16,10 +15,9 @@ export type NavigationItemId =
     | "feature-ai-assistance"
     | "feature-trustworthy-answers"
     | "feature-statistics"
-    | "my-flashcards"
-    | "my-decks"
+    | "decks"
     | "shared-decks"
-    | "my-educational-resources"
+    | "educational-resources"
     | "about";
 
 export type ActionsItemId =
@@ -33,34 +31,45 @@ export type SettingsItemId =
     | "language"
     | "theme";
 
-export type MenuItem<Item extends string | number> = {
-    id: Item;
+export type OptionsItemId =
+    | "edit"
+    | "delete";
+
+export type MenuItem<ItemId extends string | number> = {
+    id: ItemId;
     routeName?: string;
     callback?: () => void | Promise<void>;
     labelKey: string;
     icon?: Component;
 }
 
-export type MenuItemView<Item extends string | number> = Omit<MenuItem<Item>, "labelKey"> & {
+export type MenuItemView<ItemId extends string | number> = Omit<MenuItem<ItemId>, "labelKey"> & {
     label: string;
 }
 
 export type NavigationSectionId =
     | "features"
     | "about"
-    | "my-decks";
+    | "decks";
 
-export type MenuSection<Section extends string | number, Item extends string | number> = {
-    id: Section;
+export type MenuSection<SectionId extends string | number, ItemId extends string | number> = {
+    id: SectionId;
     labelKey: string;
-    menuItems: MenuItem<Item>[];
-    baseKey?: string;
+    menuItems: MenuItem<ItemId>[];
+    baseItemsKey: string;
 }
 
-export type MenuSectionView<Section extends string | number, Item extends string | number> =
-    Omit<MenuSection<Section, Item>, "labelKey" | "menuItems" | "baseKey"> & {
+export type MenuSectionView<SectionId extends string | number, ItemId extends string | number> =
+    Omit<MenuSection<SectionId, ItemId>, "labelKey" | "menuItems" | "baseItemsKey"> & {
     label: string;
-    menuItemViews: MenuItemView<Item>[];
+    menuItemViews: MenuItemView<ItemId>[];
+}
+
+export type MenuLayout<SectionId extends string | number, ItemId extends string | number> = {
+    menuItems: MenuItem<ItemId>[];
+    baseItemsKey: string;
+    menuSections: MenuSection<SectionId, ItemId>[];
+    baseSectionsKey: string;
 }
 
 export const NAVIGATION_ITEMS: Record<NavigationItemId, MenuItem<NavigationItemId>> = {
@@ -88,22 +97,16 @@ export const NAVIGATION_ITEMS: Record<NavigationItemId, MenuItem<NavigationItemI
         labelKey: "feature-statistics",
         icon: StatisticsFeatureIcon
     },
-    "my-flashcards": {
-        id: "my-flashcards",
-        routeName: "my-flashcards",
-        labelKey: "my-flashcards",
-        icon: FlashcardsIntroductionIcon
-    },
-    "my-decks": {
-        id: "my-decks",
-        routeName: "my-decks",
-        labelKey: "my-decks",
+    "decks": {
+        id: "decks",
+        routeName: "decks",
+        labelKey: "decks",
         icon: DecksIntroductionIcon
     },
-    "my-educational-resources": {
-        id: "my-educational-resources",
-        routeName: "my-educational-resources",
-        labelKey: "my-educational-resources",
+    "educational-resources": {
+        id: "educational-resources",
+        routeName: "educational-resources",
+        labelKey: "educational-resources",
         icon: EducationalResourcesIntroductionIcon
     },
     "shared-decks": {

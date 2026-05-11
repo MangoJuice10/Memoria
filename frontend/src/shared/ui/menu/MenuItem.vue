@@ -3,20 +3,23 @@ import type {MenuItemView} from "@/shared/config";
 import {IconLabel} from "@/shared/ui";
 
 defineProps<{
-  menuItemView: MenuItemView<string | number>
+  menuItemView: MenuItemView<string | number>,
+  iconClasses?: string;
+  labelClasses?: string;
 }>();
 </script>
 
 <template>
-  <div class="w-full px-7 py-3 cursor-pointer
+  <div class="w-full cursor-pointer
               hover:bg-hover">
     <IconLabel>
       <template #icon>
         <component :is="menuItemView.icon"
-                   class="w-10"/>
+                   :class="iconClasses"/>
       </template>
       <template #label>
-      <span class="font-semibold">
+      <span class="font-semibold"
+            :class="labelClasses">
         {{ menuItemView.label }}
       </span>
       </template>

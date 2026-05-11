@@ -1,10 +1,11 @@
 import axios from "axios";
-import {client} from "@/shared/api";
+import {client, type SuccessResponse} from "@/shared/api";
 import {
     getAccessToken,
     setAccessToken,
     clearAccessToken
 } from "@/shared/auth/token.storage.ts";
+import type {AccessTokenResponseDto} from "@/shared/api";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
@@ -38,13 +39,13 @@ export function setupAuthInterceptors() {
             if (isAuthRoute(originalRequestUrl)) return Promise.reject(error);
 
             const newToken = await axios
-                .post(
+                .post<SuccessResponse<AccessTokenResponseDto>>(
                     `${baseUrl}/auth/refresh`,
                     {},
                     {withCredentials: true}
                 )
                 .then((response) => {
-                    const newToken = response.data.accessToken as string;
+                    const newToken = response.data.data.accessToken as string;
                     setAccessToken(newToken);
                     return newToken;
                 })

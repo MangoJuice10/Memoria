@@ -12,13 +12,17 @@
         "placeholder": "Введите пароль"
       },
       "errors": {
-        "failure": "Ошибка входа"
+        "failure": "Не удалось выполнить вход"
       },
       "reset": "Сбросить"
     },
     "register": {
       "action": "Зарегистрироваться",
       "heading": "Регистрация",
+      "username": {
+        "title": "Имя пользователя",
+        "placeholder": "Введите имя пользователя"
+      },
       "email": {
         "title": "Электронная почта",
         "placeholder": "Введите адрес электронной почты"
@@ -36,74 +40,156 @@
   "navigation": {
     "navbar": {
       "navigation-links": {
-        "spacedRepetition": "Интервальное повторение",
-        "aiAssistance": "Помощь ИИ",
-        "trustworthyAnswers": "Достоверные ответы"
+        "feature-spaced-repetition": "Интервальное повторение",
+        "feature-ai-assistance": "ИИ-помощник",
+        "feature-trustworthy-answers": "Достоверные ответы",
+        "decks": "Мои колоды",
+        "shared-decks": "Общие колоды",
+        "educational-resources": "Мои ресурсы"
       }
     },
     "sidebar": {
       "sections": {
-        "features": {
-          "heading": "Функции",
-          "navigation-links": {
-            "spacedRepetition": "Интервальное повторение",
-            "aiAssistance": "Помощь ИИ",
-            "trustworthyAnswers": "Достоверные ответы",
-            "statistics": "Статистика"
-          }
-        },
-        "introduction": {
-          "heading": "Введение",
-          "navigation-links": {
-            "flashcards": "Флеш-карточки",
-            "decks": "Колоды",
-            "sharedDecks": "Общие колоды",
-            "educationalResources": "Образовательные ресурсы"
-          }
-        },
-        "about": {
-          "heading": "О нас",
-          "navigation-links": {
-            "memoria": "О Memoria"
-          }
+        "features": "Функции",
+        "about": "О нас",
+        "decks": "Мои колоды"
+      },
+      "navigation-links": {
+        "about": "О Memoria",
+        "feature-spaced-repetition": "Интервальное повторение",
+        "feature-ai-assistance": "ИИ-помощник",
+        "feature-trustworthy-answers": "Достоверные ответы",
+        "feature-statistics": "Статистика"
+      }
+    },
+    "footer": {
+      "sections": {
+        "features": "Функции"
+      },
+      "navigation-links": {
+        "feature-spaced-repetition": "Об интервальном повторении",
+        "feature-ai-assistance": "О больших языковых моделях (LLM)",
+        "feature-trustworthy-answers": "Об использовании достоверных источников",
+        "feature-statistics": "Статистика"
+      },
+      "copyright": "© 2025 Memoria, Inc."
+    }
+  },
+  "form": {
+    "fields": {
+      "username": {
+        "title": "Имя пользователя",
+        "placeholder": "Введите имя пользователя"
+      },
+      "email": {
+        "title": "Электронная почта",
+        "placeholder": "Введите адрес электронной почты"
+      },
+      "password": {
+        "title": "Пароль",
+        "placeholder": "Введите пароль"
+      },
+      "newUsername": {
+        "title": "Новое имя пользователя",
+        "placeholder": "Введите новое имя пользователя"
+      },
+      "newEmail": {
+        "title": "Новая электронная почта",
+        "placeholder": "Введите новый адрес электронной почты"
+      },
+      "old-password": {
+        "title": "Старый пароль",
+        "placeholder": "Введите старый пароль"
+      },
+      "new-password": {
+        "title": "Новый пароль",
+        "placeholder": "Введите новый пароль"
+      },
+      "confirm-password": {
+        "title": "Подтвердите пароль",
+        "placeholder": "Повторите пароль"
+      },
+      "front": {
+        "title": "Лицевая сторона",
+        "placeholder": "Введите вопрос для лицевой стороны карточки"
+      },
+      "back": {
+        "title": "Обратная сторона",
+        "placeholder": "Введите ответ для обратной стороны карточки"
+      }
+    },
+    "actions": {
+      "submit": "Отправить",
+      "reset": "Сбросить",
+      "login": "Войти",
+      "register": "Зарегистрироваться",
+      "create": "Создать",
+      "update": "Обновить"
+    },
+    "headings": {
+      "create-flashcard": "Создать карточку",
+      "update-flashcard": "Обновить карточку"
+    }
+  },
+  "resources": {
+    "user": "Пользователь"
+  },
+  "errors": {
+    "domain": {
+      "validation": {
+        "name": "Ошибка валидации",
+        "details": {
+          "required": "Поле {fieldName} обязательно",
+          "min-length": "{fieldName} должно содержать не менее {n} символов | {fieldName} должно содержать не менее {n} символа | {fieldName} должно содержать не менее {n} символов",
+          "email": "Некорректный адрес электронной почты",
+          "email-already-exists": "Электронная почта уже существует",
+          "invalid-password": "Неверный пароль",
+          "duplicate-password": "Пароли не должны совпадать",
+          "confirm-password": "Пароли должны совпадать"
         }
+      },
+      "unauthorized": {
+        "name": "Не авторизован"
+      },
+      "not-found": {
+        "name": "{resourceName} не найден"
       }
     }
   },
-  "footer": {
-    "sections": {
-      "features": {
-        "heading": "Функции",
-        "navigation-links": {
-          "spacedRepetition": "Об интервальном повторении",
-          "aiAssistance": "О больших языковых моделях (LLM)",
-          "trustworthyAnswers": "Об использовании достоверных источников",
-          "statistics": "Статистика"
-        }
-      },
-      "introduction": {
-        "heading": "Введение",
-        "navigation-links": {
-          "about": "О Memoria",
-          "flashcards": "Флеш-карточки",
-          "decks": "Колоды",
-          "sharedDecks": "Общие колоды",
-          "educationalResources": "Образовательные ресурсы"
-        }
+  "actions": {
+    "settings": "Настройки",
+    "change-language": "Сменить язык",
+    "change-theme": "Сменить тему",
+    "logout": "Выйти"
+  },
+  "modals": {
+    "logout": {
+      "heading": "Вы уверены, что хотите выйти?",
+      "content": "Вам потребуется снова войти в аккаунт",
+      "buttons": {
+        "confirm": "Выйти",
+        "cancel": "Отмена"
       }
-    },
-    "copyright": "© 2025 Memoria, Inc."
+    }
+  },
+  "settings": {
+    "heading": "Настройки и предпочтения",
+    "navigation-links": {
+      "profile": "Профиль",
+      "language": "Язык",
+      "theme": "Тема"
+    }
   },
   "landing": {
     "hero": {
       "headline": "Учитесь эффективно с интервальным повторением и надёжной помощью ИИ",
-      "subheadline": "Улучшите процесс обучения с помощью научно доказанного метода запоминания и получайте мгновенную помощь от ИИ-ассистента, чьи ответы основаны исключительно на достоверной информации.",
+      "subheadline": "Улучшите процесс обучения с помощью научно доказанного метода запоминания и получайте мгновенную помощь от ИИ-помощника, ответы которого основаны только на достоверной информации.",
       "cta": "Начать"
     },
     "spacedRepetition": {
       "headline": "Интервальное повторение",
       "subheadline": {
-        "content": "Учитесь эффективнее с научно доказанным методом {spaced-repetition}. Создавайте {flashcards}, объединяйте их в {decks} или добавляйте {shared-decks}, созданные другими пользователями. Система планирует повторения с оптимальными интервалами, помогая дольше сохранять знания с меньшими усилиями.",
+        "content": "Учитесь эффективнее с научно доказанным методом {spaced-repetition}. Создавайте {flashcards}, объединяйте их в {decks} или добавляйте {shared-decks}, созданные другими пользователями. Система планирует повторения в оптимальные интервалы, помогая дольше сохранять знания с меньшими усилиями.",
         "spacedRepetition": "интервального повторения",
         "flashcards": "карточки",
         "decks": "колоды",
@@ -112,38 +198,26 @@
       "cta": "Попробовать"
     },
     "AIAssistance": {
-      "headline": "Помощь ИИ",
+      "headline": "ИИ-помощник",
       "subheadline": {
-        "content": "Взаимодействуйте с ИИ-наставником, который всегда готов дать подробные ответы на все ваши вопросы. Процесс обучения не прерывается — вы получаете ответы {immediately} и сосредотачиваетесь на {understanding}, а не на механическом заучивании материала.",
+        "content": "Взаимодействуйте с ИИ-наставником, который всегда готов дать подробные ответы на ваши вопросы. Процесс обучения не прерывается — вы получаете ответы {immediately} и сосредотачиваетесь на {understanding}, а не на механическом запоминании.",
         "immediately": "сразу",
         "understanding": "понимании"
       },
-      "cta": "Посмотреть"
+      "cta": "Подробнее"
     },
     "trustworthyAnswers": {
       "headline": "Достоверные ответы",
       "subheadline": {
-        "content": "Все ответы ИИ основаны исключительно на загруженных образовательных материалах, что обеспечивает {accuracy} предоставляемой информации и устраняет {hallucinations}.",
+        "content": "Все ответы ИИ основаны исключительно на загруженных образовательных материалах, что обеспечивает {accuracy} предоставляемой информации и {hallucinations}.",
         "accuracy": "точность",
-        "hallucinations": "галлюцинации ИИ"
+        "hallucinations": "отсутствие галлюцинаций ИИ"
       },
-      "cta": "Начнём"
+      "cta": "Начать"
     },
     "sharedDecks": {
       "headline": "Популярные общие колоды",
-      "subheadline": "Вот общие колоды, популярные среди других пользователей. Обязательно ознакомьтесь с ними!"
-    }
-  },
-  "validation": {
-    "rules": {
-      "required": "Поле {fieldName} обязательно",
-      "minLength": "{fieldName} должно содержать не менее {n} символов | {fieldName} должно содержать не менее {n} символа | {fieldName} должно содержать не менее {n} символов",
-      "email": "Некорректный адрес электронной почты",
-      "confirmPassword": "Пароли не совпадают"
-    },
-    "fields": {
-      "email": "Электронная почта",
-      "password": "Пароль"
+      "subheadline": "Вот популярные колоды среди других пользователей. Обязательно ознакомьтесь с ними!"
     }
   },
   "pagination": {

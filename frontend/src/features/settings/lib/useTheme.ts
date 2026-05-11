@@ -1,9 +1,9 @@
 import {ref, watch, onMounted} from "vue";
-import type {Theme} from "../model/Theme";
+import type {ThemeType} from "src/features/settings/model/theme.type.ts";
 
 export const useTheme = () => {
-    const theme = ref<Theme>(
-        (localStorage.getItem("theme") as Theme) ??
+    const theme = ref<ThemeType>(
+        (localStorage.getItem("theme") as ThemeType) ??
         (window.matchMedia("prefers-color-scheme: light").matches
             ? "light"
             : "dark")
@@ -13,7 +13,7 @@ export const useTheme = () => {
         theme.value = theme.value === "light" ? "dark" : "light";
     };
 
-    const applyTheme = (value: Theme) => {
+    const applyTheme = (value: ThemeType) => {
         document.documentElement.setAttribute("data-theme", value);
     };
 

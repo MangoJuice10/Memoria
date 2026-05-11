@@ -1,7 +1,7 @@
 import {ref, type Ref, type UnwrapRef} from "vue";
 import {defineStore} from "pinia";
 import {useVisibility} from "@/shared/lib";
-import type {VisibilityControls} from "./VisibilityControls.type";
+import type {VisibilityControls} from "@/shared/model/visibility-controls.type";
 
 export type BackdropVisibilityControls = VisibilityControls & {
     callback: Ref<(() => void) | null>;

@@ -1,38 +1,35 @@
-import {ref, shallowRef, type Component, type Ref, type UnwrapRef, markRaw} from "vue";
+import {type Component} from "vue";
 import {defineStore} from "pinia";
-import {useVisibility} from "@/shared/lib";
-import type {VisibilityControls} from "./VisibilityControls.type";
+import {useDynamicComponent, useVisibility} from "@/shared/lib";
+import type {VisibilityControls} from "@/shared/model/visibility-controls.type";
+import type {DynamicComponentControls} from "@/shared/model/dynamic-component-controls.ts";
 
-export type ModalVisibilityControls = VisibilityControls & {
-    component: Ref<Component | null>;
-    props: Ref<Record<string, unknown>>;
-}
-
-export type StoreModalVisibilityControls = UnwrapRef<ModalVisibilityControls>;
+type ModalStoreControls =
+    VisibilityControls
+    & Pick<DynamicComponentControls, "getComponent">
+    & Pick<DynamicComponentControls, "getProps">
 
 export const useModalStore = defineStore("modal", () => {
-    const component = shallowRef<Component | null>(null);
-    const props = ref<Record<string, unknown>>({});
-
     const visibility = useVisibility();
+    const {getComponent, getProps, ...dynamicComponent} = useDynamicComponent();
 
     const show = (newComponent: Component, newProps: Record<string, unknown> = {}) => {
         visibility.show();
-        component.value = markRaw(newComponent);
-        props.value = newProps;
+        dynamicComponent.setComponent(newComponent);
+        dynamicComponent.setProps(newProps);
     };
 
     const hide = () => {
         visibility.hide();
-        component.value = null;
-        props.value = {};
+        dynamicComponent.clearComponent();
+        dynamicComponent.clearProps();
     };
 
     return {
         ...visibility,
-        component,
-        props,
+        getComponent,
+        getProps,
         show,
         hide,
-    } satisfies ModalVisibilityControls;
+    } satisfies ModalStoreControls;
 });

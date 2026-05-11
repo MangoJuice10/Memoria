@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {useNavbar} from "@/widgets/navbar/lib/useNavbar";
 import NavbarLinks from "./NavbarLinks.vue";
 import Logo from "@/shared/ui/logo/Logo.vue";
 import {BurgerMenu} from "@/shared/ui";
@@ -10,6 +9,11 @@ import NavbarPreferences from "@/widgets/navbar/ui/NavbarPreferences.vue";
 import NavbarActions from "@/widgets/navbar/ui/NavbarActions.vue";
 import {useSidebarStore} from "@/shared/model/sidebar.store.ts";
 import {useBackdropStore} from "@/shared/model";
+import {NAVBAR_AUTHENTICATED_LAYOUT, NAVBAR_GUEST_LAYOUT} from "../config/navbar-layout.config.ts";
+import {useMenu} from "@/shared/lib";
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n();
 
 const viewer = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewer);
@@ -17,7 +21,8 @@ const {isAuthenticated} = storeToRefs(viewer);
 const sidebarStore = useSidebarStore();
 const backdropStore = useBackdropStore();
 
-const {navigationItemViews} = useNavbar(isAuthenticated);
+const getNavbarLayout = () => isAuthenticated.value ? NAVBAR_AUTHENTICATED_LAYOUT : NAVBAR_GUEST_LAYOUT;
+const {menuItemViews} = useMenu(getNavbarLayout, t);
 
 function handleToggle() {
   sidebarStore.toggle();
@@ -27,7 +32,6 @@ function handleToggle() {
     sidebarStore.hide();
   });
 }
-
 </script>
 
 <template>
@@ -43,7 +47,7 @@ function handleToggle() {
         <Logo has-logotype logotype-classes="max-lg:hidden" class="py-2"/>
       </LocalizedLink>
     </div>
-    <NavbarLinks :navigation-item-views
+    <NavbarLinks :navigation-item-views="menuItemViews"
                  class="max-md:hidden"/>
     <NavbarPreferences/>
     <NavbarActions :is-authenticated

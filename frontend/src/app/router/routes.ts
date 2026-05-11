@@ -1,10 +1,13 @@
 import {
     initialLocale,
 } from "@/shared/i18n";
+import type {RouteLocationGeneric} from "vue-router";
+import {MainLayout} from "@/app/layouts";
 import {Landing} from "@/pages/landing";
 import {Login} from "@/pages/login";
 import {Register} from "@/pages/register";
-import MainLayout from "@/app/layouts/MainLayout.vue";
+import {Decks, Deck} from "@/pages/decks";
+import {Flashcards} from "@/pages/decks";
 
 export const routes = [
     {
@@ -63,13 +66,26 @@ export const routes = [
             },
             {
                 path: "decks",
-                name: "my-decks",
-                component: Landing,
+                name: "decks",
+                component: Decks,
             },
             {
-                path: "flashcards",
-                name: "my-flashcards",
-                component: Landing,
+                path: "decks/:deckId",
+                name: "deck",
+                component: Deck,
+                redirect: (to: RouteLocationGeneric) => ({
+                    name: "flashcards",
+                    params: {
+                        ...to.params
+                    }
+                }),
+                children: [
+                    {
+                        path: "flashcards",
+                        name: "flashcards",
+                        component: Flashcards
+                    }
+                ]
             },
             {
                 path: "shared-decks",
@@ -78,7 +94,7 @@ export const routes = [
             },
             {
                 path: "educational-resources",
-                name: "my-educational-resources",
+                name: "educational-resources",
                 component: Landing,
             },
         ]

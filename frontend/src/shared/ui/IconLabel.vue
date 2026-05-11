@@ -5,18 +5,18 @@ defineProps<{
 </script>
 
 <template>
-  <div class="inline-flex justify-center items-center gap-2.5">
+  <span class="inline-flex justify-center items-center gap-2.5">
     <template v-if="!isReverse">
-      <div class="grow-0 shrink-0 icon-static">
+      <span class="grow-0 shrink-0 icon-static">
         <slot name="icon"/>
-      </div>
+      </span>
       <slot name="label"/>
     </template>
     <template v-else>
       <slot name="label"/>
-      <div class="grow-0 shrink-0 icon-static">
+      <span class="grow-0 shrink-0 icon-static">
         <slot name="icon"/>
-      </div>
+      </span>
     </template>
-  </div>
+  </span>
 </template>

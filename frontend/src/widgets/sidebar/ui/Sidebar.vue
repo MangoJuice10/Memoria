@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
+import {useI18n} from "vue-i18n";
 import {useViewerStore} from "@/entities/viewer";
 import {LocalizedLink, Logo} from "@/shared/ui";
 import {BurgerMenu} from "@/shared/ui";
-import {useSidebar} from "../lib/useSidebar.ts";
 import SidebarSections from "./SidebarSections.vue";
 import {UserPanel} from "@/features/settings";
 import {useBackdropStore} from "@/shared/model";
 import {useSidebarStore} from "@/shared/model";
 import {Resizable} from "@/shared/resizable";
+import {SIDEBAR_GUEST_LAYOUT} from "../config/sidebar-layout.config.ts";
+import {useMenu} from "@/shared/lib";
+
+const {t} = useI18n();
 
 const viewerStore = useViewerStore();
 const {isAuthenticated} = storeToRefs(viewerStore);
@@ -16,7 +20,7 @@ const {isAuthenticated} = storeToRefs(viewerStore);
 const sidebarStore = useSidebarStore();
 const backdropStore = useBackdropStore();
 
-const {navigationSectionViews} = useSidebar(isAuthenticated);
+const {menuSectionViews} = useMenu(SIDEBAR_GUEST_LAYOUT, t);
 
 function handleToggle() {
   sidebarStore.toggle();
@@ -44,7 +48,7 @@ function handleToggle() {
             </LocalizedLink>
           </div>
           <div class="h-full overflow-auto px-sidebar">
-            <SidebarSections :navigation-section-views/>
+            <SidebarSections :navigation-section-views="menuSectionViews"/>
           </div>
           <UserPanel v-if="isAuthenticated"/>
         </div>

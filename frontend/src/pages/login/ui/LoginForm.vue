@@ -109,7 +109,7 @@ const submit = async () => {
     </template>
 
     <template #submit>
-      {{ $t("form.actions.submit") }}
+      {{ $t("form.actions.login") }}
     </template>
   </Form>
 </template>
