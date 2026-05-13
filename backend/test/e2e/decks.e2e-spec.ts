@@ -135,6 +135,18 @@ describe("Deck", () => {
       expect(res.body.data).toHaveProperty("isPublic", newIsPublic);
     });
 
+    it("should fail to update a deck that doesn't exist with a 404 status code", async () => {
+      const invalidId = 0;
+
+      await setAccessToken(request(testingApp.httpServer).patch(`/decks/${invalidId}`), accessToken)
+        .send({
+          name: newName,
+          description: newDescription,
+          isPublic: newIsPublic,
+        })
+        .expect(404);
+    });
+
     it("should fail to update another user's deck with a 404 status code", async () => {
       const {
         body: {
@@ -176,7 +188,7 @@ describe("Deck", () => {
       await decksHelpers.findOne(id, accessToken).expect(404);
     });
 
-    it("should fail to delete the deck with a 404 Not Found status code", async () => {
+    it("should fail to delete a deck that doesn't exist with a 404 Not Found status code", async () => {
       const invalidId = 0;
 
       await setAccessToken(
