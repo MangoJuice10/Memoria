@@ -132,7 +132,9 @@
     }
   },
   "resources": {
-    "user": "User"
+    "user": "User",
+    "flashcard": "Flashcard",
+    "deck": "Deck"
   },
   "errors": {
     "domain": {
@@ -145,7 +147,9 @@
           "email-already-exists": "Email already exists",
           "invalid-password": "The password is invalid",
           "duplicate-password": "The passwords must not match",
-          "confirm-password": "The passwords must match"
+          "confirm-password": "The passwords must match",
+          "invalid-mime-type": "Only the types {supportedTypes} are supported",
+          "max-size": "The maximum size of the upload is {maximumSize}"
         }
       },
       "unauthorized": {
@@ -160,7 +164,17 @@
     "settings": "Settings",
     "change-language": "Change language",
     "change-theme": "Change theme",
-    "logout": "Logout"
+    "logout": "Logout",
+    "upload": "Upload",
+    "flip": "Flip",
+    "previous": "Previous",
+    "next": "Next",
+    "rating": {
+      "again": "Again",
+      "bad": "Bad",
+      "good": "Good",
+      "perfect": "Perfect"
+    }
   },
   "modals": {
     "flashcard": {
@@ -188,6 +202,14 @@
       "profile": "Profile",
       "language": "Language",
       "theme": "Theme"
+    },
+    "profile": {
+      "avatar": {
+        "heading": "Profile Picture"
+      },
+      "user-data": {
+        "heading": "User Data"
+      }
     }
   },
   "landing": {

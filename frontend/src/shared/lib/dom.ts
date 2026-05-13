@@ -41,6 +41,21 @@ export const computeMinSize = (el: HTMLElement, dimension: Dimension, value: "0"
     return result;
 };
 
+export const computeMaxSize = (el: HTMLElement, dimension: Dimension) => {
+    const oldSize = el.style[dimension];
+    el.style[dimension] = "10000px";
+
+    const parentEl = el.parentElement;
+    if (!parentEl) return 0;
+
+    const result = parentEl.getBoundingClientRect()[dimension];
+
+    if (oldSize === "") el.style.removeProperty(dimension);
+    else el.style[dimension] = oldSize;
+
+    return result;
+};
+
 export const isMovingLeftPastElement = (oldX: number, newX: number, elX: number) => newX - oldX < 0 && newX < elX;
 export const isMovingRightPastElement = (oldX: number, newX: number, elX: number) => newX - oldX > 0 && newX > elX;
 export const isMovingUpPastElement = (oldY: number, newY: number, elY: number) => newY - oldY < 0 && newY < elY;

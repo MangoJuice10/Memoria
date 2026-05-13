@@ -2,8 +2,9 @@ import {useTemplateRef, onMounted, onBeforeUnmount} from "vue";
 import {
     computeSize,
     computeMinSize,
+    computeMaxSize,
     isMovingPastElement,
-    breakpoints
+    breakpoints,
 } from "@/shared/lib/dom.ts";
 import {debounce} from "@/shared/lib/debounce.ts";
 import {capitalize} from "@/shared/lib/capitalize.ts";
@@ -33,6 +34,7 @@ export const useResizable = (options: {
             const {width, height} = entries[0].contentRect;
             if (width > 0 && height > 0) {
                 setRzContainerMinDimensions();
+                setRzContainerMaxDimensions();
                 setRzContainerBaseDimensions();
 
                 resizeObserver.disconnect();
@@ -75,10 +77,12 @@ export const useResizable = (options: {
         width: {
             base: NaN,
             min: NaN,
+            max: NaN,
         },
         height: {
             base: NaN,
             min: NaN,
+            max: NaN
         }
     };
 
@@ -112,20 +116,26 @@ export const useResizable = (options: {
         }
     };
 
+    const setRzContainerMaxDimensions = () => {
+        rzContainerMeta.width.max = computeMaxSize(rzContainer, "width");
+        rzContainerMeta.height.max = computeMaxSize(rzContainer, "height");
+    };
+
     const setRzContainerBaseDimensions = () => {
         if (options.hasLeftResizeHandle || options.hasRightResizeHandle) {
-            rzContainerMeta.width.base = Math.max(rzContainerMeta.width.min, computeRzContainerBaseSize("width"));
+            rzContainerMeta.width.base = Math.min(Math.max(rzContainerMeta.width.min, computeRzContainerBaseSize("width")), rzContainerMeta.width.max);
             rzContainer.style.width = `${rzContainerMeta.width.base}px`;
         }
 
         if (options.hasTopResizeHandle || options.hasBottomResizeHandle) {
-            rzContainerMeta.height.base = Math.max(rzContainerMeta.height.min, computeRzContainerBaseSize("height"));
+            rzContainerMeta.height.base = Math.min(Math.max(rzContainerMeta.height.min, computeRzContainerBaseSize("height")), rzContainerMeta.height.max);
             rzContainer.style.height = `${rzContainerMeta.height.base}px`;
         }
     };
 
     const handleBreakpointChange = () => {
         setRzContainerMinDimensions();
+        setRzContainerMaxDimensions();
         setRzContainerBaseDimensions();
     };
 
@@ -150,7 +160,10 @@ export const useResizable = (options: {
     const adjustRzContainerSize = (dimension: Dimension) => {
         const computedMinSize = computeRzContainerMinSize(dimension);
         if (!options[`min${capitalize(dimension)}`]) rzContainerMeta[dimension]["min"] = computedMinSize;
-        if (computedMinSize > rzContainer.getBoundingClientRect()[dimension]) rzContainer.style[dimension] = `${Math.max(computedMinSize, rzContainerMeta[dimension]["min"])}px`;
+        const computedMaxSize = computeMaxSize(rzContainer, dimension);
+        rzContainerMeta[dimension]["max"] = computedMaxSize;
+
+        if (computedMinSize > rzContainer.getBoundingClientRect()[dimension]) rzContainer.style[dimension] = `${Math.min(Math.max(computedMinSize, rzContainerMeta[dimension]["min"]), computedMaxSize)}px`;
     };
 
     const resize = (e: MouseEvent, rzHandle: HTMLElement, side: Side) => {
@@ -169,7 +182,7 @@ export const useResizable = (options: {
         const direction = side === "right" || side === "bottom" ? 1 : -1;
 
         const oldSize = computeSize(rzContainer, dimension);
-        const newSize = Math.max(rzContainerMeta[dimension]["min"], oldSize + delta * direction);
+        const newSize = Math.min(Math.max(rzContainerMeta[dimension]["min"], oldSize + delta * direction), rzContainerMeta[dimension]["max"]);
 
         rzContainer.style[dimension] = `${newSize}px`;
         adjustRzContainerSize(oppositeDimension[dimension]);

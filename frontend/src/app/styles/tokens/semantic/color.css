@@ -13,13 +13,13 @@
 
     /*
     Background color
-    Background color corresponds to the primary branch color by landing
+    Background color corresponds to the primary branch color by default
     */
     --color-background-default: var(--color-primary);
 
     /*
     Surface colors
-    Surface colors correspond to the brand colors by landing
+    Surface colors correspond to the brand colors by default
     */
     --color-surface-primary: var(--color-primary);
     --color-surface-secondary: var(--color-secondary);
@@ -35,8 +35,16 @@
     --color-surface-danger: ;
 
     /*
+    Spaced Repetition colors
+    */
+    --color-again: ;
+    --color-bad: ;
+    --color-good: ;
+    --color-perfect: ;
+
+    /*
     Button colors
-    Button colors correspond to the surface colors by landing
+    Button colors correspond to the surface colors by default
     */
     --color-button: var(--color-surface-primary);
     --color-button-hover: var(--color-surface-hover);

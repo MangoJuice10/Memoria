@@ -4,7 +4,7 @@ import {Select} from "@/shared/ui/select";
 import {SelectOption} from "@/shared/ui/select";
 import {initialLocale, isSupportedLocale, localesMeta, type Locale} from "@/shared/i18n";
 import SelectLanguageIcon from "../ui/icons/SelectLanguageIcon.vue";
-import {ArrowIcon} from "@/shared/ui/icons";
+import {ChevronIcon} from "@/shared/ui/icons";
 import {useRoute, useRouter} from "vue-router";
 
 withDefaults(defineProps<{
@@ -55,7 +55,7 @@ watch(locale, (value: string) => {
         <span :class="[selectedLanguageClasses]">
           {{ localeName }}
         </span>
-        <ArrowIcon class="icon-dynamic-inverse w-4 aspect-square rotate-90" :class="[arrowClasses]"/>
+        <ChevronIcon class="icon-dynamic-inverse w-4 aspect-square rotate-90" :class="[arrowClasses]"/>
       </div>
     </template>
     <SelectOption optionValue="en-US">English</SelectOption>

@@ -3,10 +3,14 @@ import {ref} from "vue";
 import Panel from "./Panel.vue";
 import {Toolbar} from "@/widgets/toolbar";
 import {LearningIcon} from "@/shared/ui/icons";
-import {IconLabel, Button} from "@/shared/ui";
+import {IconLabel, Button, LocalizedLink} from "@/shared/ui";
+import {useRoute} from "vue-router";
+import {getIdRouteParam} from "@/app/router";
 
 const isPublic = ref(false);
+const route = useRoute();
 
+const deckId = getIdRouteParam(route.params.deckId);
 </script>
 
 <template>
@@ -17,16 +21,18 @@ const isPublic = ref(false);
     <div class="flex justify-between items-center
                 mb-10 px-page">
       <Toolbar/>
-      <Button>
-        <IconLabel>
-          <template #label>
-            Start Learning
-          </template>
-          <template #icon>
-            <LearningIcon class="w-7"/>
-          </template>
-        </IconLabel>
-      </Button>
+      <LocalizedLink name="review" :params="{deckId: String(deckId)}">
+        <Button>
+          <IconLabel>
+            <template #label>
+              Start Learning
+            </template>
+            <template #icon>
+              <LearningIcon class="icon-static-inverse w-7"/>
+            </template>
+          </IconLabel>
+        </Button>
+      </LocalizedLink>
     </div>
     <RouterView class="grow px-page"/>
   </div>

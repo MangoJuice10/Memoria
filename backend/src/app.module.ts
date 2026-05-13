@@ -10,6 +10,8 @@ import { DomainFilter } from "src/common/filters/domain.filter";
 import { DeckModule } from "./deck/deck.module";
 import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
 import { SuccessResponseInterceptor } from "src/common/interceptors/success-response.interceptor";
+import { ReviewModule } from './review/review.module';
+import { Sm2Service } from 'src/review/services/sm2.service';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { SuccessResponseInterceptor } from "src/common/interceptors/success-resp
     FlashcardModule,
     UserModule,
     DeckModule,
+    ReviewModule,
   ],
   providers: [
     SuccessResponseInterceptor,
@@ -43,6 +46,7 @@ import { SuccessResponseInterceptor } from "src/common/interceptors/success-resp
       provide: APP_FILTER,
       useExisting: DomainFilter,
     },
+    Sm2Service,
   ],
 })
 export class AppModule {}

@@ -24,6 +24,7 @@ export {
 } from "./spacedRepetition/DeckIcon.vue";
 
 export {default as LearningIcon} from "./LearningIcon.vue";
+export {default as FlipIcon} from "./FlipIcon.vue";
 export {default as Clock} from "./ClockIcon.vue";
 
 export {default as StatisticsFeatureIcon} from "./statistics/StatisticsFeatureIcon.vue";
@@ -38,11 +39,13 @@ export {default as LanguageIcon} from "./settings/LanguageIcon.vue";
 export {default as LogoutIcon} from "./actions/LogoutIcon.vue";
 
 export {default as ArrowIcon} from "./common/ArrowIcon.vue";
+export {default as ChevronIcon} from "./common/ChevronIcon.vue";
 export {default as PinIcon} from "./common/PinIcon.vue";
 export {default as CancelIcon} from "./common/CancelIcon.vue";
 export {default as BurgerMenuIcon} from "./common/BurgerMenuIcon.vue";
 export {default as HiddenIcon} from "./common/HiddenIcon.vue";
 export {default as VisibleIcon} from "./common/VisibleIcon.vue";
+export {default as UploadIcon} from "./common/UploadIcon.vue";
 export {default as StarIcon} from "./common/StarIcon.vue";
 
 export {default as AddIcon} from "./common/AddIcon.vue";

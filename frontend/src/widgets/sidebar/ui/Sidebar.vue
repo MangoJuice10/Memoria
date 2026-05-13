@@ -34,57 +34,27 @@ function handleToggle() {
 </script>
 
 <template>
-  <Transition name="sidebar">
-    <aside v-show="sidebarStore.isVisible" class="fixed inset-y-0 left-0 z-40
-                                                  w-fit border-r border-default
-                                                  bg-primary">
-      <Resizable has-right-resize-handle
-                 class="w-sidebar min-w-[25vw] h-sidebar">
-        <div class="flex flex-col">
-          <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
-            <BurgerMenu @toggle="handleToggle"/>
-            <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
-              <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
-            </LocalizedLink>
-          </div>
-          <div class="h-full overflow-auto px-sidebar">
-            <SidebarSections :navigation-section-views="menuSectionViews"/>
-          </div>
-          <UserPanel v-if="isAuthenticated"/>
+  <aside class="fixed inset-y-0 left-0 z-40
+                w-fit border-r border-default
+                bg-primary
+                transition-all duration-400"
+         :class="sidebarStore.isVisible
+                 ? 'opacity-100 translate-y-0'
+                 : 'opacity-0 -translate-x-10 pointer-events-none'">
+    <Resizable has-right-resize-handle
+               class="w-sidebar min-w-[25vw] h-sidebar">
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
+          <BurgerMenu @toggle="handleToggle"/>
+          <LocalizedLink name="home" class="block h-full min-w-0 max-w-full max-h-full">
+            <Logo has-logotype logotype-classes="max-lg:hidden" class="shrink-0 py-2"/>
+          </LocalizedLink>
         </div>
-      </Resizable>
-    </aside>
-  </Transition>
+        <div class="h-full overflow-auto px-sidebar">
+          <SidebarSections :navigation-section-views="menuSectionViews"/>
+        </div>
+        <UserPanel v-if="isAuthenticated"/>
+      </div>
+    </Resizable>
+  </aside>
 </template>
-
-<style scoped>
-.sidebar-enter-from {
-  opacity: 0;
-  transform: translateX(-10px) scaleX(0);
-}
-
-.sidebar-enter-to {
-  opacity: 1;
-  transform: translateX(0px) scaleX(1);
-}
-
-.sidebar-enter-active {
-  transition: opacity 200ms ease, transform 200ms ease;
-  transform-origin: left;
-}
-
-.sidebar-leave-from {
-  opacity: 1;
-  transform: translateX(0) scaleX(1);
-}
-
-.sidebar-leave-to {
-  opacity: 0;
-  transform: translateX(0) scaleX(0);
-}
-
-.sidebar-leave-active {
-  transition: opacity 200ms ease, transform 200ms ease;
-  transform-origin: left;
-}
-</style>

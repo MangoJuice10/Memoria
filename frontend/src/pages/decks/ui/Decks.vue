@@ -24,7 +24,7 @@ onMounted(async () => {
 .decks {
   display: grid;
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fit, var(--deck-width));
+  grid-template-columns: repeat(auto-fit, var(--width-deck));
   gap: 3.75rem;
 }
 </style>

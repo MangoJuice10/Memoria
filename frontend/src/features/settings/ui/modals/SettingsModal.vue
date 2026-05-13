@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="grid grid-cols-[repeat(4,minmax(min-content,1fr))]">
+    <div class="grid grid-cols-[repeat(4,minmax(min-content,1fr))] h-full">
       <div class="col-span-1">
         <MenuContainer class="h-full border-r border-default">
           <MenuItem v-for="settingsItem in menuItemViews"
@@ -32,7 +32,7 @@ onMounted(() => {
                     class="px-7 py-3"/>
         </MenuContainer>
       </div>
-      <div class="col-span-3 p-10">
+      <div class="col-span-3 p-10 overflow-y-scroll">
         <component :is="ProfileTab"/>
       </div>
     </div>

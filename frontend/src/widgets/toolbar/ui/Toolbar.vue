@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {Dropdown, IconLabel, IconLabelButton, MenuContainer} from "@/shared/ui";
+import {Dropdown, IconLabel, MenuContainer} from "@/shared/ui";
 import {FiltersIcon, SortIcon} from "@/shared/ui/icons";
 import {Searchbar} from "@/shared/ui";
 </script>

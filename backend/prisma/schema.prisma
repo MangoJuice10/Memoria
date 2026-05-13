@@ -41,15 +41,38 @@ model Deck {
   @@map("decks")
 }
 
-model Flashcard {
-  id        Int      @id @default(autoincrement())
-  front     String
-  back      String
-  deckId    Int      @map("deck_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+enum ReviewRating {
+  AGAIN
+  BAD
+  GOOD
+  PERFECT
+}
 
-  deck Deck @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+model Flashcard {
+  id           Int      @id @default(autoincrement())
+  front        String
+  back         String
+  deckId       Int      @map("deck_id")
+  repetitions  Int      @default(0)
+  intervalDays Int      @default(0) @map("interval_days")
+  easeFactor   Float    @default(2.5) @map("ease_factor")
+  dueAt        DateTime @default(now()) @map("due_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  deck          Deck            @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  reviewHistory ReviewHistory[]
 
   @@map("flashcards")
+}
+
+model ReviewHistory {
+  id          Int          @id @default(autoincrement())
+  flashcardId Int          @map("flashcard_id")
+  rating      ReviewRating
+  reviewedAt  DateTime     @default(now()) @map("reviewed_at")
+
+  flashcard Flashcard @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("review_history")
 }

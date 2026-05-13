@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {ArrowIcon, PinIcon} from "@/shared/ui/icons";
+import {ChevronIcon, PinIcon} from "@/shared/ui/icons";
 
 type Side =
     | "top"
@@ -60,7 +60,7 @@ function toggle() {
                  ]"
          @click="toggle">
       <slot name="trigger"/>
-      <ArrowIcon v-if="hasArrow"
+      <ChevronIcon v-if="hasArrow"
                  class="icon-dynamic-inverse
                         transition-transform duration-400"
                  :class="[
@@ -88,7 +88,7 @@ function toggle() {
                      ? 'left-0'
                      : align === 'left'
                        ? 'right-0'
-                       : 'left-1/2 -translate-1/2',
+                       : 'left-1/2 -translate-x-1/2',
                    isOpen
                      ? ''
                      : (side === 'top' ? 'translate-y-10\n' : '-translate-y-10\n') +

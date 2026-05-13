@@ -130,6 +130,11 @@
     Mobile mapping
     */
     :root {
+        --color-again: var(--color-red-300);
+        --color-bad: var(--color-yellow-150);
+        --color-good: var(--color-green-800);
+        --color-perfect: var(--color-blue-800);
+
         --font-weight-default: var(--font-weight-400);
         --font-family-default: var(--font-family-inter), var(--font-family-sans-serif);
         --font-size-default: var(--font-size-base);
@@ -169,6 +174,15 @@
         --width-footer: 100%;
         --height-footer: var(--size-52);
 
+        --width-button: 8.75rem;
+        --height-button: 2.75rem;
+
+        --width-flashcard: 12.5rem;
+        --height-flashcard: 18.75rem;
+
+        --width-deck: 25rem;
+        --height-deck: 31.25rem;
+
         --padding-top-footer: var(--size-12);
         --padding-bottom-footer: var(--size-12);
 
@@ -184,12 +198,6 @@
 
         --padding-top-button: var(--spacing-2);
         --padding-left-button: var(--spacing-4);
-
-        --flashcard-width: 200px;
-        --flashcard-height: 300px;
-
-        --deck-width: 400px;
-        --deck-height: 500px;
     }
 
     /*
@@ -197,7 +205,7 @@
     */
     @media (min-width: 40rem) {
         :root {
-            --width-sidebar: 35vw;
+            --width-sidebar: 25vw;
 
             --padding-right-page: var(--spacing-4);
             --padding-left-page: var(--spacing-4);
@@ -375,7 +383,7 @@
         /*
         "min-height" of 100% makes the body at least have
         the same height as the html tag, but also allows it to
-        expand, as its "height" is set to "auto" by landing
+        expand, as its "height" is set to "auto" by default
         */
         min-height: 100%;
     }
@@ -383,11 +391,11 @@
     #app {
         /*
         "height" of 100% makes the application have the height of the
-        body, which is set to "auto" by landing. As result, the application's
+        body, which is set to "auto" by default. As result, the application's
         height is determined based on the content.
         "min-height" of 100vh makes the application at least have
         the same height as the viewport, but also allows it to
-        expand, as its "height" is set to "auto" by landing
+        expand, as its "height" is set to "auto" by default
         */
         min-height: 100vh;
     }
@@ -396,7 +404,7 @@
         /*
         "min-height" of 100vh makes the only root element of the application at least
         have the same height as the viewport, but also allows it to expand, as its height
-        is set to "auto" by landing
+        is set to "auto" by default
         */
         min-height: 100vh;
     }
@@ -450,6 +458,22 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility bg-tertiary {
     background-color: var(--color-surface-tertiary);
+}
+
+@utility bg-again {
+    background-color: var(--color-again);
+}
+
+@utility bg-bad {
+    background-color: var(--color-bad);
+}
+
+@utility bg-good {
+    background-color: var(--color-good);
+}
+
+@utility bg-perfect {
+    background-color: var(--color-perfect);
 }
 
 @utility bg-hover {
@@ -541,12 +565,20 @@ Size and spacing utility classes
     min-height: var(--height-footer);
 }
 
+@utility w-button {
+    width: var(--width-button);
+}
+
+@utility h-button {
+    height: var(--height-button);
+}
+
 @utility w-flashcard {
-    width: var(--flashcard-width);
+    width: var(--width-flashcard);
 }
 
 @utility h-flashcard {
-    height: var(--flashcard-height);
+    height: var(--height-flashcard);
 }
 
 @utility pt-page {

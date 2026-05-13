@@ -7,7 +7,7 @@
     "types": ["node"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
+    /* Bundler model */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,

@@ -7,9 +7,11 @@ export {default as Button} from "./buttons/Button.vue";
 export {default as BurgerMenu} from "./buttons/BurgerMenu.vue";
 export {default as Toggle} from "./buttons/Toggle.vue";
 export {default as IconLabelButton} from "./buttons/IconLabelButton.vue";
+export {default as UploadButton} from "./buttons/UploadButton.vue";
 
 export {default as Loader} from "./loader/Loader.vue";
 export {default as Error} from "./error/Error.vue";
+export {default as Divider} from "./Divider.vue";
 
 export * from "./form";
 

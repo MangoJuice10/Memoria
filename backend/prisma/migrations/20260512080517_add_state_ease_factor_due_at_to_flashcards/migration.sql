@@ -1,0 +1,7 @@
+-- CreateEnum
+CREATE TYPE "FlashcardState" AS ENUM ('NEW', 'LEARNING', 'REVIEW');
+
+-- AlterTable
+ALTER TABLE "flashcards" ADD COLUMN     "due_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "ease_factor" DOUBLE PRECISION NOT NULL DEFAULT 2.5,
+ADD COLUMN     "state" "FlashcardState" NOT NULL DEFAULT 'NEW';

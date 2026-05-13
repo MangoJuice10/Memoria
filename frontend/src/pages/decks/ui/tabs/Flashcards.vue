@@ -48,7 +48,7 @@ const flashcards = computed(() => data.value ?? []);
 .flashcards {
   display: grid;
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fit, var(--flashcard-width));
+  grid-template-columns: repeat(auto-fit, var(--width-flashcard));
   gap: 3.75rem;
 }
 </style>

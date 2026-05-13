@@ -24,6 +24,8 @@ export const codesToKeys: Record<ErrorCode, string> = {
     CONFIRM_PASSWORD: `${baseValidationErrorKey}.confirm-password`,
     MIN_LENGTH: `${baseValidationErrorKey}.min-length`,
     MAX_LENGTH: `${baseValidationErrorKey}.max-length`,
+    INVALID_MIME_TYPE: `${baseValidationErrorKey}.invalid-mime-type`,
+    MAX_SIZE: `${baseValidationErrorKey}.max-size`,
     INVALID_TYPE: `${baseValidationErrorKey}.invalid-type`,
     UNRECOGNIZED: `${baseValidationErrorKey}.unrecognized`,
 

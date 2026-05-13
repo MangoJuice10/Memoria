@@ -12,7 +12,7 @@ type BaseProps = {
 }
 
 type Props = (BaseProps & {
-  element: "input",
+  element?: "input",
   type?: string;
 }) | (BaseProps & {
   element: "textarea";

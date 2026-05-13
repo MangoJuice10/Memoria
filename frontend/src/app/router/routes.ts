@@ -8,6 +8,7 @@ import {Login} from "@/pages/login";
 import {Register} from "@/pages/register";
 import {Decks, Deck} from "@/pages/decks";
 import {Flashcards} from "@/pages/decks";
+import {Review} from "@/pages/review";
 
 export const routes = [
     {
@@ -86,6 +87,11 @@ export const routes = [
                         component: Flashcards
                     }
                 ]
+            },
+            {
+                path: "decks/:deckId/review",
+                name: "review",
+                component: Review
             },
             {
                 path: "shared-decks",
