@@ -1,5 +1,5 @@
 import {ref, watch, onMounted} from "vue";
-import type {ThemeType} from "src/features/settings/model/theme.type.ts";
+import type {ThemeType} from "../model/theme.type";
 
 export const useTheme = () => {
     const theme = ref<ThemeType>(

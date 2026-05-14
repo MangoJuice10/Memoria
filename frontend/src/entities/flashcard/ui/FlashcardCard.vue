@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import ClockIcon from "@/shared/ui/icons/ClockIcon.vue";
+import {ClockIcon} from "@/shared/ui";
 import {Dropdown, IconLabel, MenuContainer, MenuItem} from "@/shared/ui";
 import {useBackdropStore, useModalStore} from "@/shared/model";
-import {defineAsyncComponent} from "vue";
-import {showOne, useMenu} from "@/shared/lib";
+import {computed, defineAsyncComponent} from "vue";
+import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
-import {OPTIONS_LAYOUT} from "@/shared/config";
+import {flashcardPropertyCodes, OPTIONS_LAYOUT} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
 
 const props = defineProps<{
   id: number;
   front: string;
   back: string;
-  interval: number;
+  dueAt: string;
   deckId: number;
 }>();
+
+const daysUntilDue = computed(() => {
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diff = new Date(props.dueAt).getTime() - Date.now();
+  return Math.ceil(diff / msPerDay);
+});
 
 const {t} = useI18n();
 
@@ -24,12 +31,10 @@ const backdropStore = useBackdropStore();
 const {menuItemViews} = useMenu(OPTIONS_LAYOUT, t);
 
 function setupMenuCallbacks() {
-  const editItem = menuItemViews.value.find(({id}) => id === "edit");
-  if (!editItem) throw new Error("Edit menu item is missing");
+  const editItem = getMenuItemViewOrThrow(menuItemViews.value, "edit");
   editItem.callback = openUpdateFlashcardModal;
 
-  const deleteItem = menuItemViews.value.find(({id}) => id === "delete");
-  if (!deleteItem) throw new Error("Delete menu item is missing");
+  const deleteItem = getMenuItemViewOrThrow(menuItemViews.value, "delete");
   deleteItem.callback = openDeleteFlashcardModal;
 }
 
@@ -91,7 +96,7 @@ setupMenuCallbacks();
       </div>
     </div>
     <div class="row-span-10 p-4">
-      <div class="text-base text-center line-clamp-6">
+      <div class="text-base text-center line-clamp-5">
         {{ back }}
       </div>
     </div>
@@ -100,7 +105,9 @@ setupMenuCallbacks();
                 bg-tertiary">
       <IconLabel>
         <template #label>
-          {{ interval }}
+          <span>
+            {{ $t(codeToKey(flashcardPropertyCodes.FLASHCARD_DUE_AT), {n: daysUntilDue}) }}
+          </span>
         </template>
         <template #icon>
           <ClockIcon class="w-7"/>

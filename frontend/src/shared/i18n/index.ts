@@ -1,7 +1,7 @@
 import {nextTick} from "vue";
 import {createI18n} from "vue-i18n";
-import enUS from "@/shared/i18n/locales/en-US.json";
-import {pluralRulesRu} from "@/shared/i18n/plurals/pluralRulesRu.ts";
+import enUS from "./locales/en-US.json";
+import {pluralRulesRu} from "./plurals/plural-rules-ru.ts";
 
 export type Locale = "en-US" | "ru-RU";
 export type MessageSchema = typeof enUS;
@@ -51,7 +51,7 @@ export const i18n = createI18n<MessageSchema, Locale, false>({
         "ru-RU": {}
     },
     pluralRules: {
-        ru: pluralRulesRu
+        "ru-RU": pluralRulesRu
     }
 });
 
@@ -71,4 +71,4 @@ export const loadLocaleMessages = async (locale: Locale) => {
     return nextTick();
 };
 
-export {codeToKey} from "./codeToKey.ts";
+export {codeToKey} from "./code-to-key";

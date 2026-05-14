@@ -1,51 +1,51 @@
 import {z} from "zod";
 import type {Composer} from "vue-i18n";
-import {FormFields, validationErrorCodes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
+import {errorCodes, formCodes} from "@/shared/config";
 
 export const createRegisterSchema = (t: Composer["t"]) => {
     return z.object({
         username: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.USERNAME.title),
+                error: () => t(codeToKey(errorCodes.REQUIRED), {
+                    fieldName: t(codeToKey(formCodes.USERNAME_NAME)),
                 }),
             })
             .min(2, {
-                error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.USERNAME.title),
+                error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                    fieldName: t(codeToKey(formCodes.USERNAME_NAME)),
                     n: 2
                 })
             }),
         email: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.EMAIL.title)
+                error: () => t(codeToKey(errorCodes.REQUIRED), {
+                    fieldName: t(codeToKey(formCodes.EMAIL_NAME))
                 })
             })
             .email({
-                error: () => t(codeToKey(validationErrorCodes.EMAIL), {
-                    fieldName: t(FormFields.EMAIL.placeholder)
+                error: () => t(codeToKey(errorCodes.EMAIL), {
+                    fieldName: t(codeToKey(formCodes.EMAIL_NAME))
                 })
             }),
         password: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.PASSWORD.title)
+                error: () => t(codeToKey(errorCodes.REQUIRED), {
+                    fieldName: t(codeToKey(formCodes.PASSWORD_NAME))
                 })
             })
             .min(8, {
-                error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.PASSWORD.placeholder),
+                error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                    fieldName: t(codeToKey(formCodes.PASSWORD_NAME)),
                     n: 8
                 })
             }),
         confirmPassword: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.CONFIRM_PASSWORD))
+                error: () => t(codeToKey(errorCodes.CONFIRM_PASSWORD))
             })
     }).refine(data => data.password === data.confirmPassword, {
-        error: () => t(codeToKey(validationErrorCodes.CONFIRM_PASSWORD)),
+        error: () => t(codeToKey(errorCodes.CONFIRM_PASSWORD)),
         path: ["confirmPassword"]
     });
 };

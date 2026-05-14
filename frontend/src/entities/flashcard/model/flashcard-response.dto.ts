@@ -3,6 +3,8 @@ export type FlashcardResponseDto = {
     front: string;
     back: string;
     deckId: number;
+    intervalDays: number;
+    dueAt: string;
     createdAt: string;
     updatedAt: string;
 }

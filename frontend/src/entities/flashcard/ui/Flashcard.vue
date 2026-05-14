@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 import {type FlashcardResponseDto, flashcardsQueryKeys, reviewFlashcard, type ReviewRating} from "@/entities/flashcard";
-import FlashcardSide from "../../ui/flashcard/FlashcardSide.vue";
-import FlashcardControls from "../../ui/flashcard/FlashcardControls.vue";
-import RatingControls from "../../ui/flashcard/RatingControls.vue";
+import FlashcardSide from "./FlashcardSide.vue";
+import FlashcardControls from "./FlashcardControls.vue";
+import RatingControls from "./RatingControls.vue";
 import type {DeckResponseDto} from "@/entities/deck";
-import {queryClient} from "@/shared/api/queryClient.ts";
+import {queryClient} from "@/shared/api/query-client.ts";
 import {useI18n} from "vue-i18n";
 
 defineOptions({
@@ -32,7 +32,7 @@ const {t} = useI18n();
 const isFlipped = ref(false);
 
 const heading = computed(() =>
-    `${props.deck.name}: ${t("resources.flashcard")} ${props.currentIdx + 1} of ${props.remaining}`);
+    `${props.deck.name}: ${t("resources.flashcard.name")} ${props.currentIdx + 1} of ${props.remaining}`);
 
 function handleFlip() {
   isFlipped.value = !isFlipped.value;

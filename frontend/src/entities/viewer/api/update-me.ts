@@ -1,6 +1,6 @@
 import {client} from "@/shared/api/client.ts";
 import type {Viewer} from "@/entities/viewer/model/viewer.type.ts";
-import type {UpdateMeDto} from "@/shared/model/schemas/updateMe.schema.ts";
+import type {UpdateMeDto} from "@/features/settings/model/update-me.schema.ts";
 import type {SuccessResponse} from "@/shared/api";
 
 export async function updateMe(updateUserDto: UpdateMeDto): Promise<Viewer> {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {CreateFlashcard, FlashcardCard} from "@/features/flashcard";
+import {CreateFlashcard, FlashcardCard} from "@/entities/flashcard";
 import {computed} from "vue";
 import {flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {useRoute} from "vue-router";
@@ -33,13 +33,13 @@ const flashcards = computed(() => data.value ?? []);
   </div>
   <div v-else class="flashcards">
     <CreateFlashcard :deck-id="Number(route.params.deckId)"/>
-    <!--TODO-->
     <FlashcardCard v-for="flashcard in flashcards"
                    :id="flashcard.id"
                    :key="flashcard.id"
                    :front="flashcard.front"
                    :back="flashcard.back"
-                   :interval="1"
+                   :intervalDays="flashcard.intervalDays"
+                   :dueAt="flashcard.dueAt"
                    :deckId="flashcard.deckId"/>
   </div>
 </template>
@@ -47,8 +47,38 @@ const flashcards = computed(() => data.value ?? []);
 <style scoped>
 .flashcards {
   display: grid;
+  grid-template-columns: repeat(2, var(--width-flashcard));
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fit, var(--width-flashcard));
   gap: 3.75rem;
+}
+
+@media (min-width: 40rem) {
+  .flashcards {
+    grid-template-columns: repeat(3, var(--width-flashcard));
+  }
+}
+
+@media (min-width: 48rem) {
+  .flashcards {
+    grid-template-columns: repeat(4, var(--width-flashcard));
+  }
+}
+
+@media (min-width: 64rem) {
+  .flashcards {
+    grid-template-columns: repeat(5, var(--width-flashcard));
+  }
+}
+
+@media (min-width: 80rem) {
+  .flashcards {
+    grid-template-columns: repeat(5, var(--width-flashcard));
+  }
+}
+
+@media (min-width: 96rem) {
+  .flashcards {
+    grid-template-columns: repeat(6, var(--width-flashcard));
+  }
 }
 </style>

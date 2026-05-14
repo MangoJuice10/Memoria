@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useResizable} from "@/shared/resizable/lib/useResizable"
+import {useResizable} from "../lib/use-resizable.ts"
 
 type Props = {
   minWidth?: string;

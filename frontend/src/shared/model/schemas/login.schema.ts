@@ -1,6 +1,6 @@
 import {z} from "zod";
 import type {Composer} from "vue-i18n";
-import {FormFields, validationErrorCodes} from "@/shared/config";
+import {formCodes, validationErrorCodes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 export function createLoginSchema(t: Composer["t"]) {
@@ -8,24 +8,24 @@ export function createLoginSchema(t: Composer["t"]) {
         email: z.string()
             .nonempty({
                 error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.EMAIL.title)
+                    fieldName: t(formCodes.EMAIL_NAME)
                 })
             })
             .email({
                 error: () => t(codeToKey(validationErrorCodes.EMAIL), {
-                    fieldName: t(FormFields.EMAIL.placeholder)
+                    fieldName: t(formCodes.EMAIL_NAME)
                 })
             }),
         password: z.string()
             .nonempty({
                 error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.PASSWORD.title)
+                    fieldName: t(formCodes.PASSWORD_NAME)
                 })
             })
             .min(8, {
                 error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
                     n: 8,
-                    fieldName: t(FormFields.PASSWORD.placeholder)
+                    fieldName: t(formCodes.PASSWORD_NAME)
                 })
             })
     });

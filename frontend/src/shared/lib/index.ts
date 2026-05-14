@@ -1,12 +1,13 @@
 export {asset} from "./asset";
 export {debounce} from "./debounce";
-export {emptyStringToUndefined} from "./validation/emptyStringToUndefined";
-export {useValidation} from "./validation/useValidation.ts";
+export {emptyStringToUndefined} from "./validation/empty-string-to-undefined";
+export {useValidation} from "./validation/use-validation";
 export {walkObject} from "./walkObject";
-export {useVisibility} from "./useVisibility";
-export {useDynamicComponent} from "./useDynamicComponent";
+export {useVisibility} from "./use-visibility.ts";
+export {useDynamicComponent} from "./use-dynamic-component.ts";
 
 export {useMenu} from "./menu/useMenu";
-export {useNavigation} from "./navigation/useNavigation";
+export {getMenuItemViewOrThrow} from "./menu/get-menu-item-or-throw";
+export {useNavigation} from "./navigation/use-navigation.ts";
 
 export {showOne, hideAll} from "./ui.helpers";

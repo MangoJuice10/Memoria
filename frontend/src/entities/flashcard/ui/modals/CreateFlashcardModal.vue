@@ -11,10 +11,11 @@ import {
 } from "@/entities/flashcard";
 import {Modal} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
-import {FormFields} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
+import {codeToKey} from "@/shared/i18n";
+import {formCodes, resourceCodes} from "@/shared/config";
 
 const props = defineProps<{
   deckId: number;
@@ -102,8 +103,8 @@ onMounted(() => {
             <FormField id="front"
                        v-model="data.front"
                        element="textarea"
-                       :label="t(FormFields.FRONT.title)"
-                       :placeholder="t(FormFields.FRONT.placeholder)"
+                       :label="t(codeToKey(formCodes.FRONT_NAME))"
+                       :placeholder="t(codeToKey(formCodes.FRONT_PLACEHOLDER))"
                        :touched="isFieldTouched('front')"
                        :error="getError('front')"
                        @blur="() => {
@@ -113,8 +114,8 @@ onMounted(() => {
             <FormField id="back"
                        v-model="data.back"
                        element="textarea"
-                       :label="t(FormFields.BACK.title)"
-                       :placeholder="t(FormFields.BACK.placeholder)"
+                       :label="t(codeToKey(formCodes.BACK_NAME))"
+                       :placeholder="t(codeToKey(formCodes.BACK_PLACEHOLDER))"
                        :touched="isFieldTouched('back')"
                        :error="getError('back')"
                        @blur="() => {
@@ -124,7 +125,7 @@ onMounted(() => {
           </div>
         </template>
         <template #submit>
-          {{ $t("form.actions.create") }}
+          {{ $t(codeToKey(resourceCodes.FLASHCARD_CREATE_NAME)) }}
         </template>
       </Form>
     </div>

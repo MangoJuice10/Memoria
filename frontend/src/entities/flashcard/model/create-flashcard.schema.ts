@@ -1,31 +1,31 @@
 import {z} from "zod";
 import type {Composer} from "vue-i18n";
-import {FormFields, validationErrorCodes} from "@/shared/config";
+import {errorCodes, formCodes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 export function createCreateFlashcardSchema(t: Composer["t"]) {
     return z.object({
         front: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.FRONT.title)
+                error: () => t(codeToKey(errorCodes.REQUIRED), {
+                    fieldName: t(codeToKey(formCodes.FRONT_NAME))
                 })
             })
             .min(2, {
-                error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.FRONT.title),
+                error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                    fieldName: t(codeToKey(formCodes.FRONT_NAME)),
                     n: 2
                 })
             }),
         back: z.string()
             .nonempty({
-                error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(FormFields.BACK.title)
+                error: () => t(codeToKey(errorCodes.REQUIRED), {
+                    fieldName: t(codeToKey(formCodes.BACK_NAME))
                 })
             })
             .min(2, {
-                error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                    fieldName: t(FormFields.BACK.title),
+                error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                    fieldName: t(codeToKey(formCodes.BACK_NAME)),
                     n: 2
                 })
             })

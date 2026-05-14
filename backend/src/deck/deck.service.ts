@@ -3,7 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateDeckDto } from "src/deck/schemas/create-deck.schema";
 import { UpdateDeckDto } from "src/deck/schemas";
 import { DeckNotFoundError } from "src/deck/errors/deck-not-found.error";
-import { DeckResponseDto } from "src/deck/types/deck-response.dto";
+import { DeckResponseDto } from "src/deck/dto/deck-response.dto";
 import { Deck, Prisma } from "@prisma/client";
 import { isPrismaNotFoundError } from "src/prisma/prisma.errors";
 
@@ -105,7 +105,7 @@ export class DeckService {
     return deck;
   }
 
-  private mapDeckWithFlashcardsCountToResponse(deck: DeckWithFlashcardsCount) {
+  private mapDeckWithFlashcardsCountToResponse(deck: DeckWithFlashcardsCount): DeckResponseDto {
     const { _count, ...deckProperties } = deck;
     return {
       ...deckProperties,

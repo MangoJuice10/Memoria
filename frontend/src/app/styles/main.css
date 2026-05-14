@@ -177,11 +177,11 @@
         --width-button: 8.75rem;
         --height-button: 2.75rem;
 
-        --width-flashcard: 12.5rem;
-        --height-flashcard: 18.75rem;
+        --width-flashcard: 9rem;
+        --height-flashcard: 13.5rem;
 
-        --width-deck: 25rem;
-        --height-deck: 31.25rem;
+        --width-deck: 20rem;
+        --height-deck: 30rem;
 
         --padding-top-footer: var(--size-12);
         --padding-bottom-footer: var(--size-12);
@@ -207,6 +207,9 @@
         :root {
             --width-sidebar: 25vw;
 
+            --width-flashcard: 10rem;
+            --height-flashcard: 15rem;
+
             --padding-right-page: var(--spacing-4);
             --padding-left-page: var(--spacing-4);
 
@@ -224,6 +227,9 @@
     */
     @media (min-width: 48rem) {
         :root {
+            --width-flashcard: 10.75rem;
+            --height-flashcard: 16.125rem;
+
             --font-size-default: var(--font-size-sm);
             --line-height-default: var(--line-height-sm);
 
@@ -240,6 +246,9 @@
     */
     @media (min-width: 64rem) {
         :root {
+            --width-flashcard: 11.5rem;
+            --height-flashcard: 17.25rem;
+
             --font-size-h1: var(--font-size-4xl);
             --line-height-h1: var(--line-height-4xl);
             --font-size-h2: var(--font-size-2xl);
@@ -256,6 +265,9 @@
     */
     @media (min-width: 80rem) {
         :root {
+            --width-flashcard: 12.5rem;
+            --height-flashcard: 18.75rem;
+
             --padding-right-page: var(--spacing-16);
             --padding-left-page: var(--spacing-16);
         }
@@ -266,7 +278,8 @@
     */
     @media (min-width: 96rem) {
         :root {
-
+            --width-flashcard: 13.5rem;
+            --height-flashcard: 20.25rem;
         }
     }
 
@@ -579,6 +592,14 @@ Size and spacing utility classes
 
 @utility h-flashcard {
     height: var(--height-flashcard);
+}
+
+@utility w-deck {
+    width: var(--width-deck);
+}
+
+@utility h-deck {
+    height: var(--height-deck);
 }
 
 @utility pt-page {

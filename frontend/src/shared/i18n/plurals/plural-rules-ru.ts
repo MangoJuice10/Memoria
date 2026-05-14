@@ -3,7 +3,7 @@ export const pluralRulesRu = (choice: number, choicesLength: number) => {
 
     const teen = choice > 10 && choice < 20;
     const endsWithOne = choice % 10 === 1;
-    if (!teen || endsWithOne) return 1;
+    if (!teen && endsWithOne) return 1;
 
     if (!teen && choice % 10 > 1 && choice % 10 < 5) {
         return 2;

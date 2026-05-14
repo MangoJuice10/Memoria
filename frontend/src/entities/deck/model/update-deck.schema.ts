@@ -1,7 +1,7 @@
 import type {Composer} from "vue-i18n";
 import {z} from "zod";
 import {emptyStringToUndefined} from "@/shared/lib";
-import {FormFields, validationErrorCodes} from "@/shared/config";
+import {errorCodes, formCodes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 export function createUpdateDeckSchema(t: Composer["t"]) {
@@ -10,8 +10,8 @@ export function createUpdateDeckSchema(t: Composer["t"]) {
             emptyStringToUndefined,
             z.string()
                 .min(2, {
-                    error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                        fieldName: t(FormFields.NAME.title),
+                    error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                        fieldName: t(codeToKey(formCodes.NAME_NAME)),
                         n: 2
                     })
                 })
@@ -21,8 +21,8 @@ export function createUpdateDeckSchema(t: Composer["t"]) {
             emptyStringToUndefined,
             z.string()
                 .min(2, {
-                    error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
-                        fieldName: t(FormFields.DESCRIPTION.title),
+                    error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
+                        fieldName: t(codeToKey(formCodes.DESCRIPTION_NAME)),
                         n: 2
                     })
                 }))

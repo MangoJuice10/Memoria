@@ -1,10 +1,11 @@
 import {defineStore} from "pinia";
 import {uploadAvatar, type Viewer} from "@/entities/viewer";
 import {auth} from "@/shared/api";
-import {getMe} from "../api/getMe";
-import {updateMe} from "../api/updateMe";
+import {getMe} from "../api/get-me.ts";
+import {updateMe} from "../api/update-me.ts";
 import {clearAccessToken} from "@/shared/auth";
-import type {RegisterDto, LoginDto, UpdateMeDto} from "@/shared/model";
+import type {RegisterDto, LoginDto} from "@/shared/model";
+import type {UpdateMeDto} from "@/features/settings";
 
 type ViewerState = {
     viewer: Viewer | null;

@@ -2,30 +2,31 @@ export {default as AIAssistanceIcon} from "./ai/AIAssistanceIcon.vue";
 
 export {
     default as EducationalResourcesIntroductionIcon
-} from "./educationalResources/EducationalResourcesIntroductionIcon.vue";
+} from "./educational-resources/EducationalResourcesIntroductionIcon.vue";
 export {
     default as TrustworthyAnswersFeatureIcon
-} from "./educationalResources/TrustworthyAnswersFeatureIcon.vue";
+} from "./educational-resources/TrustworthyAnswersFeatureIcon.vue";
 
 export {default as LogomarkIcon} from "./LogomarkIcon.vue";
 
 export {
     default as SpacedRepetitionFeatureIcon
-} from "./spacedRepetition/SpacedRepetitionFeatureIcon.vue";
+} from "./spaced-repetition/SpacedRepetitionFeatureIcon.vue";
 export {
     default as FlashcardsIntroductionIcon
-} from "./spacedRepetition/FlashcardsIntroductionIcon.vue";
-export {default as DecksIntroductionIcon} from "./spacedRepetition/DecksIntroductionIcon.vue";
+} from "./spaced-repetition/FlashcardsIntroductionIcon.vue";
+export {default as DecksIntroductionIcon} from "./spaced-repetition/DecksIntroductionIcon.vue";
 export {
     default as SharedDecksIntroductionIcon
-} from "./spacedRepetition/SharedDecksIntroductionIcon.vue";
-export {
-    default as DeckIcon
-} from "./spacedRepetition/DeckIcon.vue";
+} from "./spaced-repetition/SharedDecksIntroductionIcon.vue";
+
+export {default as FlashcardIcon} from "./spaced-repetition/FlashcardIcon.vue";
+export {default as DeckIcon} from "./spaced-repetition/DeckIcon.vue";
 
 export {default as LearningIcon} from "./LearningIcon.vue";
 export {default as FlipIcon} from "./FlipIcon.vue";
-export {default as Clock} from "./ClockIcon.vue";
+export {default as ClockIcon} from "./ClockIcon.vue";
+export {default as HourGlassIcon} from "./HourGlass.vue";
 
 export {default as StatisticsFeatureIcon} from "./statistics/StatisticsFeatureIcon.vue";
 
@@ -47,6 +48,8 @@ export {default as HiddenIcon} from "./common/HiddenIcon.vue";
 export {default as VisibleIcon} from "./common/VisibleIcon.vue";
 export {default as UploadIcon} from "./common/UploadIcon.vue";
 export {default as StarIcon} from "./common/StarIcon.vue";
+export {default as PublicIcon} from "./common/PublicIcon.vue";
+export {default as PrivateIcon} from "./common/PrivateIcon.vue";
 
 export {default as AddIcon} from "./common/AddIcon.vue";
 export {default as EditIcon} from "./common/EditIcon.vue";

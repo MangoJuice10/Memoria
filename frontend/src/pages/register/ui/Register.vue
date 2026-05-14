@@ -4,11 +4,12 @@ import {Resizable} from "@/shared/resizable";
 </script>
 
 <template>
-  <div class="flex justify-center min-h-screen">
+  <div class="flex flex-col items-center
+              min-h-screen">
     <Resizable has-right-resize-handle
                has-left-resize-handle
                min-width="25vw">
-      <RegisterForm class="mt-50"/>
+      <RegisterForm class="mt-30"/>
     </Resizable>
   </div>
 </template>

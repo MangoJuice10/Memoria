@@ -67,7 +67,9 @@ const submit = async () => {
         form-error-classes="text-center"
         submit-classes="w-40 h-9 font-semibold"
         reset-classes="w-20 h-9 font-semibold"
-        class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
+        class="w-[35vw] p-5 border rounded-lg border-default
+               text-base
+               bg-tertiary"
         data-testid="register-form"
         @submit="submit"
         @reset="reset">

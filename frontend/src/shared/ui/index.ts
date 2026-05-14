@@ -1,3 +1,5 @@
+export * from "./icons";
+
 export {default as Logo} from "./logo/Logo.vue";
 
 export {default as IconLabel} from "./IconLabel.vue";
@@ -28,3 +30,5 @@ export {default as Modal} from "./modal/Modal.vue";
 export {default as ActionModal} from "./modal/ActionModal.vue";
 
 export {default as Backdrop} from "./backdrop/Backdrop.vue";
+
+export {default as CreateCard} from "./resources/CreateCard.vue";

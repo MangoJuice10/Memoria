@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useTheme} from "../lib/useTheme";
+import {useTheme} from "../lib/use-theme.ts";
 import LightThemeIcon from "../ui/icons/LightThemeIcon.vue";
 import DarkThemeIcon from "../ui/icons/DarkThemeIcon.vue";
 

@@ -1,4 +1,4 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { DeckService } from "src/deck/deck.service";
 import { AuthenticatedUser } from "src/auth/types";
 

@@ -59,13 +59,15 @@ const submit = async () => {
 </script>
 
 <template>
-  <Form :form-error="getFormError()"
+  <Form :form-error="$t(getFormError() ?? '')"
         :is-submit-enabled="isValid"
         :is-reset-enabled="true"
         form-error-classes="text-center"
         submit-classes="w-40 h-9 font-semibold"
         reset-classes="w-30 h-9 font-semibold"
-        class="w-[35vw] p-5 border rounded-lg border-default bg-tertiary"
+        class="w-[35vw] p-5 border rounded-lg border-default
+               text-base
+               bg-tertiary"
         data-testid="login-form"
         @submit="submit"
         @reset="reset">
@@ -91,8 +93,7 @@ const submit = async () => {
                    @blur="() => {
                      touch('email');
                      clientValidate();
-                   }"
-                   class="text-lg"/>
+                   }"/>
         <FormField id="password"
                    v-model="data.password"
                    :label="$t('auth.login.password.title')"
@@ -103,8 +104,7 @@ const submit = async () => {
                    @blur="() => {
                      touch('password');
                      clientValidate();
-                   }"
-                   class="text-lg"/>
+                   }"/>
       </div>
     </template>
 

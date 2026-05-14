@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Flashcard} from "@/features/flashcard";
+import {Flashcard} from "@/entities/flashcard";
 import {computed} from "vue";
 import {getIdRouteParam} from "@/app/router";
 import {useRoute} from "vue-router";
@@ -8,7 +8,7 @@ import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
 import {useQuery} from "@tanstack/vue-query";
 import {Error, Loader} from "@/shared/ui";
-import {useReview} from "@/pages/review/lib/useReview.ts";
+import {useReview} from "../lib/use-review.ts";
 
 const route = useRoute();
 const deckId = computed(() => getIdRouteParam(route.params.deckId));

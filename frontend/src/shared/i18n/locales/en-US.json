@@ -78,44 +78,56 @@
   "form": {
     "fields": {
       "username": {
-        "title": "Username",
+        "name": "Username",
         "placeholder": "Enter your username"
       },
       "email": {
-        "title": "Email",
+        "name": "Email",
         "placeholder": "Enter your email address"
       },
       "password": {
-        "title": "Password",
+        "name": "Password",
         "placeholder": "Enter your password"
       },
-      "newUsername": {
-        "title": "New username",
+      "new_username": {
+        "name": "New username",
         "placeholder": "Enter a new username"
       },
-      "newEmail": {
-        "title": "New email",
+      "new_email": {
+        "name": "New email",
         "placeholder": "Enter a new email"
       },
-      "old-password": {
-        "title": "Old password",
+      "old_password": {
+        "name": "Old password",
         "placeholder": "Enter your old password"
       },
-      "new-password": {
-        "title": "New password",
+      "new_password": {
+        "name": "New password",
         "placeholder": "Enter your new password"
       },
-      "confirm-password": {
-        "title": "Confirm password",
+      "confirm_password": {
+        "name": "Confirm password",
         "placeholder": "Repeat your password"
       },
       "front": {
-        "title": "Front side",
+        "name": "Front side",
         "placeholder": "Enter the question on the front side of the flashcard"
       },
       "back": {
-        "title": "Back side",
+        "name": "Back side",
         "placeholder": "Enter the answer on the back side of the flashcard"
+      },
+      "name": {
+        "name": "Name",
+        "placeholder": "Enter a name"
+      },
+      "description": {
+        "name": "Description",
+        "placeholder": "Enter a description"
+      },
+      "is_public": {
+        "name": "Public",
+        "placeholder": ""
       }
     },
     "actions": {
@@ -132,32 +144,131 @@
     }
   },
   "resources": {
-    "user": "User",
-    "flashcard": "Flashcard",
-    "deck": "Deck"
+    "user": {
+      "name": "User",
+      "properties": {
+        "name": "User",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password"
+      },
+      "actions": {
+        "create": {
+          "name": "Create user",
+          "description": "Create a new user",
+          "cancel": "Cancel",
+          "confirm": "Create"
+        },
+        "update": {
+          "name": "Update user",
+          "description": "Update user details",
+          "cancel": "Cancel",
+          "confirm": "Update"
+        },
+        "delete": {
+          "name": "Delete user",
+          "description": "Are you sure you want to delete this user?",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        }
+      }
+    },
+    "flashcard": {
+      "name": "Flashcard",
+      "properties": {
+        "name": "Flashcard",
+        "front": "Front side",
+        "back": "Back side",
+        "interval-days": "Interval {n} day | Interval {n} days",
+        "due-at": "Review in {n} day | Review in {n} days"
+      },
+      "actions": {
+        "create": {
+          "name": "Create flashcard",
+          "description": "Create a new flashcard",
+          "cancel": "Cancel",
+          "confirm": "Create"
+        },
+        "update": {
+          "name": "Update flashcard",
+          "description": "Update flashcard content",
+          "cancel": "Cancel",
+          "confirm": "Update"
+        },
+        "delete": {
+          "name": "Delete flashcard",
+          "description": "Are you sure you want to delete this flashcard?",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        }
+      }
+    },
+    "deck": {
+      "name": "Deck",
+      "properties": {
+        "name": "Deck",
+        "description": "Description",
+        "public": "Public",
+        "private": "Private",
+        "is-public": "Public",
+        "flashcards-count": "{n} flashcard | {n} flashcards"
+      },
+      "actions": {
+        "create": {
+          "name": "Create deck",
+          "description": "Create a new deck",
+          "cancel": "Cancel",
+          "confirm": "Create"
+        },
+        "update": {
+          "name": "Update deck",
+          "description": "Update deck details",
+          "cancel": "Cancel",
+          "confirm": "Update"
+        },
+        "delete": {
+          "name": "Delete deck",
+          "description": "Are you sure you want to delete this deck?",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        }
+      }
+    }
   },
   "errors": {
     "domain": {
+      "error": "Error",
       "validation": {
-        "name": "Validation Error",
-        "details": {
-          "required": "{fieldName} is required",
-          "min-length": "{fieldName} must be at least {n} characters long | {fieldName} must be at least {n} character long | {fieldName} must be at least {n} characters long",
-          "email": "Email address is invalid",
-          "email-already-exists": "Email already exists",
-          "invalid-password": "The password is invalid",
-          "duplicate-password": "The passwords must not match",
-          "confirm-password": "The passwords must match",
-          "invalid-mime-type": "Only the types {supportedTypes} are supported",
-          "max-size": "The maximum size of the upload is {maximumSize}"
-        }
-      },
-      "unauthorized": {
-        "name": "Unauthorized"
+        "error": "Validation Error",
+        "required": "{fieldName} is required",
+        "min-length": "{fieldName} must be at least {n} characters long | {fieldName} must be at least {n} character long | {fieldName} must be at least {n} characters long",
+        "max-length": "{fieldName} must be at most {n} characters long",
+        "email": "Email address is invalid",
+        "email-already-exists": "Email already exists",
+        "invalid-password": "The password is invalid",
+        "duplicate-password": "The passwords must not match",
+        "confirm-password": "The passwords must match",
+        "invalid-mime-type": "Only the types {supportedTypes} are supported",
+        "max-size": "The maximum size of the upload is {maximumSize}",
+        "invalid-type": "Invalid type",
+        "unrecognized": "Unrecognized field"
       },
       "not-found": {
-        "name": "{resourceName} not found"
+        "user": "User not found",
+        "flashcard": "Flashcard not found",
+        "deck": "Deck not found"
       }
+    },
+    "http-exception": {
+      "bad-request": "Bad request",
+      "unauthorized": "Unauthorized",
+      "forbidden": {
+        "name": "Forbidden"
+      },
+      "unprocessable-entity": "Unprocessable entity",
+      "not-found": "Not found",
+      "conflict": "Conflict",
+      "internal-server-error": "Internal server error"
     }
   },
   "actions": {
@@ -174,7 +285,8 @@
       "bad": "Bad",
       "good": "Good",
       "perfect": "Perfect"
-    }
+    },
+    "study": "Start learning"
   },
   "modals": {
     "flashcard": {

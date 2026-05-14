@@ -5,7 +5,7 @@ import App from "@/app/App.vue";
 import {router} from "@/app/router";
 import {i18n} from "@/shared/i18n";
 import {VueQueryPlugin} from "@tanstack/vue-query";
-import {queryClient} from "@/shared/api/queryClient.ts";
+import {queryClient} from "@/shared/api";
 import {setupAuthInterceptors} from "@/shared/auth";
 import {useViewerStore} from "@/entities/viewer";
 

@@ -25,7 +25,7 @@ const deckId = getIdRouteParam(route.params.deckId);
         <Button>
           <IconLabel>
             <template #label>
-              Start Learning
+              {{ $t("actions.study") }}
             </template>
             <template #icon>
               <LearningIcon class="icon-static-inverse w-7"/>
