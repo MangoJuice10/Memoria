@@ -1,20 +1,25 @@
-import type {MenuLayout, OptionsItemId} from "@/shared/config";
-import {EditIcon, TrashIcon} from "@/shared/ui/icons";
+import {
+    deckItemCodes, type DeckTabId,
+    type MenuLayout,
+} from "@/shared/config";
 
-export const baseDeckTabsKey = "";
-
-export const OPTIONS_LAYOUT: MenuLayout<any, OptionsItemId> = {
+export const DECK_TABS_LAYOUT = {
     menuItems: [
         {
-            id: "edit",
-            labelCode: "edit",
-            icon: EditIcon
+            id: "deck-info",
+            routeName: "deck-info",
+            labelCode: deckItemCodes.DECK_ITEM_INFO,
         },
         {
-            id: "delete",
-            labelCode: "delete",
-            icon: TrashIcon
+            id: "deck-flashcards",
+            routeName: "deck-flashcards",
+            labelCode: deckItemCodes.DECK_ITEM_FLASHCARDS,
+        },
+        {
+            id: "deck-educational-resources",
+            routeName: "deck-educational-resources",
+            labelCode: deckItemCodes.DECK_ITEM_EDUCATIONAL_RESOURCES,
         }
     ],
     menuSections: [],
-};
+} satisfies MenuLayout<any, DeckTabId>;

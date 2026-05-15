@@ -15,10 +15,12 @@ const {isNavigationLinkActive} = useNavigation();
     <NavigationLink v-for="menuItemView in menuItemViews"
                     :key="menuItemView.id"
                     :menu-item-view
-                    :is-active="isNavigationLinkActive(menuItemView)"
                     iconClasses="icon-static
-                                w-7.5"
+                                 w-7.5"
                     class="grow-0 w-full font-semibold px-5 py-2
-                           border rounded-xl border-transparent"/>
+                           border rounded-xl border-transparent"
+                    :class="isNavigationLinkActive(menuItemView)
+                              ? 'border-default text-inverse bg-secondary'
+                              : 'border-transparent text-landing hover:border-landing hover:bg-hover'"/>
   </nav>
 </template>

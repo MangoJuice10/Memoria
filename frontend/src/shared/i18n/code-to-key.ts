@@ -42,6 +42,8 @@ const baseSidebarItemKey = "navigation.sidebar.navigation-links";
 const baseSidebarSectionKey = "navigation.sidebar.sections";
 const baseFooterItemKey = "navigation.footer.navigation-links";
 const baseFooterSectionKey = "navigation.footer.sections";
+const baseAuthItemKey = "navigation.auth.navigation-links";
+const baseDeckItemKey = "navigation.deck.navigation-links";
 
 const baseSettingsKey = "settings.navigation-links";
 
@@ -97,6 +99,13 @@ const codesToKeys = {
     FOOTER_ITEM_FEATURE_AI_ASSISTANCE: `${baseFooterItemKey}.feature-ai-assistance`,
     FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: `${baseFooterItemKey}.feature-trustworthy-answers`,
     FOOTER_ITEM_FEATURE_STATISTICS: `${baseFooterItemKey}.feature-statistics`,
+
+    AUTH_ITEM_LOGIN: `${baseAuthItemKey}.login`,
+    AUTH_ITEM_REGISTER: `${baseAuthItemKey}.register`,
+
+    DECK_ITEM_INFO: `${baseDeckItemKey}.info`,
+    DECK_ITEM_FLASHCARDS: `${baseDeckItemKey}.flashcards`,
+    DECK_ITEM_EDUCATIONAL_RESOURCES: `${baseDeckItemKey}.educational_resources`,
 
     SETTINGS_PROFILE: `${baseSettingsKey}.profile`,
     SETTINGS_THEME: `${baseSettingsKey}.theme`,

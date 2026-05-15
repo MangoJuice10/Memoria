@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import {IconLabel, Toggle} from "@/shared/ui";
+import {IconLabel, TabLinks, Toggle} from "@/shared/ui";
 import {DeckIcon} from "@/shared/ui/icons";
 import {codeToKey} from "@/shared/i18n";
 import {resourceCodes} from "@/shared/config";
+import {useMenu} from "@/shared/lib";
+import {DECK_TABS_LAYOUT} from "../config/deck-tabs-layout.ts";
+import {useI18n} from "vue-i18n";
 
 defineProps<{
   id: number;
@@ -10,9 +13,9 @@ defineProps<{
   isPublic: boolean;
 }>();
 
-const tabLinks: TabLink[] = [
+const {t} = useI18n();
 
-]
+const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
 
 </script>
 
@@ -44,24 +47,7 @@ const tabLinks: TabLink[] = [
         </template>
       </Toggle>
     </div>
-    <div class="flex justify-between items-center gap-10">
-      <TabLink :is-active="true" :callback="() => console.log('TODO')"
-               class="text-xl">
-        {{ $t(codeToKey(resourceCodes.DECK_FLASHCARDS)) }}
-      </TabLink>
-      <TabLink :is-active="false" :callback="() => console.log('TODO')"
-               class="text-xl">
-        {{ $t(codeToKey(resourceCodes.DECK_INFO)) }}
-      </TabLink>
-      <TabLink :is-active="false" :callback="() => console.log('TODO')"
-               class="text-xl">
-        {{ $t(codeToKey(resourceCodes.DECK_EDUCATIONAL_RESOURCES)) }}
-      </TabLink>
-
-    </div>
+    <TabLinks :menu-item-views
+              class="text-lg"/>
   </div>
 </template>
-
-<style scoped>
-
-</style>

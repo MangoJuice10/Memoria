@@ -6,7 +6,7 @@ import {MainLayout} from "@/app/layouts";
 import {Landing} from "@/pages/landing";
 import {Login} from "@/pages/login";
 import {Register} from "@/pages/register";
-import {Decks, Deck, DeckInfoTab} from "@/pages/decks";
+import {Decks, Deck, DeckInfoTab, EducationalResourcesTab} from "@/pages/decks";
 import {FlashcardsTab} from "@/pages/decks";
 import {Review} from "@/pages/review";
 
@@ -27,7 +27,8 @@ export const routes = [
             {
                 path: "about",
                 name: "about",
-                component: Landing
+                component: Landing,
+                meta: {public: true}
             },
             {
                 path: "login",
@@ -83,13 +84,18 @@ export const routes = [
                 children: [
                     {
                         path: "info",
-                        name: "info",
+                        name: "deck-info",
                         component: DeckInfoTab
                     },
                     {
                         path: "flashcards",
-                        name: "flashcards",
+                        name: "deck-flashcards",
                         component: FlashcardsTab
+                    },
+                    {
+                        path: "educational-resources",
+                        name: "deck-educational-resources",
+                        component: EducationalResourcesTab
                     }
                 ]
             },

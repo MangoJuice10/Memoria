@@ -23,6 +23,7 @@ const isTextVisible = ref(props.type !== "password");
                  ? 'text'
                  : 'password'"
            class="w-full h-13 pl-2.5 pr-15 py-1.25 border rounded-lg border-default
+                  bg-primary
                   hover:outline-3 hover:-outline-offset-1 hover:outline-active">
     <VisibilityToggle v-if="type === 'password'"
                       v-model:isHidden="isTextVisible"/>

@@ -8,24 +8,24 @@ export function createLoginSchema(t: Composer["t"]) {
         email: z.string()
             .nonempty({
                 error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(formCodes.EMAIL_NAME)
+                    fieldName: t(codeToKey(formCodes.EMAIL_NAME))
                 })
             })
             .email({
                 error: () => t(codeToKey(validationErrorCodes.EMAIL), {
-                    fieldName: t(formCodes.EMAIL_NAME)
+                    fieldName: t(codeToKey(formCodes.EMAIL_NAME))
                 })
             }),
         password: z.string()
             .nonempty({
                 error: () => t(codeToKey(validationErrorCodes.REQUIRED), {
-                    fieldName: t(formCodes.PASSWORD_NAME)
+                    fieldName: t(codeToKey(formCodes.PASSWORD_NAME))
                 })
             })
             .min(8, {
                 error: () => t(codeToKey(validationErrorCodes.MIN_LENGTH), {
                     n: 8,
-                    fieldName: t(formCodes.PASSWORD_NAME)
+                    fieldName: t(codeToKey(formCodes.PASSWORD_NAME))
                 })
             })
     });

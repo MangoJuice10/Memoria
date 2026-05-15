@@ -16,7 +16,7 @@ withDefaults(defineProps<{
   <button
       :disabled="!enabled"
       class="flex justify-center items-center
-             w-fit p-button border border-default rounded-xl
+             min-w-fit p-button border border-default rounded-xl
              text-inverse font-semibold
              enabled:hover:scale-105 enabled:active:scale-110
              disabled:text-disabled disabled:bg-disabled

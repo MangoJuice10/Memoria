@@ -6,7 +6,6 @@ import {onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
   menuItemView: MenuItemView<NavigationItemId>;
-  isActive: boolean;
   iconClasses?: string;
   labelClasses?: string;
 }>(), {
@@ -19,10 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <LocalizedLink :name="menuItemView.routeName!"
-                 :class="isActive
-                 ? 'border-landing text-inverse bg-secondary'
-                 : 'border-transparent text-landing hover:border-landing hover:bg-hover'">
+  <LocalizedLink :name="menuItemView.routeName!">
     <IconLabel v-if="menuItemView.icon">
       <template #icon>
         <component :is="menuItemView.icon" :class="iconClasses"/>

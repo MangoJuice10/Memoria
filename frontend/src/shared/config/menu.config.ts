@@ -7,6 +7,9 @@ export type NavigationItemId =
     | "feature-trustworthy-answers"
     | "feature-statistics"
     | "decks"
+    | "deck-flashcards"
+    | "deck-info"
+    | "deck-educational-resources"
     | "shared-decks"
     | "educational-resources"
     | "about";
@@ -22,10 +25,14 @@ export type SettingsItemId =
     | "language"
     | "theme";
 
+export type AuthId =
+    | "login"
+    | "register"
+
 export type DeckTabId =
-    | "info"
-    | "flashcards"
-    | "educational-resources"
+    | "deck-info"
+    | "deck-flashcards"
+    | "deck-educational-resources"
 
 export type OptionsItemId =
     | "edit"

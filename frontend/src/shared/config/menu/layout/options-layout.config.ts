@@ -1,6 +1,6 @@
-import {type MenuLayout, type OptionsItemId} from "@/shared/config";
-import {EditIcon, TrashIcon} from "@/shared/ui/icons";
+import {type MenuLayout, type OptionsItemId} from "../../menu.config";
 import {optionsCodes} from "../codes/options-codes.config";
+import {EditIcon, TrashIcon} from "@/shared/ui/icons";
 
 export const OPTIONS_LAYOUT: MenuLayout<any, OptionsItemId> = {
     menuItems: [

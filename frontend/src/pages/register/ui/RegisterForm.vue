@@ -3,16 +3,12 @@ import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {createRegisterSchema, type RegisterDto} from "@/shared/model";
-import {Form, FormField, LocalizedLink} from "@/shared/ui";
-import {useValidation} from "@/shared/lib";
+import {Form, FormField, TabLinks} from "@/shared/ui";
+import {useMenu, useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-
-const {register} = useViewerStore();
-const router = useRouter();
-const route = useRoute();
-const {t} = useI18n();
+import {AUTH_LAYOUT} from "@/shared/config";
 
 const data = ref<RegisterDto>({
   username: "",
@@ -20,6 +16,12 @@ const data = ref<RegisterDto>({
   password: "",
   confirmPassword: "",
 });
+
+const {register} = useViewerStore();
+const router = useRouter();
+const route = useRoute();
+const {t} = useI18n();
+const {menuItemViews} = useMenu(AUTH_LAYOUT, t);
 
 const {
   isValid,
@@ -44,7 +46,6 @@ const submit = async () => {
 
   try {
     await register(validatedData);
-
     await router.push({
       name: "home",
       params: route.params,
@@ -74,14 +75,8 @@ const submit = async () => {
         @submit="submit"
         @reset="reset">
     <template #heading>
-      <div class="flex justify-center items-center gap-5 mb-3">
-        <LocalizedLink name="login">
-          <h2 class="text-muted hover:text-default">{{ $t("auth.login.heading") }}</h2>
-        </LocalizedLink>
-        <LocalizedLink name="register">
-          <h2 class="underline">{{ $t("auth.register.heading") }}</h2>
-        </LocalizedLink>
-      </div>
+      <TabLinks :menu-item-views
+                class="text-2xl"/>
     </template>
 
     <template #fields>

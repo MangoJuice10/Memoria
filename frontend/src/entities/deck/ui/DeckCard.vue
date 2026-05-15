@@ -41,7 +41,7 @@ setupMenuCallbacks();
 </script>
 
 <template>
-  <LocalizedLink name="deck" :params="{deckId: String(id)}">
+  <LocalizedLink name="deck-flashcards" :params="{deckId: String(id)}">
     <div class="grid grid-rows-20 gap-5
             w-deck h-deck overflow-hidden
             border border-default rounded-2xl

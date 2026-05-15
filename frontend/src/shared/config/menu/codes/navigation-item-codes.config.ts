@@ -2,6 +2,8 @@ export const navigationElementsNameCodes = [
     "NAVBAR",
     "SIDEBAR",
     "FOOTER",
+    "AUTH",
+    "DECK",
 ] as const;
 
 export type NavigationElementNameCode = (typeof navigationElementsNameCodes)[number];
@@ -42,4 +44,15 @@ export const footerItemCodes = {
     FOOTER_ITEM_FEATURE_AI_ASSISTANCE: "FOOTER_ITEM_FEATURE_AI_ASSISTANCE",
     FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: "FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS",
     FOOTER_ITEM_FEATURE_STATISTICS: "FOOTER_ITEM_FEATURE_STATISTICS",
-} satisfies Record<NavigationItemCode<"FOOTER">, NavigationItemCode<"FOOTER">>
+} satisfies Record<NavigationItemCode<"FOOTER">, NavigationItemCode<"FOOTER">>;
+
+export const authItemCodes = {
+    AUTH_ITEM_LOGIN: "AUTH_ITEM_LOGIN",
+    AUTH_ITEM_REGISTER: "AUTH_ITEM_REGISTER",
+} satisfies Record<NavigationItemCode<"AUTH">, NavigationItemCode<"AUTH">>;
+
+export const deckItemCodes = {
+    DECK_ITEM_INFO: "DECK_ITEM_INFO",
+    DECK_ITEM_FLASHCARDS: "DECK_ITEM_FLASHCARDS",
+    DECK_ITEM_EDUCATIONAL_RESOURCES: "DECK_ITEM_EDUCATIONAL_RESOURCES",
+} satisfies Record<NavigationItemCode<"DECK">, NavigationItemCode<"DECK">>;

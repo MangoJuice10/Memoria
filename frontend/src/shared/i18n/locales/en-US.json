@@ -73,6 +73,19 @@
         "feature-statistics": "Statistics"
       },
       "copyright": "© 2025 Memoria, Inc."
+    },
+    "auth": {
+      "navigation-links": {
+        "login": "Login",
+        "register": "Register"
+      }
+    },
+    "deck": {
+      "navigation-links": {
+        "info": "Info",
+        "flashcards": "Flashcards",
+        "educational_resources": "Educational Resources"
+      }
     }
   },
   "form": {
@@ -211,10 +224,7 @@
         "public": "Public",
         "private": "Private",
         "is-public": "Public",
-        "flashcards-count": "{n} flashcard | {n} flashcards",
-        "info": "Info",
-        "flashcards": "Flashcards",
-        "educational_resources": "Educational Resources"
+        "flashcards-count": "{n} flashcard | {n} flashcards"
       },
       "actions": {
         "create": {

@@ -73,6 +73,19 @@
         "feature-statistics": "Статистика"
       },
       "copyright": "© 2025 Memoria, Inc."
+    },
+    "auth": {
+      "navigation-links": {
+        "login": "Вход",
+        "register": "Регистрация"
+      }
+    },
+    "deck": {
+      "navigation-links": {
+        "info": "Информация",
+        "flashcards": "Карточки",
+        "educational_resources": "Образовательные ресурсы"
+      }
     }
   },
   "form": {
@@ -134,7 +147,7 @@
       "submit": "Отправить",
       "reset": "Сбросить",
       "login": "Войти",
-      "register": "Зарегистрироваться",
+      "register": "Регистрация",
       "create": "Создать",
       "update": "Обновить"
     },
@@ -211,10 +224,7 @@
         "public": "Публичная",
         "private": "Приватная",
         "is-public": "Публичная",
-        "flashcards-count": "{n} карточек | {n} карточка | {n} карточки | {n} карточек",
-        "info": "Информация",
-        "flashcards": "Карточки",
-        "educational_resources": "Образовательные ресурсы"
+        "flashcards-count": "{n} карточек | {n} карточка | {n} карточки | {n} карточек"
       },
       "actions": {
         "create": {

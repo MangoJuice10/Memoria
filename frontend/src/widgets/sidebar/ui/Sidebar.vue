@@ -51,7 +51,7 @@ function handleToggle() {
           </LocalizedLink>
         </div>
         <div class="h-full overflow-auto px-sidebar">
-          <SidebarSections :navigation-section-views="menuSectionViews"/>
+          <SidebarSections :menu-section-views="menuSectionViews"/>
         </div>
         <UserPanel v-if="isAuthenticated"/>
       </div>

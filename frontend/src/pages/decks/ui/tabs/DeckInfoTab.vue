@@ -10,21 +10,23 @@ import {formCodes, resourceCodes} from "@/shared/config";
 import {createUpdateDeckSchema, type DeckResponseDto, type UpdateDeckDto} from "@/entities/deck";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
+import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
-  deckId: number;
+  id: number;
   name: string;
   description: string;
   isPublic: boolean;
 }>();
 
-const queryClient = useQueryClient();
-
 const data = ref<UpdateDeckDto>({
-  name: currentData.value?.name,
-  description: currentData.value?.description,
-  isPublic: currentData.value?.isPublic
+  name: props.name,
+  description: props.description,
+  isPublic: props.isPublic
 });
+
+const {t} = useI18n();
+const queryClient = useQueryClient();
 
 const {
   isValid,
@@ -41,10 +43,10 @@ const {
 });
 
 const updateDeckMutation = useMutation({
-  mutationFn: (updateDeckDto: UpdateDeckDto) => decksApi.update(deckId, updateDeckDto),
+  mutationFn: (updateDeckDto: UpdateDeckDto) => decksApi.update(props.id, updateDeckDto),
   onSuccess: async (updatedDeck) => {
     await queryClient.setQueryData(
-        decksQueryKeys.byId(deckId),
+        decksQueryKeys.byId(props.id),
         (old: DeckResponseDto | undefined) => {
           if (!old) return old;
           return updatedDeck;

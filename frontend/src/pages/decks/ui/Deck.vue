@@ -26,7 +26,7 @@ const {data} = useQuery({
               min-h-screen
               bg-tertiary">
     <DeckPanel v-if="data"
-               :deckId="data.id"
+               :id="data.id"
                :name="data.name"
                :is-public="data.isPublic"
                class="px-page"/>
@@ -49,7 +49,7 @@ const {data} = useQuery({
     <RouterView v-if="data"
                 v-slot="{ Component }">
       <component :is="Component"
-                 :deckId="data.id"
+                 :id="data.id"
                  :name="data.name"
                  :description="data.description"
                  :is-public="data.isPublic"
