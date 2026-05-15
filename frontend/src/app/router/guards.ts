@@ -8,8 +8,19 @@ import {
 import {setZodLocale, type ZodLocale} from "@/shared/zod";
 import {useViewerStore} from "@/entities/viewer";
 import type {Router} from "vue-router";
+import {useLoadingScreenStore} from "@/app/router/loading-screen.store.ts";
 
 export function registerNavigationGuards(router: Router) {
+    router.beforeEach(async () => {
+        const {startLoading} = useLoadingScreenStore();
+        startLoading();
+    });
+
+    router.afterEach(async () => {
+        const {stopLoading} = useLoadingScreenStore();
+        stopLoading();
+    })
+
     router.beforeEach(async (to, _, next) => {
         const viewerStore = useViewerStore();
 

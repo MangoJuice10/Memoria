@@ -7,11 +7,13 @@ withDefaults(defineProps<{
   logomarkClasses?: string;
   hasLogotype?: boolean;
   logotypeClasses?: string;
+  isAnimated?: boolean;
 }>(), {
   hasLogomark: true,
   hasLogotype: false,
   logomarkClasses: "",
-  logotypeClasses: ""
+  logotypeClasses: "",
+  isAnimated: true
 });
 </script>
 
@@ -20,16 +22,24 @@ withDefaults(defineProps<{
        data-testid="logo">
     <div class="block h-full min-w-0 max-w-full max-h-full">
       <img v-if="hasLogomark" :src="logomark" alt=""
-           class="h-full w-full object-contain
-                  transition-transform duration-800 group-hover:rotate-360"
-           :class="[logomarkClasses]"
+           class="h-full w-full object-contain"
+           :class="[
+                      logomarkClasses,
+                      isAnimated ? 'transition-transform duration-800\n' +
+                                   'group-hover:rotate-360'
+                                 : ''
+                   ]"
            data-testid="logomark">
     </div>
     <!--Space between the graphical and textual logo that scales with the logo-->
     <img v-if="hasLogotype" :src="logotype" alt=""
-         class="block h-3/5 min-w-0 max-w-full max-h-3/5 object-contain
-                transition-all duration-500 group-hover:animate-[logotype_1s_ease-out] group-hover:opacity-90"
-         :class="[logotypeClasses]"
+         class="block h-3/5 min-w-0 max-w-full max-h-3/5 object-contain"
+         :class="[
+                    logotypeClasses,
+                    isAnimated ? 'group-hover:animate-[logotype_1s_ease-out]\n' +
+                                 'transition-all duration-500 group-hover:opacity-90'
+                               : ''
+                 ]"
          data-testid="logotype">
   </div>
 </template>

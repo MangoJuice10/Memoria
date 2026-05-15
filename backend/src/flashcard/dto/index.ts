@@ -1,1 +1,1 @@
-export {FlashcardResponseDto} from "./flashcard-response.dto"
+export type {FlashcardResponseDto} from "./flashcard-response.dto"

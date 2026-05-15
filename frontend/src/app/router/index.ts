@@ -10,3 +10,5 @@ export const router = createRouter({
 registerNavigationGuards(router);
 
 export {getIdRouteParam} from "./get-id-route-param.ts";
+
+export {default as LoadingScreen} from "./LoadingScreen.vue";
