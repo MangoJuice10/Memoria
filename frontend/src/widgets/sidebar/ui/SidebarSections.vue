@@ -11,6 +11,6 @@ defineProps<{
   <section v-for="navigationSectionView in navigationSectionViews"
            :key="navigationSectionView.id">
     <h3 v-text="navigationSectionView.label" class="max-w-full my-heading truncate text-muted"/>
-    <SidebarLinks :navigation-item-views="navigationSectionView.menuItemViews"/>
+    <SidebarLinks :menu-item-views="navigationSectionView.menuItemViews"/>
   </section>
 </template>

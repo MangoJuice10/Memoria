@@ -5,6 +5,7 @@ import type {
     MenuLayout,
     MenuSectionView,
 } from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
 
 export function useMenu<
     SectionId extends string | number,
@@ -17,10 +18,10 @@ export function useMenu<
         const menuLayout = toValue(getMenuLayout);
         return menuLayout.menuItems.map(
             (menuItem): MenuItemView<ItemId> => {
-                const {labelKey, ...menuItemProperties} = menuItem;
+                const {labelCode, ...menuItemProperties} = menuItem;
                 return {
                     ...menuItemProperties,
-                    label: t(`${menuLayout.baseItemsKey}.${labelKey}`)
+                    label: t(codeToKey(labelCode))
                 };
             }
         );
@@ -32,20 +33,20 @@ export function useMenu<
             (menuSection): MenuSectionView<SectionId, ItemId> => {
                 const navigationItemViews = menuSection.menuItems.map(
                     (navigationItem) => {
-                        const {labelKey, ...menuItemProperties} = navigationItem;
+                        const {labelCode, ...menuItemProperties} = navigationItem;
                         return {
                             ...menuItemProperties,
-                            label: t(`${menuSection.baseItemsKey}.${labelKey}`)
+                            label: t(codeToKey(labelCode))
                         };
                     }
                 );
 
-                const {labelKey, menuItems, baseItemsKey, ...sectionProperties} = menuSection;
+                const {labelCode, menuItems, ...sectionProperties} = menuSection;
 
                 return {
                     ...sectionProperties,
                     menuItemViews: navigationItemViews,
-                    label: t(`${menuLayout.baseSectionsKey}.${labelKey}`)
+                    label: t(codeToKey(labelCode))
                 };
             }
         );

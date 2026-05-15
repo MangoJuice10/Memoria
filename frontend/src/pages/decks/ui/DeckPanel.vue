@@ -1,8 +1,18 @@
 <script setup lang="ts">
-
 import {IconLabel, Toggle} from "@/shared/ui";
 import {DeckIcon} from "@/shared/ui/icons";
-import TabLink from "@/pages/decks/ui/tabs/TabLink.vue";
+import {codeToKey} from "@/shared/i18n";
+import {resourceCodes} from "@/shared/config";
+
+defineProps<{
+  id: number;
+  name: string;
+  isPublic: boolean;
+}>();
+
+const tabLinks: TabLink[] = [
+
+]
 
 </script>
 
@@ -11,10 +21,9 @@ import TabLink from "@/pages/decks/ui/tabs/TabLink.vue";
     <div class="flex gap-6">
       <IconLabel>
         <template #label>
-          <!--TODO-->
           <span class="text-xl font-semibold">
-          Algorithmization
-        </span>
+            {{ name }}
+          </span>
         </template>
         <template #icon>
           <DeckIcon class="w-8"/>
@@ -24,15 +33,13 @@ import TabLink from "@/pages/decks/ui/tabs/TabLink.vue";
               @on="console.log('TODO ON')"
               @off="console.log('TODO OFF')">
         <template #on>
-          <!--TODO-->
           <span class="text-lg font-semibold">
-            Public
+            {{ $t(codeToKey(resourceCodes.DECK_PUBLIC)) }}
           </span>
         </template>
         <template #off>
-          <!--TODO-->
           <span class="text-lg font-semibold">
-            Private
+            {{ $t(codeToKey(resourceCodes.DECK_PRIVATE)) }}
           </span>
         </template>
       </Toggle>
@@ -40,15 +47,15 @@ import TabLink from "@/pages/decks/ui/tabs/TabLink.vue";
     <div class="flex justify-between items-center gap-10">
       <TabLink :is-active="true" :callback="() => console.log('TODO')"
                class="text-xl">
-        Flashcards
+        {{ $t(codeToKey(resourceCodes.DECK_FLASHCARDS)) }}
       </TabLink>
       <TabLink :is-active="false" :callback="() => console.log('TODO')"
                class="text-xl">
-        Tags
+        {{ $t(codeToKey(resourceCodes.DECK_INFO)) }}
       </TabLink>
       <TabLink :is-active="false" :callback="() => console.log('TODO')"
                class="text-xl">
-        Educational Resources
+        {{ $t(codeToKey(resourceCodes.DECK_EDUCATIONAL_RESOURCES)) }}
       </TabLink>
 
     </div>

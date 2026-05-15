@@ -4,7 +4,7 @@ import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/sha
 import {useNavigation} from "@/shared/lib";
 
 defineProps<{
-  navigationSectionView: MenuSectionView<NavigationSectionId, NavigationItemId>
+  menuSectionView: MenuSectionView<NavigationSectionId, NavigationItemId>
 }>();
 
 const {isNavigationLinkActive} = useNavigation();
@@ -12,10 +12,10 @@ const {isNavigationLinkActive} = useNavigation();
 
 <template>
   <nav class="flex flex-col items-start gap-3 w-fit">
-    <NavigationLink v-for="navigationItemView in navigationSectionView.menuItemViews"
-                    :key="navigationItemView.id"
-                    :navigation-item-view
-                    :is-active="isNavigationLinkActive(navigationItemView)"
+    <NavigationLink v-for="menuItemView in menuSectionView.menuItemViews"
+                    :key="menuItemView.id"
+                    :menu-item-view
+                    :is-active="isNavigationLinkActive(menuItemView)"
                     class="grow-0 shrink-0 rounded-2xl text-sm"/>
   </nav>
 </template>

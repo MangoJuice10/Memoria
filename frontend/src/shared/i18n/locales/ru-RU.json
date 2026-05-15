@@ -211,7 +211,10 @@
         "public": "Публичная",
         "private": "Приватная",
         "is-public": "Публичная",
-        "flashcards-count": "{n} карточек | {n} карточка | {n} карточки | {n} карточек"
+        "flashcards-count": "{n} карточек | {n} карточка | {n} карточки | {n} карточек",
+        "info": "Информация",
+        "flashcards": "Карточки",
+        "educational_resources": "Образовательные ресурсы"
       },
       "actions": {
         "create": {

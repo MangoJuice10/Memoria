@@ -1,50 +1,59 @@
 import {
-    NAVIGATION_ITEMS,
     type NavigationSectionId,
     type MenuLayout,
-    type NavigationItemId
+    type NavigationItemId, menuCodes
 } from "@/shared/config";
-
-export const baseNavigationItemKey = "navigation.sidebar.navigation-links";
-export const baseNavigationSectionKey = "navigation.sidebar.sections";
+import {
+    AIAssistanceIcon,
+    LogomarkIcon,
+    SpacedRepetitionFeatureIcon,
+    StatisticsFeatureIcon, TrustworthyAnswersFeatureIcon
+} from "@/shared/ui";
 
 export const SIDEBAR_GUEST_LAYOUT = {
     menuItems: [],
-    baseItemsKey: "",
     menuSections: [
         {
             id: "features",
-            labelKey: "features",
+            labelCode: menuCodes.SIDEBAR_SECTION_FEATURES,
             menuItems: [
-                NAVIGATION_ITEMS["feature-spaced-repetition"],
-                NAVIGATION_ITEMS["feature-ai-assistance"],
-                NAVIGATION_ITEMS["feature-trustworthy-answers"],
-                NAVIGATION_ITEMS["feature-statistics"],
+                {
+                    id: "feature-spaced-repetition",
+                    routeName: "feature-spaced-repetition",
+                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_SPACED_REPETITION,
+                    icon: SpacedRepetitionFeatureIcon
+                },
+                {
+                    id: "feature-ai-assistance",
+                    routeName: "feature-ai-assistance",
+                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_AI_ASSISTANCE,
+                    icon: AIAssistanceIcon
+                },
+                {
+                    id: "feature-trustworthy-answers",
+                    routeName: "feature-trustworthy-answers",
+                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
+                    icon: TrustworthyAnswersFeatureIcon
+                },
+                {
+                    id: "feature-statistics",
+                    routeName: "feature-statistics",
+                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_STATISTICS,
+                    icon: StatisticsFeatureIcon
+                },
             ],
-            baseItemsKey: baseNavigationItemKey
         },
         {
             id: "about",
-            labelKey: "about",
+            labelCode: menuCodes.SIDEBAR_SECTION_ABOUT,
             menuItems: [
-                NAVIGATION_ITEMS["about"],
+                {
+                    id: "about",
+                    routeName: "about",
+                    labelCode: menuCodes.SIDEBAR_ITEM_ABOUT,
+                    icon: LogomarkIcon
+                },
             ],
-            baseItemsKey: baseNavigationItemKey
         },
     ],
-    baseSectionsKey: baseNavigationSectionKey,
 } as const satisfies MenuLayout<NavigationSectionId, NavigationItemId>;
-
-/*
-export const SIDEBAR_AUTHENTICATED_LAYOUT = {
-    hasSections: true,
-    menuSections: [
-        {
-            id: "decks",
-            labelKey: "decks",
-            menuItems: [],
-        }
-    ],
-    baseKey: baseNavigationSectionKey
-} as const satisfies MenuLayout<NavigationSectionId, any>;
-*/

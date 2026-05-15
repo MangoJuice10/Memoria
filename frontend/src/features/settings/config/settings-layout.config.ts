@@ -1,28 +1,24 @@
-import type {MenuLayout, SettingsItemId} from "@/shared/config";
+import {type MenuLayout, settingsCodes, type SettingsItemId} from "@/shared/config";
 import {AccountIcon, LanguageIcon} from "@/shared/ui/icons";
-import LightThemeIcon from "@/features/settings/ui/icons/LightThemeIcon.vue";
-
-export const baseSettingsKey = "settings.navigation-links";
+import LightThemeIcon from "../ui/icons/LightThemeIcon.vue";
 
 export const SETTINGS_LAYOUT = {
     menuItems: [
         {
             id: "profile",
-            labelKey: "profile",
+            labelCode: settingsCodes.SETTINGS_PROFILE,
             icon: AccountIcon
         },
         {
             id: "theme",
-            labelKey: "theme",
+            labelCode: settingsCodes.SETTINGS_THEME,
             icon: LightThemeIcon
         },
         {
             id: "language",
-            labelKey: "language",
+            labelCode: settingsCodes.SETTINGS_LANGUAGE,
             icon: LanguageIcon
         }
     ],
-    baseItemsKey: baseSettingsKey,
     menuSections: [],
-    baseSectionsKey: ""
 } as const satisfies MenuLayout<any, SettingsItemId>;

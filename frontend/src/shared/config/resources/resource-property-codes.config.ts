@@ -1,6 +1,6 @@
 import type {
     ResourceNameCode
-} from "./resource-name-action-properties.config";
+} from "./resource-name.codes.ts";
 
 type ResourcePropertyCode<R extends ResourceNameCode> = `${R}_${string}`;
 
@@ -11,8 +11,6 @@ export const userPropertyCodes = {
     USER_PASSWORD: "USER_PASSWORD",
 } satisfies Record<ResourcePropertyCode<"USER">, ResourcePropertyCode<"USER">>;
 
-export type UserPropertyCode = (typeof userPropertyCodes)[keyof typeof userPropertyCodes];
-
 export const flashcardPropertyCodes = {
     FLASHCARD_RESOURCE_NAME: "FLASHCARD_RESOURCE_NAME",
     FLASHCARD_FRONT: "FLASHCARD_FRONT",
@@ -20,8 +18,6 @@ export const flashcardPropertyCodes = {
     FLASHCARD_INTERVAL_DAYS: "FLASHCARD_INTERVAL_DAYS",
     FLASHCARD_DUE_AT: "FLASHCARD_DUE_AT",
 } satisfies Record<ResourcePropertyCode<"FLASHCARD">, ResourcePropertyCode<"FLASHCARD">>;
-
-export type FlashcardPropertyCode = (typeof flashcardPropertyCodes)[keyof typeof flashcardPropertyCodes];
 
 export const deckPropertyCodes = {
     DECK_RESOURCE_NAME: "DECK_RESOURCE_NAME",
@@ -31,6 +27,7 @@ export const deckPropertyCodes = {
     DECK_PUBLIC: "DECK_PUBLIC",
     DECK_PRIVATE: "DECK_PRIVATE",
     DECK_FLASHCARDS_COUNT: "DECK_FLASHCARDS_COUNT",
+    DECK_INFO: "DECK_INFO",
+    DECK_FLASHCARDS: "DECK_FLASHCARDS",
+    DECK_EDUCATIONAL_RESOURCES: "DECK_EDUCATIONAL_RESOURCES",
 } satisfies Record<ResourcePropertyCode<"DECK">, ResourcePropertyCode<"DECK">>;
-
-export type DeckPropertyCode = (typeof deckPropertyCodes)[keyof typeof deckPropertyCodes];

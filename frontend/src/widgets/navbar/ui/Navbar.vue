@@ -47,7 +47,7 @@ function handleToggle() {
         <Logo has-logotype logotype-classes="max-lg:hidden" class="py-2"/>
       </LocalizedLink>
     </div>
-    <NavbarLinks :navigation-item-views="menuItemViews"
+    <NavbarLinks :menu-item-views="menuItemViews"
                  class="max-md:hidden"/>
     <NavbarPreferences/>
     <NavbarActions :is-authenticated

@@ -211,7 +211,10 @@
         "public": "Public",
         "private": "Private",
         "is-public": "Public",
-        "flashcards-count": "{n} flashcard | {n} flashcards"
+        "flashcards-count": "{n} flashcard | {n} flashcards",
+        "info": "Info",
+        "flashcards": "Flashcards",
+        "educational_resources": "Educational Resources"
       },
       "actions": {
         "create": {

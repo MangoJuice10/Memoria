@@ -1,35 +1,33 @@
 import {
     type ActionsItemId,
-    type MenuLayout,
+    type MenuLayout, userPanelCodes,
 } from "@/shared/config";
 import {LanguageIcon, SettingsIcon} from "@/shared/ui/icons";
 import {LogoutIcon} from "@/shared/ui/icons";
-import LightThemeIcon from "@/features/settings/ui/icons/LightThemeIcon.vue";
+import LightThemeIcon from "../ui/icons/LightThemeIcon.vue";
 
 export const USER_PANEL_LAYOUT = {
     menuItems: [
         {
             id: "settings",
-            labelKey: "settings",
+            labelCode: userPanelCodes.USER_PANEL_SETTINGS,
             icon: SettingsIcon,
         },
         {
             id: "change-language",
-            labelKey: "change-language",
+            labelCode: userPanelCodes.USER_PANEL_CHANGE_LANGUAGE,
             icon: LanguageIcon
         },
         {
             id: "change-theme",
-            labelKey: "change-theme",
+            labelCode: userPanelCodes.USER_PANEL_CHANGE_THEME,
             icon: LightThemeIcon
         },
         {
             id: "logout",
-            labelKey: "logout",
+            labelCode: userPanelCodes.USER_PANEL_LOGOUT,
             icon: LogoutIcon,
         }
     ],
-    baseItemsKey: "actions",
     menuSections: [],
-    baseSectionsKey: ""
 } as const satisfies MenuLayout<any, ActionsItemId>;

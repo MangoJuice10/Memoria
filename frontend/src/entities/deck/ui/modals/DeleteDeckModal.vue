@@ -7,14 +7,13 @@ import {type FlashcardResponseDto, flashcardsApi, flashcardsQueryKeys} from "@/e
 
 const props = defineProps<{
   id: number;
-  deckId: number;
 }>();
 
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 const queryClient = useQueryClient();
 
-const deleteFlashcardMutation = useMutation({
+const deleteDeckMutation = useMutation({
   mutationFn: ({deckId, flashcardId}: {
     deckId: number;
     flashcardId: number
@@ -33,7 +32,7 @@ const deleteFlashcardMutation = useMutation({
 });
 
 async function handleConfirm() {
-  await deleteFlashcardMutation.mutateAsync({
+  await deleteDeckMutation.mutateAsync({
     deckId: props.deckId,
     flashcardId: props.id
   });

@@ -5,7 +5,7 @@ import {IconLabel} from "@/shared/ui";
 import {onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
-  navigationItemView: MenuItemView<NavigationItemId>;
+  menuItemView: MenuItemView<NavigationItemId>;
   isActive: boolean;
   iconClasses?: string;
   labelClasses?: string;
@@ -14,29 +14,29 @@ const props = withDefaults(defineProps<{
 });
 
 onMounted(() => {
-  if (!props.navigationItemView.routeName) throw new Error("The route name is missing");
+  if (!props.menuItemView.routeName) throw new Error("The route name is missing");
 })
 </script>
 
 <template>
-  <LocalizedLink :name="navigationItemView.routeName!"
+  <LocalizedLink :name="menuItemView.routeName!"
                  :class="isActive
                  ? 'border-landing text-inverse bg-secondary'
                  : 'border-transparent text-landing hover:border-landing hover:bg-hover'">
-    <IconLabel v-if="navigationItemView.icon">
+    <IconLabel v-if="menuItemView.icon">
       <template #icon>
-        <component :is="navigationItemView.icon" :class="iconClasses"/>
+        <component :is="menuItemView.icon" :class="iconClasses"/>
       </template>
       <template #label>
         <span :class="labelClasses">
-          {{ navigationItemView.label }}
+          {{ menuItemView.label }}
         </span>
       </template>
     </IconLabel>
     <div v-else>
       <div class="px-3 py-1"
             :class="labelClasses">
-          {{ navigationItemView.label }}
+        {{ menuItemView.label }}
       </div>
     </div>
   </LocalizedLink>

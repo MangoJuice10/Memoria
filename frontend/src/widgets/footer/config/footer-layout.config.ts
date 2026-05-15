@@ -1,28 +1,46 @@
 import {
-    NAVIGATION_ITEMS,
     type NavigationSectionId,
     type MenuLayout,
-    type NavigationItemId
+    type NavigationItemId, menuCodes
 } from "@/shared/config";
-
-export const baseNavigationItemKey = "navigation.footer.navigation-links";
-export const baseNavigationSectionKey = "navigation.footer.sections";
+import {
+    AIAssistanceIcon,
+    SpacedRepetitionFeatureIcon, StatisticsFeatureIcon,
+    TrustworthyAnswersFeatureIcon
+} from "@/shared/ui";
 
 export const FOOTER_LAYOUT = {
     menuItems: [],
-    baseItemsKey: "",
     menuSections: [
         {
             id: "features",
-            labelKey: "features",
+            labelCode: menuCodes.FOOTER_SECTION_FEATURES,
             menuItems: [
-                NAVIGATION_ITEMS["feature-spaced-repetition"],
-                NAVIGATION_ITEMS["feature-ai-assistance"],
-                NAVIGATION_ITEMS["feature-trustworthy-answers"],
-                NAVIGATION_ITEMS["feature-statistics"]
+                {
+                    id: "feature-spaced-repetition",
+                    routeName: "feature-spaced-repetition",
+                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_SPACED_REPETITION,
+                    icon: SpacedRepetitionFeatureIcon
+                },
+                {
+                    id: "feature-ai-assistance",
+                    routeName: "feature-ai-assistance",
+                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_AI_ASSISTANCE,
+                    icon: AIAssistanceIcon
+                },
+                {
+                    id: "feature-trustworthy-answers",
+                    routeName: "feature-trustworthy-answers",
+                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
+                    icon: TrustworthyAnswersFeatureIcon
+                },
+                {
+                    id: "feature-statistics",
+                    routeName: "feature-statistics",
+                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_STATISTICS,
+                    icon: StatisticsFeatureIcon
+                },
             ],
-            baseItemsKey: baseNavigationItemKey
         },
     ],
-    baseSectionsKey: baseNavigationSectionKey,
 } as const satisfies MenuLayout<NavigationSectionId, NavigationItemId>;

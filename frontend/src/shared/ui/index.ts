@@ -32,3 +32,6 @@ export {default as ActionModal} from "./modal/ActionModal.vue";
 export {default as Backdrop} from "./backdrop/Backdrop.vue";
 
 export {default as CreateCard} from "./resources/CreateCard.vue";
+
+export {default as TabLinks} from "./tabs/TabLinks.vue";
+export {default as TabLink} from "./tabs/TabLink.vue";

@@ -2,8 +2,8 @@ import {
     userPropertyCodes,
     flashcardPropertyCodes,
     deckPropertyCodes
-} from "./resource-properties.config";
-import {resourceNameActionPropertyCodes} from "./resource-name-action-properties.config.ts";
+} from "./resource-property-codes.config";
+import {resourceNameActionPropertyCodes} from "./resource-name-action-property-codes.config";
 
 export const resourceCodes = {
     ...userPropertyCodes,

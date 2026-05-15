@@ -3,18 +3,18 @@ import FooterLinks from "@/widgets/footer/ui/FooterLinks.vue";
 import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/shared/config";
 
 defineProps<{
-  navigationSectionViews: MenuSectionView<NavigationSectionId, NavigationItemId>[];
+  menuSectionViews: MenuSectionView<NavigationSectionId, NavigationItemId>[];
 }>();
 
 </script>
 
 <template>
   <div class="footer-content w-full mb-15">
-    <section v-for="navigationSectionView in navigationSectionViews"
-             :key="navigationSectionView.id"
+    <section v-for="menuSectionView in menuSectionViews"
+             :key="menuSectionView.id"
              class="flex flex-col justify-start items-start gap-4">
-      <h3 v-text="navigationSectionView.label" class="font-semibold"/>
-      <FooterLinks :navigation-section-view/>
+      <h3 v-text="menuSectionView.label" class="font-semibold"/>
+      <FooterLinks :menu-section-view/>
     </section>
   </div>
 </template>

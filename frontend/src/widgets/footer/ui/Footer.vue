@@ -16,7 +16,7 @@ const {menuSectionViews} = useMenu(FOOTER_LAYOUT, t);
     <LocalizedLink name="home" class="block h-12 mb-10 min-w-0 max-w-full max-h-full">
       <Logo has-logotype/>
     </LocalizedLink>
-    <FooterSections :navigation-section-views="menuSectionViews"/>
+    <FooterSections :menu-section-views="menuSectionViews"/>
     <div v-text="t('navigation.footer.copyright')" class="text-muted"/>
   </footer>
 </template>

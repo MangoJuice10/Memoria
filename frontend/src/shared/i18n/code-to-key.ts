@@ -1,17 +1,18 @@
 import {
     resourceNameCodes,
-    actionCodes,
-    actionPropertyCodes,
+    resourceActionCodes,
+    resourceActionPropertyCodes,
     type ResourceNameActionPropertyCode,
     type ResourceCode,
     formFieldNameCodes,
-    type FormFieldNamePropertyCode,
     formFieldPropertyCodes,
+    type FormFieldNamePropertyCode,
+    type MenuCode,
     type FormCode,
     type ErrorCode,
 } from "@/shared/config";
 
-export type TranslationCode = ResourceCode | FormCode | ErrorCode;
+export type TranslationCode = ResourceCode | MenuCode | FormCode | ErrorCode;
 
 const baseResourceKey = "resources";
 const resourceNameKey = "name";
@@ -20,21 +21,33 @@ const resourceActionsKey = "actions";
 
 const resourceNameActionPropertyKeys = Object.fromEntries(
     resourceNameCodes.flatMap((resourceNameCode) =>
-        actionCodes.flatMap((actionCode) =>
-            actionPropertyCodes.map((actionPropertyCode) => {
-                const code: ResourceNameActionPropertyCode = `${resourceNameCode}_${actionCode}_${actionPropertyCode}`;
+        resourceActionCodes.flatMap((resourceActionCode) =>
+            resourceActionPropertyCodes.map((resourceActionPropertyCode) => {
+                const code: ResourceNameActionPropertyCode = `${resourceNameCode}_${resourceActionCode}_${resourceActionPropertyCode}`;
 
-                const resourceKey = resourceNameCode.toLowerCase();
-                const actionKey = actionCode.toLowerCase();
-                const propertyKey = actionPropertyCode.toLowerCase();
+                const resourceNameKey = resourceNameCode.toLowerCase();
+                const resourceActionKey = resourceActionCode.toLowerCase();
+                const resourceActionPropertyKey = resourceActionPropertyCode.toLowerCase();
 
-                const resourceActionPropertyKey = `${baseResourceKey}.${resourceKey}.${resourceActionsKey}.${actionKey}.${propertyKey}`;
+                const resourceNameActionPropertyKey = `${baseResourceKey}.${resourceNameKey}.${resourceActionsKey}.${resourceActionKey}.${resourceActionPropertyKey}`;
 
-                return [code, resourceActionPropertyKey];
+                return [code, resourceNameActionPropertyKey];
             })
         )
     )
 ) as Record<ResourceNameActionPropertyCode, string>;
+
+const baseNavbarItemKey = "navigation.navbar.navigation-links";
+const baseSidebarItemKey = "navigation.sidebar.navigation-links";
+const baseSidebarSectionKey = "navigation.sidebar.sections";
+const baseFooterItemKey = "navigation.footer.navigation-links";
+const baseFooterSectionKey = "navigation.footer.sections";
+
+const baseSettingsKey = "settings.navigation-links";
+
+const baseActionsKey = "actions";
+
+const baseOptionsKey = "options";
 
 const baseFormFieldKey = "form.fields";
 
@@ -61,6 +74,42 @@ const baseNotFoundErrorKey = `${baseDomainErrorKey}.not-found`;
 const codesToKeys = {
     ...resourceNameActionPropertyKeys,
 
+    NAVBAR_ITEM_FEATURE_SPACED_REPETITION: `${baseNavbarItemKey}.feature-spaced-repetition`,
+    NAVBAR_ITEM_FEATURE_AI_ASSISTANCE: `${baseNavbarItemKey}.feature-ai-assistance`,
+    NAVBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: `${baseNavbarItemKey}.feature-trustworthy-answers`,
+    NAVBAR_ITEM_DECKS: `${baseNavbarItemKey}.decks`,
+    NAVBAR_ITEM_SHARED_DECKS: `${baseNavbarItemKey}.shared-decks`,
+    NAVBAR_ITEM_EDUCATIONAL_RESOURCES: `${baseNavbarItemKey}.educational-resources`,
+
+    SIDEBAR_SECTION_FEATURES: `${baseSidebarSectionKey}.features`,
+    SIDEBAR_SECTION_ABOUT: `${baseSidebarSectionKey}.about`,
+    SIDEBAR_SECTION_MY_DECKS: `${baseSidebarSectionKey}.decks`,
+
+    SIDEBAR_ITEM_FEATURE_SPACED_REPETITION: `${baseSidebarItemKey}.feature-spaced-repetition`,
+    SIDEBAR_ITEM_FEATURE_AI_ASSISTANCE: `${baseSidebarItemKey}.feature-ai-assistance`,
+    SIDEBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: `${baseSidebarItemKey}.feature-trustworthy-answers`,
+    SIDEBAR_ITEM_FEATURE_STATISTICS: `${baseSidebarItemKey}.feature-statistics`,
+    SIDEBAR_ITEM_ABOUT: `${baseSidebarItemKey}.about`,
+
+    FOOTER_SECTION_FEATURES: `${baseFooterSectionKey}.features`,
+
+    FOOTER_ITEM_FEATURE_SPACED_REPETITION: `${baseFooterItemKey}.feature-spaced-repetition`,
+    FOOTER_ITEM_FEATURE_AI_ASSISTANCE: `${baseFooterItemKey}.feature-ai-assistance`,
+    FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: `${baseFooterItemKey}.feature-trustworthy-answers`,
+    FOOTER_ITEM_FEATURE_STATISTICS: `${baseFooterItemKey}.feature-statistics`,
+
+    SETTINGS_PROFILE: `${baseSettingsKey}.profile`,
+    SETTINGS_THEME: `${baseSettingsKey}.theme`,
+    SETTINGS_LANGUAGE: `${baseSettingsKey}.language`,
+
+    USER_PANEL_SETTINGS: `${baseActionsKey}.settings`,
+    USER_PANEL_CHANGE_THEME: `${baseActionsKey}.change-theme`,
+    USER_PANEL_CHANGE_LANGUAGE: `${baseActionsKey}.change-language`,
+    USER_PANEL_LOGOUT: `${baseActionsKey}.logout`,
+
+    OPTIONS_EDIT: `${baseOptionsKey}.edit`,
+    OPTIONS_DELETE: `${baseOptionsKey}.delete`,
+
     ...formFieldNamePropertyKeys,
 
     USER_RESOURCE_NAME: `${baseResourceKey}.user.${resourceNameKey}`,
@@ -81,6 +130,9 @@ const codesToKeys = {
     DECK_PUBLIC: `${baseResourceKey}.deck.${resourcePropertiesKey}.public`,
     DECK_PRIVATE: `${baseResourceKey}.deck.${resourcePropertiesKey}.private`,
     DECK_FLASHCARDS_COUNT: `${baseResourceKey}.deck.${resourcePropertiesKey}.flashcards-count`,
+    DECK_INFO: `${baseResourceKey}.deck.${resourcePropertiesKey}.info`,
+    DECK_FLASHCARDS: `${baseResourceKey}.deck.${resourcePropertiesKey}.flashcards`,
+    DECK_EDUCATIONAL_RESOURCES: `${baseResourceKey}.deck.${resourcePropertiesKey}.educational_resources`,
 
     BAD_REQUEST: `${baseHttpExceptionErrorKey}.bad-request`,
     UNAUTHORIZED: `${baseHttpExceptionErrorKey}.unauthorized`,

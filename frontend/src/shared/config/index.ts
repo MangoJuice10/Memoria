@@ -1,12 +1,20 @@
 export * from "./menu.config";
-export * from "./options-layout.config";
+export * from "./menu/layout/options-layout.config";
+
+export * from "./resources/resource-name.codes";
+export * from "./resources/resource-action.codes";
+export * from "./resources/resource-name-action-property-codes.config";
+export * from "./resources/resource-property-codes.config";
+export * from "./resources/resource-codes.config";
 
 export * from "./form/form-codes.config";
 
-export * from "./resources/resource-properties.config";
-export * from "./resources/resource-name-action-properties.config.ts";
-export * from "./resources/resource-codes.config";
+export * from "./menu/codes/navigation-item-codes.config.ts";
+export * from "./menu/codes/settings-codes.config.ts";
+export * from "./menu/codes/user-panel-codes.config.ts";
+export * from "./menu/codes/options-codes.config.ts";
+export * from "./menu/codes/menu-codes.config.ts";
 
-export * from "./errors/http-exception-errors.config";
-export * from "./errors/domain-errors.config";
+export * from "./errors/http-exception-error-codes.config";
+export * from "./errors/domain-error-codes.config";
 export * from "./errors/error-codes.config";

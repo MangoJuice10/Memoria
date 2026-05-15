@@ -4,7 +4,7 @@ import type {MenuItemView, NavigationItemId} from "@/shared/config";
 import {useNavigation} from "@/shared/lib";
 
 defineProps<{
-  navigationItemViews: MenuItemView<NavigationItemId>[]
+  menuItemViews: MenuItemView<NavigationItemId>[]
 }>();
 
 const {isNavigationLinkActive} = useNavigation();
@@ -13,10 +13,10 @@ const {isNavigationLinkActive} = useNavigation();
 <template>
   <nav
       class="inline-grid grid-flow-col auto-cols-fr justify-center items-center gap-5 w-fit">
-    <NavigationLink v-for="navigationItemView in navigationItemViews"
-                    :key="navigationItemView.id"
-                    :navigation-item-view
-                    :is-active="isNavigationLinkActive(navigationItemView)"
+    <NavigationLink v-for="menuItemView in menuItemViews"
+                    :key="menuItemView.id"
+                    :menu-item-view
+                    :is-active="isNavigationLinkActive(menuItemView)"
                     label-classes="inline-block h-[2lh] content-center truncate text-wrap"
                     icon-classes="icon-static
                                   w-7.5"

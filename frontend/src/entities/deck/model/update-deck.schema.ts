@@ -26,7 +26,9 @@ export function createUpdateDeckSchema(t: Composer["t"]) {
                         n: 2
                     })
                 }))
-            .optional()
+            .optional(),
+        isPublic: z.boolean()
+            .optional(),
     });
 }
 
