@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {NavigationLink} from "@/shared/ui";
-import type {MenuItemView, NavigationItemId} from "@/shared/config";
+import type {MenuItemView, NavbarItemId} from "@/shared/config";
 import {useNavigation} from "@/shared/lib";
 
 defineProps<{
-  menuItemViews: MenuItemView<NavigationItemId>[]
+  menuItemViews: MenuItemView<NavbarItemId>[]
 }>();
 
 const {isNavigationLinkActive} = useNavigation();

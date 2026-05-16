@@ -62,11 +62,13 @@ setupMenuCallbacks();
 </script>
 
 <template>
-  <div class="group/flashcard grid grid-rows-20 grid-cols-1 divide-y divide-default
-            w-flashcard h-flashcard border border-default rounded-2xl
-            bg-primary cursor-pointer
-            transition duration-200
-            hover:scale-105"
+  <div class="group/flashcard
+              grid grid-rows-20 grid-cols-1 divide-y divide-default
+              w-flashcard h-flashcard border border-default rounded-2xl
+              bg-primary cursor-pointer
+              shadow-lg
+              transition duration-200
+              hover:scale-105 hover:shadow-2xl"
        @click="openUpdateFlashcardModal">
     <div class="row-span-1 flex justify-end px-4 py-2 border-b-0
                 opacity-0

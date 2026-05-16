@@ -5,7 +5,8 @@ import {flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {useRoute} from "vue-router";
 import {getIdRouteParam} from "@/app/router";
 import {useQuery} from "@tanstack/vue-query";
-import {Error, Loader} from "@/shared/ui";
+import {Button, IconLabel, LearningIcon, LocalizedLink, QueryState} from "@/shared/ui";
+import {Toolbar} from "@/widgets/toolbar";
 
 const route = useRoute();
 const deckId = computed(() => getIdRouteParam(route.params.deckId));
@@ -20,28 +21,39 @@ const flashcards = computed(() => data.value ?? []);
 </script>
 
 <template>
-  <div v-if="isLoading"
-       class="flex justify-center items-center
-                w-full h-full">
-    <Loader/>
-  </div>
-  <div v-else-if="error" class="flex justify-center items-center
-              w-full h-full">
-    <Error>
-      {{ error.message }}
-    </Error>
-  </div>
-  <div v-else class="flashcards">
-    <CreateFlashcard :deck-id="Number(route.params.deckId)"/>
-    <FlashcardCard v-for="flashcard in flashcards"
-                   :id="flashcard.id"
-                   :key="flashcard.id"
-                   :front="flashcard.front"
-                   :back="flashcard.back"
-                   :intervalDays="flashcard.intervalDays"
-                   :dueAt="flashcard.dueAt"
-                   :deckId="flashcard.deckId"/>
-  </div>
+  <QueryState
+      :is-loading
+      :error
+      class="grow">
+    <div v-if="data">
+      <div class="flex justify-between items-center">
+        <Toolbar/>
+        <LocalizedLink name="review" :params="{deckId: String(deckId)}">
+          <Button>
+            <IconLabel>
+              <template #label>
+                {{ $t("actions.study") }}
+              </template>
+              <template #icon>
+                <LearningIcon class="icon-static-inverse w-7"/>
+              </template>
+            </IconLabel>
+          </Button>
+        </LocalizedLink>
+      </div>
+      <div class="flashcards mt-10">
+        <CreateFlashcard :deck-id="Number(route.params.deckId)"/>
+        <FlashcardCard v-for="flashcard in flashcards"
+                       :id="flashcard.id"
+                       :key="flashcard.id"
+                       :front="flashcard.front"
+                       :back="flashcard.back"
+                       :intervalDays="flashcard.intervalDays"
+                       :dueAt="flashcard.dueAt"
+                       :deckId="flashcard.deckId"/>
+      </div>
+    </div>
+  </QueryState>
 </template>
 
 <style scoped>

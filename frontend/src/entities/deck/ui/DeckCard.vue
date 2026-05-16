@@ -43,19 +43,24 @@ setupMenuCallbacks();
 <template>
   <LocalizedLink name="deck-flashcards" :params="{deckId: String(id)}">
     <div class="grid grid-rows-20 gap-5
-            w-deck h-deck overflow-hidden
-            border border-default rounded-2xl
-            bg-primary cursor-pointer
-            transition duration-200
-            hover:scale-105">
+                w-deck h-deck overflow-hidden
+                border border-default rounded-2xl
+                bg-primary shadow-lg cursor-pointer
+                transition duration-200
+                hover:scale-105
+                hover:shadow-2xl">
       <div class="row-span-3
                   p-4 border-b border-default
                   text-lg text-center">
-        {{ name }}
+        <div class="line-clamp-1">
+          {{ name }}
+        </div>
       </div>
       <div class="row-span-5
                   p-4 text-base text-center">
-        {{ description }}
+        <div class="line-clamp-4">
+          {{ description }}
+        </div>
       </div>
       <img :src="asset('filler/deckCover.png')" alt=""
            class="row-span-9

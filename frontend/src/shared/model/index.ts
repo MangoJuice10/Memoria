@@ -4,5 +4,6 @@ export type {DynamicComponentControls, StoreDynamicComponentControls} from "./dy
 export {useModalStore} from "./modal.store";
 export {useBackdropStore} from "./backdrop.store";
 export {useSidebarStore} from "./sidebar.store";
+export {useToastStore, type ToastTypeId, type ToastIconId, type ToastProps} from "./toast.store"
 export {createLoginSchema, type LoginDto} from "./schemas/login.schema";
 export {createRegisterSchema, type RegisterDto} from "./schemas/register.schema";

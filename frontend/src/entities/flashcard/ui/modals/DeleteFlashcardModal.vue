@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import {useBackdropStore, useModalStore} from "@/shared/model";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {ActionModal} from "@/shared/ui";
 import {onMounted} from "vue";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {type FlashcardResponseDto, flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
+import {codeToKey} from "@/shared/i18n";
+import {resourceNameActionPropertyCodes} from "@/shared/config";
+import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
   id: number;
   deckId: number;
 }>();
 
+const {t} = useI18n();
+
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
+const {push} = useToastStore();
 const queryClient = useQueryClient();
 
 const deleteFlashcardMutation = useMutation({
@@ -20,6 +26,7 @@ const deleteFlashcardMutation = useMutation({
     flashcardId: number
   }) => flashcardsApi.remove(deckId, flashcardId),
   onSuccess: async (_, variables) => {
+    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_SUCCESS)), "success", "delete");
     await queryClient.setQueryData(
         flashcardsQueryKeys.byDeck(variables.deckId),
         (old: FlashcardResponseDto[] | undefined) => {
@@ -29,7 +36,8 @@ const deleteFlashcardMutation = useMutation({
     );
     backdropStore.hide();
     modalStore.hide();
-  }
+  },
+  onError: () => push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_ERROR)), "error", "delete")
 });
 
 async function handleConfirm() {
@@ -56,19 +64,19 @@ onMounted(() => {
       @confirm="handleConfirm"
       @cancel="handleCancel">
     <template #heading>
-      {{ $t("modals.flashcard.delete.heading") }}
+      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_NAME)) }}
     </template>
 
     <template #content>
-      {{ $t("modals.flashcard.delete.content") }}
+      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_DESCRIPTION)) }}
     </template>
 
     <template #cancel>
-      {{ $t("modals.flashcard.delete.buttons.cancel") }}
+      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_CANCEL)) }}
     </template>
 
     <template #confirm>
-      {{ $t("modals.flashcard.delete.buttons.confirm") }}
+      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_CONFIRM)) }}
     </template>
   </ActionModal>
 </template>

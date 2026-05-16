@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type {MenuItemView, NavigationItemId} from "@/shared/config";
+import type {MenuItemView} from "@/shared/config";
 import NavigationLink from "./NavigationLink.vue";
 import {useNavigation} from "@/shared/lib";
 
 defineProps<{
-  menuItemViews: MenuItemView<NavigationItemId>[]
+  menuItemViews: MenuItemView<string | number>[]
 }>();
 
 const {isNavigationLinkActive} = useNavigation();

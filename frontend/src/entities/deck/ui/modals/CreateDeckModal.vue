@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {useValidation} from "@/shared/lib";
-import {useBackdropStore, useModalStore} from "@/shared/model";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {Modal} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {
@@ -20,6 +20,7 @@ import {codeToKey} from "@/shared/i18n";
 const {t} = useI18n();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
+const {push} = useToastStore();
 const queryClient = useQueryClient();
 
 const data = ref<CreateDeckDto>({
@@ -31,6 +32,7 @@ const data = ref<CreateDeckDto>({
 const {
   isValid,
   getError,
+  getFormError,
   isFieldTouched,
   touch,
   touchAll,
@@ -39,7 +41,8 @@ const {
   reset,
 } = useValidation(data, createCreateDeckSchema(t), {
   mode: "eager",
-  delay: 300
+  delay: 300,
+  t
 });
 
 const createDeckMutation = useMutation({
@@ -65,7 +68,9 @@ const submit = async () => {
 
   try {
     await createDeckMutation.mutateAsync(validatedData);
+    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_SUCCESS)), "success", "create");
   } catch (error) {
+    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_ERROR)), "error", "create");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -85,9 +90,10 @@ onMounted(() => {
   <Modal>
     <div class="w-[50vw] p-10">
       <Form
-          form-error=""
+          :form-error="getFormError()"
           :is-submit-enabled="isValid"
           :is-reset-enabled="true"
+          form-error-classes="text-center"
           @submit="submit"
           @reset="reset">
         <template #heading>
@@ -102,10 +108,10 @@ onMounted(() => {
                        element="textarea"
                        :label="t(codeToKey(formCodes.NAME_NAME))"
                        :placeholder="t(codeToKey(formCodes.NAME_PLACEHOLDER))"
-                       :touched="isFieldTouched('front')"
-                       :error="getError('front')"
+                       :touched="isFieldTouched('name')"
+                       :error="getError('name')"
                        @blur="() => {
-                         touch('front');
+                         touch('name');
                          clientValidate();
                        }"/>
             <FormField id="back"
@@ -113,10 +119,10 @@ onMounted(() => {
                        element="textarea"
                        :label="t(codeToKey(formCodes.DESCRIPTION_NAME))"
                        :placeholder="t(codeToKey(formCodes.DESCRIPTION_PLACEHOLDER))"
-                       :touched="isFieldTouched('back')"
-                       :error="getError('back')"
+                       :touched="isFieldTouched('description')"
+                       :error="getError('description')"
                        @blur="() => {
-                         touch('back');
+                         touch('description');
                          clientValidate();
                        }"/>
           </div>

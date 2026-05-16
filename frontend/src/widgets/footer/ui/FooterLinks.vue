@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import {NavigationLink} from "@/shared/ui";
-import type {MenuSectionView, NavigationItemId, NavigationSectionId} from "@/shared/config";
+import type {
+  FooterItemId,
+  FooterSectionId,
+  MenuSectionView,
+} from "@/shared/config";
 import {useNavigation} from "@/shared/lib";
 
 defineProps<{
-  menuSectionView: MenuSectionView<NavigationSectionId, NavigationItemId>
+  menuSectionView: MenuSectionView<FooterSectionId, FooterItemId>
 }>();
 
 const {isNavigationLinkActive} = useNavigation();

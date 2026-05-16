@@ -30,7 +30,7 @@ defineEmits<{
         </h2>
       </div>
       <FormError :error="formError"
-             class="mb-2"
+             class="mb-2 text-lg"
              :class="formErrorClasses"/>
     </div>
     <slot name="fields"/>

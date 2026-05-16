@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {type MenuItemView, type NavigationItemId} from "@/shared/config";
+import {type MenuItemView} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {IconLabel} from "@/shared/ui";
 import {onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
-  menuItemView: MenuItemView<NavigationItemId>;
+  menuItemView: MenuItemView<string | number>;
   iconClasses?: string;
   labelClasses?: string;
 }>(), {

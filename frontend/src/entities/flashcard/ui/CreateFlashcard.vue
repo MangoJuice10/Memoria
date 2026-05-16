@@ -23,7 +23,9 @@ const openModal = () => {
 </script>
 
 <template>
-  <CreateCard class="w-flashcard h-flashcard"
+  <CreateCard class="w-flashcard h-flashcard
+                     shadow-xl
+                     hover:shadow-2xl"
               @click="openModal">
     {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_CREATE_NAME)) }}
   </CreateCard>

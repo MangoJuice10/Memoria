@@ -51,7 +51,6 @@ withDefaults(defineProps<{
     opacity: 0.7;
   }
 
-  /* max allowed displacement */
   12% {
     transform: translateY(-8px);
   }
@@ -60,7 +59,6 @@ withDefaults(defineProps<{
     transform: translateY(5.5px);
   }
 
-  /* decaying oscillation */
   36% {
     transform: translateY(-4.5px);
   }

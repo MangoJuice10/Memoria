@@ -1,7 +1,8 @@
 import {
-    type NavigationSectionId,
+    menuCodes,
+    type FooterSectionId,
     type MenuLayout,
-    type NavigationItemId, menuCodes
+    type FooterItemId
 } from "@/shared/config";
 
 export const FOOTER_LAYOUT = {
@@ -34,4 +35,4 @@ export const FOOTER_LAYOUT = {
             ],
         },
     ],
-} as const satisfies MenuLayout<NavigationSectionId, NavigationItemId>;
+} as const satisfies MenuLayout<FooterSectionId, FooterItemId>;

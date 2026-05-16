@@ -1,18 +1,26 @@
 import type {Component} from "vue";
 import type {MenuCode} from "@/shared/config/menu/codes/menu-codes.config.ts";
 
-export type NavigationItemId =
+export type NavbarItemId =
+    | "feature-spaced-repetition"
+    | "feature-ai-assistance"
+    | "feature-trustworthy-answers"
+    | "decks"
+    | "shared-decks"
+    | "educational-resources"
+
+export type SidebarItemId =
     | "feature-spaced-repetition"
     | "feature-ai-assistance"
     | "feature-trustworthy-answers"
     | "feature-statistics"
-    | "decks"
-    | "deck-flashcards"
-    | "deck-info"
-    | "deck-educational-resources"
-    | "shared-decks"
-    | "educational-resources"
-    | "about";
+    | "about"
+
+export type FooterItemId =
+    | "feature-spaced-repetition"
+    | "feature-ai-assistance"
+    | "feature-trustworthy-answers"
+    | "feature-statistics"
 
 export type ActionsItemId =
     | "settings"
@@ -50,10 +58,13 @@ export type MenuItemView<ItemId extends string | number> = Omit<MenuItem<ItemId>
     label: string;
 }
 
-export type NavigationSectionId =
+export type SidebarSectionId =
     | "features"
     | "about"
     | "decks";
+
+export type FooterSectionId =
+    | "features";
 
 export type MenuSection<SectionId extends string | number, ItemId extends string | number> = {
     id: SectionId;

@@ -1,9 +1,9 @@
 import {useRoute} from "vue-router";
-import type {MenuItemView, NavigationItemId} from "@/shared/config";
+import type {MenuItemView} from "@/shared/config";
 
 export function useNavigation() {
     const route = useRoute();
-    const isNavigationLinkActive = (navigationItem: MenuItemView<NavigationItemId>) => {
+    const isNavigationLinkActive = (navigationItem: MenuItemView<string | number>) => {
         return route.name === navigationItem.routeName;
     };
 

@@ -50,10 +50,14 @@ export {default as UploadIcon} from "./common/UploadIcon.vue";
 export {default as StarIcon} from "./common/StarIcon.vue";
 export {default as PublicIcon} from "./common/PublicIcon.vue";
 export {default as PrivateIcon} from "./common/PrivateIcon.vue";
+export {default as CheckIcon} from "./common/CheckIcon.vue";
+export {default as ErrorIcon} from "./common/ErrorIcon.vue";
+export {default as WarningIcon} from "./common/WarningIcon.vue";
+export {default as InfoIcon} from "./common/InfoIcon.vue";
 
 export {default as AddIcon} from "./common/AddIcon.vue";
 export {default as EditIcon} from "./common/EditIcon.vue";
+export {default as CloseIcon} from "./common/CloseIcon.vue";
 export {default as TrashIcon} from "./common/TrashIcon.vue";
 
 export {default as OptionsIcon} from "./common/OptionsIcon.vue";
-export {default as ErrorIcon} from "./common/ErrorIcon.vue";

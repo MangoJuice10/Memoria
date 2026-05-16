@@ -9,18 +9,20 @@ import type {Composer} from "vue-i18n";
 import type {ErrorCode, ValidationErrorCode} from "@/shared/config";
 import {type ErrorResponse} from "@/shared/api";
 
-type DelayOptions = {
+export type DelayOptions = {
     mode: "lazy"
 } | {
     mode: "eager",
     delay: number;
 }
 
+export type TOptions = {
+    formError?: Partial<Record<ErrorCode, Record<string, unknown>>>
+} & Record<string, Partial<Record<ValidationErrorCode, Record<string, unknown>>>>
+
 type TranslationOptions = {
     t?: Composer["t"];
-    tOptions?: {
-        formError?: Partial<Record<ErrorCode, Record<string, unknown>>>
-    } & Record<string, Partial<Record<ValidationErrorCode, Record<string, unknown>>>>
+    tOptions?: TOptions
 }
 
 type ValidationOptions = DelayOptions & TranslationOptions;

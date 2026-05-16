@@ -133,7 +133,12 @@
         --color-again: var(--color-red-300);
         --color-bad: var(--color-yellow-150);
         --color-good: var(--color-green-800);
-        --color-perfect: var(--color-blue-800);
+        --color-perfect: var(--color-blue-1500);
+
+        --color-success: var(--color-green-700);
+        --color-error: var(--color-red-100);
+        --color-warning: var(--color-yellow-100);
+        --color-info: var(--color-blue-1200);
 
         --font-weight-default: var(--font-weight-400);
         --font-family-default: var(--font-family-inter), var(--font-family-sans-serif);
@@ -489,6 +494,22 @@ Utility classes used to quickly apply semantic tokens to the elements
     background-color: var(--color-perfect);
 }
 
+@utility bg-success {
+    background-color: var(--color-success);
+}
+
+@utility bg-error {
+    background-color: var(--color-error);
+}
+
+@utility bg-warning {
+    background-color: var(--color-warning);
+}
+
+@utility bg-info {
+    background-color: var(--color-info);
+}
+
 @utility bg-hover {
     background-color: var(--color-surface-hover);
 }
@@ -511,6 +532,86 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility border-default {
     border-color: var(--color-border-default);
+}
+
+@utility border-success {
+    border-color: var(--color-success);
+}
+
+@utility border-t-success {
+    border-top-color: var(--color-success);
+}
+
+@utility border-r-success {
+    border-right-color: var(--color-success);
+}
+
+@utility border-b-success {
+    border-bottom-color: var(--color-success);
+}
+
+@utility border-l-success {
+    border-left-color: var(--color-success);
+}
+
+@utility border-error {
+    border-color: var(--color-error);
+}
+
+@utility border-t-error {
+    border-top-color: var(--color-error);
+}
+
+@utility border-r-error {
+    border-right-color: var(--color-error);
+}
+
+@utility border-b-error {
+    border-bottom-color: var(--color-error);
+}
+
+@utility border-l-error {
+    border-left-color: var(--color-error);
+}
+
+@utility border-warning {
+    border-color: var(--color-warning);
+}
+
+@utility border-t-warning {
+    border-top-color: var(--color-warning);
+}
+
+@utility border-r-warning {
+    border-right-color: var(--color-warning);
+}
+
+@utility border-b-warning {
+    border-bottom-color: var(--color-warning);
+}
+
+@utility border-l-warning {
+    border-left-color: var(--color-warning);
+}
+
+@utility border-info {
+    border-color: var(--color-info);
+}
+
+@utility border-t-info {
+    border-top-color: var(--color-info);
+}
+
+@utility border-r-info {
+    border-right-color: var(--color-info);
+}
+
+@utility border-b-info {
+    border-bottom-color: var(--color-info);
+}
+
+@utility border-l-info {
+    border-left-color: var(--color-info);
 }
 
 @utility divide-default {

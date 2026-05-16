@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {useValidation} from "@/shared/lib";
-import {useBackdropStore, useModalStore} from "@/shared/model";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
   createUpdateFlashcardSchema,
   type CreateFlashcardDto,
@@ -16,7 +16,7 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {formCodes} from "@/shared/config";
+import {formCodes, resourceNameActionPropertyCodes} from "@/shared/config";
 
 const props = defineProps<{
   id: number;
@@ -28,6 +28,7 @@ const props = defineProps<{
 const {t} = useI18n();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
+const {push} = useToastStore();
 const queryClient = useQueryClient();
 
 const data = ref<CreateFlashcardDto>({
@@ -38,6 +39,7 @@ const data = ref<CreateFlashcardDto>({
 const {
   isValid,
   getError,
+  getFormError,
   isFieldTouched,
   touch,
   touchAll,
@@ -46,7 +48,8 @@ const {
   reset,
 } = useValidation(data, createUpdateFlashcardSchema(t), {
   mode: "eager",
-  delay: 300
+  delay: 300,
+  t
 });
 
 const updateFlashcardMutation = useMutation({
@@ -72,7 +75,9 @@ const submit = async () => {
 
   try {
     await updateFlashcardMutation.mutateAsync(validatedData);
+    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
+    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_UPDATE_CANCEL)), "error", "update");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -92,9 +97,10 @@ onMounted(() => {
   <Modal>
     <div class="w-[50vw] p-10">
       <Form
-          form-error=""
+          :form-error="getFormError()"
           :is-submit-enabled="isValid"
           :is-reset-enabled="true"
+          form-error-classes="text-center"
           @submit="submit"
           @reset="reset">
         <template #heading>

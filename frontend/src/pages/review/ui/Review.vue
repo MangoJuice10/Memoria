@@ -7,7 +7,7 @@ import {findAllDueFlashcards, flashcardsQueryKeys} from "@/entities/flashcard";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
 import {useQuery} from "@tanstack/vue-query";
-import {Error, Loader} from "@/shared/ui";
+import {QueryState} from "@/shared/ui";
 import {useReview} from "../lib/use-review.ts";
 
 const route = useRoute();
@@ -34,17 +34,18 @@ const {
   markRated
 } = useReview(dueFlashcardsData);
 
+const isLoading = computed(() => deckIsLoading || dueFlashcardsIsLoading);
+const error = computed(() => deckError ?? dueFlashcardsError ?? null);
+
 </script>
 
 <template>
   <div class="flex justify-around items-center
               min-h-screen
               bg-tertiary">
-    <Loader v-if="deckIsLoading || dueFlashcardsIsLoading"/>
-    <Error v-else-if="deckError || dueFlashcardsError">
-      {{ deckError?.message ?? dueFlashcardsError?.message }}
-    </Error>
-    <Flashcard v-else-if="deckData && currentFlashcard"
+    <QueryState :is-loading="isLoading.value"
+                :error="error.value"/>
+    <Flashcard v-if="deckData && currentFlashcard"
                :key="currentFlashcard.id"
                :flashcard="currentFlashcard"
                :deck="deckData"

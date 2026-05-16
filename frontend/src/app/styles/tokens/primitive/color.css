@@ -17,11 +17,14 @@
     --color-gray-1200: #383838;
     --color-gray-1400: #1B1B1B;
 
+    --color-red-100: #E74C3C;
     --color-red-150: #E3261B;
-    --color-red-300: #B3261E;
-
     --color-red-250: #C00F0C;
+    --color-red-300: #B3261E;
+    --color-yellow-100: #F1C40F;
     --color-yellow-150: #E8B931;
+    --color-green-700: #07BC0C;
     --color-green-800: #009951;
-    --color-blue-800: #0088FF
+    --color-blue-1200: #3498DB;
+    --color-blue-1500: #0088FF
 }

@@ -1,19 +1,19 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="28.6" height="28.6" viewBox="0 0 572 572">
     <g stroke="none"
-       style="stroke:#fff;stroke-width:60;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">
+       style="stroke:var(--color-icon-default);stroke-width:60;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">
       <path
           d="M15.972 18.217c-.568.46-1.057 1.022-1.585 1.53-.787.817-1.62 1.596-2.35 2.463-.703.974-.999 2.214-.894 3.4.199.135.516.024.762.06h8.87c.2-.116.058-.43.099-.633-.016-1.23-.468-2.469-1.354-3.34a96 96 0 0 0-3.455-3.461c-.025-.024-.062-.014-.093-.019M11.146 6.343c-.078.143-.01.323-.028.481-.003.535.046 1.073.217 1.582.202.62.507 1.217.944 1.703 1.202 1.242 2.432 2.456 3.65 3.681.147.09.234-.125.337-.195 1.189-1.2 2.398-2.38 3.564-3.604.67-.856 1.066-1.935 1.049-3.027-.01-.201.037-.412-.01-.608-.143-.08-.324-.017-.482-.037H11.21z"
-          style="opacity:1;fill:#fff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+          style="opacity:1;fill:var(--color-icon-default);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
           transform="matrix(20 0 0 20 -34 -34)"/>
       <g style="opacity:1">
         <path
             d="M160 34c-33.858 0-62 28.142-62 62 0 23.256 13.28 43.813 32.566 54.408 2.795 46.202 22.217 90 55.121 122.905L232.374 320l-46.685 46.688c-32.905 32.904-52.327 76.702-55.122 122.904C111.28 500.187 98 520.744 98 544c0 33.858 28.142 62 62 62h320c33.858 0 62-28.142 62-62 0-23.256-13.28-43.813-32.566-54.408-2.795-46.202-22.217-90-55.122-122.904L407.628 320l46.685-46.687c32.905-32.905 52.327-76.703 55.122-122.905C528.72 139.813 542 119.256 542 96c0-33.858-28.142-62-62-62Zm0 60h320c1.542 0 2 .458 2 2s-.458 2-2 2h-30v41c0 34.428-13.723 67.496-38.113 91.887L322.773 320l89.114 89.113C436.277 433.503 450 466.572 450 501v41h30c1.542 0 2 .458 2 2s-.458 2-2 2H160c-1.542 0-2-.458-2-2s.458-2 2-2h30v-41c0-34.428 13.723-67.496 38.113-91.887L317.227 320l-89.114-89.113C203.723 206.497 190 173.428 190 139V98h-30c-1.542 0-2-.458-2-2s.458-2 2-2m34 4v41c0 33.422 13.27 65.496 36.887 89.113L320 317.227l89.113-89.114C432.731 204.496 446 172.422 446 139V98Zm62.787 60h126.426a65.8 65.8 0 0 1-16.526 27.688L320 232.373l-46.687-46.685A65.8 65.8 0 0 1 256.787 158M320 322.773l-89.113 89.114C207.269 435.504 194 467.578 194 501v41h252v-41c0-33.422-13.27-65.496-36.887-89.113zm0 84.854 46.688 46.685A65.8 65.8 0 0 1 383.213 482H256.787a65.8 65.8 0 0 1 16.526-27.688z"
-            style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#fff;stroke:none;stop-color:#000;stop-opacity:1"
+            style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:var(--color-icon-default);stroke:none;stop-color:var(--color-icon-inverse);stop-opacity:1"
             transform="translate(-34 -34)"/>
         <path
             d="M128 96c0-17.7 14.3-32 32-32h320c17.7 0 32 14.3 32 32s-14.3 32-32 32v11c0 42.4-16.9 83.1-46.9 113.1L365.2 320l67.9 67.9c30 30 46.9 70.7 46.9 113.1v11c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32v-11c0-42.4 16.9-83.1 46.9-113.1l67.9-67.9-67.9-67.9c-30-30-46.9-70.7-46.9-113.1v-11c-17.7 0-32-14.3-32-32m96 32v11c0 25.5 10.1 49.9 28.1 67.9l67.9 67.9 67.9-67.9c18-18 28.1-42.4 28.1-67.9v-11zm0 384h192v-11c0-25.5-10.1-49.9-28.1-67.9L320 365.2l-67.9 67.9c-18 18-28.1 42.4-28.1 67.9z"
-            style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:currentColor;stroke:none;stop-color:#000;stop-opacity:1"
+            style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:var(--color-icon-inverse);stroke:none;stop-color:var(--color-icon-inverse);stop-opacity:1"
             transform="translate(-34 -34)"/>
       </g>
     </g>

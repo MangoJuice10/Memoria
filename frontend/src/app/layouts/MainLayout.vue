@@ -2,17 +2,11 @@
 import {Navbar} from "@/widgets/navbar";
 import {Sidebar} from "@/widgets/sidebar";
 import {Backdrop} from "@/shared/ui";
-import {useModalStore} from "@/shared/model";
-
-const modalStore = useModalStore();
 </script>
 
 <template>
   <Navbar/>
   <Sidebar/>
   <Backdrop/>
-  <component v-if="modalStore.isVisible"
-             :is="modalStore.getComponent()"
-             v-bind="modalStore.getProps()"/>
   <RouterView class="py-page"/>
 </template>

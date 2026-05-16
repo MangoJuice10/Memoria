@@ -1,5 +1,5 @@
 import {
-    type NavigationItemId,
+    type NavbarItemId,
     type MenuLayout, menuCodes,
 } from "@/shared/config";
 
@@ -34,7 +34,7 @@ export const NAVBAR_GUEST_LAYOUT = {
         },
     ],
     menuSections: [],
-} as const satisfies MenuLayout<any, NavigationItemId>;
+} as const satisfies MenuLayout<any, NavbarItemId>;
 
 export const NAVBAR_AUTHENTICATED_LAYOUT = {
     menuItems: [
@@ -58,4 +58,4 @@ export const NAVBAR_AUTHENTICATED_LAYOUT = {
         },
     ],
     menuSections: [],
-} as const satisfies MenuLayout<any, NavigationItemId>;
+} as const satisfies MenuLayout<any, NavbarItemId>;

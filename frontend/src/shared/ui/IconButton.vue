@@ -2,7 +2,7 @@
 import {computed} from "vue";
 
 const props = withDefaults(defineProps<{
-  sizeRem: number;
+  sizeRem?: number;
 }>(), {
   sizeRem: 1.8,
 });

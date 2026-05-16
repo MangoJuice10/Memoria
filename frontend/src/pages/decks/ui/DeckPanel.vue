@@ -10,8 +10,9 @@ import {useI18n} from "vue-i18n";
 defineProps<{
   id: number;
   name: string;
-  isPublic: boolean;
 }>();
+
+const isPublic = defineModel<boolean>("isPublic");
 
 const {t} = useI18n();
 
@@ -32,17 +33,17 @@ const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
           <DeckIcon class="w-8"/>
         </template>
       </IconLabel>
-      <Toggle class="grow"
-              @on="console.log('TODO ON')"
-              @off="console.log('TODO OFF')">
+      <Toggle v-if="$route.name === 'deck-info'"
+              v-model:is-on="isPublic"
+              class="grow">
         <template #on>
           <span class="text-lg font-semibold">
-            {{ $t(codeToKey(resourceCodes.DECK_PUBLIC)) }}
+            {{ $t(codeToKey(resourceCodes.DECK_PRIVATE)) }}
           </span>
         </template>
         <template #off>
           <span class="text-lg font-semibold">
-            {{ $t(codeToKey(resourceCodes.DECK_PRIVATE)) }}
+            {{ $t(codeToKey(resourceCodes.DECK_PUBLIC)) }}
           </span>
         </template>
       </Toggle>

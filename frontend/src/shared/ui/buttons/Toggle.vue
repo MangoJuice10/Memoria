@@ -1,33 +1,21 @@
 <script setup lang="ts">
-import {ref} from "vue";
+const isOn = defineModel<boolean>("isOn", {default: false});
 
-const emit = defineEmits<{
-  on: [],
-  off: []
-}>();
-
-const isOn = ref(false);
 const toggle = () => {
-  if (isOn.value) {
-    emit("off");
-    isOn.value = false;
-    return;
-  }
-  emit("on");
-  isOn.value = true;
-};
+  isOn.value = !isOn.value;
+}
 </script>
 
 <template>
   <button class="toggle overflow-hidden border border-default rounded-4xl
               cursor-pointer select-none"
-       @click="toggle">
+          @click="toggle">
     <span class="flex justify-center items-center px-3 py-1"
-         :class="isOn ? 'bg-secondary text-inverse' : 'bg-primary'">
+          :class="isOn ? 'bg-secondary text-inverse' : 'bg-primary'">
       <slot name="off"/>
     </span>
     <span class="flex justify-center items-center px-3 py-1"
-         :class="isOn ? 'bg-primary' : 'bg-secondary text-inverse'">
+          :class="isOn ? 'bg-primary' : 'bg-secondary text-inverse'">
       <slot name="on"/>
     </span>
   </button>

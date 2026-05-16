@@ -2,7 +2,7 @@
 import {decksApi, decksQueryKeys} from "@/entities/deck";
 import DeckCard from "@/entities/deck/ui/DeckCard.vue";
 import {useQuery} from "@tanstack/vue-query";
-import {Loader, Error} from "@/shared/ui";
+import {QueryState} from "@/shared/ui";
 import {CreateDeck} from "@/entities/deck";
 
 const {data, isLoading, error} = useQuery({
@@ -15,27 +15,19 @@ const {data, isLoading, error} = useQuery({
   <div class="flex flex-col
               min-h-screen px-page py-page
               bg-tertiary">
-    <div v-if="isLoading"
-         class="grow flex justify-center items-center
-                w-full h-full">
-      <Loader/>
-    </div>
-    <div v-else-if="error"
-         class="grow flex justify-center items-center
-                w-full h-full">
-      <Error>
-        {{ error.message }}
-      </Error>
-    </div>
-    <div class="decks pt-10">
-      <CreateDeck/>
-      <DeckCard v-for="deck in data"
-                :id="deck.id"
-                :name="deck.name"
-                :description="deck.description"
-                :is-public="deck.isPublic"
-                :flashcards-count="deck.flashcardsCount"/>
-    </div>
+    <QueryState :is-loading
+                :error
+                class="grow">
+      <div class="decks pt-10">
+        <CreateDeck/>
+        <DeckCard v-for="deck in data"
+                  :id="deck.id"
+                  :name="deck.name"
+                  :description="deck.description"
+                  :is-public="deck.isPublic"
+                  :flashcards-count="deck.flashcardsCount"/>
+      </div>
+    </QueryState>
   </div>
 </template>
 

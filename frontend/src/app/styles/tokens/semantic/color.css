@@ -43,6 +43,14 @@
     --color-perfect: ;
 
     /*
+    Toast notification colors
+    */
+    --color-success: ;
+    --color-error: ;
+    --color-warning: ;
+    --color-info: ;
+
+    /*
     Button colors
     Button colors correspond to the surface colors by default
     */

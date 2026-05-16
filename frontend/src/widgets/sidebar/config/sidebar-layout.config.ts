@@ -1,13 +1,15 @@
 import {
-    type NavigationSectionId,
+    menuCodes,
+    type SidebarSectionId,
     type MenuLayout,
-    type NavigationItemId, menuCodes
+    type SidebarItemId,
 } from "@/shared/config";
 import {
     AIAssistanceIcon,
     LogomarkIcon,
     SpacedRepetitionFeatureIcon,
-    StatisticsFeatureIcon, TrustworthyAnswersFeatureIcon
+    StatisticsFeatureIcon,
+    TrustworthyAnswersFeatureIcon
 } from "@/shared/ui";
 
 export const SIDEBAR_GUEST_LAYOUT = {
@@ -56,4 +58,4 @@ export const SIDEBAR_GUEST_LAYOUT = {
             ],
         },
     ],
-} as const satisfies MenuLayout<NavigationSectionId, NavigationItemId>;
+} as const satisfies MenuLayout<SidebarSectionId, SidebarItemId>;

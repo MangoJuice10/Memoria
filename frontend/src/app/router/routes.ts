@@ -76,7 +76,7 @@ export const routes = [
                 name: "deck",
                 component: Deck,
                 redirect: (to: RouteLocationGeneric) => ({
-                    name: "flashcards",
+                    name: "deck-flashcards",
                     params: {
                         ...to.params
                     }

@@ -2,7 +2,7 @@
 import {Logo} from "@/shared/ui";
 </script>
 <template>
-  <div class="fixed inset-0 z-60
+  <div class="fixed inset-0 z-70
               bg-tertiary">
     <div class="background
                 flex justify-center items-center
@@ -30,10 +30,12 @@ import {Logo} from "@/shared/ui";
     opacity: 1;
     transform: scale(0.9);
   }
+
   50% {
     opacity: 0.75;
     transform: scale(1.1);
   }
+
   100% {
     opacity: 1;
     transform: scale(0.9);

@@ -18,7 +18,9 @@ const openModal = () => {
 </script>
 
 <template>
-  <CreateCard class="w-deck h-deck"
+  <CreateCard class="w-deck h-deck
+                     shadow-lg
+                     hover:shadow-2xl"
               @click="openModal">
     {{ $t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_NAME)) }}
   </CreateCard>
