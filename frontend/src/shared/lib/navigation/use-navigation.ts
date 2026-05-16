@@ -4,7 +4,19 @@ import type {MenuItemView} from "@/shared/config";
 export function useNavigation() {
     const route = useRoute();
     const isNavigationLinkActive = (navigationItem: MenuItemView<string | number>) => {
-        return route.name === navigationItem.routeName;
+        const routeName = route.name;
+        if (!routeName) return false;
+
+        const navigationItemRouteName= navigationItem.routeName;
+        if (!navigationItemRouteName) return false;
+
+        if (!routeName.toString().startsWith(navigationItemRouteName)) return false;
+
+        if (!navigationItem.routeParams) return true;
+
+        return Object.entries(navigationItem.routeParams).every(([key, value]) => {
+            return route.params[key] === value;
+        });
     };
 
     return {
