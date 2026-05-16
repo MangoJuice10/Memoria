@@ -85,7 +85,7 @@ const codesToKeys = {
 
     SIDEBAR_SECTION_FEATURES: `${baseSidebarSectionKey}.features`,
     SIDEBAR_SECTION_ABOUT: `${baseSidebarSectionKey}.about`,
-    SIDEBAR_SECTION_MY_DECKS: `${baseSidebarSectionKey}.decks`,
+    SIDEBAR_SECTION_DECKS: `${baseSidebarSectionKey}.decks`,
 
     SIDEBAR_ITEM_FEATURE_SPACED_REPETITION: `${baseSidebarItemKey}.feature-spaced-repetition`,
     SIDEBAR_ITEM_FEATURE_AI_ASSISTANCE: `${baseSidebarItemKey}.feature-ai-assistance`,

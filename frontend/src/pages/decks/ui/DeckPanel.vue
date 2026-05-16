@@ -1,23 +1,78 @@
 <script setup lang="ts">
-import {IconLabel, TabLinks, Toggle} from "@/shared/ui";
+import {FormError, IconLabel, TabLinks, Toggle} from "@/shared/ui";
 import {DeckIcon} from "@/shared/ui/icons";
 import {codeToKey} from "@/shared/i18n";
-import {resourceCodes} from "@/shared/config";
-import {useMenu} from "@/shared/lib";
+import {resourceCodes, resourceNameActionPropertyCodes} from "@/shared/config";
+import {useMenu, useValidation} from "@/shared/lib";
 import {DECK_TABS_LAYOUT} from "../config/deck-tabs-layout.ts";
 import {useI18n} from "vue-i18n";
+import {type DeckResponseDto, decksApi, decksQueryKeys} from "@/entities/deck";
+import {createUpdateDeckSchema, type UpdateDeckDto} from "@/entities/deck";
+import {ref} from "vue";
+import axios from "axios";
+import {type ErrorResponse, queryClient} from "@/shared/api";
+import {useMutation} from "@tanstack/vue-query";
+import {useToastStore} from "@/shared/model";
 
-defineProps<{
+const props = defineProps<{
   id: number;
   name: string;
+  isPublic: boolean;
 }>();
 
-const isPublic = defineModel<boolean>("isPublic");
+const data = ref<UpdateDeckDto>({
+  isPublic: props.isPublic,
+});
 
 const {t} = useI18n();
 
+const {push} = useToastStore();
+
 const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
 
+const {
+  getFormError,
+  clientValidate,
+  serverValidate
+} = useValidation(data, createUpdateDeckSchema(t), {
+  mode: "lazy",
+  t
+});
+
+const updateDeckMutation = useMutation({
+  mutationFn: ({deckId, updateDeckDto}: {
+    deckId: number;
+    updateDeckDto: UpdateDeckDto;
+  }) => decksApi.update(deckId, updateDeckDto),
+  onSuccess: async (updatedDeck, variables) => {
+    await queryClient.setQueryData(
+        decksQueryKeys.byId(variables.deckId),
+        (old: DeckResponseDto | undefined) => {
+          if (!old) return old;
+          return updatedDeck;
+        }
+    );
+  }
+});
+
+async function submit() {
+  const validatedData = await clientValidate();
+  if (!validatedData) return;
+
+  try {
+    await updateDeckMutation.mutateAsync({
+      deckId: props.id,
+      updateDeckDto: validatedData
+    });
+    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_SUCCESS)), "success", "update");
+  } catch (error) {
+    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_ERROR)), "success");
+    if (axios.isAxiosError(error)) {
+      const body = error.response?.data as ErrorResponse;
+      await serverValidate(body);
+    }
+  }
+}
 </script>
 
 <template>
@@ -33,9 +88,9 @@ const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
           <DeckIcon class="w-8"/>
         </template>
       </IconLabel>
-      <Toggle v-if="$route.name === 'deck-info'"
-              v-model:is-on="isPublic"
-              class="grow">
+      <Toggle v-model:is-on="data.isPublic"
+              class="grow"
+              @click="submit">
         <template #on>
           <span class="text-lg font-semibold">
             {{ $t(codeToKey(resourceCodes.DECK_PRIVATE)) }}
@@ -47,6 +102,7 @@ const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
           </span>
         </template>
       </Toggle>
+      <FormError :error="getFormError()"/>
     </div>
     <TabLinks :menu-item-views
               class="text-lg"/>

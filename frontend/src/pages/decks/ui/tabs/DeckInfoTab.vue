@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import {ref} from "vue";
 import {useValidation} from "@/shared/lib";
 import {Form, FormField} from "@/shared/ui";
 import axios from "axios";
@@ -17,13 +17,11 @@ const props = defineProps<{
   id: number;
   name: string;
   description: string;
-  isPublic: boolean;
 }>();
 
 const data = ref<UpdateDeckDto>({
   name: props.name,
   description: props.description,
-  isPublic: props.isPublic
 });
 
 const {t} = useI18n();
@@ -47,10 +45,13 @@ const {
 });
 
 const updateDeckMutation = useMutation({
-  mutationFn: (updateDeckDto: UpdateDeckDto) => decksApi.update(props.id, updateDeckDto),
-  onSuccess: async (updatedDeck) => {
+  mutationFn: ({deckId, updateDeckDto}: {
+    deckId: number;
+    updateDeckDto: UpdateDeckDto;
+  }) => decksApi.update(deckId, updateDeckDto),
+  onSuccess: async (updatedDeck, variables) => {
     await queryClient.setQueryData(
-        decksQueryKeys.byId(props.id),
+        decksQueryKeys.byId(variables.deckId),
         (old: DeckResponseDto | undefined) => {
           if (!old) return old;
           return updatedDeck;
@@ -66,20 +67,19 @@ const submit = async () => {
   if (!validatedData) return;
 
   try {
-    await updateDeckMutation.mutateAsync(validatedData);
+    await updateDeckMutation.mutateAsync({
+      deckId: props.id,
+      updateDeckDto: validatedData
+    });
     push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_ERROR)), "error", "update");
+    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
     }
   }
 };
-
-watch(() => props.isPublic, (value) => {
-  data.value.isPublic = value;
-});
 </script>
 
 <template>

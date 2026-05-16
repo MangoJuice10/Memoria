@@ -37,7 +37,7 @@ const deleteFlashcardMutation = useMutation({
     backdropStore.hide();
     modalStore.hide();
   },
-  onError: () => push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_ERROR)), "error", "delete")
+  onError: () => push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_ERROR)), "error")
 });
 
 async function handleConfirm() {

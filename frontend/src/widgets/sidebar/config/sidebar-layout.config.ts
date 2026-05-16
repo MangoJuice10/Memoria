@@ -2,7 +2,7 @@ import {
     menuCodes,
     type SidebarSectionId,
     type MenuLayout,
-    type SidebarItemId,
+    type SidebarItemId
 } from "@/shared/config";
 import {
     AIAssistanceIcon,

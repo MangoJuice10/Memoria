@@ -4,22 +4,16 @@ import {getIdRouteParam} from "@/app/router";
 import DeckPanel from "./DeckPanel.vue";
 import {useQuery} from "@tanstack/vue-query";
 import {decksApi, decksQueryKeys} from "@/entities/deck";
-import {ref, watch} from "vue";
 import {QueryState} from "@/shared/ui";
+import {computed} from "vue";
 
 const route = useRoute();
 
-const deckId = getIdRouteParam(route.params.deckId);
+const deckId = computed(() => getIdRouteParam(route.params.deckId));
 
 const {data, isLoading, error} = useQuery({
-  queryKey: decksQueryKeys.byId(deckId),
-  queryFn: () => decksApi.findOne(deckId)
-});
-
-const isPublic = ref<boolean>(false);
-
-watch(data, (deck) => {
-  if (deck) isPublic.value = deck.isPublic;
+  queryKey: computed(() => decksQueryKeys.byId(deckId.value)),
+  queryFn: () => decksApi.findOne(deckId.value)
 });
 
 </script>
@@ -35,14 +29,14 @@ watch(data, (deck) => {
         <DeckPanel
             :id="data.id"
             :name="data.name"
-            v-model:is-public="isPublic"
+            :is-public="data.isPublic"
             class="px-page"/>
         <RouterView v-slot="{ Component }">
           <component :is="Component"
                      :id="data.id"
                      :name="data.name"
                      :description="data.description"
-                     :is-public="isPublic"
+                     :is-public="data.isPublic"
                      class="grow px-page"/>
         </RouterView>
       </div>

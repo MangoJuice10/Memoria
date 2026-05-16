@@ -13,7 +13,7 @@ type NavigationSectionCode<N extends NavigationElementNameCode> = `${N}_SECTION_
 export const sidebarSectionCodes = {
     SIDEBAR_SECTION_FEATURES: "SIDEBAR_SECTION_FEATURES",
     SIDEBAR_SECTION_ABOUT: "SIDEBAR_SECTION_ABOUT",
-    SIDEBAR_SECTION_MY_DECKS: "SIDEBAR_SECTION_MY_DECKS",
+    SIDEBAR_SECTION_DECKS: "SIDEBAR_SECTION_DECKS",
 } satisfies Record<NavigationSectionCode<"SIDEBAR">, NavigationSectionCode<"SIDEBAR">>;
 
 export const footerSectionCodes = {

@@ -2,7 +2,7 @@
 import {storeToRefs} from "pinia";
 import {useI18n} from "vue-i18n";
 import {useViewerStore} from "@/entities/viewer";
-import {LocalizedLink, Logo} from "@/shared/ui";
+import {LocalizedLink, Logo, SpacedRepetitionFeatureIcon} from "@/shared/ui";
 import {BurgerMenu} from "@/shared/ui";
 import SidebarSections from "./SidebarSections.vue";
 import {UserPanel} from "@/features/settings";
@@ -10,17 +10,51 @@ import {useBackdropStore} from "@/shared/model";
 import {useSidebarStore} from "@/shared/model";
 import {Resizable} from "@/shared/resizable";
 import {SIDEBAR_GUEST_LAYOUT} from "../config/sidebar-layout.config.ts";
+import {decksApi} from "@/entities/deck";
 import {useMenu} from "@/shared/lib";
+import {useQuery} from "@tanstack/vue-query";
+import {decksQueryKeys} from "@/entities/deck";
+import {
+  menuCodes,
+  type MenuSectionView,
+  type SidebarSectionId
+} from "@/shared/config";
+import {watch, type ComputedRef, computed} from "vue";
+import {codeToKey} from "@/shared/i18n";
 
 const {t} = useI18n();
 
-const viewerStore = useViewerStore();
-const {isAuthenticated} = storeToRefs(viewerStore);
+const {isAuthenticated} = storeToRefs(useViewerStore());
 
 const sidebarStore = useSidebarStore();
 const backdropStore = useBackdropStore();
 
-const {menuSectionViews} = useMenu(SIDEBAR_GUEST_LAYOUT, t);
+const {data} = useQuery({
+  queryKey: decksQueryKeys.all,
+  queryFn: () => decksApi.findAll(),
+  enabled: isAuthenticated.value
+});
+
+const {menuSectionViews: guestSectionViews} = useMenu(SIDEBAR_GUEST_LAYOUT, t);
+
+const menuSectionViews = computed(() => {
+  if (!isAuthenticated.value) return guestSectionViews.value;
+
+  const decksSectionView: MenuSectionView<SidebarSectionId, string | number> = {
+    id: "decks",
+    label: t(codeToKey(menuCodes.SIDEBAR_SECTION_DECKS)),
+    menuItemViews: (data.value ?? []).map((deck) => ({
+      id: deck.id,
+      label: deck.name,
+      routeName: "deck",
+      routeParams: {
+        deckId: String(deck.id)
+      },
+      icon: SpacedRepetitionFeatureIcon
+    })),
+  };
+  return [decksSectionView];
+});
 
 function handleToggle() {
   sidebarStore.toggle();

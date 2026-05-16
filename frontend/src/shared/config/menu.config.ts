@@ -49,6 +49,7 @@ export type OptionsItemId =
 export type MenuItem<ItemId extends string | number> = {
     id: ItemId;
     routeName?: string;
+    routeParams?: Record<string, string>;
     callback?: () => void | Promise<void>;
     labelCode: MenuCode;
     icon?: Component;

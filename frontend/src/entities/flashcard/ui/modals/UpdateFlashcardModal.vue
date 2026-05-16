@@ -77,7 +77,7 @@ const submit = async () => {
     await updateFlashcardMutation.mutateAsync(validatedData);
     push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_UPDATE_CANCEL)), "error", "update");
+    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_UPDATE_CANCEL)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);

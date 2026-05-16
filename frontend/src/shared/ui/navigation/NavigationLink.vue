@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <LocalizedLink :name="menuItemView.routeName!">
+  <LocalizedLink :name="menuItemView.routeName!" :params="menuItemView.routeParams">
     <IconLabel v-if="menuItemView.icon">
       <template #icon>
         <component :is="menuItemView.icon" :class="iconClasses"/>
