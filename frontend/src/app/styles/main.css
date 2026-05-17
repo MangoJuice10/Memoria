@@ -61,7 +61,7 @@
         --color-surface-disabled: var(--color-gray-1100);
         --color-surface-danger: var(--color-red-300);
 
-        --color-border-default: var(--color-gray-600);
+        --color-border-default: var(--color-gray-700);
         --color-outline-active: var(--color-gray-1400);
 
         --color-text-default: var(--color-gray-1400);
@@ -88,7 +88,7 @@
         --color-secondary: var(--color-gray-0);
         --color-tertiary: var(--color-gray-1200);
 
-        --color-surface-hover: var(--color-gray-800);
+        --color-surface-hover: var(--color-gray-900);
         --color-surface-focus: var(--color-gray-650);
         --color-surface-active: var(--color-gray-0);
         --color-surface-disabled: var(--color-gray-400);

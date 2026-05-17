@@ -7,8 +7,7 @@ import {Modal} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {
   formCodes,
-  resourceCodes,
-  resourceNameActionPropertyCodes
+  resourceCodes
 } from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
@@ -68,9 +67,9 @@ const submit = async () => {
 
   try {
     await createDeckMutation.mutateAsync(validatedData);
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_SUCCESS)), "success", "create");
+    push(t(codeToKey(resourceCodes.DECK_CREATE_SUCCESS)), "success", "create");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_ERROR)), "error");
+    push(t(codeToKey(resourceCodes.DECK_CREATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -98,7 +97,7 @@ onMounted(() => {
           @reset="reset">
         <template #heading>
           <h2 class="text-center">
-            {{ $t(codeToKey(resourceNameActionPropertyCodes.DECK_CREATE_DESCRIPTION)) }}
+            {{ $t(codeToKey(resourceCodes.DECK_CREATE_DESCRIPTION)) }}
           </h2>
         </template>
         <template #fields>

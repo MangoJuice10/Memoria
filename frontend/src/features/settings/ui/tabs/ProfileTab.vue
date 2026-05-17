@@ -5,13 +5,12 @@ import {asset, useValidation} from "@/shared/lib";
 import {createUpdateMeSchema, type UpdateMeDto} from "../../model/update-me.schema";
 import {Divider, Form, FormField} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {errorCodes, formCodes} from "@/shared/config";
+import {errorCodes, formCodes, resourceCodes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import UploadAvatar from "@/features/settings/ui/UploadAvatar.vue";
 import {codeToKey} from "@/shared/i18n";
-
-const {t} = useI18n();
+import {useToastStore} from "@/shared/model";
 
 const {viewer, updateMe} = useViewerStore();
 
@@ -22,6 +21,10 @@ const data = ref<UpdateMeDto>({
   newPassword: undefined,
   confirmPassword: undefined,
 });
+
+const {t} = useI18n();
+
+const {push} = useToastStore();
 
 const tOptions = {
   newUsername: {
@@ -77,7 +80,9 @@ const submit = async () => {
 
   try {
     await updateMe(validatedData);
+    push(t(codeToKey(resourceCodes.USER_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
+    push(t(codeToKey(resourceCodes.USER_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);

@@ -15,7 +15,7 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {formCodes, resourceCodes, resourceNameActionPropertyCodes} from "@/shared/config";
+import {formCodes, resourceCodes} from "@/shared/config";
 
 const props = defineProps<{
   deckId: number;
@@ -71,9 +71,9 @@ const submit = async () => {
 
   try {
     await createFlashcardMutation.mutateAsync(validatedData);
-    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_CREATE_SUCCESS)), "success", "create");
+    push(t(codeToKey(resourceCodes.FLASHCARD_CREATE_SUCCESS)), "success", "create");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_CREATE_ERROR)), "error");
+    push(t(codeToKey(resourceCodes.FLASHCARD_CREATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);

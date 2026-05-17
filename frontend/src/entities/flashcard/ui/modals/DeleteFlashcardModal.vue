@@ -5,7 +5,7 @@ import {onMounted} from "vue";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {type FlashcardResponseDto, flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {codeToKey} from "@/shared/i18n";
-import {resourceNameActionPropertyCodes} from "@/shared/config";
+import {resourceCodes} from "@/shared/config";
 import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
@@ -26,7 +26,7 @@ const deleteFlashcardMutation = useMutation({
     flashcardId: number
   }) => flashcardsApi.remove(deckId, flashcardId),
   onSuccess: async (_, variables) => {
-    push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_SUCCESS)), "success", "delete");
+    push(t(codeToKey(resourceCodes.FLASHCARD_DELETE_SUCCESS)), "success", "delete");
     await queryClient.setQueryData(
         flashcardsQueryKeys.byDeck(variables.deckId),
         (old: FlashcardResponseDto[] | undefined) => {
@@ -37,7 +37,7 @@ const deleteFlashcardMutation = useMutation({
     backdropStore.hide();
     modalStore.hide();
   },
-  onError: () => push(t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_ERROR)), "error")
+  onError: () => push(t(codeToKey(resourceCodes.FLASHCARD_DELETE_ERROR)), "error")
 });
 
 async function handleConfirm() {
@@ -64,19 +64,19 @@ onMounted(() => {
       @confirm="handleConfirm"
       @cancel="handleCancel">
     <template #heading>
-      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_NAME)) }}
+      {{ $t(codeToKey(resourceCodes.FLASHCARD_DELETE_NAME)) }}
     </template>
 
     <template #content>
-      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_DESCRIPTION)) }}
+      {{ $t(codeToKey(resourceCodes.FLASHCARD_DELETE_DESCRIPTION)) }}
     </template>
 
     <template #cancel>
-      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_CANCEL)) }}
+      {{ $t(codeToKey(resourceCodes.FLASHCARD_DELETE_CANCEL)) }}
     </template>
 
     <template #confirm>
-      {{ $t(codeToKey(resourceNameActionPropertyCodes.FLASHCARD_DELETE_CONFIRM)) }}
+      {{ $t(codeToKey(resourceCodes.FLASHCARD_DELETE_CONFIRM)) }}
     </template>
   </ActionModal>
 </template>

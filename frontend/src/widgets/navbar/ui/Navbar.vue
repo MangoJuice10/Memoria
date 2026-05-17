@@ -38,7 +38,7 @@ function handleToggle() {
   <header
       class="flex justify-between items-stretch gap-[3%]
             fixed inset-x-0 top-0 z-30
-            w-navbar h-navbar px-navbar border-b border-b-border
+            w-navbar h-navbar px-navbar border-b border-default
             bg-primary">
     <div class="shrink-0 inline-flex justify-center items-center gap-1">
       <BurgerMenu @toggle="handleToggle"/>

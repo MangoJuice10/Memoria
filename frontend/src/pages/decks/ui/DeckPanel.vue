@@ -2,7 +2,7 @@
 import {FormError, IconLabel, TabLinks, Toggle} from "@/shared/ui";
 import {DeckIcon} from "@/shared/ui/icons";
 import {codeToKey} from "@/shared/i18n";
-import {resourceCodes, resourceNameActionPropertyCodes} from "@/shared/config";
+import {resourceCodes} from "@/shared/config";
 import {useMenu, useValidation} from "@/shared/lib";
 import {DECK_TABS_LAYOUT} from "../config/deck-tabs-layout.ts";
 import {useI18n} from "vue-i18n";
@@ -64,9 +64,9 @@ async function submit() {
       deckId: props.id,
       updateDeckDto: validatedData
     });
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_SUCCESS)), "success", "update");
+    push(t(codeToKey(resourceCodes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_ERROR)), "success");
+    push(t(codeToKey(resourceCodes.DECK_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -77,7 +77,7 @@ async function submit() {
 
 <template>
   <div class="flex justify-between py-4 border-b border-default">
-    <div class="flex gap-6">
+    <div class="flex items-center gap-6">
       <IconLabel>
         <template #label>
           <span class="text-xl font-semibold">
@@ -102,7 +102,8 @@ async function submit() {
           </span>
         </template>
       </Toggle>
-      <FormError :error="getFormError()"/>
+      <FormError :error="getFormError()"
+                 class="text-base"/>
     </div>
     <TabLinks :menu-item-views
               class="text-lg"/>

@@ -6,7 +6,7 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {formCodes, resourceCodes, resourceNameActionPropertyCodes} from "@/shared/config";
+import {formCodes, resourceCodes} from "@/shared/config";
 import {createUpdateDeckSchema, type DeckResponseDto, type UpdateDeckDto} from "@/entities/deck";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
@@ -71,9 +71,9 @@ const submit = async () => {
       deckId: props.id,
       updateDeckDto: validatedData
     });
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_SUCCESS)), "success", "update");
+    push(t(codeToKey(resourceCodes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceNameActionPropertyCodes.DECK_UPDATE_ERROR)), "error");
+    push(t(codeToKey(resourceCodes.DECK_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);

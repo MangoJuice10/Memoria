@@ -34,7 +34,8 @@ const modelValue = defineModel<string>();
 
 <template>
   <div class="flex flex-col items-start justify-start gap-1.25 w-full">
-    <label v-text="label" :for="id" class="font-semibold"/>
+    <label v-text="label" :for="id" class="font-semibold
+                                           cursor-pointer"/>
     <FormInput v-if="element === 'input'"
                v-model="modelValue"
                v-bind="$attrs"
