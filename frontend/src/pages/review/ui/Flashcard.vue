@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {type FlashcardResponseDto, flashcardsQueryKeys, reviewFlashcard, type ReviewRating} from "@/entities/flashcard";
+import {flashcardsQueryKeys, type FlashcardResponseDto} from "@/entities/flashcard";
+import {reviewFlashcard} from "../api/review-flashcard";
+import {type ReviewRating} from "../model/review-rating.dto";
 import FlashcardSide from "./FlashcardSide.vue";
 import FlashcardControls from "./FlashcardControls.vue";
 import RatingControls from "./RatingControls.vue";

@@ -11,3 +11,10 @@ export {getMenuItemViewOrThrow} from "./menu/get-menu-item-or-throw";
 export {useNavigation} from "./navigation/use-navigation.ts";
 
 export {showOne, hideAll} from "./ui.helpers";
+
+export * from "./dom/dom";
+export {addBreakpointsListener, removeBreakpointsListener} from "./dom/breakpoints";
+
+export {vAutoResize} from "./directives/auto-resize.directive";
+
+export {useResizable, type ResizableOptions} from "./use-resizable"

@@ -1,6 +1,6 @@
 import {z} from "zod";
 import type {Composer} from "vue-i18n";
-import {errorCodes, formCodes} from "@/shared/config";
+import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 import {emptyStringToUndefined} from "@/shared/lib";
 
@@ -10,8 +10,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             emptyStringToUndefined,
             z.string()
                 .min(2, {
-                    error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
-                        fieldName: t(codeToKey(formCodes.NEW_USERNAME_NAME)),
+                    error: () => t(codeToKey(codes.MIN_LENGTH), {
+                        fieldName: t(codeToKey(codes.NEW_USERNAME_NAME)),
                         n: 2
                     })
                 })
@@ -21,13 +21,13 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             emptyStringToUndefined,
             z.string()
                 .email({
-                    error: () => t(codeToKey(errorCodes.EMAIL), {
-                        fieldName: t(codeToKey(formCodes.NEW_EMAIL_NAME))
+                    error: () => t(codeToKey(codes.EMAIL), {
+                        fieldName: t(codeToKey(codes.NEW_EMAIL_NAME))
                     })
                 })
                 .min(8, {
-                    error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
-                        fieldName: t(codeToKey(formCodes.NEW_EMAIL_NAME)),
+                    error: () => t(codeToKey(codes.MIN_LENGTH), {
+                        fieldName: t(codeToKey(codes.NEW_EMAIL_NAME)),
                         n: 8,
                     })
                 })
@@ -42,8 +42,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             emptyStringToUndefined,
             z.string()
                 .min(8, {
-                    error: () => t(codeToKey(errorCodes.MIN_LENGTH), {
-                        fieldName: t(codeToKey(formCodes.NEW_PASSWORD_NAME)),
+                    error: () => t(codeToKey(codes.MIN_LENGTH), {
+                        fieldName: t(codeToKey(codes.NEW_PASSWORD_NAME)),
                         n: 8
                     })
                 })
@@ -62,8 +62,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             return true;
         }, {
             path: ["oldPassword"],
-            error: () => t(codeToKey(errorCodes.REQUIRED), {
-                fieldName: t(codeToKey(formCodes.OLD_PASSWORD_NAME)),
+            error: () => t(codeToKey(codes.REQUIRED), {
+                fieldName: t(codeToKey(codes.OLD_PASSWORD_NAME)),
                 n: 8
             })
         })
@@ -74,8 +74,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             return true;
         }, {
             path: ["newPassword"],
-            error: () => t(codeToKey(errorCodes.REQUIRED), {
-                fieldName: t(codeToKey(formCodes.NEW_PASSWORD_NAME)),
+            error: () => t(codeToKey(codes.REQUIRED), {
+                fieldName: t(codeToKey(codes.NEW_PASSWORD_NAME)),
                 n: 8
             })
         })
@@ -86,8 +86,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             return true;
         }, {
             path: ["confirmPassword"],
-            error: () => t(codeToKey(errorCodes.REQUIRED), {
-                fieldName: t(codeToKey(formCodes.CONFIRM_PASSWORD_NAME)),
+            error: () => t(codeToKey(codes.REQUIRED), {
+                fieldName: t(codeToKey(codes.CONFIRM_PASSWORD_NAME)),
                 n: 8
             })
         })
@@ -98,8 +98,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             return true;
         }, {
             path: ["newPassword"],
-            error: () => t(codeToKey(errorCodes.DUPLICATE_PASSWORD), {
-                fieldName: t(codeToKey(formCodes.NEW_PASSWORD_NAME))
+            error: () => t(codeToKey(codes.DUPLICATE_PASSWORD), {
+                fieldName: t(codeToKey(codes.NEW_PASSWORD_NAME))
             })
         })
         .refine(({newPassword, confirmPassword}) => {
@@ -107,8 +107,8 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
             return true;
         }, {
             path: ["confirmPassword"],
-            error: () => t(codeToKey(errorCodes.CONFIRM_PASSWORD), {
-                fieldName: t(codeToKey(formCodes.CONFIRM_PASSWORD_NAME)),
+            error: () => t(codeToKey(codes.CONFIRM_PASSWORD), {
+                fieldName: t(codeToKey(codes.CONFIRM_PASSWORD_NAME)),
                 n: 8
             })
         });

@@ -1,13 +1,7 @@
-export {default as AIAssistanceIcon} from "./ai/AIAssistanceIcon.vue";
-
-export {
-    default as EducationalResourcesIntroductionIcon
-} from "./educational-resources/EducationalResourcesIntroductionIcon.vue";
-export {
-    default as TrustworthyAnswersFeatureIcon
-} from "./educational-resources/TrustworthyAnswersFeatureIcon.vue";
-
 export {default as LogomarkIcon} from "./LogomarkIcon.vue";
+
+export {default as AIAssistanceIcon} from "./ai/AIAssistanceIcon.vue";
+export {default as AiChatIcon} from "./ai/AiChatIcon.vue";
 
 export {
     default as SpacedRepetitionFeatureIcon
@@ -23,12 +17,23 @@ export {
 export {default as FlashcardIcon} from "./spaced-repetition/FlashcardIcon.vue";
 export {default as DeckIcon} from "./spaced-repetition/DeckIcon.vue";
 
+export {
+    default as EducationalResourcesIntroductionIcon
+} from "./educational-resources/EducationalResourcesIntroductionIcon.vue";
+export {
+    default as TrustworthyAnswersFeatureIcon
+} from "./educational-resources/TrustworthyAnswersFeatureIcon.vue";
+
 export {default as LearningIcon} from "./LearningIcon.vue";
 export {default as FlipIcon} from "./FlipIcon.vue";
 export {default as ClockIcon} from "./ClockIcon.vue";
 export {default as HourGlassIcon} from "./HourGlass.vue";
 
 export {default as StatisticsFeatureIcon} from "./statistics/StatisticsFeatureIcon.vue";
+
+export {default as SendIcon} from "./chat/SendIcon.vue";
+export {default as CopyIcon} from "./chat/CopyIcon.vue";
+export {default as HistoryIcon} from "./chat/HistoryIcon.vue";
 
 export {default as FiltersIcon} from "./tools/FiltersIcon.vue";
 export {default as SortIcon} from "./tools/SortIcon.vue";
@@ -54,6 +59,7 @@ export {default as CheckIcon} from "./common/CheckIcon.vue";
 export {default as ErrorIcon} from "./common/ErrorIcon.vue";
 export {default as WarningIcon} from "./common/WarningIcon.vue";
 export {default as InfoIcon} from "./common/InfoIcon.vue";
+export {default as RefreshIcon} from './common/RefreshIcon.vue';
 
 export {default as AddIcon} from "./common/AddIcon.vue";
 export {default as EditIcon} from "./common/EditIcon.vue";

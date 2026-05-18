@@ -9,6 +9,8 @@ import type {AccessTokenResponseDto} from "@/shared/api";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
+let refreshTokenPromise: Promise<string | null> | null = null;
+
 function isAuthError(error: any) {
     return error.response && error.response.status === 401;
 }
@@ -38,21 +40,25 @@ export function setupAuthInterceptors() {
 
             if (isAuthRoute(originalRequestUrl)) return Promise.reject(error);
 
-            const newToken = await axios
-                .post<SuccessResponse<AccessTokenResponseDto>>(
-                    `${baseUrl}/auth/refresh`,
-                    {},
-                    {withCredentials: true}
-                )
-                .then((response) => {
-                    const newToken = response.data.data.accessToken as string;
-                    setAccessToken(newToken);
-                    return newToken;
-                })
-                .catch(() => {
-                    clearAccessToken();
-                    return null;
-                });
+            if (!refreshTokenPromise) {
+                refreshTokenPromise = axios
+                    .post<SuccessResponse<AccessTokenResponseDto>>(
+                        `${baseUrl}/auth/refresh`,
+                        {},
+                        {withCredentials: true}
+                    )
+                    .then((response) => {
+                        const newToken = response.data.data.accessToken as string;
+                        setAccessToken(newToken);
+                        return newToken;
+                    })
+                    .catch(() => {
+                        clearAccessToken();
+                        return null;
+                    });
+            }
+
+            const newToken = await refreshTokenPromise;
 
             if (!newToken) return Promise.reject(error);
 

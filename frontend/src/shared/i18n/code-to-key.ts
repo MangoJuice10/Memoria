@@ -3,16 +3,11 @@ import {
     resourceActionCodes,
     resourceActionPropertyCodes,
     type ResourceNameActionPropertyCode,
-    type ResourceCode,
     formFieldNameCodes,
     formFieldPropertyCodes,
     type FormFieldNamePropertyCode,
-    type MenuCode,
-    type FormCode,
-    type ErrorCode,
+    type TranslationCode
 } from "@/shared/config";
-
-export type TranslationCode = ResourceCode | MenuCode | FormCode | ErrorCode;
 
 const baseResourceKey = "resources";
 const resourceNameKey = "name";

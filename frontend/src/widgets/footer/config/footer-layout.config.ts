@@ -1,5 +1,5 @@
 import {
-    menuCodes,
+    codes,
     type FooterSectionId,
     type MenuLayout,
     type FooterItemId
@@ -10,27 +10,27 @@ export const FOOTER_LAYOUT = {
     menuSections: [
         {
             id: "features",
-            labelCode: menuCodes.FOOTER_SECTION_FEATURES,
+            labelCode: codes.FOOTER_SECTION_FEATURES,
             menuItems: [
                 {
                     id: "feature-spaced-repetition",
                     routeName: "feature-spaced-repetition",
-                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_SPACED_REPETITION,
+                    labelCode: codes.FOOTER_ITEM_FEATURE_SPACED_REPETITION,
                 },
                 {
                     id: "feature-ai-assistance",
                     routeName: "feature-ai-assistance",
-                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_AI_ASSISTANCE,
+                    labelCode: codes.FOOTER_ITEM_FEATURE_AI_ASSISTANCE,
                 },
                 {
                     id: "feature-trustworthy-answers",
                     routeName: "feature-trustworthy-answers",
-                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
+                    labelCode: codes.FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
                 },
                 {
                     id: "feature-statistics",
                     routeName: "feature-statistics",
-                    labelCode: menuCodes.FOOTER_ITEM_FEATURE_STATISTICS,
+                    labelCode: codes.FOOTER_ITEM_FEATURE_STATISTICS,
                 },
             ],
         },

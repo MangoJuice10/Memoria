@@ -9,7 +9,9 @@ defineEmits<{
 
 <template>
   <IconButton :size-rem="3"
-      @click="$emit('toggle')">
+              has-ring
+              :ring-margin-percent="15"
+              @click="$emit('toggle')">
     <BurgerMenuIcon class="icon-dynamic"/>
   </IconButton>
 </template>

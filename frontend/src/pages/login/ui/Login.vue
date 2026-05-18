@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LoginForm from "@/pages/login/ui/LoginForm.vue";
-import {Resizable} from "@/shared/resizable";
+import {Resizable} from "@/shared/ui";
 </script>
 
 <template>

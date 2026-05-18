@@ -1,41 +1,45 @@
 <script setup lang="ts">
-import {useBackdropStore, useModalStore} from "@/shared/model";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {ActionModal} from "@/shared/ui";
 import {onMounted} from "vue";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
-import {type FlashcardResponseDto, flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
+import {useMutation} from "@tanstack/vue-query";
+import {decksApi} from "@/entities/deck";
+import {useRoute, useRouter} from "vue-router";
+import {codeToKey} from "@/shared/i18n";
+import {codes} from "@/shared/config";
+import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
   id: number;
 }>();
 
+const router = useRouter();
+const route = useRoute();
+const {t} = useI18n();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
-const queryClient = useQueryClient();
+const {push} = useToastStore();
 
 const deleteDeckMutation = useMutation({
-  mutationFn: ({deckId, flashcardId}: {
-    deckId: number;
-    flashcardId: number
-  }) => flashcardsApi.remove(deckId, flashcardId),
-  onSuccess: async (_, variables) => {
-    await queryClient.setQueryData(
-        flashcardsQueryKeys.byDeck(variables.deckId),
-        (old: FlashcardResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.filter(flashcard => flashcard.id !== variables.flashcardId);
-        }
-    );
+  mutationFn: (deckId: number) => decksApi.remove(deckId),
+  onSuccess: async () => {
+    push(t(codeToKey(codes.DECK_DELETE_SUCCESS)), "success", "delete");
     backdropStore.hide();
     modalStore.hide();
+    await router.push({
+      name: "decks",
+      params: route.params,
+      query: route.query,
+      hash: route.hash,
+    });
+  },
+  onError: () => {
+    push(t(codeToKey(codes.DECK_DELETE_ERROR)), "error");
   }
 });
 
 async function handleConfirm() {
-  await deleteDeckMutation.mutateAsync({
-    deckId: props.deckId,
-    flashcardId: props.id
-  });
+  await deleteDeckMutation.mutateAsync(props.id);
 }
 
 async function handleCancel() {
@@ -55,19 +59,19 @@ onMounted(() => {
       @confirm="handleConfirm"
       @cancel="handleCancel">
     <template #heading>
-      {{ $t("modals.flashcard.delete.heading") }}
+      {{ $t(codeToKey(codes.DECK_DELETE_NAME)) }}
     </template>
 
     <template #content>
-      {{ $t("modals.flashcard.delete.content") }}
+      {{ $t(codeToKey(codes.DECK_DELETE_DESCRIPTION)) }}
     </template>
 
     <template #cancel>
-      {{ $t("modals.flashcard.delete.buttons.cancel") }}
+      {{ $t(codeToKey(codes.DECK_DELETE_CANCEL)) }}
     </template>
 
     <template #confirm>
-      {{ $t("modals.flashcard.delete.buttons.confirm") }}
+      {{ $t(codeToKey(codes.DECK_DELETE_CONFIRM)) }}
     </template>
   </ActionModal>
 </template>

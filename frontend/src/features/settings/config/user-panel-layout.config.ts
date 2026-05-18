@@ -1,6 +1,6 @@
 import {
     type ActionsItemId,
-    type MenuLayout, userPanelCodes,
+    type MenuLayout, codes,
 } from "@/shared/config";
 import {LanguageIcon, SettingsIcon} from "@/shared/ui/icons";
 import {LogoutIcon} from "@/shared/ui/icons";
@@ -10,22 +10,22 @@ export const USER_PANEL_LAYOUT = {
     menuItems: [
         {
             id: "settings",
-            labelCode: userPanelCodes.USER_PANEL_SETTINGS,
+            labelCode: codes.USER_PANEL_SETTINGS,
             icon: SettingsIcon,
         },
         {
             id: "change-language",
-            labelCode: userPanelCodes.USER_PANEL_CHANGE_LANGUAGE,
+            labelCode: codes.USER_PANEL_CHANGE_LANGUAGE,
             icon: LanguageIcon
         },
         {
             id: "change-theme",
-            labelCode: userPanelCodes.USER_PANEL_CHANGE_THEME,
+            labelCode: codes.USER_PANEL_CHANGE_THEME,
             icon: LightThemeIcon
         },
         {
             id: "logout",
-            labelCode: userPanelCodes.USER_PANEL_LOGOUT,
+            labelCode: codes.USER_PANEL_LOGOUT,
             icon: LogoutIcon,
         }
     ],

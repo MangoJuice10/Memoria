@@ -188,13 +188,18 @@
         --width-deck: 20rem;
         --height-deck: 30rem;
 
-        --padding-top-footer: var(--size-12);
-        --padding-bottom-footer: var(--size-12);
+        --right-page: var(--spacing-4);
+        --left-page: var(--spacing-4);
+        --bottom-page: var(--spacing-8);
 
         --padding-right-page: var(--spacing-4);
+        --padding-bottom-page: var(--spacing-12);
         --padding-left-page: var(--spacing-4);
 
         --margin-top-heading: var(--spacing-8);
+
+        --padding-top-footer: var(--size-12);
+        --padding-bottom-footer: var(--size-12);
 
         --margin-top-section: var(--spacing-8);
         --margin-bottom-section: var(--spacing-8);
@@ -214,6 +219,9 @@
 
             --width-flashcard: 10rem;
             --height-flashcard: 15rem;
+
+            --right-page: var(--spacing-4);
+            --left-page: var(--spacing-4);
 
             --padding-right-page: var(--spacing-4);
             --padding-left-page: var(--spacing-4);
@@ -241,6 +249,9 @@
             --font-size-p: var(--font-size-lg);
             --line-height-p: var(--line-height-lg);
 
+            --right-page: var(--spacing-4);
+            --left-page: var(--spacing-4);
+
             --padding-right-page: var(--spacing-4);
             --padding-left-page: var(--spacing-4);
         }
@@ -260,6 +271,10 @@
             --line-height-h2: var(--line-height-2xl);
             --font-size-h3: var(--font-size-xl);
             --line-height-h3: var(--line-height-xl);
+
+            --right-page: var(--spacing-8);
+            --left-page: var(--spacing-8);
+
             --padding-right-page: var(--spacing-8);
             --padding-left-page: var(--spacing-8);
         }
@@ -272,6 +287,9 @@
         :root {
             --width-flashcard: 12.5rem;
             --height-flashcard: 18.75rem;
+
+            --right-page: var(--spacing-16);
+            --left-page: var(--spacing-16);
 
             --padding-right-page: var(--spacing-16);
             --padding-left-page: var(--spacing-16);
@@ -701,6 +719,22 @@ Size and spacing utility classes
 
 @utility h-deck {
     height: var(--height-deck);
+}
+
+@utility top-page {
+    top: var(--top-page);
+}
+
+@utility right-page {
+    right: var(--right-page);
+}
+
+@utility bottom-page {
+    bottom: var(--bottom-page);
+}
+
+@utility left-page {
+    left: var(--left-page);
 }
 
 @utility pt-page {

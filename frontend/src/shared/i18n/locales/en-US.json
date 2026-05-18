@@ -141,6 +141,10 @@
       "is_public": {
         "name": "Public",
         "placeholder": ""
+      },
+      "message": {
+        "name": "Message",
+        "placeholder": "Ask AI a question..."
       }
     },
     "actions": {

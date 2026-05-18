@@ -1,5 +1,5 @@
 import {
-    menuCodes,
+    codes,
     type SidebarSectionId,
     type MenuLayout,
     type SidebarItemId
@@ -17,42 +17,42 @@ export const SIDEBAR_GUEST_LAYOUT = {
     menuSections: [
         {
             id: "features",
-            labelCode: menuCodes.SIDEBAR_SECTION_FEATURES,
+            labelCode: codes.SIDEBAR_SECTION_FEATURES,
             menuItems: [
                 {
                     id: "feature-spaced-repetition",
                     routeName: "feature-spaced-repetition",
-                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_SPACED_REPETITION,
+                    labelCode: codes.SIDEBAR_ITEM_FEATURE_SPACED_REPETITION,
                     icon: SpacedRepetitionFeatureIcon
                 },
                 {
                     id: "feature-ai-assistance",
                     routeName: "feature-ai-assistance",
-                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_AI_ASSISTANCE,
+                    labelCode: codes.SIDEBAR_ITEM_FEATURE_AI_ASSISTANCE,
                     icon: AIAssistanceIcon
                 },
                 {
                     id: "feature-trustworthy-answers",
                     routeName: "feature-trustworthy-answers",
-                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
+                    labelCode: codes.SIDEBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
                     icon: TrustworthyAnswersFeatureIcon
                 },
                 {
                     id: "feature-statistics",
                     routeName: "feature-statistics",
-                    labelCode: menuCodes.SIDEBAR_ITEM_FEATURE_STATISTICS,
+                    labelCode: codes.SIDEBAR_ITEM_FEATURE_STATISTICS,
                     icon: StatisticsFeatureIcon
                 },
             ],
         },
         {
             id: "about",
-            labelCode: menuCodes.SIDEBAR_SECTION_ABOUT,
+            labelCode: codes.SIDEBAR_SECTION_ABOUT,
             menuItems: [
                 {
                     id: "about",
                     routeName: "about",
-                    labelCode: menuCodes.SIDEBAR_ITEM_ABOUT,
+                    labelCode: codes.SIDEBAR_ITEM_ABOUT,
                     icon: LogomarkIcon
                 },
             ],

@@ -1,5 +1,5 @@
 import {
-    deckItemCodes, type DeckTabId,
+    codes, type DeckTabId,
     type MenuLayout,
 } from "@/shared/config";
 
@@ -8,17 +8,17 @@ export const DECK_TABS_LAYOUT = {
         {
             id: "deck-info",
             routeName: "deck-info",
-            labelCode: deckItemCodes.DECK_ITEM_INFO,
+            labelCode: codes.DECK_ITEM_INFO,
         },
         {
             id: "deck-flashcards",
             routeName: "deck-flashcards",
-            labelCode: deckItemCodes.DECK_ITEM_FLASHCARDS,
+            labelCode: codes.DECK_ITEM_FLASHCARDS,
         },
         {
             id: "deck-educational-resources",
             routeName: "deck-educational-resources",
-            labelCode: deckItemCodes.DECK_ITEM_EDUCATIONAL_RESOURCES,
+            labelCode: codes.DECK_ITEM_EDUCATIONAL_RESOURCES,
         }
     ],
     menuSections: [],

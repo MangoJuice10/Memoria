@@ -5,7 +5,7 @@ import {asset, useValidation} from "@/shared/lib";
 import {createUpdateMeSchema, type UpdateMeDto} from "../../model/update-me.schema";
 import {Divider, Form, FormField} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {errorCodes, formCodes, resourceCodes} from "@/shared/config";
+import {codes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import UploadAvatar from "@/features/settings/ui/UploadAvatar.vue";
@@ -28,20 +28,20 @@ const {push} = useToastStore();
 
 const tOptions = {
   newUsername: {
-    [errorCodes.MIN_LENGTH]: {
+    [codes.MIN_LENGTH]: {
       n: 2,
-      fieldName: t(codeToKey(formCodes.NEW_PASSWORD_NAME))
+      fieldName: t(codeToKey(codes.NEW_PASSWORD_NAME))
     }
   },
   newEmail: {
-    [errorCodes.EMAIL]: {
-      fieldName: t(codeToKey(formCodes.NEW_EMAIL_NAME))
+    [codes.EMAIL]: {
+      fieldName: t(codeToKey(codes.NEW_EMAIL_NAME))
     }
   },
   newPassword: {
-    [errorCodes.MIN_LENGTH]: {
+    [codes.MIN_LENGTH]: {
       n: 8,
-      fieldName: t(codeToKey(formCodes.NEW_PASSWORD_NAME))
+      fieldName: t(codeToKey(codes.NEW_PASSWORD_NAME))
     }
   }
 };
@@ -80,9 +80,9 @@ const submit = async () => {
 
   try {
     await updateMe(validatedData);
-    push(t(codeToKey(resourceCodes.USER_UPDATE_SUCCESS)), "success", "update");
+    push(t(codeToKey(codes.USER_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceCodes.USER_UPDATE_ERROR)), "error");
+    push(t(codeToKey(codes.USER_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -121,8 +121,8 @@ const submit = async () => {
         <div class="grid grid-cols-2 gap-x-15 gap-y-5">
           <FormField id="newUsername"
                      v-model="data.newUsername"
-                     :label="$t(codeToKey(formCodes.NEW_USERNAME_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.NEW_USERNAME_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.NEW_USERNAME_NAME))"
+                     :placeholder="$t(codeToKey(codes.NEW_USERNAME_PLACEHOLDER))"
                      :touched="isFieldTouched('newUsername')"
                      :error="getError('newUsername')"
                      @blur="() => {
@@ -132,8 +132,8 @@ const submit = async () => {
 
           <FormField id="newEmail"
                      v-model="data.newEmail"
-                     :label="$t(codeToKey(formCodes.NEW_EMAIL_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.NEW_EMAIL_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.NEW_EMAIL_NAME))"
+                     :placeholder="$t(codeToKey(codes.NEW_EMAIL_PLACEHOLDER))"
                      :touched="isFieldTouched('newEmail')"
                      :error="getError('newEmail')"
                      @blur="() => {
@@ -143,8 +143,8 @@ const submit = async () => {
 
           <FormField id="oldPassword"
                      v-model="data.oldPassword"
-                     :label="$t(codeToKey(formCodes.OLD_PASSWORD_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.OLD_PASSWORD_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.OLD_PASSWORD_NAME))"
+                     :placeholder="$t(codeToKey(codes.OLD_PASSWORD_PLACEHOLDER))"
                      :touched="isFieldTouched('oldPassword')"
                      :error="getError('oldPassword')"
                      @blur="() => {
@@ -154,8 +154,8 @@ const submit = async () => {
 
           <FormField id="newPassword"
                      v-model="data.newPassword"
-                     :label="$t(codeToKey(formCodes.NEW_PASSWORD_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.NEW_PASSWORD_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.NEW_PASSWORD_NAME))"
+                     :placeholder="$t(codeToKey(codes.NEW_PASSWORD_PLACEHOLDER))"
                      :touched="isFieldTouched('newPassword')"
                      :error="getError('newPassword')"
                      @blur="() => {
@@ -165,8 +165,8 @@ const submit = async () => {
 
           <FormField id="confirmPassword"
                      v-model="data.confirmPassword"
-                     :label="$t(codeToKey(formCodes.CONFIRM_PASSWORD_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.CONFIRM_PASSWORD_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.CONFIRM_PASSWORD_NAME))"
+                     :placeholder="$t(codeToKey(codes.CONFIRM_PASSWORD_PLACEHOLDER))"
                      :touched="isFieldTouched('confirmPassword')"
                      :error="getError('confirmPassword')"
                      @blur="() => {

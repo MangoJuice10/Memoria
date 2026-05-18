@@ -6,7 +6,7 @@ import {computed, defineAsyncComponent} from "vue";
 import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
-import {flashcardPropertyCodes, OPTIONS_LAYOUT} from "@/shared/config";
+import {codes, OPTIONS_LAYOUT} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const props = defineProps<{
@@ -108,7 +108,7 @@ setupMenuCallbacks();
       <IconLabel>
         <template #label>
           <span>
-            {{ $t(codeToKey(flashcardPropertyCodes.FLASHCARD_DUE_AT), {n: daysUntilDue}) }}
+            {{ $t(codeToKey(codes.FLASHCARD_DUE_AT), {n: daysUntilDue}) }}
           </span>
         </template>
         <template #icon>

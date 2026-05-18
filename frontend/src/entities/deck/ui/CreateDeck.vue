@@ -4,7 +4,7 @@ import {defineAsyncComponent} from "vue";
 import {showOne} from "@/shared/lib";
 import {CreateCard} from "@/shared/ui";
 import {codeToKey} from "@/shared/i18n";
-import {resourceCodes} from "@/shared/config";
+import {codes} from "@/shared/config";
 
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
@@ -22,6 +22,6 @@ const openModal = () => {
                      shadow-lg
                      hover:shadow-2xl"
               @click="openModal">
-    {{ $t(codeToKey(resourceCodes.DECK_CREATE_NAME)) }}
+    {{ $t(codeToKey(codes.DECK_CREATE_NAME)) }}
   </CreateCard>
 </template>

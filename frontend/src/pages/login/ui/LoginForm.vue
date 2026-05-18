@@ -8,7 +8,7 @@ import {useMenu, useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {AUTH_LAYOUT, formCodes} from "@/shared/config";
+import {AUTH_LAYOUT, codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const data = ref<LoginDto>({
@@ -83,8 +83,8 @@ const submit = async () => {
       <div class="flex flex-col gap-4">
         <FormField id="email"
                    v-model="data.email"
-                   :label="$t(codeToKey(formCodes.EMAIL_NAME))"
-                   :placeholder="$t(codeToKey(formCodes.EMAIL_PLACEHOLDER))"
+                   :label="$t(codeToKey(codes.EMAIL_NAME))"
+                   :placeholder="$t(codeToKey(codes.EMAIL_PLACEHOLDER))"
                    :touched="isFieldTouched('email')"
                    :error="getError('email')"
                    @blur="() => {
@@ -93,9 +93,9 @@ const submit = async () => {
                    }"/>
         <FormField id="password"
                    v-model="data.password"
-                   :label="$t(codeToKey(formCodes.PASSWORD_NAME))"
+                   :label="$t(codeToKey(codes.PASSWORD_NAME))"
                    type="password"
-                   :placeholder="$t(codeToKey(formCodes.PASSWORD_PLACEHOLDER))"
+                   :placeholder="$t(codeToKey(codes.PASSWORD_PLACEHOLDER))"
                    :touched="isFieldTouched('password')"
                    :error="getError('password')"
                    @blur="() => {

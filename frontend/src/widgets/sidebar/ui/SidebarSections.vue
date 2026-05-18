@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type {MenuSectionView, SidebarSectionId, SidebarItemId} from "@/shared/config";
+import type {MenuSectionView, SidebarSectionId} from "@/shared/config";
 import SidebarLinks from "./SidebarLinks.vue";
 
 defineProps<{
-  menuSectionViews: MenuSectionView<SidebarSectionId, SidebarItemId>[]
+  menuSectionViews: MenuSectionView<SidebarSectionId, string | number>[]
 }>();
 </script>
 

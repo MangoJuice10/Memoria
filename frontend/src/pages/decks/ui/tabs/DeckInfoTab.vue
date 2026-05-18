@@ -6,7 +6,7 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {formCodes, resourceCodes} from "@/shared/config";
+import {codes} from "@/shared/config";
 import {createUpdateDeckSchema, type DeckResponseDto, type UpdateDeckDto} from "@/entities/deck";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
@@ -71,9 +71,9 @@ const submit = async () => {
       deckId: props.id,
       updateDeckDto: validatedData
     });
-    push(t(codeToKey(resourceCodes.DECK_UPDATE_SUCCESS)), "success", "update");
+    push(t(codeToKey(codes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceCodes.DECK_UPDATE_ERROR)), "error");
+    push(t(codeToKey(codes.DECK_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -96,8 +96,8 @@ const submit = async () => {
           <FormField id="front"
                      v-model="data.name"
                      element="input"
-                     :label="$t(codeToKey(formCodes.NAME_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.NAME_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.NAME_NAME))"
+                     :placeholder="$t(codeToKey(codes.NAME_PLACEHOLDER))"
                      :touched="isFieldTouched('front')"
                      :error="getError('front')"
                      @blur="() => {
@@ -107,8 +107,8 @@ const submit = async () => {
           <FormField id="back"
                      v-model="data.description"
                      element="textarea"
-                     :label="$t(codeToKey(formCodes.DESCRIPTION_NAME))"
-                     :placeholder="$t(codeToKey(formCodes.DESCRIPTION_PLACEHOLDER))"
+                     :label="$t(codeToKey(codes.DESCRIPTION_NAME))"
+                     :placeholder="$t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                      :touched="isFieldTouched('back')"
                      :error="getError('back')"
                      @blur="() => {
@@ -119,7 +119,7 @@ const submit = async () => {
         </div>
       </template>
       <template #submit>
-        {{ $t(codeToKey(resourceCodes.DECK_UPDATE_CONFIRM)) }}
+        {{ $t(codeToKey(codes.DECK_UPDATE_CONFIRM)) }}
       </template>
     </Form>
   </div>

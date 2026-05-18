@@ -19,3 +19,5 @@ export * from "./menu/codes/menu-codes.config";
 export * from "./errors/http-exception-error-codes.config";
 export * from "./errors/domain-error-codes.config";
 export * from "./errors/error-codes.config";
+
+export * from "./codes.config"

@@ -8,18 +8,18 @@ import SidebarSections from "./SidebarSections.vue";
 import {UserPanel} from "@/features/settings";
 import {useBackdropStore} from "@/shared/model";
 import {useSidebarStore} from "@/shared/model";
-import {Resizable} from "@/shared/resizable";
+import {Resizable} from "@/shared/ui";
 import {SIDEBAR_GUEST_LAYOUT} from "../config/sidebar-layout.config.ts";
 import {decksApi} from "@/entities/deck";
 import {useMenu} from "@/shared/lib";
 import {useQuery} from "@tanstack/vue-query";
 import {decksQueryKeys} from "@/entities/deck";
 import {
-  menuCodes,
+  codes,
   type MenuSectionView,
   type SidebarSectionId
 } from "@/shared/config";
-import {watch, type ComputedRef, computed} from "vue";
+import {computed} from "vue";
 import {codeToKey} from "@/shared/i18n";
 
 const {t} = useI18n();
@@ -32,7 +32,7 @@ const backdropStore = useBackdropStore();
 const {data} = useQuery({
   queryKey: decksQueryKeys.all,
   queryFn: () => decksApi.findAll(),
-  enabled: isAuthenticated.value
+  enabled: isAuthenticated
 });
 
 const {menuSectionViews: guestSectionViews} = useMenu(SIDEBAR_GUEST_LAYOUT, t);
@@ -42,7 +42,7 @@ const menuSectionViews = computed(() => {
 
   const decksSectionView: MenuSectionView<SidebarSectionId, string | number> = {
     id: "decks",
-    label: t(codeToKey(menuCodes.SIDEBAR_SECTION_DECKS)),
+    label: t(codeToKey(codes.SIDEBAR_SECTION_DECKS)),
     menuItemViews: (data.value ?? []).map((deck) => ({
       id: deck.id,
       label: deck.name,
@@ -76,7 +76,7 @@ function handleToggle() {
                  ? 'opacity-100 translate-y-0'
                  : 'opacity-0 -translate-x-10 pointer-events-none'">
     <Resizable has-right-resize-handle
-               class="w-sidebar min-w-[25vw] h-sidebar">
+               class="w-sidebar min-w-[25vw] max-w-[40vw] h-sidebar">
       <div class="flex flex-col">
         <div class="flex items-center gap-1 w-full h-navbar px-sidebar border-b border-default">
           <BurgerMenu @toggle="handleToggle"/>

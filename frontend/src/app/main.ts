@@ -8,6 +8,7 @@ import {VueQueryPlugin} from "@tanstack/vue-query";
 import {queryClient} from "@/shared/api";
 import {setupAuthInterceptors} from "@/shared/auth";
 import {useViewerStore} from "@/entities/viewer";
+import {vAutoResize} from "@/shared/lib";
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -21,5 +22,7 @@ setupAuthInterceptors();
 
 const authStore = useViewerStore(pinia);
 await authStore.initialize();
+
+app.directive("auto-resize", vAutoResize);
 
 app.mount("#app");

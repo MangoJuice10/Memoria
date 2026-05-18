@@ -5,10 +5,7 @@ import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {Modal} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
-import {
-  formCodes,
-  resourceCodes
-} from "@/shared/config";
+import {codes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
@@ -67,9 +64,9 @@ const submit = async () => {
 
   try {
     await createDeckMutation.mutateAsync(validatedData);
-    push(t(codeToKey(resourceCodes.DECK_CREATE_SUCCESS)), "success", "create");
+    push(t(codeToKey(codes.DECK_CREATE_SUCCESS)), "success", "create");
   } catch (error) {
-    push(t(codeToKey(resourceCodes.DECK_CREATE_ERROR)), "error");
+    push(t(codeToKey(codes.DECK_CREATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -97,7 +94,7 @@ onMounted(() => {
           @reset="reset">
         <template #heading>
           <h2 class="text-center">
-            {{ $t(codeToKey(resourceCodes.DECK_CREATE_DESCRIPTION)) }}
+            {{ $t(codeToKey(codes.DECK_CREATE_DESCRIPTION)) }}
           </h2>
         </template>
         <template #fields>
@@ -105,8 +102,8 @@ onMounted(() => {
             <FormField id="name"
                        v-model="data.name"
                        element="textarea"
-                       :label="t(codeToKey(formCodes.NAME_NAME))"
-                       :placeholder="t(codeToKey(formCodes.NAME_PLACEHOLDER))"
+                       :label="t(codeToKey(codes.NAME_NAME))"
+                       :placeholder="t(codeToKey(codes.NAME_PLACEHOLDER))"
                        :touched="isFieldTouched('name')"
                        :error="getError('name')"
                        @blur="() => {
@@ -116,8 +113,8 @@ onMounted(() => {
             <FormField id="back"
                        v-model="data.description"
                        element="textarea"
-                       :label="t(codeToKey(formCodes.DESCRIPTION_NAME))"
-                       :placeholder="t(codeToKey(formCodes.DESCRIPTION_PLACEHOLDER))"
+                       :label="t(codeToKey(codes.DESCRIPTION_NAME))"
+                       :placeholder="t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                        :touched="isFieldTouched('description')"
                        :error="getError('description')"
                        @blur="() => {
@@ -127,7 +124,7 @@ onMounted(() => {
           </div>
         </template>
         <template #submit>
-          {{ $t(codeToKey(resourceCodes.DECK_CREATE_NAME)) }}
+          {{ $t(codeToKey(codes.DECK_CREATE_NAME)) }}
         </template>
       </Form>
     </div>

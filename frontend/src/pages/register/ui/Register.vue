@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {RegisterForm} from "@/pages/register";
-import {Resizable} from "@/shared/resizable";
+import {Resizable} from "@/shared/ui";
 </script>
 
 <template>

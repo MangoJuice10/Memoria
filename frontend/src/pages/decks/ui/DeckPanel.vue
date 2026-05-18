@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {FormError, IconLabel, TabLinks, Toggle} from "@/shared/ui";
+import {Button, FormError, IconLabel, TabLinks, Toggle} from "@/shared/ui";
 import {DeckIcon} from "@/shared/ui/icons";
 import {codeToKey} from "@/shared/i18n";
-import {resourceCodes} from "@/shared/config";
-import {useMenu, useValidation} from "@/shared/lib";
+import {codes} from "@/shared/config";
+import {showOne, useMenu, useValidation} from "@/shared/lib";
 import {DECK_TABS_LAYOUT} from "../config/deck-tabs-layout.ts";
 import {useI18n} from "vue-i18n";
 import {type DeckResponseDto, decksApi, decksQueryKeys} from "@/entities/deck";
 import {createUpdateDeckSchema, type UpdateDeckDto} from "@/entities/deck";
-import {ref} from "vue";
+import {defineAsyncComponent, ref} from "vue";
 import axios from "axios";
 import {type ErrorResponse, queryClient} from "@/shared/api";
 import {useMutation} from "@tanstack/vue-query";
-import {useToastStore} from "@/shared/model";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 
 const props = defineProps<{
   id: number;
@@ -25,7 +25,8 @@ const data = ref<UpdateDeckDto>({
 });
 
 const {t} = useI18n();
-
+const backdropStore = useBackdropStore();
+const modalStore = useModalStore();
 const {push} = useToastStore();
 
 const {menuItemViews} = useMenu(DECK_TABS_LAYOUT, t);
@@ -55,6 +56,14 @@ const updateDeckMutation = useMutation({
   }
 });
 
+const openDeleteDeckModal = () => {
+  const deleteDeckModal = defineAsyncComponent(() => import("@/entities/deck/ui/modals/DeleteDeckModal.vue"));
+  showOne(backdropStore);
+  modalStore.show(deleteDeckModal, {
+    id: props.id
+  });
+};
+
 async function submit() {
   const validatedData = await clientValidate();
   if (!validatedData) return;
@@ -64,9 +73,9 @@ async function submit() {
       deckId: props.id,
       updateDeckDto: validatedData
     });
-    push(t(codeToKey(resourceCodes.DECK_UPDATE_SUCCESS)), "success", "update");
+    push(t(codeToKey(codes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
-    push(t(codeToKey(resourceCodes.DECK_UPDATE_ERROR)), "error");
+    push(t(codeToKey(codes.DECK_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -89,19 +98,31 @@ async function submit() {
         </template>
       </IconLabel>
       <Toggle v-model:is-on="data.isPublic"
-              class="grow"
+              class="grow
+                     h-10"
               @click="submit">
         <template #on>
           <span class="text-lg font-semibold">
-            {{ $t(codeToKey(resourceCodes.DECK_PRIVATE)) }}
+            {{ $t(codeToKey(codes.DECK_PRIVATE)) }}
           </span>
         </template>
         <template #off>
           <span class="text-lg font-semibold">
-            {{ $t(codeToKey(resourceCodes.DECK_PUBLIC)) }}
+            {{ $t(codeToKey(codes.DECK_PUBLIC)) }}
           </span>
         </template>
       </Toggle>
+      <Button v-if="$route.name === 'deck-info'" color="var(--color-surface-danger)"
+              color-hover="var(--color-surface-danger)"
+              color-active="var(--color-surface-danger)"
+              color-text="var(--color-text-inverse)"
+              color-text-hover="var(--color-text-inverse)"
+              color-text-active="var(--color-text-inverse)"
+              class="text-base
+                     h-10"
+              @click="openDeleteDeckModal">
+        {{ $t(codeToKey(codes.DECK_DELETE_NAME)) }}
+      </Button>
       <FormError :error="getFormError()"
                  class="text-base"/>
     </div>

@@ -7,10 +7,9 @@ const {toasts} = storeToRefs(useToastStore());
 </script>
 
 <template>
-  <div class="fixed bottom-10 right-10 z-60
+  <div class="fixed bottom-page right-page z-60
               flex flex-col-reverse gap-5
-              w-100 overflow-visible
-              truncate">
+              w-100 overflow-visible truncate">
     <TransitionGroup name="toast">
       <Toast v-for="toast in toasts"
              :key="toast.id"

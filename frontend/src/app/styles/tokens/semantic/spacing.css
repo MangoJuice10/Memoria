@@ -2,9 +2,14 @@
     /*
     Page spacing
     */
+    --top-page: var(--height-navbar);
+    --right-page: ;
+    --bottom-page: ;
+    --left-page: ;
+
     --padding-top-page: var(--height-navbar);
     --padding-right-page: ;
-    --padding-bottom-page: var(--height-navbar);
+    --padding-bottom-page: ;
     --padding-left-page: ;
 
     /*

@@ -9,6 +9,7 @@ defineProps<{
   <div class="absolute inset-0
                 flex flex-col divide-y divide-default
                 border border-default rounded-2xl
+                shadow-lg
                 bg-primary
                 backface-hidden">
     <h2 class="px-10 py-10">{{ heading }}</h2>

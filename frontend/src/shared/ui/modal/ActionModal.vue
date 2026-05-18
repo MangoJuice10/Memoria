@@ -21,11 +21,12 @@ defineEmits<{
         <Button @click="$emit('cancel')">
           <slot name="cancel"/>
         </Button>
-        <Button @click="$emit('confirm')"
-                class="bg-danger!
-                       enabled:hover:shadow-[0px_4px_0px_0px_var(--color-surface-danger),0px_5px_0px_0px_var(--color-border-default)]!
-                       enabled:active:shadow-none!
-                       enabled:hover:text-inverse! enabled:hover:bg-danger!">
+        <Button color="var(--color-surface-danger)"
+                color-hover="var(--color-surface-danger"
+                color-active="var(--color-surface-danger"
+                color-text-hover="var(--color-text-inverse"
+                color-text-active="var(--color-text-inverse)"
+            @click="$emit('confirm')">
           <slot name="confirm"/>
         </Button>
       </div>

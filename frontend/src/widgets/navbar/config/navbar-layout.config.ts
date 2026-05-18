@@ -1,6 +1,6 @@
 import {
     type NavbarItemId,
-    type MenuLayout, menuCodes,
+    type MenuLayout, codes,
 } from "@/shared/config";
 
 import {
@@ -17,19 +17,19 @@ export const NAVBAR_GUEST_LAYOUT = {
         {
             id: "feature-spaced-repetition",
             routeName: "feature-spaced-repetition",
-            labelCode: menuCodes.NAVBAR_ITEM_FEATURE_SPACED_REPETITION,
+            labelCode: codes.NAVBAR_ITEM_FEATURE_SPACED_REPETITION,
             icon: SpacedRepetitionFeatureIcon
         },
         {
             id: "feature-ai-assistance",
             routeName: "feature-ai-assistance",
-            labelCode: menuCodes.NAVBAR_ITEM_FEATURE_AI_ASSISTANCE,
+            labelCode: codes.NAVBAR_ITEM_FEATURE_AI_ASSISTANCE,
             icon: AIAssistanceIcon
         },
         {
             id: "feature-trustworthy-answers",
             routeName: "feature-trustworthy-answers",
-            labelCode: menuCodes.NAVBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
+            labelCode: codes.NAVBAR_ITEM_FEATURE_TRUSTWORTHY_ANSWERS,
             icon: TrustworthyAnswersFeatureIcon
         },
     ],
@@ -41,19 +41,19 @@ export const NAVBAR_AUTHENTICATED_LAYOUT = {
         {
             id: "decks",
             routeName: "decks",
-            labelCode: menuCodes.NAVBAR_ITEM_DECKS,
+            labelCode: codes.NAVBAR_ITEM_DECKS,
             icon: DecksIntroductionIcon
         },
         {
             id: "shared-decks",
             routeName: "shared-decks",
-            labelCode: menuCodes.NAVBAR_ITEM_SHARED_DECKS,
+            labelCode: codes.NAVBAR_ITEM_SHARED_DECKS,
             icon: SharedDecksIntroductionIcon
         },
         {
             id: "educational-resources",
             routeName: "educational-resources",
-            labelCode: menuCodes.NAVBAR_ITEM_EDUCATIONAL_RESOURCES,
+            labelCode: codes.NAVBAR_ITEM_EDUCATIONAL_RESOURCES,
             icon: EducationalResourcesIntroductionIcon
         },
     ],

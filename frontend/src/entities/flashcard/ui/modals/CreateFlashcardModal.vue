@@ -15,7 +15,7 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {formCodes, resourceCodes} from "@/shared/config";
+import {codes} from "@/shared/config";
 
 const props = defineProps<{
   deckId: number;
@@ -71,9 +71,9 @@ const submit = async () => {
 
   try {
     await createFlashcardMutation.mutateAsync(validatedData);
-    push(t(codeToKey(resourceCodes.FLASHCARD_CREATE_SUCCESS)), "success", "create");
+    push(t(codeToKey(codes.FLASHCARD_CREATE_SUCCESS)), "success", "create");
   } catch (error) {
-    push(t(codeToKey(resourceCodes.FLASHCARD_CREATE_ERROR)), "error");
+    push(t(codeToKey(codes.FLASHCARD_CREATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
       await serverValidate(body);
@@ -109,8 +109,8 @@ onMounted(() => {
             <FormField id="front"
                        v-model="data.front"
                        element="textarea"
-                       :label="t(codeToKey(formCodes.FRONT_NAME))"
-                       :placeholder="t(codeToKey(formCodes.FRONT_PLACEHOLDER))"
+                       :label="t(codeToKey(codes.FRONT_NAME))"
+                       :placeholder="t(codeToKey(codes.FRONT_PLACEHOLDER))"
                        :touched="isFieldTouched('front')"
                        :error="getError('front')"
                        @blur="() => {
@@ -120,8 +120,8 @@ onMounted(() => {
             <FormField id="back"
                        v-model="data.back"
                        element="textarea"
-                       :label="t(codeToKey(formCodes.BACK_NAME))"
-                       :placeholder="t(codeToKey(formCodes.BACK_PLACEHOLDER))"
+                       :label="t(codeToKey(codes.BACK_NAME))"
+                       :placeholder="t(codeToKey(codes.BACK_PLACEHOLDER))"
                        :touched="isFieldTouched('back')"
                        :error="getError('back')"
                        @blur="() => {
@@ -131,7 +131,7 @@ onMounted(() => {
           </div>
         </template>
         <template #submit>
-          {{ $t(codeToKey(resourceCodes.FLASHCARD_CREATE_NAME)) }}
+          {{ $t(codeToKey(codes.FLASHCARD_CREATE_NAME)) }}
         </template>
       </Form>
     </div>

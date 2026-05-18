@@ -8,5 +8,5 @@ import {Backdrop} from "@/shared/ui";
   <Navbar/>
   <Sidebar/>
   <Backdrop/>
-  <RouterView class="py-page"/>
+  <RouterView class="pt-page"/>
 </template>

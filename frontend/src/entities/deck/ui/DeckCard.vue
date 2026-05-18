@@ -4,7 +4,7 @@ import {asset, getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
 import {useI18n} from "vue-i18n";
 import {PublicIcon} from "@/shared/ui";
 import {PrivateIcon} from "@/shared/ui";
-import {deckPropertyCodes, OPTIONS_LAYOUT} from "@/shared/config";
+import {codes, OPTIONS_LAYOUT} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 import {defineAsyncComponent} from "vue";
 import {useBackdropStore, useModalStore} from "@/shared/model";
@@ -73,7 +73,7 @@ setupMenuCallbacks();
           <template #label>
             <span class="text-base">
               {{
-                isPublic ? t(codeToKey(deckPropertyCodes.DECK_IS_PUBLIC)) : t(codeToKey(deckPropertyCodes.DECK_PRIVATE))
+                isPublic ? t(codeToKey(codes.DECK_IS_PUBLIC)) : t(codeToKey(codes.DECK_PRIVATE))
               }}
             </span>
           </template>
@@ -87,7 +87,7 @@ setupMenuCallbacks();
         <IconLabel>
           <template #label>
             <span class="text-base">
-              {{ t(codeToKey(deckPropertyCodes.DECK_FLASHCARDS_COUNT), {n: flashcardsCount}) }}
+              {{ t(codeToKey(codes.DECK_FLASHCARDS_COUNT), {n: flashcardsCount}) }}
             </span>
           </template>
           <template #icon>
