@@ -65,13 +65,13 @@ const openDeleteDeckModal = () => {
 };
 
 async function submit() {
-  const validatedData = await clientValidate();
-  if (!validatedData) return;
+  const result = await clientValidate();
+  if (!result.success) return;
 
   try {
     await updateDeckMutation.mutateAsync({
       deckId: props.id,
-      updateDeckDto: validatedData
+      updateDeckDto: result.data
     });
     push(t(codeToKey(codes.DECK_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {

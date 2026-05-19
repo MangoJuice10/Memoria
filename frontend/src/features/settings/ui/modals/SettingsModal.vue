@@ -10,7 +10,6 @@ import {SETTINGS_LAYOUT} from "../../config/settings-layout.config";
 const {t} = useI18n();
 
 const {menuItemViews} = useMenu(SETTINGS_LAYOUT, t);
-console.log(menuItemViews);
 
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();

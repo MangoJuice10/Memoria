@@ -3,16 +3,18 @@ import {computed, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
 import {createUpdateMeSchema, type UpdateMeDto} from "../../model/update-me.schema";
-import {Divider, Form, FormField} from "@/shared/ui";
+import {Divider, Form, FormError, FormField, UploadImage} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
 import {codes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import UploadAvatar from "@/features/settings/ui/UploadAvatar.vue";
 import {codeToKey} from "@/shared/i18n";
 import {useToastStore} from "@/shared/model";
+import {createUploadAvatarSchema} from "../../model/upload-avatar.schema.ts";
 
-const {viewer, updateMe} = useViewerStore();
+const {t} = useI18n();
+const {viewer, updateMe, uploadAvatar} = useViewerStore();
+const {push} = useToastStore();
 
 const data = ref<UpdateMeDto>({
   newUsername: viewer?.username,
@@ -21,10 +23,6 @@ const data = ref<UpdateMeDto>({
   newPassword: undefined,
   confirmPassword: undefined,
 });
-
-const {t} = useI18n();
-
-const {push} = useToastStore();
 
 const tOptions = {
   newUsername: {
@@ -64,27 +62,48 @@ const {
   tOptions
 });
 
-const isSubmitEnabled = computed(() => isFormTouched() && isValid.value);
-
 const touchPasswordFields = () => {
   touch("oldPassword");
   touch("newPassword");
   touch("confirmPassword");
 };
 
+const avatar = ref<File | null>(null);
+
+const avatarValidation = useValidation(avatar, createUploadAvatarSchema(t));
+
+const isSubmitEnabled = computed(() =>
+    isFormTouched() && isValid.value
+    || avatarValidation.isFormTouched() && avatarValidation.isValid.value
+);
+
 const submit = async () => {
   touchAll();
 
-  const validatedData = await clientValidate();
-  if (!validatedData) return;
+  const result = await clientValidate();
+  if (!result.success) return;
+
+  const avatarResult = await avatarValidation.clientValidate();
+  if (!avatarResult.success) return;
 
   try {
-    await updateMe(validatedData);
+    await updateMe(result.data);
     push(t(codeToKey(codes.USER_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
     push(t(codeToKey(codes.USER_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
       const body = error.response?.data as ErrorResponse;
+      await serverValidate(body);
+    }
+  }
+
+  try {
+    if (avatarResult.data) await uploadAvatar(avatarResult.data);
+    push(t(codeToKey(codes.USER_AVATAR_UPDATE_SUCCESS)), "success", "update");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      push(t(codeToKey(codes.USER_AVATAR_UPDATE_ERROR)), "error");
+      const body = error?.response?.data as ErrorResponse;
       await serverValidate(body);
     }
   }
@@ -107,14 +126,18 @@ const submit = async () => {
         <h3 class="font-semibold">
           {{ $t("settings.profile.avatar.heading") }}
         </h3>
-        <div class="flex justify-between">
-          <UploadAvatar :avatar-url="asset('filler/noImage.png')"
-                        :avatar-size-rem="15"
-                        class="w-fit"/>
+        <div class="flex flex-col items-center gap-5">
+          <UploadImage :img-url="viewer?.avatarUrl ?? asset('filler/noImage.png')"
+                       :img-size-rem="15"
+                       class="rounded-full"
+                       @img-change="(file) => {
+                         avatarValidation.touch('avatar');
+                         avatar = file;
+                         avatarValidation.clientValidate();
+                       }"/>
+          <FormError :error="avatarValidation.getError('avatar')"/>
         </div>
-
         <Divider/>
-
         <h3 class="font-semibold">
           {{ $t("settings.profile.user-data.heading") }}
         </h3>

@@ -41,11 +41,11 @@ const {
 const submit = async () => {
   touchAll();
 
-  const validatedData = await clientValidate();
-  if (!validatedData) return;
+  const result = await clientValidate();
+  if (!result.success) return;
 
   try {
-    await viewer.login(validatedData);
+    await viewer.login(result.data);
     await router.push({
       name: "home",
       params: route.params,

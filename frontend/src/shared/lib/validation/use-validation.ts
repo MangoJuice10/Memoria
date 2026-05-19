@@ -108,14 +108,11 @@ export const useValidation = <Schema extends ZodType>(
         clearErrors();
 
         const result = await parseSchema();
+
         isValid.value = result.success;
+        if (result.error) clientErrors.value = createErrorsMap(result.error);
 
-
-        if (result.error) {
-            clientErrors.value = createErrorsMap(result.error);
-            return null;
-        }
-        return result.data;
+        return result;
     };
 
     const serverValidate = async (errorRes: ErrorResponse) => {

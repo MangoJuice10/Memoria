@@ -12,6 +12,7 @@ import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
 import { SuccessResponseInterceptor } from "src/common/interceptors/success-response.interceptor";
 import { ReviewModule } from './review/review.module';
 import { Sm2Service } from 'src/review/services/sm2.service';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Sm2Service } from 'src/review/services/sm2.service';
     UserModule,
     DeckModule,
     ReviewModule,
+    StorageModule,
   ],
   providers: [
     SuccessResponseInterceptor,

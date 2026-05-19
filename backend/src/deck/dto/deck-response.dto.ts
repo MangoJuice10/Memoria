@@ -3,6 +3,7 @@ export type DeckResponseDto = {
   name: string;
   description: string;
   isPublic: boolean;
+  coverUrl: string | null;
   flashcardsCount: number;
   createdAt: Date;
   updatedAt: Date;

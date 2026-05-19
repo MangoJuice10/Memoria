@@ -196,6 +196,14 @@
         }
       }
     },
+    "user_avatar": {
+      "actions": {
+        "update": {
+          "success": "Avatar updated successfully",
+          "error": "Failed to update avatar"
+        }
+      }
+    },
     "flashcard": {
       "name": "Flashcard",
       "properties": {
@@ -240,6 +248,7 @@
         "public": "Public",
         "private": "Private",
         "is-public": "Public",
+        "cover": "Cover",
         "flashcards-count": "{n} flashcard | {n} flashcards"
       },
       "actions": {
@@ -266,6 +275,14 @@
           "confirm": "Delete",
           "success": "Deck deleted successfully",
           "error": "Failed to delete deck"
+        }
+      }
+    },
+    "deck_cover": {
+      "actions": {
+        "update": {
+          "success": "Cover updated successfully",
+          "error": "Failed to update cover"
         }
       }
     }

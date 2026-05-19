@@ -9,6 +9,7 @@ import {asset, showOne, useMenu} from "@/shared/lib";
 import {Dropdown, MenuContainer} from "@/shared/ui";
 import {MenuItem} from "@/shared/ui";
 import {USER_PANEL_LAYOUT} from "@/features/settings/config/user-panel-layout.config.ts";
+import {Avatar} from "@/entities/user";
 
 const {t} = useI18n();
 
@@ -51,7 +52,8 @@ setupMenuCallbacks();
             menu-classes="w-4/5">
     <template #trigger>
       <div class="flex justify-center items-center gap-5 p-5">
-        <img :src="asset('filler/noImage.png')" alt="" class="w-13">
+        <Avatar :src="viewer?.avatarUrl ?? asset('filler/noAvatar.png')"
+                :size-rem="3"/>
         <div>
           <div class="font-bold mb-2">{{ viewer?.username }}</div>
           <div class="text-sm">{{ $t("settings.heading") }}</div>

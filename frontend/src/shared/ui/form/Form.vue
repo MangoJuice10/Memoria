@@ -8,6 +8,7 @@ defineProps<{
   isSubmitEnabled: boolean;
   isResetEnabled: boolean;
   formErrorClasses?: string;
+  formControlsClasses?: string;
   submitClasses?: string;
   resetClasses?: string;
 }>();
@@ -30,11 +31,12 @@ defineEmits<{
         </h2>
       </div>
       <FormError :error="formError"
-             class="mb-2 text-lg"
-             :class="formErrorClasses"/>
+                 class="mb-2 text-lg"
+                 :class="formErrorClasses"/>
     </div>
     <slot name="fields"/>
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center"
+         :class="formControlsClasses">
       <Button type="submit"
               :class="submitClasses"
               :disabled="!isSubmitEnabled"

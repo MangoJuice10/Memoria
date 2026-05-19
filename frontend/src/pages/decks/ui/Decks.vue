@@ -25,6 +25,7 @@ const {data, isLoading, error} = useQuery({
                   :name="deck.name"
                   :description="deck.description"
                   :is-public="deck.isPublic"
+                  :cover-url="deck.coverUrl"
                   :flashcards-count="deck.flashcardsCount"/>
       </div>
     </QueryState>

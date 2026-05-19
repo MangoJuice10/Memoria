@@ -42,4 +42,6 @@ export {default as QueryState} from "./QueryState.vue";
 
 export {default as ErrorIllustration} from "./illustrations/ErrorIllustration.vue";
 
+export {default as UploadImage} from "./UploadImage.vue";
+
 export {default as Resizable} from "./resizable/Resizable.vue";

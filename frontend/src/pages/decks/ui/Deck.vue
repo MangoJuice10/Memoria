@@ -20,7 +20,7 @@ const {data, isLoading, error} = useQuery({
 
 <template>
   <div class="flex flex-col
-              min-h-screen
+              min-h-screen pb-page
               bg-tertiary">
     <QueryState :is-loading
                 :error
@@ -37,6 +37,7 @@ const {data, isLoading, error} = useQuery({
                      :name="data.name"
                      :description="data.description"
                      :is-public="data.isPublic"
+                     :cover-url="data.coverUrl"
                      class="grow px-page"/>
         </RouterView>
       </div>

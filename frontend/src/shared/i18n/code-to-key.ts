@@ -133,6 +133,7 @@ const codesToKeys = {
     DECK_IS_PUBLIC: `${baseResourceKey}.deck.${resourcePropertiesKey}.is-public`,
     DECK_PUBLIC: `${baseResourceKey}.deck.${resourcePropertiesKey}.public`,
     DECK_PRIVATE: `${baseResourceKey}.deck.${resourcePropertiesKey}.private`,
+    DECK_COVER: `${baseResourceKey}.deck.${resourcePropertiesKey}.cover`,
     DECK_FLASHCARDS_COUNT: `${baseResourceKey}.deck.${resourcePropertiesKey}.flashcards-count`,
     DECK_INFO: `${baseResourceKey}.deck.${resourcePropertiesKey}.info`,
     DECK_FLASHCARDS: `${baseResourceKey}.deck.${resourcePropertiesKey}.flashcards`,

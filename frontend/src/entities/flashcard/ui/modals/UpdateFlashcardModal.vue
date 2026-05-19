@@ -70,11 +70,11 @@ const updateFlashcardMutation = useMutation({
 const submit = async () => {
   touchAll();
 
-  const validatedData = await clientValidate();
-  if (!validatedData) return;
+  const result = await clientValidate();
+  if (!result.success) return;
 
   try {
-    await updateFlashcardMutation.mutateAsync(validatedData);
+    await updateFlashcardMutation.mutateAsync(result.data);
     push(t(codeToKey(codes.FLASHCARD_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
     push(t(codeToKey(codes.FLASHCARD_UPDATE_CANCEL)), "error");

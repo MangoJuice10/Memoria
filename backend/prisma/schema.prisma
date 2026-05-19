@@ -16,6 +16,7 @@ model User {
   id               Int      @id @default(autoincrement())
   username         String
   email            String   @unique
+  avatarKey        String?  @map("avatar_key")
   passwordHash     String   @map("password_hash")
   refreshTokenHash String?  @map("refresh_token_hash")
   createdAt        DateTime @default(now()) @map("created_at")
@@ -31,6 +32,7 @@ model Deck {
   name        String
   description String
   isPublic    Boolean  @default(false) @map("is_public")
+  coverKey    String?  @map("cover_key")
   userId      Int      @map("user_id")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")

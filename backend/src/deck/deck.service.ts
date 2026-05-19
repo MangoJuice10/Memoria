@@ -4,8 +4,9 @@ import { CreateDeckDto } from "src/deck/schemas/create-deck.schema";
 import { UpdateDeckDto } from "src/deck/schemas";
 import { DeckNotFoundError } from "src/deck/errors/deck-not-found.error";
 import { DeckResponseDto } from "src/deck/dto/deck-response.dto";
-import { Deck, Prisma } from "@prisma/client";
+import { Deck } from "@prisma/client";
 import { isPrismaNotFoundError } from "src/prisma/prisma.errors";
+import { StorageService } from "src/storage/storage.service";
 
 const deckWithFlashcardsCountQuery = {
   _count: {
@@ -23,7 +24,10 @@ type DeckWithFlashcardsCount = Deck & {
 
 @Injectable()
 export class DeckService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly storageService: StorageService,
+  ) {}
 
   async create(userId: number, createDeckDto: CreateDeckDto): Promise<DeckResponseDto> {
     const deck = await this.prismaService.deck.create({
@@ -44,7 +48,7 @@ export class DeckService {
       },
       include: deckWithFlashcardsCountQuery,
     });
-    return decks.map(this.mapDeckWithFlashcardsCountToResponse);
+    return Promise.all(decks.map(this.mapDeckWithFlashcardsCountToResponse.bind(this)));
   }
 
   async findOne(deckId: number): Promise<DeckResponseDto> {
@@ -82,6 +86,26 @@ export class DeckService {
     }
   }
 
+  async uploadCover(deckId: number, file: Express.Multer.File): Promise<DeckResponseDto> {
+    const deck = await this.getDeckWithFlashcardsCountOrThrow(deckId);
+
+    if (deck.coverKey) await this.storageService.delete(deck.coverKey).catch(() => {});
+
+    const coverKey = await this.storageService.upload(file, "deck-covers");
+
+    const updatedDeck = await this.prismaService.deck.update({
+      where: {
+        id: deckId,
+      },
+      data: {
+        coverKey,
+      },
+      include: deckWithFlashcardsCountQuery,
+    });
+
+    return this.mapDeckWithFlashcardsCountToResponse(updatedDeck);
+  }
+
   async assertOwnership(userId: number, deckId: number) {
     const deck = await this.prismaService.deck.findFirst({
       where: {
@@ -105,10 +129,14 @@ export class DeckService {
     return deck;
   }
 
-  private mapDeckWithFlashcardsCountToResponse(deck: DeckWithFlashcardsCount): DeckResponseDto {
-    const { _count, ...deckProperties } = deck;
+  private async mapDeckWithFlashcardsCountToResponse(
+    deck: DeckWithFlashcardsCount,
+  ): Promise<DeckResponseDto> {
+    const { _count, coverKey, ...deckProperties } = deck;
+    const coverUrl = coverKey ? await this.storageService.getPresignedUrl(coverKey) : null;
     return {
       ...deckProperties,
+      coverUrl,
       flashcardsCount: _count.flashcards,
     };
   }

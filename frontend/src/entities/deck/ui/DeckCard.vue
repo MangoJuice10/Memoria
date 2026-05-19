@@ -14,6 +14,7 @@ const props = defineProps<{
   name: string;
   description: string;
   isPublic: boolean;
+  coverUrl: string | null;
   flashcardsCount: number;
 }>();
 
@@ -62,7 +63,7 @@ setupMenuCallbacks();
           {{ description }}
         </div>
       </div>
-      <img :src="asset('filler/deckCover.png')" alt=""
+      <img :src="coverUrl ?? asset('filler/noDeckCover.png')" alt=""
            class="row-span-9
                   w-full h-full object-contain">
       <div class="row-span-3
