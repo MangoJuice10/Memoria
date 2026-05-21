@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import {FlashcardIcon, IconLabel, LocalizedLink} from "@/shared/ui";
-import {asset, getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
+import {asset} from "@/shared/lib";
 import {useI18n} from "vue-i18n";
 import {PublicIcon} from "@/shared/ui";
 import {PrivateIcon} from "@/shared/ui";
-import {codes, OPTIONS_LAYOUT} from "@/shared/config";
+import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
-import {defineAsyncComponent} from "vue";
-import {useBackdropStore, useModalStore} from "@/shared/model";
 
-const props = defineProps<{
+defineProps<{
   id: number;
   name: string;
   description: string;
@@ -19,26 +17,6 @@ const props = defineProps<{
 }>();
 
 const {t} = useI18n();
-
-const backdropStore = useBackdropStore();
-const modalStore = useModalStore();
-
-const {menuItemViews} = useMenu(OPTIONS_LAYOUT, t);
-
-function setupMenuCallbacks() {
-  const deleteItem = getMenuItemViewOrThrow(menuItemViews.value, "delete");
-  deleteItem.callback = openDeckDeleteModal;
-}
-
-function openDeckDeleteModal() {
-  const deleteDeckModal = defineAsyncComponent(() => import("./modals/DeleteDeckModal.vue"));
-  showOne(backdropStore);
-  modalStore.show(deleteDeckModal, {
-    id: props.id
-  });
-}
-
-setupMenuCallbacks();
 </script>
 
 <template>

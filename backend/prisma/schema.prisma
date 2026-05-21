@@ -22,7 +22,8 @@ model User {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
-  decks Deck[]
+  decks                Deck[]
+  educationalResources EducationalResource[]
 
   @@map("users")
 }
@@ -37,8 +38,9 @@ model Deck {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  user       User        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  flashcards Flashcard[]
+  user                 User                      @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  flashcards           Flashcard[]
+  educationalResources DeckEducationalResource[]
 
   @@map("decks")
 }
@@ -77,4 +79,32 @@ model ReviewHistory {
   flashcard Flashcard @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("review_history")
+}
+
+model EducationalResource {
+  id               Int      @id @default(autoincrement())
+  name             String
+  description      String
+  fileKey          String   @map("file_key")
+  coverKey         String?  @map("cover_key")
+  originalFilename String   @map("original_filename")
+  userId           Int      @map("user_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  user  User                      @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  decks DeckEducationalResource[]
+
+  @@map("educational_resources")
+}
+
+model DeckEducationalResource {
+  deckId                Int @map("deck_id")
+  educationalResourceId Int @map("educational_resource_id")
+
+  deck                Deck                @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  educationalResource EducationalResource @relation(fields: [educationalResourceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@id([deckId, educationalResourceId])
+  @@map("deck_educational_resources")
 }

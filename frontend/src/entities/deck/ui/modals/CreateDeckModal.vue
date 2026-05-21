@@ -2,22 +2,22 @@
 import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
-import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
+import {createUploadImageSchema, useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {FormError, Modal, UploadImage} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
-import {codes} from "@/shared/config";
+import {allowedImageTypes, codes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {
   createCreateDeckSchema,
   type CreateDeckDto,
-  createUploadCoverSchema,
   type DeckResponseDto,
   decksQueryKeys, uploadCover
 } from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
 import {codeToKey} from "@/shared/i18n";
+import {MAX_DECK_COVER_SIZE} from "@/shared/config/files.config.ts";
 
 const {t} = useI18n();
 const backdropStore = useBackdropStore();
@@ -71,7 +71,7 @@ const updateDeckCoverMutation = useMutation({
         decksQueryKeys.all,
         (old: DeckResponseDto[] | undefined) => {
           if (!old) return old;
-          return [...old, updatedDeck];
+          return old.map((deck) => deck.id === updatedDeck.id ? updatedDeck : deck);
         }
     );
   }
@@ -79,11 +79,11 @@ const updateDeckCoverMutation = useMutation({
 
 const cover = ref<File | null>(null);
 
-const coverValidation = useValidation(cover, createUploadCoverSchema(t));
+const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
 const isSubmitEnabled = computed(() =>
-    isFormTouched() && isValid.value ||
-    coverValidation.isFormTouched() || coverValidation.isValid.value
+    isFormTouched() && isValid.value
+    || coverValidation.isFormTouched() && coverValidation.isValid.value
 );
 
 const submit = async () => {
@@ -123,18 +123,15 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="w-[50vw] h-full p-10 overflow-auto">
+    <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isSubmitEnabled"
           :is-reset-enabled="true"
+          has-sticky-controls
           form-error-classes="text-center"
-          form-controls-classes="absolute left-1/2 -translate-x-1/2 bottom-10
-                                 w-8/10 p-5 border rounded-2xl border-default
-                                 bg-(--color-primary)/85"
           @submit="submit"
-          @reset="reset"
-          class="mb-20">
+          @reset="reset">
         <template #heading>
           <h2 class="text-center">
             {{ $t(codeToKey(codes.DECK_CREATE_DESCRIPTION)) }}
@@ -165,14 +162,14 @@ onMounted(() => {
                          clientValidate();
                        }"/>
             <div class="flex flex-col items-center gap-5">
-              <UploadImage :img-url="asset('filler/noDeckCover.png')"
+              <UploadImage :default-img-url="asset('filler/noDeckCover.png')"
                            :img-size-rem="30"
                            @img-change="(file) => {
                              coverValidation.touch('cover');
                              cover = file;
                              coverValidation.clientValidate();
                            }"
-                           class="border border-dashed p-10 border-default"/>
+                           imgClasses="border border-dashed p-10 border-default"/>
               <FormError :error="coverValidation.getError('cover')"/>
             </div>
           </div>

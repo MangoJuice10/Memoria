@@ -6,7 +6,7 @@ import {computed, defineAsyncComponent} from "vue";
 import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
-import {codes, OPTIONS_LAYOUT} from "@/shared/config";
+import {codes, createOptionsLayout} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const props = defineProps<{
@@ -28,7 +28,7 @@ const {t} = useI18n();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 
-const {menuItemViews} = useMenu(OPTIONS_LAYOUT, t);
+const {menuItemViews} = useMenu(createOptionsLayout(t(codeToKey(codes.FLASHCARD_RESOURCE_NAME))), t);
 
 function setupMenuCallbacks() {
   const editItem = getMenuItemViewOrThrow(menuItemViews.value, "edit");

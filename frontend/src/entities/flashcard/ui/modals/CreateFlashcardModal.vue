@@ -91,7 +91,7 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="w-[50vw] p-10">
+    <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isValid"

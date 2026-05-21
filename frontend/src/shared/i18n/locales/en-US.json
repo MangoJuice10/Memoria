@@ -171,7 +171,7 @@
       },
       "actions": {
         "create": {
-          "name": "Create user",
+          "name": "Create",
           "description": "Create a new user",
           "cancel": "Cancel",
           "confirm": "Create",
@@ -179,7 +179,7 @@
           "error": "Failed to create user"
         },
         "update": {
-          "name": "Update user",
+          "name": "Update",
           "description": "Update user details",
           "cancel": "Cancel",
           "confirm": "Update",
@@ -187,7 +187,7 @@
           "error": "Failed to update user"
         },
         "delete": {
-          "name": "Delete user",
+          "name": "Delete",
           "description": "Are you sure you want to delete this user?",
           "cancel": "Cancel",
           "confirm": "Delete",
@@ -215,7 +215,7 @@
       },
       "actions": {
         "create": {
-          "name": "Create flashcard",
+          "name": "Create",
           "description": "Create a new flashcard",
           "cancel": "Cancel",
           "confirm": "Create",
@@ -223,7 +223,7 @@
           "error": "Failed to create flashcard"
         },
         "update": {
-          "name": "Update flashcard",
+          "name": "Update",
           "description": "Update flashcard content",
           "cancel": "Cancel",
           "confirm": "Update",
@@ -231,7 +231,7 @@
           "error": "Failed to update flashcard"
         },
         "delete": {
-          "name": "Delete flashcard",
+          "name": "Delete",
           "description": "Are you sure you want to delete this flashcard?",
           "cancel": "Cancel",
           "confirm": "Delete",
@@ -253,7 +253,7 @@
       },
       "actions": {
         "create": {
-          "name": "Create deck",
+          "name": "Create",
           "description": "Create a new deck",
           "cancel": "Cancel",
           "confirm": "Create",
@@ -261,7 +261,7 @@
           "error": "Failed to create deck"
         },
         "update": {
-          "name": "Update deck",
+          "name": "Update",
           "description": "Update deck details",
           "cancel": "Cancel",
           "confirm": "Update",
@@ -269,7 +269,7 @@
           "error": "Failed to update deck"
         },
         "delete": {
-          "name": "Delete deck",
+          "name": "Delete",
           "description": "Are you sure you want to delete this deck?",
           "cancel": "Cancel",
           "confirm": "Delete",
@@ -283,6 +283,41 @@
         "update": {
           "success": "Cover updated successfully",
           "error": "Failed to update cover"
+        }
+      }
+    },
+    "educational_resource": {
+      "name": "Educational Resource",
+      "properties": {
+        "name": "Name",
+        "description": "Description",
+        "file": "File",
+        "cover": "Cover"
+      },
+      "actions": {
+        "create": {
+          "name": "Upload",
+          "description": "Upload a new educational resource",
+          "cancel": "Cancel",
+          "confirm": "Upload",
+          "success": "Resource uploaded successfully",
+          "error": "Failed to upload resource"
+        },
+        "update": {
+          "name": "Update",
+          "description": "Update educational resource details",
+          "cancel": "Cancel",
+          "confirm": "Update",
+          "success": "Resource updated successfully",
+          "error": "Failed to update resource"
+        },
+        "delete": {
+          "name": "Delete",
+          "description": "Are you sure you want to delete this educational resource?",
+          "cancel": "Cancel",
+          "confirm": "Delete",
+          "success": "Resource deleted successfully",
+          "error": "Failed to delete resource"
         }
       }
     }
@@ -300,7 +335,7 @@
         "invalid-password": "The password is invalid",
         "duplicate-password": "The passwords must not match",
         "confirm-password": "The passwords must match",
-        "invalid-mime-type": "Only the types {supportedTypes} are supported",
+        "invalid-mime-type": "Only the types {allowedTypes} are allowed",
         "max-size": "The maximum size of the upload is {maximumSize}",
         "invalid-type": "Invalid type",
         "unrecognized": "Unrecognized field"
@@ -308,11 +343,12 @@
       "not-found": {
         "user": "User not found",
         "flashcard": "Flashcard not found",
-        "deck": "Deck not found"
+        "deck": "Deck not found",
+        "educational-resource": "Educational resource not found",
+        "deck-educational-resource": "Educational resource is not attached to this deck"
       }
     },
     "http-exception": {
-      "bad-request": "Bad request",
       "unauthorized": "Unauthorized",
       "forbidden": {
         "name": "Forbidden"
@@ -329,6 +365,7 @@
     "change-theme": "Change theme",
     "logout": "Logout",
     "upload": "Upload",
+    "remove": "Remove",
     "flip": "Flip",
     "previous": "Previous",
     "next": "Next",
@@ -423,7 +460,7 @@
     "next": "Next"
   },
   "options": {
-    "edit": "Edit flashcard",
-    "delete": "Delete flashcard"
+    "edit": "Edit {resourceName}",
+    "delete": "Delete {resourceName}"
   }
 }

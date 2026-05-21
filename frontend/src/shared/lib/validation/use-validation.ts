@@ -28,7 +28,7 @@ type TranslationOptions = {
 type ValidationOptions = DelayOptions & TranslationOptions;
 
 export const useValidation = <Schema extends ZodType>(
-    data: Ref<z.infer<Schema>>,
+    data: Ref<z.input<Schema>>,
     schema: MaybeRefOrGetter<Schema>,
     options?: ValidationOptions
 ) => {

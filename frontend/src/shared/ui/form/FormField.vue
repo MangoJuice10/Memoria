@@ -46,7 +46,8 @@ const modelValue = defineModel<string>();
                   v-bind="$attrs"
                   :data-testid="id"/>
     <FormFieldError :error
-               :touched
-               :data-testid="`${id}-validation-error`"/>
+                    :touched
+                    :data-testid="`${id}-validation-error`"
+                    class="text-xs"/>
   </div>
 </template>

@@ -15,8 +15,7 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
                         n: 2
                     })
                 })
-                .optional()
-        ),
+        ).optional(),
         newEmail: z.preprocess(
             emptyStringToUndefined,
             z.string()
@@ -31,13 +30,11 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
                         n: 8,
                     })
                 })
-                .optional()
-        ),
+        ).optional(),
         oldPassword: z.preprocess(
             emptyStringToUndefined,
             z.string()
-                .optional()
-        ),
+        ).optional(),
         newPassword: z.preprocess(
             emptyStringToUndefined,
             z.string()
@@ -47,13 +44,11 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
                         n: 8
                     })
                 })
-                .optional()
-        ),
+        ).optional(),
         confirmPassword: z.preprocess(
             emptyStringToUndefined,
             z.string()
-                .optional()
-        )
+        ).optional()
     })
         .refine(({oldPassword, newPassword, confirmPassword}) => {
             const isChangingPassword = oldPassword || newPassword || confirmPassword;
@@ -114,4 +109,5 @@ export const createUpdateMeSchema = (t: Composer["t"]) => {
         });
 };
 
-export type UpdateMeDto = z.infer<ReturnType<typeof createUpdateMeSchema>>;
+export type UpdateMeInput = z.input<ReturnType<typeof createUpdateMeSchema>>;
+export type UpdateMeDto = z.output<ReturnType<typeof createUpdateMeSchema>>;

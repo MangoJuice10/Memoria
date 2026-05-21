@@ -139,6 +139,12 @@ const codesToKeys = {
     DECK_FLASHCARDS: `${baseResourceKey}.deck.${resourcePropertiesKey}.flashcards`,
     DECK_EDUCATIONAL_RESOURCES: `${baseResourceKey}.deck.${resourcePropertiesKey}.educational_resources`,
 
+    EDUCATIONAL_RESOURCE_RESOURCE_NAME: `${baseResourceKey}.educational_resource.${resourceNameKey}`,
+    EDUCATIONAL_RESOURCE_NAME: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.name`,
+    EDUCATIONAL_RESOURCE_DESCRIPTION: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.description`,
+    EDUCATIONAL_RESOURCE_FILE: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.file`,
+    EDUCATIONAL_RESOURCE_COVER: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.cover`,
+
     BAD_REQUEST: `${baseHttpExceptionErrorKey}.bad-request`,
     UNAUTHORIZED: `${baseHttpExceptionErrorKey}.unauthorized`,
     FORBIDDEN: `${baseHttpExceptionErrorKey}.forbidden.name`,
@@ -167,5 +173,5 @@ const codesToKeys = {
 } as const satisfies Record<TranslationCode, string>;
 
 export function codeToKey(code: TranslationCode) {
-    return codesToKeys[code] ?? "Error";
+    return codesToKeys[code];
 }

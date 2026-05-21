@@ -188,6 +188,9 @@
         --width-deck: 20rem;
         --height-deck: 30rem;
 
+        --width-educational-resource: 20rem;
+        --height-educational-resource: 25.7rem;
+
         --right-page: var(--spacing-4);
         --left-page: var(--spacing-4);
         --bottom-page: var(--spacing-8);
@@ -719,6 +722,14 @@ Size and spacing utility classes
 
 @utility h-deck {
     height: var(--height-deck);
+}
+
+@utility w-educational-resource {
+    width: var(--width-educational-resource);
+}
+
+@utility h-educational-resource {
+    height: var(--height-educational-resource);
 }
 
 @utility top-page {

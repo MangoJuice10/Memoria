@@ -3,15 +3,18 @@ import FormError from "./FormError.vue";
 import {Button} from "@/shared/ui";
 import type {ErrorMessage} from "@/shared/model";
 
-defineProps<{
+withDefaults(defineProps<{
   formError: ErrorMessage;
   isSubmitEnabled: boolean;
   isResetEnabled: boolean;
+  hasStickyControls?: boolean;
   formErrorClasses?: string;
   formControlsClasses?: string;
   submitClasses?: string;
   resetClasses?: string;
-}>();
+}>(), {
+  hasStickyControls: false,
+});
 
 defineEmits<{
   submit: [],
@@ -35,8 +38,14 @@ defineEmits<{
                  :class="formErrorClasses"/>
     </div>
     <slot name="fields"/>
-    <div class="flex justify-between items-center"
-         :class="formControlsClasses">
+    <div class="flex justify-between items-center
+                mt-10"
+         :class="[
+                    hasStickyControls && 'sticky bottom-5\n'+
+                                         'w-8/10 mx-auto p-5 border rounded-2xl border-default\n'+
+                                         'bg-(--color-primary)/85',
+                    formControlsClasses
+                 ]">
       <Button type="submit"
               :class="submitClasses"
               :disabled="!isSubmitEnabled"

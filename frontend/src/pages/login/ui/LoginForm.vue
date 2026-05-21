@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
-import {createLoginSchema, type LoginDto} from "@/shared/model";
+import {createLoginSchema, type LoginDto} from "../model/login.schema";
 import {Form, FormField, TabLinks} from "@/shared/ui";
 import {useMenu, useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";

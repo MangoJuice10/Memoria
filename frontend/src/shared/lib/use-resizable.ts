@@ -75,11 +75,11 @@ export const useResizable = (options: ResizableOptions) => {
         });
         resizeObserver.observe(rzContainer);
 
-        addBreakpointsListener(setRzContainerMeta);
+        addBreakpointsListener(setRzContainerMinMaxDimensions);
     });
 
     onBeforeUnmount(() => {
-        removeBreakpointsListener(setRzContainerMeta);
+        removeBreakpointsListener(setRzContainerMinMaxDimensions);
     });
 
     const setRzContainerBaseDimensions = () => {

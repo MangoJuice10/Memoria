@@ -52,10 +52,11 @@ export type MenuItem<ItemId extends string | number> = {
     routeParams?: Record<string, string>;
     callback?: () => void | Promise<void>;
     labelCode: MenuCode;
+    labelOptions?: Record<string, unknown>;
     icon?: Component;
 }
 
-export type MenuItemView<ItemId extends string | number> = Omit<MenuItem<ItemId>, "labelCode"> & {
+export type MenuItemView<ItemId extends string | number> = Omit<MenuItem<ItemId>, "labelCode" | "labelOptions"> & {
     label: string;
 }
 
@@ -70,11 +71,12 @@ export type FooterSectionId =
 export type MenuSection<SectionId extends string | number, ItemId extends string | number> = {
     id: SectionId;
     labelCode: MenuCode;
+    labelOptions?: Record<string, unknown>;
     menuItems: MenuItem<ItemId>[];
 }
 
 export type MenuSectionView<SectionId extends string | number, ItemId extends string | number> =
-    Omit<MenuSection<SectionId, ItemId>, "labelCode" | "menuItems"> & {
+    Omit<MenuSection<SectionId, ItemId>, "labelCode" | "labelOptions" | "menuItems"> & {
     label: string;
     menuItemViews: MenuItemView<ItemId>[];
 }

@@ -1,7 +1,8 @@
 import {
     userPropertyCodes,
     flashcardPropertyCodes,
-    deckPropertyCodes
+    deckPropertyCodes,
+    educationalResourcePropertyCodes
 } from "./resource-property-codes.config";
 import {resourceNameActionPropertyCodes} from "./resource-name-action-property-codes.config";
 
@@ -9,6 +10,7 @@ export const resourceCodes = {
     ...userPropertyCodes,
     ...flashcardPropertyCodes,
     ...deckPropertyCodes,
+    ...educationalResourcePropertyCodes,
     ...resourceNameActionPropertyCodes
 }
 

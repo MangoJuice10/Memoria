@@ -21,3 +21,5 @@ export * from "./errors/domain-error-codes.config";
 export * from "./errors/error-codes.config";
 
 export * from "./codes.config"
+
+export * from "./files.config";

@@ -2,21 +2,20 @@
 import {computed, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
-import {createUpdateMeSchema, type UpdateMeDto} from "../../model/update-me.schema";
+import {createUpdateMeSchema, type UpdateMeInput} from "../../model/update-me.schema";
 import {Divider, Form, FormError, FormField, UploadImage} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {codes} from "@/shared/config";
+import {allowedImageTypes, codes, MAX_USER_AVATAR_SIZE} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {codeToKey} from "@/shared/i18n";
-import {useToastStore} from "@/shared/model";
-import {createUploadAvatarSchema} from "../../model/upload-avatar.schema.ts";
+import {createUploadImageSchema, useToastStore} from "@/shared/model";
 
 const {t} = useI18n();
 const {viewer, updateMe, uploadAvatar} = useViewerStore();
 const {push} = useToastStore();
 
-const data = ref<UpdateMeDto>({
+const data = ref<UpdateMeInput>({
   newUsername: viewer?.username,
   newEmail: viewer?.email,
   oldPassword: undefined,
@@ -70,7 +69,7 @@ const touchPasswordFields = () => {
 
 const avatar = ref<File | null>(null);
 
-const avatarValidation = useValidation(avatar, createUploadAvatarSchema(t));
+const avatarValidation = useValidation(avatar, createUploadImageSchema("cover", t, allowedImageTypes, MAX_USER_AVATAR_SIZE));
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value
@@ -127,9 +126,10 @@ const submit = async () => {
           {{ $t("settings.profile.avatar.heading") }}
         </h3>
         <div class="flex flex-col items-center gap-5">
-          <UploadImage :img-url="viewer?.avatarUrl ?? asset('filler/noImage.png')"
+          <UploadImage :old-image-url="viewer?.avatarUrl"
+                       :default-img-url="asset('filler/noImage.png')"
                        :img-size-rem="15"
-                       class="rounded-full"
+                       imgClasses="rounded-full"
                        @img-change="(file) => {
                          avatarValidation.touch('avatar');
                          avatar = file;

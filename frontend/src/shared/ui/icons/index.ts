@@ -51,6 +51,8 @@ export {default as CancelIcon} from "./common/CancelIcon.vue";
 export {default as BurgerMenuIcon} from "./common/BurgerMenuIcon.vue";
 export {default as HiddenIcon} from "./common/HiddenIcon.vue";
 export {default as VisibleIcon} from "./common/VisibleIcon.vue";
+export {default as EmptyFileIcon} from "./common/EmptyFileIcon.vue";
+export {default as FileIcon} from "./common/FileIcon.vue";
 export {default as UploadIcon} from "./common/UploadIcon.vue";
 export {default as StarIcon} from "./common/StarIcon.vue";
 export {default as PublicIcon} from "./common/PublicIcon.vue";
@@ -67,3 +69,5 @@ export {default as CloseIcon} from "./common/CloseIcon.vue";
 export {default as TrashIcon} from "./common/TrashIcon.vue";
 
 export {default as OptionsIcon} from "./common/OptionsIcon.vue";
+
+export {default as EducationalResourceFillerIcon} from "./filler/EducationalResourceFillerIcon.vue";

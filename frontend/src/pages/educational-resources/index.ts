@@ -1,0 +1,1 @@
+export {default as EducationalResources} from "./ui/EducationalResources.vue";

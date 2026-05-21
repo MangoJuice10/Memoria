@@ -13,6 +13,7 @@ import { SuccessResponseInterceptor } from "src/common/interceptors/success-resp
 import { ReviewModule } from './review/review.module';
 import { Sm2Service } from 'src/review/services/sm2.service';
 import { StorageModule } from './storage/storage.module';
+import { EducationalResourceModule } from './educational-resource/educational-resource.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { StorageModule } from './storage/storage.module';
     DeckModule,
     ReviewModule,
     StorageModule,
+    EducationalResourceModule,
   ],
   providers: [
     SuccessResponseInterceptor,

@@ -42,7 +42,7 @@ const style = computed(() => ({
           class="button
                  flex justify-center items-center
                  min-w-fit p-button border border-default rounded-xl
-                 font-semibold
+                 font-semibold truncate
                  transition-all ease-in duration-100
                  enabled:hover:scale-105"
           :class="[

@@ -1,8 +1,9 @@
+
 <script setup lang="ts">
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
-import {createRegisterSchema, type RegisterDto} from "@/shared/model";
+import {createRegisterSchema, type RegisterDto} from "../model/register.schema";
 import {Form, FormField, TabLinks} from "@/shared/ui";
 import {useMenu, useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";

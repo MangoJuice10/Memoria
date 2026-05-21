@@ -8,5 +8,4 @@ export {useBackdropStore} from "./backdrop.store";
 export {useSidebarStore} from "./sidebar.store";
 export {useToastStore, type ToastTypeId, type ToastIconId, type ToastProps} from "./toast.store";
 export {useChatStore} from "./chat.store";
-export {createLoginSchema, type LoginDto} from "./schemas/login.schema";
-export {createRegisterSchema, type RegisterDto} from "./schemas/register.schema";
+export {createUploadImageSchema} from "./upload-image.schema";

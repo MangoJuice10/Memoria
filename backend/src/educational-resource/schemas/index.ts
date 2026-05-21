@@ -1,0 +1,1 @@
+export {createEducationalResourceSchema, type CreateEducationalResourceDto} from "./create-educational-resource.schema"

@@ -18,10 +18,12 @@ export function useMenu<
         const menuLayout = toValue(getMenuLayout);
         return menuLayout.menuItems.map(
             (menuItem): MenuItemView<ItemId> => {
-                const {labelCode, ...menuItemProperties} = menuItem;
+                const {labelCode, labelOptions, ...menuItemProperties} = menuItem;
                 return {
                     ...menuItemProperties,
-                    label: t(codeToKey(labelCode))
+                    label: t(codeToKey(labelCode), {
+                        ...labelOptions
+                    })
                 };
             }
         );
@@ -33,20 +35,24 @@ export function useMenu<
             (menuSection): MenuSectionView<SectionId, ItemId> => {
                 const navigationItemViews = menuSection.menuItems.map(
                     (navigationItem) => {
-                        const {labelCode, ...menuItemProperties} = navigationItem;
+                        const {labelCode, labelOptions, ...menuItemProperties} = navigationItem;
                         return {
                             ...menuItemProperties,
-                            label: t(codeToKey(labelCode))
+                            label: t(codeToKey(labelCode), {
+                                ...labelOptions
+                            })
                         };
                     }
                 );
 
-                const {labelCode, menuItems, ...sectionProperties} = menuSection;
+                const {labelCode, labelOptions, menuItems, ...sectionProperties} = menuSection;
 
                 return {
                     ...sectionProperties,
                     menuItemViews: navigationItemViews,
-                    label: t(codeToKey(labelCode))
+                    label: t(codeToKey(labelCode), {
+                        ...labelOptions
+                    })
                 };
             }
         );

@@ -9,6 +9,7 @@ import {Register} from "@/pages/register";
 import {Decks, Deck, DeckInfoTab, EducationalResourcesTab} from "@/pages/decks";
 import {FlashcardsTab} from "@/pages/decks";
 import {Review} from "@/pages/review";
+import {EducationalResources} from "@/pages/educational-resources";
 
 export const routes = [
     {
@@ -112,7 +113,7 @@ export const routes = [
             {
                 path: "educational-resources",
                 name: "educational-resources",
-                component: Landing,
+                component: EducationalResources,
             },
         ]
     }

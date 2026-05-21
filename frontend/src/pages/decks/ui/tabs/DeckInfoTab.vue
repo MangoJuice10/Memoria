@@ -6,17 +6,16 @@ import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
-import {codes} from "@/shared/config";
+import {allowedImageTypes, codes, MAX_DECK_COVER_SIZE} from "@/shared/config";
 import {
   createUpdateDeckSchema,
-  createUploadCoverSchema,
   type DeckResponseDto,
   type UpdateDeckDto, uploadCover
 } from "@/entities/deck";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
 import {useI18n} from "vue-i18n";
-import {useToastStore} from "@/shared/model";
+import {createUploadImageSchema, useToastStore} from "@/shared/model";
 
 const props = defineProps<{
   id: number;
@@ -85,7 +84,7 @@ const updateDeckCoverMutation = useMutation({
 
 const cover = ref<File | null>(null);
 
-const coverValidation = useValidation(cover, createUploadCoverSchema(t));
+const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value
@@ -139,7 +138,7 @@ const submit = async () => {
           @submit="submit"
           @reset="reset"
           class="col-span-3
-                   text-lg">
+                 text-lg">
       <template #fields>
         <div class="w-fit">
           <h3 class="font-semibold mb-5">
@@ -147,13 +146,14 @@ const submit = async () => {
           </h3>
           <div class="flex flex-col items-center gap-5
                       h-full">
-            <UploadImage :img-url="coverUrl ?? asset('filler/noDeckCover.png')"
+            <UploadImage :old-image-url="coverUrl"
+                         :default-img-url="asset('filler/noDeckCover.png')"
                          @img-change="(file) => {
                              coverValidation.touch('cover');
                              cover = file;
                              coverValidation.clientValidate();
                            }"
-                         img-classes="border border-dashed p-10 border-default"
+                         img-classes="p-10 border border-dashed border-default"
                          class="grow"/>
             <FormError :error="coverValidation.getError('cover')"/>
           </div>

@@ -1,0 +1,1 @@
+export type {EducationalResourceResponseDto} from "src/educational-resource/dto/educational-resource-response.dto";
