@@ -9,12 +9,16 @@ import { isPrismaNotFoundError } from "src/prisma/prisma.errors";
 import { NotFoundError } from "src/common/errors";
 import { notFoundErrorCodes } from "src/common/constants";
 import { UpdateEducationalResourceDto } from "src/educational-resource/schemas/update-educational-resource.schema";
+import { DocumentParserService } from "src/document-parser/document-parser.service";
+import { VectorStoreService } from "src/vector-store/vector-store.service";
 
 @Injectable()
 export class EducationalResourceService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly storageService: StorageService,
+    private readonly documentParserService: DocumentParserService,
+    private readonly vectorStoreService: VectorStoreService,
   ) {}
 
   async create(
@@ -23,15 +27,23 @@ export class EducationalResourceService {
     userId: number,
   ): Promise<EducationalResourceResponseDto> {
     const fileKey = await this.storageService.upload(file, "educational-resources");
-    const originalFilename = file.originalname;
 
     const createdEducationalResource = await this.prismaService.educationalResource.create({
       data: {
         ...createEducationalResourceDto,
         fileKey,
-        originalFilename,
+        originalFilename: file.originalname,
         userId,
       },
+    });
+
+    this.indexEducationalResource(
+      createdEducationalResource.id,
+      file.buffer,
+      file.originalname,
+    ).catch(() => {
+      // TODO: create a new error class
+      throw new Error("Indexing failed");
     });
 
     return this.mapToResponse(createdEducationalResource);
@@ -48,7 +60,7 @@ export class EducationalResourceService {
   }
 
   async findAllByDeck(deckId: number): Promise<EducationalResourceResponseDto[]> {
-    const deckEducationalResourcePairs = await this.prismaService.deckEducationalResource.findMany({
+    const links = await this.prismaService.deckEducationalResource.findMany({
       where: {
         deckId,
       },
@@ -58,9 +70,7 @@ export class EducationalResourceService {
     });
 
     return Promise.all(
-      deckEducationalResourcePairs.map(({ educationalResource }) =>
-        this.mapToResponse(educationalResource),
-      ),
+      links.map(({ educationalResource }) => this.mapToResponse(educationalResource)),
     );
   }
 
@@ -93,6 +103,8 @@ export class EducationalResourceService {
 
     await this.storageService.delete(fileKey);
     if (coverKey) await this.storageService.delete(coverKey);
+
+    await this.vectorStoreService.deleteByResourceId(educationalResourceId);
 
     await this.prismaService.educationalResource.delete({
       where: {
@@ -186,6 +198,15 @@ export class EducationalResourceService {
       },
     });
     if (!educationalResource) throw new EducationalResourceNotFoundError();
+  }
+
+  private async indexEducationalResource(
+    educationalResourceId: number,
+    buffer: Buffer,
+    filename: string,
+  ) {
+    const chunks = await this.documentParserService.extractAndChunk(buffer, filename);
+    await this.vectorStoreService.addDocuments(educationalResourceId, chunks);
   }
 
   private async getEducationalResourceOrThrow(

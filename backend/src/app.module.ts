@@ -14,6 +14,11 @@ import { ReviewModule } from './review/review.module';
 import { Sm2Service } from 'src/review/services/sm2.service';
 import { StorageModule } from './storage/storage.module';
 import { EducationalResourceModule } from './educational-resource/educational-resource.module';
+import { LargeLanguageModelModule } from './large-language-model/large-language-model.module';
+import { EmbeddingsModule } from "src/embeddings/embeddings.module";
+import { VectorStoreModule } from "src/vector-store/vector-store.module";
+import { RagModule } from './rag/rag.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -28,6 +33,11 @@ import { EducationalResourceModule } from './educational-resource/educational-re
     ReviewModule,
     StorageModule,
     EducationalResourceModule,
+    LargeLanguageModelModule,
+    EmbeddingsModule,
+    VectorStoreModule,
+    RagModule,
+    ChatModule
   ],
   providers: [
     SuccessResponseInterceptor,

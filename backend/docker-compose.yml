@@ -19,5 +19,17 @@ services:
       POSTGRES_DB: memoria
     networks:
       - memoria
+  vector-db:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - memoria
+
 networks:
   memoria:
+
+volumes:
+  qdrant_data:
