@@ -14,6 +14,7 @@ import {
 } from "@/entities/deck";
 import {decksQueryKeys} from "@/entities/deck";
 import {decksApi} from "@/entities/deck";
+import {removeCover} from "@/entities/deck";
 import {useI18n} from "vue-i18n";
 import {createUploadImageSchema, useToastStore} from "@/shared/model";
 
@@ -82,6 +83,19 @@ const updateDeckCoverMutation = useMutation({
   }
 });
 
+const deleteDeckCoverMutation = useMutation({
+  mutationFn: (deckId: number) => removeCover(deckId),
+  onSuccess: async (updatedDeck, variables) => {
+    await queryClient.setQueryData(
+        decksQueryKeys.byId(variables),
+        (old: DeckResponseDto | undefined) => {
+          if (!old) return old;
+          return updatedDeck;
+        }
+    );
+  }
+});
+
 const cover = ref<File | null>(null);
 
 const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
@@ -114,17 +128,30 @@ const submit = async () => {
     }
   }
 
-  try {
-    if (coverResult.data) await updateDeckCoverMutation.mutateAsync({
-      deckId: props.id,
-      file: coverResult.data
-    });
-    push(t(codeToKey(codes.DECK_COVER_UPDATE_SUCCESS)), "success", "update");
-  } catch (error) {
-    push(t(codeToKey(codes.DECK_COVER_UPDATE_ERROR)), "error");
-    if (axios.isAxiosError(error)) {
-      const body = error.response?.data as ErrorResponse;
-      await serverValidate(body);
+  if (coverResult.data) {
+    try {
+      await updateDeckCoverMutation.mutateAsync({
+        deckId: props.id,
+        file: coverResult.data
+      });
+      push(t(codeToKey(codes.DECK_COVER_UPDATE_SUCCESS)), "success", "update");
+    } catch (error) {
+      push(t(codeToKey(codes.DECK_COVER_UPDATE_ERROR)), "error");
+      if (axios.isAxiosError(error)) {
+        const body = error.response?.data as ErrorResponse;
+        await coverValidation.serverValidate(body);
+      }
+    }
+  } else {
+    try {
+      await deleteDeckCoverMutation.mutateAsync(props.id);
+      push(t(codeToKey(codes.DECK_COVER_DELETE_SUCCESS)), "success", "update");
+    } catch (error) {
+      push(t(codeToKey(codes.DECK_COVER_DELETE_ERROR)), "error");
+      if (axios.isAxiosError(error)) {
+        const body = error.response?.data as ErrorResponse;
+        await coverValidation.serverValidate(body);
+      }
     }
   }
 };

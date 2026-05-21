@@ -73,4 +73,12 @@ export class DeckController {
   ) {
     return this.deckService.uploadCover(deckId, file);
   }
+
+  @Delete(":deckId/cover")
+  @HttpCode(200)
+  async removeCover(
+    @Param("deckId", new ParseIntPipe()) deckId: number
+  ) {
+    return this.deckService.removeCover(deckId);
+  }
 }

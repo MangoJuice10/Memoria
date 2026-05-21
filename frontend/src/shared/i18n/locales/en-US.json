@@ -296,7 +296,7 @@
       },
       "actions": {
         "create": {
-          "name": "Upload",
+          "name": "Create",
           "description": "Upload a new educational resource",
           "cancel": "Cancel",
           "confirm": "Upload",
@@ -336,7 +336,7 @@
         "duplicate-password": "The passwords must not match",
         "confirm-password": "The passwords must match",
         "invalid-mime-type": "Only the types {allowedTypes} are allowed",
-        "max-size": "The maximum size of the upload is {maximumSize}",
+        "max-size": "The maximum size of the upload is {maxSize}",
         "invalid-type": "Invalid type",
         "unrecognized": "Unrecognized field"
       },

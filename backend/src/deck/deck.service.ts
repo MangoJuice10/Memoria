@@ -106,6 +106,24 @@ export class DeckService {
     return this.mapDeckWithFlashcardsCountToResponse(updatedDeck);
   }
 
+  async removeCover(deckId: number): Promise<DeckResponseDto> {
+    const { coverKey } = await this.getDeckWithFlashcardsCountOrThrow(deckId);
+
+    if (coverKey) await this.storageService.delete(coverKey);
+
+    const updatedDeck = await this.prismaService.deck.update({
+      where: {
+        id: deckId,
+      },
+      data: {
+        coverKey: null,
+      },
+      include: deckWithFlashcardsCountQuery,
+    });
+
+    return this.mapDeckWithFlashcardsCountToResponse(updatedDeck);
+  }
+
   async assertOwnership(userId: number, deckId: number) {
     const deck = await this.prismaService.deck.findFirst({
       where: {

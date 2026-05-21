@@ -90,7 +90,7 @@ const updateEducationalResourceCoverMutation = useMutation({
   }
 });
 
-const removeEducationalResourceCoverMutation = useMutation({
+const deleteEducationalResourceCoverMutation = useMutation({
   mutationFn: (educationalResourceId: number) => removeCover(educationalResourceId),
   onSuccess: async (updatedEducationalResource) => {
     await queryClient.setQueryData(
@@ -118,18 +118,8 @@ const submit = async () => {
   if (!coverResult.success) return;
 
   try {
-    const {id} = await updateEducationalResourceMutation.mutateAsync(result.data);
-    if (coverResult.data) {
-      await updateEducationalResourceCoverMutation.mutateAsync({
-        educationalResourceId: id,
-        file: coverResult.data
-      });
-    } else {
-      await removeEducationalResourceCoverMutation.mutateAsync(id);
-    }
+    await updateEducationalResourceMutation.mutateAsync(result.data);
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_UPDATE_SUCCESS)), "success", "update");
-    backdropStore.hide();
-    modalStore.hide();
   } catch (error) {
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_UPDATE_ERROR)), "error");
     if (axios.isAxiosError(error)) {
@@ -137,6 +127,35 @@ const submit = async () => {
       await serverValidate(body);
     }
   }
+
+  if (coverResult.data) {
+    try {
+      await updateEducationalResourceCoverMutation.mutateAsync({
+        educationalResourceId: props.id,
+        file: coverResult.data
+      });
+      push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_UPDATE_SUCCESS)), "success", "update");
+    } catch (error) {
+      push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_UPDATE_ERROR)), "error");
+      if (axios.isAxiosError(error)) {
+        const body = error.response?.data as ErrorResponse;
+        await coverValidation.serverValidate(body);
+      }
+    }
+  } else {
+    try {
+      await deleteEducationalResourceCoverMutation.mutateAsync(props.id);
+      push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_DELETE_SUCCESS)), "success", "delete");
+    } catch (error) {
+      push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_DELETE_ERROR)), "error");
+      if (axios.isAxiosError(error)) {
+        const body = error.response?.data as ErrorResponse;
+        await coverValidation.serverValidate(body);
+      }
+    }
+  }
+  backdropStore.hide();
+  modalStore.hide();
 };
 
 onMounted(() => {
