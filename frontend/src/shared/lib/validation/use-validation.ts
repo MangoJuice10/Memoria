@@ -1,7 +1,7 @@
 import {type Ref, type MaybeRefOrGetter, ref, toValue, toRaw, watch} from "vue";
 import {z, type ZodError, type ZodType} from "zod";
 import {set, get} from "lodash";
-import {debounce} from "@/shared/lib/debounce";
+import {debounce, DebounceCancelledError} from "@/shared/lib/debounce";
 import type {ErrorMessage} from "@/shared/model";
 import {codeToKey, i18n} from "@/shared/i18n";
 import {walkObject} from "@/shared/lib/walkObject";
@@ -162,18 +162,15 @@ export const useValidation = <Schema extends ZodType>(
         data.value = structuredClone(initialData);
     };
 
-    const startWatching = (debounceFn: () => void) => {
+    if (optionsWithDefaults.mode == "eager") {
+        const validateDebounced = debounce(clientValidate, optionsWithDefaults.delay);
         watch([
             () => toValue(schema),
             () => data.value
-        ], async () => {
-            debounceFn();
-        }, {deep: true});
-    };
-
-    if (optionsWithDefaults.mode == "eager") {
-        const validateDebounced = debounce(clientValidate, optionsWithDefaults.delay);
-        startWatching(validateDebounced);
+        ], async () => validateDebounced().catch((err) => {
+            if (err instanceof DebounceCancelledError) return;
+            throw err;
+        }), {deep: true});
     }
 
     clientValidate()

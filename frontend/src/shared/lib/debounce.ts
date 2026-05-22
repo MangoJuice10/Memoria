@@ -1,24 +1,48 @@
-export type DebouncedFunction<F extends (...args: any[]) => void> = {
-    (...args: Parameters<F>): void;
+export type DebouncedFunction<F extends (...args: any[]) => any> = {
+    (...args: Parameters<F>): Promise<Awaited<ReturnType<F>>>;
     cancel: () => void;
 }
 
-export const debounce = <F extends (...args: any[]) => void> (fn: F, delay = 300): DebouncedFunction<F> => {
+export class DebounceCancelledError extends Error {
+    constructor() {
+        super("Debounced call cancelled");
+        this.name = "DebounceCancelledError";
+    }
+}
+
+export function debounce<F extends (...args: any[]) => any>(
+    fn: F,
+    delay = 300
+): DebouncedFunction<F> {
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const debounced = (...args: Parameters<F>) => {
-        if (timer !== undefined) clearTimeout(timer);
-        timer = setTimeout(() => {
-            timer = undefined;
-            fn(...args);
-        }, delay);
+    let lastReject: ((reason: any) => void) | undefined;
+
+    const debounced = (...args: Parameters<F>): Promise<Awaited<ReturnType<F>>> => {
+        if (timer) {
+            clearTimeout(timer);
+            lastReject?.(new DebounceCancelledError());
+        }
+
+        return new Promise((resolve, reject) => {
+            lastReject = reject;
+            timer = setTimeout(() => {
+                timer = undefined;
+                try {
+                    resolve(fn(...args));
+                } catch (err) {
+                    reject(err);
+                }
+            }, delay);
+        });
     };
 
     debounced.cancel = () => {
-        if (timer !== undefined) {
+        if (timer) {
             clearTimeout(timer);
             timer = undefined;
+            lastReject?.(new DebounceCancelledError());
         }
-    }
+    };
 
     return debounced;
 }
