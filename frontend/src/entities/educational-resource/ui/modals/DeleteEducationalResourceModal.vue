@@ -29,7 +29,7 @@ const deleteEducationalResourceMutation = useMutation({
         educationalResourcesQueryKeys.all,
         (old: EducationalResourceResponseDto[] | undefined) => {
           if (!old) return old;
-          return old.filter((educationalResource) => educationalResource.id === variables);
+          return old.filter((educationalResource) => educationalResource.id !== variables);
         }
     );
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_DELETE_SUCCESS)), "success", "delete");

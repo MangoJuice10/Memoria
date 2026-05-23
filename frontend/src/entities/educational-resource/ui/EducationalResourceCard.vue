@@ -69,7 +69,7 @@ setupMenuCallbacks();
                 opacity-0
                 transition-all duration-300
                 group-hover/educational-resource:opacity-100"
-                @click.stop>
+         @click.stop>
       <Dropdown side="top"
                 align="left"
                 :gap-rem="1.25"
@@ -90,16 +90,39 @@ setupMenuCallbacks();
         </template>
       </Dropdown>
     </div>
-    <img v-if="coverUrl"
-         :src="coverUrl" alt=""
-         class="w-full h-full object-fit">
-    <div v-else>
+    <div
+        class="relative
+                w-full h-full">
       <EducationalResourceFillerIcon class="icon-dynamic-inverse
                                             w-full h-full"/>
-      <span class="absolute top-1/2 left-1/2 -translate-x-1/3 -translate-y-1/2
-                text-lg text-center line-clamp-5">
-        {{ name }}
-      </span>
+      <div class="absolute inset-0 z-1
+                  pt-[18.5%] pl-[19%] pr-[2.5%] pb-[6.1%]">
+        <div class="relative
+                    w-full h-full">
+          <div class="absolute inset-0
+                      bg-(--color-primary)/25"/>
+          <img v-if="coverUrl" :src="coverUrl" alt=""
+               class="w-full h-full object-fit">
+        </div>
+      </div>
+      <div class="flex justify-center items-center
+                  absolute inset-0 z-2">
+        <span class="educational-resource-name-outline
+                     absolute top-1/2 left-1/2 -translate-x-1/3 -translate-y-1/2
+                     text-lg font-semibold text-center line-clamp-5
+                     drop-shadow-[0px_0px_3px_var(--color-primary)]">
+          {{ name }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.educational-resource-name-outline {
+  text-shadow: -1px -1px 0 var(--color-primary),
+  1px -1px 0 var(--color-primary),
+  -1px 1px 0 var(--color-primary),
+  1px 1px 0 var(--color-primary)
+}
+</style>

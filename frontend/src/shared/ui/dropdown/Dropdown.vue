@@ -12,6 +12,7 @@ type Align =
     | "right";
 
 const props = withDefaults(defineProps<{
+  isRelative: boolean;
   side?: Side;
   align?: Align;
   gapRem?: number;
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<{
   pinClasses?: string;
   menuClasses?: string;
 }>(), {
+  isRelative: true,
   side: "bottom",
   align: "left",
   gapRem: 1.8,
@@ -48,7 +50,8 @@ function toggle() {
 </script>
 
 <template>
-  <div class="group/dropdown relative">
+  <div class="group/dropdown"
+       :class="isRelative && 'relative'">
     <div class="peer/trigger
                 flex justify-center items-center gap-2
                 cursor-pointer"
@@ -61,9 +64,9 @@ function toggle() {
          @click="toggle">
       <slot name="trigger"/>
       <ChevronIcon v-if="hasArrow"
-                 class="icon-dynamic-inverse
+                   class="icon-dynamic-inverse
                         transition-transform duration-400"
-                 :class="[
+                   :class="[
                             side === 'top'
                                ? isOpen ? 'rotate-180' : 'group-hover/dropdown:rotate-180'
                                : isOpen ? '' : 'rotate-180 group-hover/dropdown:rotate-0',

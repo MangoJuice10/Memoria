@@ -31,12 +31,27 @@ export async function findAll(): Promise<EducationalResourceResponseDto[]> {
     return data;
 }
 
+export async function findAllByDeck(deckId: number): Promise<EducationalResourceResponseDto[]> {
+    const {data: {data}} = await client.get<SuccessResponse<EducationalResourceResponseDto[]>>(
+        `/decks/${deckId}/educational-resources`
+    );
+    return data;
+}
+
 export async function update(educationalResourceId: number, updateEducationalResourceDto: UpdateEducationalResourceDto): Promise<EducationalResourceResponseDto> {
     const {data: {data}} = await client.patch<SuccessResponse<EducationalResourceResponseDto>>(
         `/educational-resources/${educationalResourceId}`,
         updateEducationalResourceDto
     );
     return data;
+}
+
+export async function attachToDeck(deckId: number, educationalResourceId: number) {
+    await client.post(`/decks/${deckId}/educational-resources/${educationalResourceId}`);
+}
+
+export async function detachFromDeck(deckId: number, educationalResourceId: number) {
+    await client.delete(`/decks/${deckId}/educational-resources/${educationalResourceId}`);
 }
 
 export async function remove(educationalResourceId: number) {

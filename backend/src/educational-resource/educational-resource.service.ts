@@ -28,32 +28,70 @@ export class EducationalResourceService {
   ): Promise<EducationalResourceResponseDto> {
     const fileKey = await this.storageService.upload(file, "educational-resources");
 
-    const createdEducationalResource = await this.prismaService.educationalResource.create({
-      data: {
-        ...createEducationalResourceDto,
-        fileKey,
-        originalFilename: file.originalname,
-        userId,
-      },
-    });
+    let createdEducationalResource: EducationalResource | null = null;
 
-    this.indexEducationalResource(
-      createdEducationalResource.id,
-      file.buffer,
-      file.originalname,
-    ).catch(() => {
-      // TODO: create a new error class
-      throw new Error("Indexing failed");
-    });
+    try {
+      createdEducationalResource = await this.prismaService.educationalResource.create({
+        data: {
+          ...createEducationalResourceDto,
+          fileKey,
+          originalFilename: file.originalname,
+          userId,
+        },
+      });
 
-    return this.mapToResponse(createdEducationalResource);
+      const chunks = await this.documentParserService.extractAndChunk(
+        file.buffer,
+        file.originalname,
+      );
+
+      await this.vectorStoreService.addDocuments(
+        {
+          educationalResourceId: createdEducationalResource.id,
+          educationalResourceName: createdEducationalResource.name,
+          educationalResourceOriginalFilename: createdEducationalResource.originalFilename,
+        },
+        chunks,
+      );
+
+      return this.mapToResponse(createdEducationalResource);
+    } catch (error) {
+      if (createdEducationalResource) {
+        await this.vectorStoreService.deleteByResourceId(createdEducationalResource.id);
+        await this.prismaService.educationalResource.delete({
+          where: {
+            id: createdEducationalResource.id,
+          },
+        });
+      }
+
+      await this.storageService.delete(fileKey);
+      throw error;
+    }
   }
 
-  async findAll(userId: number): Promise<EducationalResourceResponseDto[]> {
+  async findAll(userId: number, search?: string): Promise<EducationalResourceResponseDto[]> {
     const educationalResources = await this.prismaService.educationalResource.findMany({
       where: {
         userId,
+        ...(search && {
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              description: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }),
       },
+      orderBy: { updatedAt: "desc" },
     });
 
     return Promise.all(educationalResources.map(this.mapToResponse.bind(this)));
@@ -198,15 +236,6 @@ export class EducationalResourceService {
       },
     });
     if (!educationalResource) throw new EducationalResourceNotFoundError();
-  }
-
-  private async indexEducationalResource(
-    educationalResourceId: number,
-    buffer: Buffer,
-    filename: string,
-  ) {
-    const chunks = await this.documentParserService.extractAndChunk(buffer, filename);
-    await this.vectorStoreService.addDocuments(educationalResourceId, chunks);
   }
 
   private async getEducationalResourceOrThrow(

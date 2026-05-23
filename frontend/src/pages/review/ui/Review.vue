@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Flashcard from "./Flashcard.vue";
-import {computed} from "vue";
+import {computed, watch} from "vue";
 import {getIdRouteParam} from "@/app/router";
 import {useRoute} from "vue-router";
 import {flashcardsQueryKeys} from "@/entities/flashcard";
@@ -10,10 +10,11 @@ import {decksApi} from "@/entities/deck";
 import {useQuery} from "@tanstack/vue-query";
 import {QueryState} from "@/shared/ui";
 import {useReview} from "../lib/use-review.ts";
-import {Chat} from "@/widgets/chat";
+import {useChatStore, Chat} from "@/entities/chat";
 
 const route = useRoute();
 const deckId = computed(() => getIdRouteParam(route.params.deckId));
+const chatStore = useChatStore();
 
 const {data: deckData, isLoading: deckIsLoading, error: deckError} = useQuery({
   queryKey: decksQueryKeys.byId(deckId.value),
@@ -38,6 +39,16 @@ const {
 
 const isLoading = computed(() => deckIsLoading || dueFlashcardsIsLoading);
 const error = computed(() => deckError ?? dueFlashcardsError ?? null);
+
+watch([currentFlashcard, deckId], ([flashcard, id]) => {
+  if (flashcard) {
+    chatStore.setContext({
+      flashcardFront: flashcard.front,
+      flashcardBack: flashcard.back,
+      deckId: id
+    });
+  }
+}, {immediate: true});
 
 </script>
 

@@ -16,8 +16,12 @@ export async function findOne(deckId: number, flashcardId: number): Promise<Flas
     return data;
 }
 
-export async function findAll(deckId: number): Promise<FlashcardResponseDto[]> {
-    const {data: {data}} = await client.get<SuccessResponse<FlashcardResponseDto[]>>(`/decks/${deckId}/flashcards`);
+export async function findAll(deckId: number, search?: string): Promise<FlashcardResponseDto[]> {
+    const {data: {data}} = await client.get<SuccessResponse<FlashcardResponseDto[]>>(`/decks/${deckId}/flashcards`, {
+        params: search ? {
+            search
+        } : undefined
+    });
     return data;
 }
 

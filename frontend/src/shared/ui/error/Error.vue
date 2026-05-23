@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import {ErrorIllustration} from "@/shared/ui";
+
+defineProps<{
+  imgClasses?: string;
+  labelClasses?: string;
+}>();
 </script>
 
 <template>
   <div class="flex flex-col justify-center items-center">
-    <div>
-      <ErrorIllustration class="icon-dynamic
-                        w-80 h-80"/>
-    </div>
-    <div class="text-3xl font-black text-center">
+    <ErrorIllustration class="icon-dynamic
+                              w-full h-full"
+                       :class="imgClasses"/>
+    <span class="text-3xl font-black text-center"
+          :class="labelClasses">
       <slot/>
-    </div>
+    </span>
   </div>
 </template>

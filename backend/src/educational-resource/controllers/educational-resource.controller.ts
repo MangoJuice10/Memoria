@@ -8,7 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post,
+  Post, Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -46,8 +46,8 @@ export class EducationalResourceController {
 
   @Get()
   @HttpCode(200)
-  async findAll(@User("id") userId: number) {
-    return this.educationalResourceService.findAll(userId);
+  async findAll(@User("id") userId: number, @Query("search") search?: string) {
+    return this.educationalResourceService.findAll(userId, search);
   }
 
   @Get(":educationalResourceId")

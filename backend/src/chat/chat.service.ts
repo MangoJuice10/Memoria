@@ -1,49 +1,91 @@
 import { Injectable } from "@nestjs/common";
-import { LargeLanguageModelService } from "src/large-language-model/large-language-model.service";
-import { RagService } from "src/rag/rag.service";
 import { PrismaService } from "src/prisma/prisma.service";
-import {
-  createSystemPromptWithContext,
-  createSystemPromptWithoutContext,
-} from "src/chat/constants";
-import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+import { CreateChatDto, UpdateChatDto } from "src/chat/schemas";
+import { ChatResponseDto } from "src/chat/dto";
+import { Chat } from "@prisma/client";
+import { ChatNotFoundError } from "src/chat/errors";
+import { isPrismaNotFoundError } from "src/prisma/prisma.errors";
 
 @Injectable()
 export class ChatService {
-  constructor(
-    private readonly largeLanguageModelService: LargeLanguageModelService,
-    private readonly ragService: RagService,
-    private readonly prismaService: PrismaService,
-  ) {}
-
-  async chat(deckId: number, message: string): Promise<string> {
-    const educationalResourceIds = await this.getLinks(deckId);
-    const context = await this.ragService.retrieve(message, educationalResourceIds);
-
-    return this.largeLanguageModelService.invoke([
-      new SystemMessage(this.buildSystemPrompt(context)),
-      new HumanMessage(message),
-    ]);
-  }
-
-  private async getLinks(deckId: number): Promise<number[]> {
-    const links = await this.prismaService.deckEducationalResource.findMany({
-      where: {
-        deckId,
-      },
-      select: {
-        educationalResourceId: true,
+  constructor(private readonly prismaService: PrismaService) {}
+  async create(userId: number, createChatDto: CreateChatDto): Promise<ChatResponseDto> {
+    const chat = await this.prismaService.chat.create({
+      data: {
+        ...createChatDto,
+        userId,
       },
     });
 
-    return links.map(({ educationalResourceId }) => educationalResourceId);
+    return this.mapToResponse(chat);
   }
 
-  private buildSystemPrompt(context: string): string {
-    if (!context) {
-      return createSystemPromptWithoutContext();
-    }
+  async findAll(userId: number): Promise<ChatResponseDto[]> {
+    const chats = await this.prismaService.chat.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
 
-    return createSystemPromptWithContext(context);
+    return chats.map(this.mapToResponse.bind(this));
+  }
+
+  async findOne(chatId: number): Promise<ChatResponseDto> {
+    return this.getChatOrThrow(chatId);
+  }
+
+  async update(chatId: number, updateChatDto: UpdateChatDto): Promise<ChatResponseDto> {
+    try {
+      return this.prismaService.chat.update({
+        where: {
+          id: chatId,
+        },
+        data: updateChatDto,
+      });
+    } catch (err) {
+      if (isPrismaNotFoundError(err)) throw new ChatNotFoundError();
+      throw err;
+    }
+  }
+
+  async delete(chatId: number) {
+    try {
+      return this.prismaService.chat.delete({
+        where: {
+          id: chatId,
+        },
+      });
+    } catch (err) {
+      if (isPrismaNotFoundError(err)) throw new ChatNotFoundError();
+      throw err;
+    }
+  }
+
+  private async assertOwnership(userId: number, chatId: number) {
+    const chat = this.prismaService.chat.findFirst({
+      where: {
+        id: chatId,
+        userId,
+      },
+    });
+    if (!chat) throw new ChatNotFoundError();
+  }
+
+  private async getChatOrThrow(chatId: number): Promise<ChatResponseDto> {
+    const chat = await this.prismaService.chat.findUnique({
+      where: {
+        id: chatId,
+      },
+    });
+    if (!chat) throw new ChatNotFoundError();
+
+    return chat;
+  }
+
+  private mapToResponse(chat: Chat): ChatResponseDto {
+    return chat;
   }
 }

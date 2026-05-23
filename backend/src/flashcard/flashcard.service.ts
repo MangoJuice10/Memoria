@@ -28,13 +28,29 @@ export class FlashcardService {
     return this.mapFlashcardToResponse(flashcard);
   }
 
-  async findAll(deckId: number): Promise<FlashcardResponseDto[]> {
+  async findAll(deckId: number, search?: string): Promise<FlashcardResponseDto[]> {
     const flashcards = await this.prismaService.flashcard.findMany({
       where: {
         deckId,
+        ...(search && {
+          OR: [
+            {
+              front: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              back: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }),
       },
     });
-    return flashcards.map(this.mapFlashcardToResponse);
+    return flashcards.map(this.mapFlashcardToResponse.bind(this));
   }
 
   async update(

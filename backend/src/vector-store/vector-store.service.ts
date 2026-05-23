@@ -3,8 +3,20 @@ import { QdrantVectorStore } from "@langchain/qdrant";
 import { EmbeddingsService } from "src/embeddings/embeddings.service";
 import { ConfigService } from "@nestjs/config";
 import { Document } from "@langchain/core/documents";
+import { EducationalResource } from "@prisma/client";
+import { EducationalResourceMetadata } from "src/educational-resource/types";
 
 const COLLECTION = "educational-resources";
+
+export type ChunkMetadata = EducationalResourceMetadata & {
+  chunkIdx: number;
+};
+
+export type Chunk = {
+  content: string;
+  score: number;
+  metadata: ChunkMetadata;
+};
 
 @Injectable()
 export class VectorStoreService implements OnModuleInit {
@@ -25,26 +37,46 @@ export class VectorStoreService implements OnModuleInit {
     );
   }
 
-  async addDocuments(educationalResourceId: number, chunks: string[]) {
-    const texts = chunks.map(
-      (text, idx) =>
-        new Document({
-          pageContent: text,
-          metadata: {
-            educationalResourceId,
-            chunkIdx: idx,
-          },
-        }),
+  async addDocuments(educationalResourceMetadata: EducationalResourceMetadata, chunks: string[]) {
+    const documents = chunks
+      .map((content) => content.trim())
+      .filter(Boolean)
+      .map(
+        (pageContent, chunkIdx) =>
+          new Document<ChunkMetadata>({
+            pageContent,
+            metadata: {
+              ...educationalResourceMetadata,
+              chunkIdx,
+            },
+          }),
+      );
+
+    // TODO: create a new error type
+    if (!documents.length)
+      throw new Error("The educational resource doesn't contain extractable text");
+
+    const vectors = await this.embeddingsService.embedDocuments(
+      documents.map(({ pageContent }) => pageContent),
     );
-    await this.vectorStore.addDocuments(texts);
+
+    await this.vectorStore.addVectors(vectors, documents, {
+      ids: documents.map(() => crypto.randomUUID())
+    });
   }
 
-  async similaritySearch(
+  async search(
     query: string,
     educationalResourceIds: number[],
     topK = 5,
-  ): Promise<string[]> {
-    const results = await this.vectorStore.similaritySearch(query, topK, {
+    fetchK = 12,
+    minScore = 0.7,
+  ): Promise<Chunk[]> {
+    if (!educationalResourceIds.length) return [];
+
+    const queryVector = await this.embeddingsService.embedQuery(query);
+
+    const results = await this.vectorStore.similaritySearchVectorWithScore(queryVector, fetchK, {
       must: [
         {
           key: "metadata.educationalResourceId",
@@ -55,7 +87,15 @@ export class VectorStoreService implements OnModuleInit {
       ],
     });
 
-    return results.map(({ pageContent }) => pageContent);
+    return results
+      .map(([document, score]) => ({
+        content: document.pageContent,
+        score,
+        metadata: document.metadata as ChunkMetadata,
+      }))
+      .filter(({ score }) => score >= minScore)
+      .sort((chunkA, chunkB) => chunkA.score - chunkB.score)
+      .slice(0, topK);
   }
 
   async deleteByResourceId(educationalResourceId: number) {

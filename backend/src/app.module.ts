@@ -19,6 +19,7 @@ import { EmbeddingsModule } from "src/embeddings/embeddings.module";
 import { VectorStoreModule } from "src/vector-store/vector-store.module";
 import { RagModule } from './rag/rag.module';
 import { ChatModule } from './chat/chat.module';
+import { ChatMessageModule } from './chat-message/chat-message.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { ChatModule } from './chat/chat.module';
     EmbeddingsModule,
     VectorStoreModule,
     RagModule,
-    ChatModule
+    ChatModule,
+    ChatMessageModule
   ],
   providers: [
     SuccessResponseInterceptor,

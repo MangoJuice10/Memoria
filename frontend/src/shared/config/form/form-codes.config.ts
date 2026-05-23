@@ -12,7 +12,8 @@ export const formFieldNameCodes = [
     "NAME",
     "DESCRIPTION",
     "IS_PUBLIC",
-    "MESSAGE",
+    "TITLE",
+    "CONTENT",
 ] as const;
 
 export type FormFieldNameCode = (typeof formFieldNameCodes)[number];

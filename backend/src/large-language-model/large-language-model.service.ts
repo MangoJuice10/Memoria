@@ -1,27 +1,26 @@
 import { Injectable } from "@nestjs/common";
-import { ChatOpenAI } from "@langchain/openai";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
+import {ChatGroq} from "@langchain/groq";
 import { ConfigService } from "@nestjs/config";
 import { BaseMessage } from "@langchain/core/messages";
 
 @Injectable()
 export class LargeLanguageModelService {
-  private largeLanguageModel: ChatOpenAI;
+  private largeLanguageModel: BaseChatModel;
 
   constructor(private readonly configService: ConfigService) {}
 
   async onModuleInit() {
-    const apiKey = this.configService.get("OPENROUTER_API_KEY");
-    this.largeLanguageModel = new ChatOpenAI({
-      model: this.configService.get("OPENROUTER_LLM"),
+    const apiKey = this.configService.get("GROQ_API_KEY");
+    this.largeLanguageModel = new ChatGroq({
+      model: this.configService.get("GROQ_LLM"),
       apiKey,
-      configuration: {
-        baseURL: "https://openrouter.ai/api/v1",
-      },
       temperature: 0,
     });
   }
 
   async invoke(messages: BaseMessage[]): Promise<string> {
+    console.log("Sending request to the AI");
     const response = await this.largeLanguageModel.invoke(messages);
     return response.content as string;
   }

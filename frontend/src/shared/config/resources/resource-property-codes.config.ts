@@ -40,3 +40,13 @@ export const educationalResourcePropertyCodes = {
     EDUCATIONAL_RESOURCE_FILE: "EDUCATIONAL_RESOURCE_FILE",
     EDUCATIONAL_RESOURCE_COVER: "EDUCATIONAL_RESOURCE_COVER",
 } satisfies Record<ResourcePropertyCode<"EDUCATIONAL_RESOURCE">, ResourcePropertyCode<"EDUCATIONAL_RESOURCE">>;
+
+export const chatPropertyCodes = {
+    CHAT_RESOURCE_NAME: "CHAT_RESOURCE_NAME",
+    CHAT_TITLE: "CHAT_TITLE",
+} satisfies Record<ResourcePropertyCode<"CHAT">, ResourcePropertyCode<"CHAT">>;
+
+export const chatMessagePropertyCodes = {
+    CHAT_MESSAGE_RESOURCE_NAME: "CHAT_MESSAGE_RESOURCE_NAME",
+    CHAT_MESSAGE_CONTENT: "CHAT_MESSAGE_CONTENT",
+} satisfies Record<ResourcePropertyCode<"CHAT_MESSAGE">, ResourcePropertyCode<"CHAT_MESSAGE">>;

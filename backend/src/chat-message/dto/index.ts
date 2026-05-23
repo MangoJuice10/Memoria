@@ -1,0 +1,1 @@
+export type {ChatMessageResponseDto} from "./chat-message-response.dto";

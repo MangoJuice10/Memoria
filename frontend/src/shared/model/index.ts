@@ -7,5 +7,4 @@ export {useModalStore} from "./modal.store";
 export {useBackdropStore} from "./backdrop.store";
 export {useSidebarStore} from "./sidebar.store";
 export {useToastStore, type ToastTypeId, type ToastIconId, type ToastProps} from "./toast.store";
-export {useChatStore} from "./chat.store";
 export {createUploadImageSchema} from "./upload-image.schema";

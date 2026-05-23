@@ -2,6 +2,7 @@
 import {computed} from "vue";
 
 const props = withDefaults(defineProps<{
+  enabled?: boolean;
   sizeRem?: number;
   hasRing?: boolean;
   ringMarginPercent?: number;
@@ -11,6 +12,7 @@ const props = withDefaults(defineProps<{
   colorHoverPrimary?: string;
   colorHoverSecondary?: string;
 }>(), {
+  enabled: true,
   sizeRem: 1.8,
   hasRing: false,
   ringMarginPercent: 0,
@@ -35,13 +37,14 @@ const style = computed(() => ({
 
 </script>
 <template>
-  <button class="border rounded-full border-transparent
+  <button :disabled="!enabled"
+          class="border rounded-full border-transparent
                  focus-visible:border-default focus-visible:bg-focus
                  transition-all duration-100
-                 hover:scale-105 active:scale-110"
+                 enabled:hover:scale-105 enabled:active:scale-110"
           :class="[
                     hasRing && 'icon-button-ring\n' +
-                               'hover:border-default hover:bg-hover\n' +
+                               'enabled:hover:border-default enabled:hover:bg-hover\n' +
                                'cursor-pointer',
                     hasColor && 'icon-button-colors'
                   ]"
@@ -52,7 +55,7 @@ const style = computed(() => ({
 </template>
 
 <style scoped>
-.icon-button-ring {
+.icon-button-ring:enabled {
   --icon-button-ring-margin: ;
 }
 
@@ -61,14 +64,22 @@ const style = computed(() => ({
   --icon-button-color-secondary: ;
   --icon-button-color-hover-primary: ;
   --icon-button-color-hover-secondary: ;
+}
+
+.icon-button-colors:enabled {
   --color-icon-default: var(--icon-button-color-primary);
   --color-icon-inverse: var(--icon-button-color-secondary);
 }
 
-.icon-button-colors:hover {
+.icon-button-colors:disabled {
+  --color-icon-inverse: var(--color-surface-disabled);
+}
+
+.icon-button-colors:enabled:hover {
   --color-icon-default: var(--icon-button-color-hover-primary);
   --color-icon-inverse: var(--icon-button-color-hover-secondary);
 }
+
 
 :slotted(:first-child) {
   margin: var(--icon-button-ring-margin);

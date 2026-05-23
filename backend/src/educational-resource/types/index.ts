@@ -1,0 +1,1 @@
+export type {EducationalResourceMetadata} from "./educational-resource-metadata.type";

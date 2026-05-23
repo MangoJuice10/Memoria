@@ -1,8 +1,9 @@
 <script setup lang="ts">
-
 import {Dropdown, IconLabel, MenuContainer} from "@/shared/ui";
 import {FiltersIcon, SortIcon} from "@/shared/ui/icons";
 import {Searchbar} from "@/shared/ui";
+
+const search = defineModel("search");
 </script>
 
 <template>
@@ -49,7 +50,7 @@ import {Searchbar} from "@/shared/ui";
           </MenuContainer>
         </template>
       </Dropdown>
-      <Searchbar/>
+      <Searchbar v-model="search"/>
     </div>
   </div>
 </template>

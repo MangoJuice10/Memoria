@@ -1,0 +1,1 @@
+export {ChatNotFoundError} from "./chat-not-found.error";

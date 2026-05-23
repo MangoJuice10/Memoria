@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import {Error, Loader} from "@/shared/ui/index.ts";
 
-defineOptions({
-  inheritAttrs: false,
-});
-
 defineProps<{
   isLoading: boolean;
   error: Error | null;
+  errorClasses?: string;
+  errorImgClasses?: string;
+  errorLabelClasses?: string;
+  loaderClasses?: string;
 }>();
+
+defineOptions({
+  inheritAttrs: false,
+});
 </script>
 
 <template>
@@ -16,13 +20,15 @@ defineProps<{
        v-bind="$attrs"
        class="flex justify-center items-center
               w-full h-full">
-    <Loader/>
+    <Loader :class="loaderClasses"/>
   </div>
   <div v-else-if="error"
        v-bind="$attrs"
        class="flex justify-center items-center
               w-full h-full">
-    <Error>
+    <Error :img-classes="errorImgClasses"
+           :label-classes="errorLabelClasses"
+           :class="errorClasses">
       {{ error.message }}
     </Error>
   </div>

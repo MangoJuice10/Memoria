@@ -145,6 +145,12 @@ const codesToKeys = {
     EDUCATIONAL_RESOURCE_FILE: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.file`,
     EDUCATIONAL_RESOURCE_COVER: `${baseResourceKey}.educational_resource.${resourcePropertiesKey}.cover`,
 
+    CHAT_RESOURCE_NAME: `${baseResourceKey}.chat.${resourceNameKey}`,
+    CHAT_TITLE: `${baseResourceKey}.chat.${resourcePropertiesKey}.title`,
+
+    CHAT_MESSAGE_RESOURCE_NAME: `${baseResourceKey}.chat_message.${resourceNameKey}`,
+    CHAT_MESSAGE_CONTENT: `${baseResourceKey}.chat_message.${resourcePropertiesKey}.content`,
+
     BAD_REQUEST: `${baseHttpExceptionErrorKey}.bad-request`,
     UNAUTHORIZED: `${baseHttpExceptionErrorKey}.unauthorized`,
     FORBIDDEN: `${baseHttpExceptionErrorKey}.forbidden.name`,

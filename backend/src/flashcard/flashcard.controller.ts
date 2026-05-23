@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { FlashcardService } from "src/flashcard/flashcard.service";
@@ -37,8 +38,8 @@ export class FlashcardController {
 
   @Get()
   @HttpCode(200)
-  async findAll(@Param("deckId", ParseIntPipe) deckId: number) {
-    return this.flashcardService.findAll(deckId);
+  async findAll(@Param("deckId", ParseIntPipe) deckId: number, @Query("search") search?: string) {
+    return this.flashcardService.findAll(deckId, search);
   }
 
   @Get(":flashcardId")

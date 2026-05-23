@@ -24,6 +24,7 @@ model User {
 
   decks                Deck[]
   educationalResources EducationalResource[]
+  chats                Chat[]
 
   @@map("users")
 }
@@ -107,4 +108,37 @@ model DeckEducationalResource {
 
   @@id([deckId, educationalResourceId])
   @@map("deck_educational_resources")
+}
+
+model Chat {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  userId    Int
+
+  user     User          @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  messages ChatMessage[]
+
+  @@map("chats")
+}
+
+enum ChatMessageRole {
+  USER
+  ASSISTANT
+}
+
+model ChatMessage {
+  id        Int             @id @default(autoincrement())
+  role      ChatMessageRole
+  content   String
+  citations Json?
+  chatId    Int             @map("chat_id")
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt()
+
+  chat Chat @relation(fields: [chatId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([chatId, createdAt])
+  @@map("chat_messages")
 }

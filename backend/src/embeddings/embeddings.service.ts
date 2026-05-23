@@ -1,22 +1,22 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
-import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
 import { ConfigService } from "@nestjs/config";
+import { Embeddings } from "@langchain/core/embeddings";
+import { OllamaEmbeddings } from "@langchain/ollama";
 
 @Injectable()
 export class EmbeddingsService implements OnModuleInit {
-  private embeddingsModel: HuggingFaceInferenceEmbeddings;
+  private embeddingsModel: Embeddings;
 
   constructor(private readonly configService: ConfigService) {}
 
   async onModuleInit() {
-    const apiKey = this.configService.get("HUGGINGFACE_API_KEY") as string;
-    this.embeddingsModel = new HuggingFaceInferenceEmbeddings({
-      apiKey,
-      model: this.configService.get("HUGGINGFACE_EMBEDDING_MODEL"),
+    this.embeddingsModel = new OllamaEmbeddings({
+      baseUrl: this.configService.get("OLLAMA_URL"),
+      model: this.configService.get("OLLAMA_EMBEDDINGS_MODEL"),
     });
   }
 
-  getEmbeddings(): HuggingFaceInferenceEmbeddings {
+  getEmbeddings(): Embeddings {
     return this.embeddingsModel;
   }
 

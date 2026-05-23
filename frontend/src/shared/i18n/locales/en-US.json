@@ -145,6 +145,14 @@
       "message": {
         "name": "Message",
         "placeholder": "Ask AI a question..."
+      },
+      "title": {
+        "name": "Title",
+        "placeholder": "Enter a title"
+      },
+      "content": {
+        "name": "Content",
+        "placeholder": "Enter content"
       }
     },
     "actions": {
@@ -199,6 +207,10 @@
     "user_avatar": {
       "actions": {
         "update": {
+          "name": "Update",
+          "description": "Update profile picture",
+          "cancel": "Cancel",
+          "confirm": "Update",
           "success": "Avatar updated successfully",
           "error": "Failed to update avatar"
         }
@@ -249,7 +261,10 @@
         "private": "Private",
         "is-public": "Public",
         "cover": "Cover",
-        "flashcards-count": "{n} flashcard | {n} flashcards"
+        "flashcards-count": "{n} flashcard | {n} flashcards",
+        "info": "Info",
+        "flashcards": "Flashcards",
+        "educational_resources": "Educational Resources"
       },
       "actions": {
         "create": {
@@ -281,6 +296,10 @@
     "deck_cover": {
       "actions": {
         "update": {
+          "name": "Update",
+          "description": "Update deck cover",
+          "cancel": "Cancel",
+          "confirm": "Update",
           "success": "Cover updated successfully",
           "error": "Failed to update cover"
         }
@@ -318,6 +337,98 @@
           "confirm": "Delete",
           "success": "Resource deleted successfully",
           "error": "Failed to delete resource"
+        }
+      }
+    },
+    "educational_resource_cover": {
+      "actions": {
+        "create": {
+          "name": "Upload",
+          "description": "Upload a cover for this educational resource",
+          "cancel": "Cancel",
+          "confirm": "Upload",
+          "success": "Cover uploaded successfully",
+          "error": "Failed to upload cover"
+        },
+        "update": {
+          "name": "Update",
+          "description": "Update educational resource cover",
+          "cancel": "Cancel",
+          "confirm": "Update",
+          "success": "Cover updated successfully",
+          "error": "Failed to update cover"
+        },
+        "delete": {
+          "name": "Remove",
+          "description": "Are you sure you want to remove this cover?",
+          "cancel": "Cancel",
+          "confirm": "Remove",
+          "success": "Cover removed successfully",
+          "error": "Failed to remove cover"
+        }
+      }
+    },
+    "chat": {
+      "name": "Chat",
+      "properties": {
+        "title": "Title"
+      },
+      "actions": {
+        "create": {
+          "name": "New Chat",
+          "description": "Start a new chat",
+          "cancel": "Cancel",
+          "confirm": "Create",
+          "success": "Chat created successfully",
+          "error": "Failed to create chat"
+        },
+        "update": {
+          "name": "Rename",
+          "description": "Rename this chat",
+          "cancel": "Cancel",
+          "confirm": "Rename",
+          "success": "Chat renamed successfully",
+          "error": "Failed to rename chat"
+        },
+        "delete": {
+          "name": "Delete",
+          "description": "Are you sure you want to delete this chat?",
+          "cancel": "Cancel",
+          "confirm": "Delete",
+          "success": "Chat deleted successfully",
+          "error": "Failed to delete chat"
+        }
+      }
+    },
+    "chat_message": {
+      "name": "Message",
+      "properties": {
+        "content": "Message"
+      },
+      "actions": {
+        "create": {
+          "name": "Send",
+          "description": "Send a message",
+          "cancel": "Cancel",
+          "confirm": "Send",
+          "success": "Message sent successfully",
+          "error": "Failed to send message"
+        },
+        "update": {
+          "name": "Edit",
+          "description": "Edit this message",
+          "cancel": "Cancel",
+          "confirm": "Save",
+          "success": "Message updated successfully",
+          "error": "Failed to update message"
+        },
+        "delete": {
+          "name": "Delete",
+          "description": "Are you sure you want to delete this message?",
+          "cancel": "Cancel",
+          "confirm": "Delete",
+          "success": "Message deleted successfully",
+          "error": "Failed to delete message"
         }
       }
     }
@@ -376,6 +487,48 @@
       "perfect": "Perfect"
     },
     "study": "Start learning"
+  },
+  "deckEducationalResources": {
+    "heading": "Educational resources for {deckName}",
+    "subheading": "Attach the materials you want this deck to stay grounded in. Attached resources are easy to review, remove, and expand as the deck evolves.",
+    "searchPlaceholder": "Search resources by name or description",
+    "results": "Showing {attached} attached and {available} available results",
+    "noDescription": "No description added yet.",
+    "summary": {
+      "attached": "Attached to this deck",
+      "available": "Available in your library",
+      "total": "Resources in your library"
+    },
+    "actions": {
+      "attach": "Attach",
+      "detach": "Detach",
+      "open": "Open file",
+      "attached": "Attached",
+      "available": "Available"
+    },
+    "feedback": {
+      "attachSuccess": "Educational resource attached to the deck",
+      "attachError": "Failed to attach educational resource to the deck",
+      "detachSuccess": "Educational resource detached from the deck",
+      "detachError": "Failed to detach educational resource from the deck"
+    },
+    "sections": {
+      "shared": {
+        "emptySearch": "No educational resources match the current search."
+      },
+      "attached": {
+        "title": "Attached resources",
+        "description": "These resources are already connected to the deck and can be detached with one click.",
+        "emptyTitle": "Nothing attached yet",
+        "emptyDescription": "Attach resources from your library below to give this deck more study context."
+      },
+      "library": {
+        "title": "Resource library",
+        "description": "Choose from your uploaded materials or add a new educational resource directly from here.",
+        "emptyTitle": "Your library is empty",
+        "emptyDescription": "Upload your first educational resource and it will appear here, ready to attach."
+      }
+    }
   },
   "modals": {
     "flashcard": {

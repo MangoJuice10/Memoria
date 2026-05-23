@@ -6,9 +6,10 @@ import { EducationalResourceOwnershipGuard } from "src/educational-resource/guar
 import { DeckModule } from "src/deck/deck.module";
 import { DeckEducationalResourceController } from "src/educational-resource/controllers/deck-educational-resource.controller";
 import { VectorStoreModule } from "src/vector-store/vector-store.module";
+import { DocumentParserModule } from "src/document-parser/document-parser.module";
 
 @Module({
-  imports: [StorageModule, DeckModule, VectorStoreModule],
+  imports: [StorageModule, DeckModule, DocumentParserModule, VectorStoreModule],
   providers: [EducationalResourceService],
   controllers: [EducationalResourceController, DeckEducationalResourceController],
   exports: [EducationalResourceService],
