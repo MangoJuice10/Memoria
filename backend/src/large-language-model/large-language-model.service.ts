@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import {ChatGroq} from "@langchain/groq";
 import { ConfigService } from "@nestjs/config";
 import { BaseMessage } from "@langchain/core/messages";
 
 @Injectable()
-export class LargeLanguageModelService {
+export class LargeLanguageModelService implements OnModuleInit {
   private largeLanguageModel: BaseChatModel;
 
   constructor(private readonly configService: ConfigService) {}
@@ -20,7 +20,6 @@ export class LargeLanguageModelService {
   }
 
   async invoke(messages: BaseMessage[]): Promise<string> {
-    console.log("Sending request to the AI");
     const response = await this.largeLanguageModel.invoke(messages);
     return response.content as string;
   }

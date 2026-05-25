@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {useResizable, type ResizableOptions} from "@/shared/lib";
+import {provide} from "vue";
+import {resizableNaturalResizeKey} from "@/shared/config";
 
 const props = withDefaults(defineProps<ResizableOptions>(), {
   center: false,
@@ -9,7 +11,9 @@ const props = withDefaults(defineProps<ResizableOptions>(), {
   hasLeftResizeHandle: false,
 });
 
-const {startResize} = useResizable(props);
+const {startResize, handleNaturalResize} = useResizable(props);
+
+provide(resizableNaturalResizeKey, handleNaturalResize);
 </script>
 
 <template>

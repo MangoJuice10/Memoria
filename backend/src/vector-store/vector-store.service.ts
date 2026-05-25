@@ -37,6 +37,8 @@ export class VectorStoreService implements OnModuleInit {
     );
   }
 
+  private readonly EMBEDDINGS_BATCH_SIZE = 32;
+
   async addDocuments(educationalResourceMetadata: EducationalResourceMetadata, chunks: string[]) {
     const documents = chunks
       .map((content) => content.trim())
@@ -56,21 +58,23 @@ export class VectorStoreService implements OnModuleInit {
     if (!documents.length)
       throw new Error("The educational resource doesn't contain extractable text");
 
-    const vectors = await this.embeddingsService.embedDocuments(
-      documents.map(({ pageContent }) => pageContent),
-    );
-
-    await this.vectorStore.addVectors(vectors, documents, {
-      ids: documents.map(() => crypto.randomUUID())
-    });
+    for (let i = 0; i < documents.length; i += this.EMBEDDINGS_BATCH_SIZE) {
+      const batch = documents.slice(i, i + this.EMBEDDINGS_BATCH_SIZE);
+      const vectors = await this.embeddingsService.embedDocuments(
+        batch.map(({ pageContent }) => pageContent),
+      );
+      await this.vectorStore.addVectors(vectors, batch, {
+        ids: batch.map(() => crypto.randomUUID()),
+      });
+    }
   }
 
   async search(
     query: string,
     educationalResourceIds: number[],
-    topK = 5,
-    fetchK = 12,
-    minScore = 0.7,
+    topK = 10,
+    fetchK = 15,
+    minScore = 0.5,
   ): Promise<Chunk[]> {
     if (!educationalResourceIds.length) return [];
 

@@ -147,6 +147,8 @@ const codesToKeys = {
 
     CHAT_RESOURCE_NAME: `${baseResourceKey}.chat.${resourceNameKey}`,
     CHAT_TITLE: `${baseResourceKey}.chat.${resourcePropertiesKey}.title`,
+    CHAT_DEFAULT_TITLE: `${baseResourceKey}.chat.${resourcePropertiesKey}.default_title`,
+    CHAT_NO_MESSAGES: `${baseResourceKey}.chat.${resourcePropertiesKey}.no_messages`,
 
     CHAT_MESSAGE_RESOURCE_NAME: `${baseResourceKey}.chat_message.${resourceNameKey}`,
     CHAT_MESSAGE_CONTENT: `${baseResourceKey}.chat_message.${resourcePropertiesKey}.content`,

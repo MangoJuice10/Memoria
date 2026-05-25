@@ -7,7 +7,7 @@ import { extname } from "path";
 @Injectable()
 export class DocumentParserService {
   private readonly textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 500,
+    chunkSize: 1000,
     chunkOverlap: 50,
   });
 

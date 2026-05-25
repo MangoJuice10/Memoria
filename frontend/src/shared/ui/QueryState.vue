@@ -28,6 +28,7 @@ defineOptions({
               w-full h-full">
     <Error :img-classes="errorImgClasses"
            :label-classes="errorLabelClasses"
+           class="max-w-100 max-h-100"
            :class="errorClasses">
       {{ error.message }}
     </Error>

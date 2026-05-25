@@ -12,7 +12,7 @@ type Align =
     | "right";
 
 const props = withDefaults(defineProps<{
-  isRelative: boolean;
+  isRelative?: boolean;
   side?: Side;
   align?: Align;
   gapRem?: number;

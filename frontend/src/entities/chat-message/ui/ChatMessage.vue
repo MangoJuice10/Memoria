@@ -1,29 +1,36 @@
 <script setup lang="ts">
 import {AiChatIcon, CopyIcon, Divider, IconButton, RefreshIcon} from "@/shared/ui";
+import {Avatar} from "@/entities/user";
+import {asset} from "@/shared/lib";
 
 withDefaults(defineProps<{
   author?: "self" | "other";
+  userAvatarUrl?: string | null;
 }>(), {
   author: "self"
 });
 </script>
 
 <template>
-  <div class="flex gap-3">
+  <div class="flex gap-3"
+       :class="author === 'self' && 'flex-row-reverse'">
     <div v-if="author === 'other'"
          class="w-fit h-fit p-2 border rounded-full border-default
                 bg-tertiary">
       <AiChatIcon class="icon-static
-                         h-13 w-13"/>
+                         w-13 h-13"/>
     </div>
+    <Avatar v-else
+            :src="userAvatarUrl ?? asset('filler/noAvatar.png')"
+            class="w-18 h-18"/>
     <div class="flex flex-col gap-4
-              px-4 py-3 border rounded-lg border-default
-              bg-tertiary"
+                px-4 py-3 border rounded-lg border-default overflow-x-auto
+                bg-tertiary"
          :class="[
-           author === 'self'
-              ? 'rounded-bl-2xl'
-              : 'rounded-br-2xl'
-       ]">
+                   author === 'self'
+                      ? 'rounded-bl-2xl'
+                      : 'rounded-br-2xl'
+                 ]">
       <slot/>
       <Divider/>
       <div class="icon-dynamic-inverse

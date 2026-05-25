@@ -1,20 +1,11 @@
 import type {Composer} from "vue-i18n";
 import {z} from "zod";
 import {codeToKey} from "@/shared/i18n";
-import {codes} from "@/shared/config";
-
-const ALLOWED_FILE_TYPES = {
-    "text/plain": "txt",
-    "text/markdown": "md",
-    "text/html": "html",
-    "application/msword": "doc",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
-    "application/rtf": "rtf",
-    "application/vnd.oasis.opendocument.text": "odt",
-    "application/pdf": "pdf",
-    "application/epub+zip": "epub"
-};
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+import {
+    allowedEducationalResourceFileTypes,
+    codes,
+    MAX_EDUCATIONAL_RESOURCE_FILE_SIZE
+} from "@/shared/config";
 
 export function createEducationalResourceSchema(t: Composer["t"]) {
     return z.object({
@@ -42,14 +33,14 @@ export function createEducationalResourceSchema(t: Composer["t"]) {
                 }
                 return file;
             })
-            .refine((file) => ALLOWED_FILE_TYPES.hasOwnProperty(file.type), {
+            .refine((file) => allowedEducationalResourceFileTypes.hasOwnProperty(file.type), {
                 error: () => t(codeToKey(codes.INVALID_MIME_TYPE), {
-                    allowedTypes: Object.values(ALLOWED_FILE_TYPES).join(", ")
+                    allowedTypes: Object.values(allowedEducationalResourceFileTypes).join(", ")
                 })
             })
-            .refine((file) => file.size <= MAX_FILE_SIZE, {
+            .refine((file) => file.size <= MAX_EDUCATIONAL_RESOURCE_FILE_SIZE, {
                 error: () => t(codeToKey(codes.MAX_SIZE), {
-                    maxSize: MAX_FILE_SIZE
+                    maxSize: MAX_EDUCATIONAL_RESOURCE_FILE_SIZE
                 })
             })
     });

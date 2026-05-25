@@ -34,6 +34,7 @@ export {default as StatisticsFeatureIcon} from "./statistics/StatisticsFeatureIc
 export {default as SendIcon} from "./chat/SendIcon.vue";
 export {default as CopyIcon} from "./chat/CopyIcon.vue";
 export {default as HistoryIcon} from "./chat/HistoryIcon.vue";
+export {default as ChatIcon} from "./chat/ChatIcon.vue";
 
 export {default as FiltersIcon} from "./tools/FiltersIcon.vue";
 export {default as SortIcon} from "./tools/SortIcon.vue";
@@ -48,11 +49,17 @@ export {default as ArrowIcon} from "./common/ArrowIcon.vue";
 export {default as ChevronIcon} from "./common/ChevronIcon.vue";
 export {default as PinIcon} from "./common/PinIcon.vue";
 export {default as CancelIcon} from "./common/CancelIcon.vue";
+export {default as DotsIcon} from "./common/DotsIcon.vue";
 export {default as BurgerMenuIcon} from "./common/BurgerMenuIcon.vue";
 export {default as HiddenIcon} from "./common/HiddenIcon.vue";
 export {default as VisibleIcon} from "./common/VisibleIcon.vue";
+
 export {default as EmptyFileIcon} from "./common/EmptyFileIcon.vue";
 export {default as FileIcon} from "./common/FileIcon.vue";
+export {default as PdfFileIcon} from "./common/files/PdfFileIcon.vue";
+export {default as DocxFileIcon} from "./common/files/DocxFileIcon.vue";
+export {default as TxtFileIcon} from "./common/files/TxtFileIcon.vue";
+
 export {default as UploadIcon} from "./common/UploadIcon.vue";
 export {default as StarIcon} from "./common/StarIcon.vue";
 export {default as PublicIcon} from "./common/PublicIcon.vue";

@@ -46,7 +46,7 @@ defineEmits<{
                                          'bg-(--color-primary)/85',
                     formControlsClasses
                  ]">
-      <Button type="submit"
+      <Button type="button"
               :class="submitClasses"
               :disabled="!isSubmitEnabled"
               @click.prevent="$emit('submit')"

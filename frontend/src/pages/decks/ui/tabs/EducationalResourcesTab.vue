@@ -262,7 +262,7 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
       </section>
 
       <div class="sections">
-        <section class="rounded-4xl border border-default bg-primary p-6 shadow-lg">
+        <section class="rounded-4xl border border-default bg-primary p-10 shadow-lg">
           <div class="flex items-start justify-between gap-4">
             <div class="space-y-2">
               <div class="flex items-center gap-3">
@@ -361,7 +361,7 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
           </div>
         </section>
 
-        <section class="rounded-4xl border border-default bg-primary p-6 shadow-lg">
+        <section class="rounded-4xl border border-default bg-primary p-10 shadow-lg">
           <div class="flex items-start justify-between gap-4">
             <div class="space-y-2">
               <h3 class="font-semibold">
@@ -377,7 +377,7 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
           </div>
 
           <div class="resource-grid mt-6">
-            <CreateEducationalResource/>
+            <CreateEducationalResource class="h-full w-full"/>
 
             <article v-for="resource in visibleAvailableResources"
                      :key="resource.id"
@@ -463,20 +463,20 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
 
 .sections {
   display: grid;
+  align-items: start;
   gap: 1.5rem;
 }
 
 .resource-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--width-educational-resource)), var(--width-educational-resource)));
-  justify-content: start;
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--width-educational-resource)), 1fr));
+  gap: 3.75rem;
 }
 
 .resource-card {
   display: grid;
   grid-template-rows: 13rem 1fr auto;
-  width: min(100%, var(--width-educational-resource));
+  width: 100%;
   overflow: hidden;
   border-radius: 1.5rem;
 }
@@ -509,12 +509,5 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
   border: 1px dashed var(--color-border-default);
   border-radius: 1.5rem;
   background-color: var(--color-surface-tertiary);
-}
-
-@media (min-width: 90rem) {
-  .sections {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
-  }
 }
 </style>

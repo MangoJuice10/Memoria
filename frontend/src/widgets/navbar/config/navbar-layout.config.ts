@@ -44,12 +44,12 @@ export const NAVBAR_AUTHENTICATED_LAYOUT = {
             labelCode: codes.NAVBAR_ITEM_DECKS,
             icon: DecksIntroductionIcon
         },
-        {
+        /*{
             id: "shared-decks",
             routeName: "shared-decks",
             labelCode: codes.NAVBAR_ITEM_SHARED_DECKS,
             icon: SharedDecksIntroductionIcon
-        },
+        },*/
         {
             id: "educational-resources",
             routeName: "educational-resources",

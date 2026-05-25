@@ -1,6 +1,6 @@
 export type ChatResponseDto = {
   id: number;
-  title: string;
+  title: string | null;
   createdAt: Date;
   updatedAt: Date;
 };

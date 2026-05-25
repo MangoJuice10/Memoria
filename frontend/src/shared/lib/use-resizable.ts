@@ -182,7 +182,12 @@ export const useResizable = (options: ResizableOptions) => {
 
     let rzListener: (e: MouseEvent) => void;
 
+    const handleNaturalResize = () => {
+        setRzContainerMeta();
+    };
+
     return {
         startResize,
+        handleNaturalResize
     };
 };

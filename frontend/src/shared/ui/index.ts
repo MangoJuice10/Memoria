@@ -47,3 +47,5 @@ export {default as UploadFile} from "./upload/UploadFile.vue";
 export {default as File} from "./upload/File.vue";
 
 export {default as Resizable} from "./resizable/Resizable.vue";
+
+export {default as MarkdownContent} from "./MarkdownContent.vue";

@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Embeddings } from "@langchain/core/embeddings";
+import { HuggingFaceInferenceEmbeddings } from "@langchain/community/embeddings/hf";
 import { OllamaEmbeddings } from "@langchain/ollama";
 
 @Injectable()
@@ -10,9 +11,12 @@ export class EmbeddingsService implements OnModuleInit {
   constructor(private readonly configService: ConfigService) {}
 
   async onModuleInit() {
-    this.embeddingsModel = new OllamaEmbeddings({
-      baseUrl: this.configService.get("OLLAMA_URL"),
-      model: this.configService.get("OLLAMA_EMBEDDINGS_MODEL"),
+    const apiKey = this.configService.get("HUGGINGFACE_API_KEY");
+    const baseUrl = this.configService.get("OLLAMA_URL");
+
+    this.embeddingsModel = new HuggingFaceInferenceEmbeddings({
+      apiKey,
+      model: this.configService.get("HUGGINGFACE_EMBEDDINGS_MODEL"),
     });
   }
 

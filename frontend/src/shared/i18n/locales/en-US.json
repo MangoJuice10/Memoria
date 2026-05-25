@@ -161,7 +161,8 @@
       "login": "Login",
       "register": "Register",
       "create": "Create",
-      "update": "Update"
+      "update": "Update",
+      "remove": "Remove"
     },
     "headings": {
       "create-flashcard": "Create Flashcard",
@@ -183,6 +184,7 @@
           "description": "Create a new user",
           "cancel": "Cancel",
           "confirm": "Create",
+          "pending": "Creating user...",
           "success": "User created successfully",
           "error": "Failed to create user"
         },
@@ -191,6 +193,7 @@
           "description": "Update user details",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating user...",
           "success": "User updated successfully",
           "error": "Failed to update user"
         },
@@ -199,6 +202,7 @@
           "description": "Are you sure you want to delete this user?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting user...",
           "success": "User deleted successfully",
           "error": "Failed to delete user"
         }
@@ -211,6 +215,7 @@
           "description": "Update profile picture",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating avatar...",
           "success": "Avatar updated successfully",
           "error": "Failed to update avatar"
         }
@@ -231,6 +236,7 @@
           "description": "Create a new flashcard",
           "cancel": "Cancel",
           "confirm": "Create",
+          "pending": "Creating flashcard...",
           "success": "Flashcard created successfully",
           "error": "Failed to create flashcard"
         },
@@ -239,6 +245,7 @@
           "description": "Update flashcard content",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating flashcard...",
           "success": "Flashcard updated successfully",
           "error": "Failed to update flashcard"
         },
@@ -247,6 +254,7 @@
           "description": "Are you sure you want to delete this flashcard?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting flashcard...",
           "success": "Flashcard deleted successfully",
           "error": "Failed to delete flashcard"
         }
@@ -272,6 +280,7 @@
           "description": "Create a new deck",
           "cancel": "Cancel",
           "confirm": "Create",
+          "pending": "Creating deck...",
           "success": "Deck created successfully",
           "error": "Failed to create deck"
         },
@@ -280,6 +289,7 @@
           "description": "Update deck details",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating deck...",
           "success": "Deck updated successfully",
           "error": "Failed to update deck"
         },
@@ -288,6 +298,7 @@
           "description": "Are you sure you want to delete this deck?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting deck...",
           "success": "Deck deleted successfully",
           "error": "Failed to delete deck"
         }
@@ -300,6 +311,7 @@
           "description": "Update deck cover",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating cover...",
           "success": "Cover updated successfully",
           "error": "Failed to update cover"
         }
@@ -319,6 +331,7 @@
           "description": "Upload a new educational resource",
           "cancel": "Cancel",
           "confirm": "Upload",
+          "pending": "Uploading resource...",
           "success": "Resource uploaded successfully",
           "error": "Failed to upload resource"
         },
@@ -327,6 +340,7 @@
           "description": "Update educational resource details",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating resource...",
           "success": "Resource updated successfully",
           "error": "Failed to update resource"
         },
@@ -335,6 +349,7 @@
           "description": "Are you sure you want to delete this educational resource?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting resource...",
           "success": "Resource deleted successfully",
           "error": "Failed to delete resource"
         }
@@ -347,6 +362,7 @@
           "description": "Upload a cover for this educational resource",
           "cancel": "Cancel",
           "confirm": "Upload",
+          "pending": "Uploading cover...",
           "success": "Cover uploaded successfully",
           "error": "Failed to upload cover"
         },
@@ -355,6 +371,7 @@
           "description": "Update educational resource cover",
           "cancel": "Cancel",
           "confirm": "Update",
+          "pending": "Updating cover...",
           "success": "Cover updated successfully",
           "error": "Failed to update cover"
         },
@@ -363,6 +380,7 @@
           "description": "Are you sure you want to remove this cover?",
           "cancel": "Cancel",
           "confirm": "Remove",
+          "pending": "Removing cover...",
           "success": "Cover removed successfully",
           "error": "Failed to remove cover"
         }
@@ -371,14 +389,19 @@
     "chat": {
       "name": "Chat",
       "properties": {
-        "title": "Title"
+        "title": "Title",
+        "default_title": "New Chat",
+        "no_messages": "The chat has no messages yet"
+
       },
       "actions": {
         "create": {
           "name": "New Chat",
           "description": "Start a new chat",
+          "hint": "Select a chat from the history or create a new one",
           "cancel": "Cancel",
           "confirm": "Create",
+          "pending": "Creating chat...",
           "success": "Chat created successfully",
           "error": "Failed to create chat"
         },
@@ -387,6 +410,7 @@
           "description": "Rename this chat",
           "cancel": "Cancel",
           "confirm": "Rename",
+          "pending": "Renaming chat...",
           "success": "Chat renamed successfully",
           "error": "Failed to rename chat"
         },
@@ -395,6 +419,7 @@
           "description": "Are you sure you want to delete this chat?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting chat...",
           "success": "Chat deleted successfully",
           "error": "Failed to delete chat"
         }
@@ -411,6 +436,7 @@
           "description": "Send a message",
           "cancel": "Cancel",
           "confirm": "Send",
+          "pending": "Sending message...",
           "success": "Message sent successfully",
           "error": "Failed to send message"
         },
@@ -419,6 +445,7 @@
           "description": "Edit this message",
           "cancel": "Cancel",
           "confirm": "Save",
+          "pending": "Saving message...",
           "success": "Message updated successfully",
           "error": "Failed to update message"
         },
@@ -427,6 +454,7 @@
           "description": "Are you sure you want to delete this message?",
           "cancel": "Cancel",
           "confirm": "Delete",
+          "pending": "Deleting message...",
           "success": "Message deleted successfully",
           "error": "Failed to delete message"
         }
@@ -460,6 +488,7 @@
       }
     },
     "http-exception": {
+      "bad-request": "Bad request",
       "unauthorized": "Unauthorized",
       "forbidden": {
         "name": "Forbidden"
@@ -557,12 +586,229 @@
       "language": "Language",
       "theme": "Theme"
     },
+    "theme": {
+      "description": "Choose how Memoria looks to you. Your preference is saved locally.",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "description": "Choose the language you want to use across the app.",
+      "active": "Active"
+    },
     "profile": {
       "avatar": {
         "heading": "Profile Picture"
       },
       "user-data": {
         "heading": "User Data"
+      }
+    }
+  },
+  "about": {
+    "badge": "About Memoria",
+    "hero": {
+      "headline": "Study smarter,",
+      "headlineMuted": "not harder.",
+      "subheadline": "Memoria is a modern learning platform that combines scientifically proven spaced repetition with AI-powered assistance — so you can study efficiently, understand deeply, and remember for longer.",
+      "cta": "Get started free"
+    },
+    "stats": {
+      "cards": { "value": "∞", "label": "Flashcards you can create" },
+      "decks": { "value": "100%", "label": "Your data, your control" },
+      "retention": { "value": "2×", "label": "Faster retention with spaced repetition" },
+      "languages": { "value": "2", "label": "Languages supported" }
+    },
+    "mission": {
+      "heading": "Why we built Memoria",
+      "p1": "Most students waste hours re-reading the same material, only to forget it days later. Traditional flashcard apps help — but they don't explain. Search engines explain — but they distract.",
+      "p2": "Memoria was built to close that gap: a single place where you can memorize efficiently and get instant, trustworthy explanations without ever leaving your study session.",
+      "values": {
+        "science": { "icon": "🧠", "title": "Science-backed", "description": "Every review is scheduled by the SM-2 spaced repetition algorithm — the same method used by millions of learners worldwide." },
+        "trust": { "icon": "🔒", "title": "Trustworthy by design", "description": "The AI only answers from sources you upload. No hallucinations, no outdated training data — just your materials." },
+        "focus": { "icon": "🎯", "title": "Built for focus", "description": "Everything lives in one place. No tab switching, no copy-pasting. Your study flow stays uninterrupted." }
+      }
+    },
+    "howItWorks": {
+      "heading": "How Memoria works",
+      "subheading": "Three simple steps from zero to mastery.",
+      "steps": {
+        "create": { "icon": "📝", "title": "Create your deck", "description": "Add flashcards manually or import them. Organise them into decks by subject, course, or topic." },
+        "study": { "icon": "🔁", "title": "Study with spaced repetition", "description": "Review cards at the optimal moment. Rate each one and the algorithm handles the rest — scheduling the next review automatically." },
+        "ask": { "icon": "💬", "title": "Ask the AI assistant", "description": "Stuck on a card? Open the chat panel and ask anything. Attach your lecture notes and the AI answers directly from your sources." }
+      }
+    },
+    "features": {
+      "heading": "Everything you need to learn effectively",
+      "subheading": "Explore each feature in detail.",
+      "learnMore": "Learn more",
+      "items": {
+        "spacedRepetition": { "icon": "🔁", "title": "Spaced Repetition", "description": "The SM-2 algorithm schedules your reviews at the exact moment you're about to forget — maximising retention with minimal effort." },
+        "aiAssistance": { "icon": "🤖", "title": "AI Assistance", "description": "An AI tutor lives inside your study session. Ask questions, get explanations, and keep your flow uninterrupted." },
+        "trustworthy": { "icon": "📄", "title": "Trustworthy Answers", "description": "Upload your own materials and the AI answers only from them — no hallucinations, no outdated information." },
+        "statistics": { "icon": "📊", "title": "Statistics", "description": "Coming soon — track retention trends, study streaks, weak cards, and more to understand exactly how you're progressing." }
+      }
+    },
+    "tech": {
+      "heading": "Built with modern technology",
+      "subheading": "Memoria is built on a reliable, modern stack designed for performance and scalability.",
+      "items": {
+        "vue": { "icon": "⚡", "name": "Vue 3", "role": "Frontend" },
+        "nest": { "icon": "🏗️", "name": "NestJS", "role": "Backend" },
+        "postgres": { "icon": "🗄️", "name": "PostgreSQL", "role": "Database" },
+        "qdrant": { "icon": "🔍", "name": "Qdrant", "role": "Vector search" },
+        "langchain": { "icon": "🦜", "name": "LangChain", "role": "AI orchestration" },
+        "prisma": { "icon": "🔷", "name": "Prisma", "role": "ORM" },
+        "tailwind": { "icon": "🎨", "name": "Tailwind CSS", "role": "Styling" },
+        "sm2": { "icon": "🧪", "name": "SM-2 Algorithm", "role": "Spaced repetition" }
+      }
+    },
+    "cta": {
+      "heading": "Ready to study smarter?",
+      "subheading": "Join Memoria for free and experience a better way to learn.",
+      "button": "Get started free"
+    }
+  },
+  "features": {
+    "aiAssistance": {
+      "badge": "Powered by AI",
+      "hero": {
+        "headline": "Your personal",
+        "headlineMuted": "study tutor.",
+        "subheadline": "Stuck on a flashcard? Ask the AI assistant anything about the topic — right inside your study session, without breaking your flow.",
+        "cta": "Try it now"
+      },
+      "benefits": {
+        "heading": "Built for learning, not distraction",
+        "subheading": "The assistant lives inside your study session — no tab switching, no copy-pasting.",
+        "instant": { "title": "Instant answers", "description": "No need to open a new tab or search the web. Ask your question and get a clear, contextual answer in seconds." },
+        "context": { "title": "Context-aware", "description": "The assistant knows which flashcard you're reviewing and which deck you're in, so answers are always relevant to what you're studying." },
+        "grounded": { "title": "Grounded in your materials", "description": "Attach your own lecture notes, textbooks, or PDFs. The AI answers from your sources — not from the internet." },
+        "history": { "title": "Full conversation history", "description": "Your chats are saved per deck. Come back to a previous conversation and pick up right where you left off." }
+      },
+      "flow": {
+        "heading": "Zero interruption to your flow",
+        "subheading": "Traditional studying means switching between your notes, a search engine, and your flashcard app. Memoria keeps everything in one place — so you stay focused.",
+        "cta": "Start studying",
+        "step1": { "title": "Open a flashcard", "description": "Start your review session as usual." },
+        "step2": { "title": "Open the chat panel", "description": "The assistant slides in from the side — no navigation needed." },
+        "step3": { "title": "Ask your question", "description": "Type naturally. The AI understands the context of your current card." },
+        "step4": { "title": "Continue studying", "description": "Close the panel and rate the card. Your flow is uninterrupted." }
+      },
+      "cta": {
+        "heading": "Your AI tutor is waiting.",
+        "subheading": "Sign up free and get instant access to the AI assistant on every deck.",
+        "button": "Get started free"
+      }
+    },
+    "spacedRepetition": {
+      "badge": "Science-backed",
+      "hero": {
+        "headline": "Remember more.",
+        "headlineMuted": "Forget less.",
+        "subheadline": "Spaced repetition is the most effective memorization technique known to science. Memoria schedules your reviews at the exact moment you're about to forget — so every minute you study counts.",
+        "cta": "Start for free",
+        "chartLabel": "Forgetting Curve",
+        "chartWithout": "Without review",
+        "chartWith": "With spaced repetition"
+      },
+      "howItWorks": {
+        "heading": "How it works",
+        "subheading": "The algorithm tracks how well you know each card and schedules the next review at the optimal moment — just before you'd forget it.",
+        "step1": { "title": "Study a card", "description": "Flip the card, read the answer, and rate how well you remembered it — from Again to Perfect." },
+        "step2": { "title": "Algorithm schedules the next review", "description": "Based on your rating, the SM-2 algorithm calculates the ideal interval — hours, days, or weeks — before showing the card again." },
+        "step3": { "title": "Long-term retention", "description": "Over time, well-known cards are reviewed less often while difficult ones stay frequent — maximising retention with minimal effort." }
+      },
+      "ratings": {
+        "heading": "Rate what you know",
+        "subheading": "After each card, you give honest feedback. The algorithm uses your rating to decide exactly when to show the card again.",
+        "again": "Completely forgot — show again very soon",
+        "bad": "Remembered with difficulty — short interval",
+        "good": "Remembered correctly — standard interval",
+        "perfect": "Instant recall — long interval, well learned",
+        "chartLabel": "Interval growth over reviews"
+      },
+      "cta": {
+        "heading": "Ready to study smarter?",
+        "subheading": "Create your first deck in seconds and let the algorithm do the rest.",
+        "button": "Get started free"
+      }
+    },
+    "statistics": {
+      "badge": "Coming soon",
+      "hero": {
+        "headline": "See your progress",
+        "headlineMuted": "at a glance.",
+        "subheadline": "Statistics will give you a clear picture of how your memory is improving over time — which decks need attention, how your retention rate is trending, and how consistent your study habits are.",
+        "cta": "Join the waitlist",
+        "dashboardLabel": "Your study dashboard",
+        "cardsReviewed": "Cards reviewed",
+        "retentionRate": "Retention rate",
+        "dayStreak": "Day streak",
+        "activityLabel": "Activity — last 7 weeks",
+        "less": "Less",
+        "more": "More",
+        "retentionByDeck": "Retention by deck"
+      },
+      "planned": {
+        "heading": "What's coming",
+        "subheading": "Statistics is being built to give you actionable insight — not just numbers.",
+        "retention": { "title": "Retention trends", "description": "Track how your retention rate evolves over time for each deck. Spot when a topic starts slipping before it becomes a problem." },
+        "streaks": { "title": "Study streaks", "description": "Build consistent habits with daily streak tracking. See your longest streak and keep the momentum going." },
+        "weak": { "title": "Weak card detection", "description": "Automatically surface the cards you struggle with most, so you can focus your energy where it matters." },
+        "forecast": { "title": "Review forecast", "description": "See how many cards are due each day for the next two weeks — so you can plan your study sessions in advance." },
+        "time": { "title": "Time per card", "description": "Understand how long you spend on each card and identify which topics take the most cognitive effort." },
+        "distribution": { "title": "Rating distribution", "description": "See the breakdown of Again / Bad / Good / Perfect ratings across all your reviews to gauge overall mastery." }
+      },
+      "cta": {
+        "heading": "Be the first to know.",
+        "subheading": "Statistics is coming soon. Sign up now and you'll get access the moment it launches.",
+        "button": "Sign up free"
+      }
+    },
+    "trustworthyAnswers": {
+      "badge": "RAG-powered",
+      "hero": {
+        "headline": "Answers you can",
+        "headlineMuted": "actually trust.",
+        "subheadline": "Most AI assistants answer from their training data — which can be outdated, wrong, or simply hallucinated. Memoria's AI answers only from the sources you provide.",
+        "cta": "Try it now",
+        "sourceLabel": "Attached to this deck",
+        "sourceTag": "Source",
+        "ragTitle": "Retrieval-Augmented Generation",
+        "ragDescription": "Searches your documents for relevant passages",
+        "answerLabel": "Answer",
+        "sourceFooter": "Source:"
+      },
+      "problem": {
+        "heading": "The problem with generic AI",
+        "subheading": "General-purpose AI assistants are trained on the internet — which means they can confidently give you wrong answers.",
+        "generic": {
+          "title": "Generic AI",
+          "con1": "Answers from training data that may be outdated",
+          "con2": "Can hallucinate facts that sound plausible but are wrong",
+          "con3": "No connection to your course materials or professor's notes",
+          "con4": "No citations — you can't verify where the answer came from"
+        },
+        "memoria": {
+          "title": "Memoria AI",
+          "pro1": "Answers only from documents you attach to the deck",
+          "pro2": "Cannot fabricate information not present in your sources",
+          "pro3": "Directly tied to your lecture notes, textbooks, and slides",
+          "pro4": "Cites the exact source passage used in every answer"
+        }
+      },
+      "howItWorks": {
+        "heading": "How it stays grounded",
+        "subheading": "When you ask a question, Memoria searches your attached documents for the most relevant passages using semantic search — then passes only those passages to the AI. The AI can only answer from what it's given.",
+        "step1": "Your documents are split into chunks and stored as semantic vectors in a vector database.",
+        "step2": "Your question is converted to a vector and the most similar chunks are retrieved.",
+        "step3": "The AI receives only those chunks as context — it cannot access anything else.",
+        "formatsLabel": "Supported formats"
+      },
+      "cta": {
+        "heading": "Study with confidence.",
+        "subheading": "Upload your materials and get answers you can actually cite in your exam prep.",
+        "button": "Get started free"
       }
     }
   },

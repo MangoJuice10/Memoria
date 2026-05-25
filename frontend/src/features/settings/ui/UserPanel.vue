@@ -53,7 +53,7 @@ setupMenuCallbacks();
     <template #trigger>
       <div class="flex justify-center items-center gap-5 p-5">
         <Avatar :src="viewer?.avatarUrl ?? asset('filler/noAvatar.png')"
-                :size-rem="3"/>
+                class="w-12 h-12"/>
         <div>
           <div class="font-bold mb-2">{{ viewer?.username }}</div>
           <div class="text-sm">{{ $t("settings.heading") }}</div>

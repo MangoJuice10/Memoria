@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
+import {useRouter} from "vue-router";
 import {Button} from "@/shared/ui";
 import hero from "@/assets/images/Hero.png";
 
 const {t} = useI18n();
+const router = useRouter();
 </script>
 
 <template>
@@ -12,7 +14,7 @@ const {t} = useI18n();
       <div class="flex flex-col justify-start items-start gap-10 w-full md:w-5/10">
         <h1 v-text="t('landing.hero.headline')"/>
         <p v-text="t('landing.hero.subheadline')"/>
-        <Button class="w-37.5 h-11.5 text-lg">
+        <Button class="w-37.5 h-11.5 text-lg" @click="router.push({ name: 'login' })">
           <span v-text="t('landing.hero.cta')"/>
         </Button>
       </div>

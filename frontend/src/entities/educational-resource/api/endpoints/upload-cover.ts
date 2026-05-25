@@ -1,6 +1,6 @@
 import type {
     EducationalResourceResponseDto
-} from "../model/educational-resource-response.dto";
+} from "src/entities/educational-resource/model/educational-resource-response.dto.ts";
 import {client, type SuccessResponse} from "@/shared/api";
 
 export async function uploadCover(educationalResourceId: number, file: File): Promise<EducationalResourceResponseDto> {

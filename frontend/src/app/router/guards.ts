@@ -28,8 +28,8 @@ export function registerNavigationGuards(router: Router) {
             await viewerStore.initialize();
         }
 
-        if (to.meta.public && viewerStore.isAuthenticated) {
-            next({name: "home", params: { locale: getLocale() }});
+        if (viewerStore.isAuthenticated && (to.meta.public || to.name === "home")) {
+            next({name: "decks", params: { locale: getLocale() }});
             return;
         }
 

@@ -3,25 +3,20 @@ import axios from "axios";
 import {computed, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {storeToRefs} from "pinia";
-import {useChatStore} from "@/entities/chat";
+import {type ChatResponseDto, chatsQueryKeys, useChatStore} from "@/entities/chat";
 import {useValidation} from "@/shared/lib";
 import {createFindAllChatsQuery} from "@/entities/chat";
 import {
+  type ChatMessageResponseDto,
+  chatMessagesQueryKeys,
   createFindAllChatMessagesQuery,
   createSendChatMessageMutation,
-  ChatMessage,
 } from "@/entities/chat-message";
 import {
-  AddIcon,
-  Dropdown,
   FormFieldError,
-  HistoryIcon,
-  IconButton,
-  IconLabel,
-  QueryState,
   Resizable
 } from "@/shared/ui";
-import {type ErrorResponse} from "@/shared/api";
+import {type ErrorResponse, queryClient} from "@/shared/api";
 import {
   type CreateChatMessageDto,
   createCreateChatMessageSchema
@@ -29,6 +24,9 @@ import {
 import {createCreateChatMutation} from "@/entities/chat/api";
 import ChatToggle from "./ChatToggle.vue";
 import ChatTextarea from "./ChatTextarea.vue";
+import ChatsPanel from "@/entities/chat/ui/ChatsPanel.vue";
+import ChatContent from "@/entities/chat/ui/ChatContent.vue";
+import {useViewerStore} from "@/entities/viewer";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 
@@ -37,6 +35,7 @@ defineOptions({
 });
 
 const {t} = useI18n();
+const viewer = useViewerStore();
 const chatStore = useChatStore();
 const {activeChat, isVisible, context} = storeToRefs(chatStore);
 const {toggle, setActiveChat} = chatStore;
@@ -55,7 +54,7 @@ const {
   clientValidate,
   serverValidate,
   reset
-} = useValidation(data, createCreateChatMessageSchema(t), {
+} = useValidation(data, createCreateChatMessageSchema(), {
   mode: "eager",
   delay: 300,
 });
@@ -76,16 +75,47 @@ async function send() {
   const result = await clientValidate();
   if (!result.success) return;
 
-  if (!activeChat.value) {
-    const newChat = await createChatMutation.mutateAsync({});
-    setActiveChat(newChat);
-  }
-
   try {
+    if (!activeChat.value) {
+      const newChat = await createChatMutation.mutateAsync({});
+      setActiveChat(newChat);
+      await queryClient.invalidateQueries({
+        queryKey: chatMessagesQueryKeys.byChat(newChat.id)
+      });
+    }
+
+    reset();
+
+    const newChatMessage: ChatMessageResponseDto = {
+      id: 0,
+      role: "USER",
+      content: result.data.content,
+      chatId: activeChat.value!.id,
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString()
+    };
+
+    await queryClient.setQueryData(
+        chatMessagesQueryKeys.byChat(activeChat.value!.id),
+        (old: ChatMessageResponseDto[] | undefined) => {
+          if (!old) return [newChatMessage];
+          return [...old, newChatMessage];
+        }
+    );
+
     if (context.value) await sendChatMessageMutation.mutateAsync({
       ...result.data,
       ...context.value
     });
+
+    await queryClient.invalidateQueries({
+      queryKey: chatsQueryKeys.all
+    });
+    const updatedChats = queryClient.getQueryData<ChatResponseDto[]>(chatsQueryKeys.all);
+    if (updatedChats) {
+      const updatedChat = updatedChats.find(({id}) => id === activeChat.value!.id);
+      if (updatedChat) setActiveChat(updatedChat);
+    }
   } catch (error) {
     data.value.content = result.data.content;
     if (axios.isAxiosError(error)) {
@@ -110,102 +140,31 @@ async function send() {
           <ChatToggle :is-expanded="true"
                       class="bg-tertiary"
                       @click="toggle"/>
-          <span class="text-2xl font-semibold">
-            {{ activeChat ? activeChat.title : "New chat" }}
-          </span>
-          <Dropdown :is-relative="false"
-                    side="bottom"
-                    align="left"
-                    trigger-classes="h-full"
-                    menu-classes="w-1/2"
-                    class="w-1/6 h-full border-l border-default
-                           bg-tertiary">
-            <template #trigger>
-              <IconButton :size-rem="3"
-                          :has-color="false">
-                <HistoryIcon/>
-              </IconButton>
-            </template>
-
-            <template #menu>
-              <QueryState v-if="findAllChatsQuery.data.value"
-                          :is-loading="findAllChatsQuery.isLoading.value"
-                          :error="findAllChatsQuery.error.value"
-                          error-classes="w-3/5 h-3/5"
-                          error-label-classes="text-sm">
-                <div class="flex flex-col divide-y divide-default
-                          p-5 border rounded-2xl border-default
-                          text-base truncate
-                          bg-tertiary">
-                  <button @click="setActiveChat(null)">
-                    <IconLabel>
-                      <template #icon>
-                        <AddIcon class="w-7 h-7"/>
-                      </template>
-                      <template #label>
-                          <span>
-                            {{ $t(codeToKey(codes.CHAT_CREATE_DESCRIPTION)) }}
-                          </span>
-                      </template>
-                    </IconLabel>
-                  </button>
-                  <button v-for="chat in findAllChatsQuery.data.value"
-                          :key="chat.id"
-                          class="px-5 py-3 text-left truncate
-                                   hover:bg-hover transition-colors"
-                          :class="chat.id === activeChat?.id && 'font-semibold text-inverse' +
-                                                                'bg-secondary'"
-                          @click="setActiveChat(chat)">
-                    {{ chat.title || `${$t(codeToKey(codes.CHAT_RESOURCE_NAME))} #${chat.id}` }}
-                  </button>
-                </div>
-              </QueryState>
-            </template>
-          </Dropdown>
-        </div>
-
-        <div class="flex flex-col gap-10
-                    h-full w-full p-10 overflow-y-auto
-                    text-base">
-          <div v-if="!activeChat"
-               class="flex justify-center items-center
-                      h-full w-full">
-            <IconLabel class="gap-3
-                              w-3/4 h-3/4
-                              opacity-90">
-              <template #icon>
-                <AddIcon class="w-10 h-10"/>
-              </template>
-              <template #label>
-                <span class="font-semibold">
-                  Select a chat from the history or create a new one.
-                </span>
-              </template>
-            </IconLabel>
+          <div class="flex justify-center items-center
+                      px-5">
+            <span class="text-2xl font-semibold line-clamp-2">
+              {{
+                activeChat
+                    ? activeChat.title ?? `${t(codeToKey(codes.CHAT_DEFAULT_TITLE))}`
+                    : `${t(codeToKey(codes.CHAT_DEFAULT_TITLE))}`
+              }}
+            </span>
           </div>
-
-          <QueryState v-else :is-loading="findAllChatMessagesQuery.isLoading.value"
-                      :error="findAllChatMessagesQuery.error.value"
-                      error-classes="w-2/5 h-2/5"
-                      error-label-classes="text-xl">
-            <div v-if="findAllChatMessagesQuery.data.value">
-              <ChatMessage v-for="message in findAllChatMessagesQuery.data.value"
-                           :key="message.id"
-                           :author="message.role === 'USER' ? 'self' : 'other'">
-                {{ message.content }}
-              </ChatMessage>
-              <ChatMessage v-if="sendChatMessageMutation.isPending.value"
-                           author="other">
-                <span class="animate-pulse">…</span>
-              </ChatMessage>
-            </div>
-            <div v-else>
-              <span>
-                No messages yet
-              </span>
-            </div>
-          </QueryState>
+          <ChatsPanel :chats="findAllChatsQuery.data.value"
+                      :chats-is-loading="findAllChatsQuery.isLoading.value"
+                      :chatsError="findAllChatsQuery.error.value"
+                      :active-chat
+                      @create:chat="setActiveChat(null)"
+                      @select:chat="setActiveChat"
+                      class="shrink-0"/>
         </div>
+
+        <ChatContent :chat-messages="findAllChatMessagesQuery.data.value"
+                     :chat-messages-is-loading="findAllChatMessagesQuery.isLoading.value"
+                     :chatMessagesError="findAllChatMessagesQuery.error.value"
+                     :active-chat
+                     :new-chat-message-is-pending="sendChatMessageMutation.isPending.value"
+                     :user-avatar-url="viewer.viewer?.avatarUrl"/>
 
         <div class="w-full p-10 border-t border-default">
           <FormFieldError :error="getError('content')"

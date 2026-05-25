@@ -67,14 +67,14 @@ setupMenuCallbacks();
                 absolute bottom-5 right-2
                 px-4 py-2 border-b-0
                 opacity-0
-                transition-all duration-300
                 group-hover/educational-resource:opacity-100"
          @click.stop>
       <Dropdown side="top"
                 align="left"
                 :gap-rem="1.25"
                 trigger-classes="p-1 border rounded-full border-default
-                                 bg-primary">
+                                 bg-primary"
+                class="z-3">
         <template #trigger>
           <OptionsIcon class="w-5 h-5"/>
         </template>

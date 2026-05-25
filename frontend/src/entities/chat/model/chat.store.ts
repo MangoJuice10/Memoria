@@ -10,8 +10,6 @@ export const useChatStore = defineStore("chat", () => {
 
     const context = ref<ChatContext | null>(null);
 
-    const messageContent = ref<string>("");
-
     function setActiveChat(chat: ChatResponseDto | null) {
         activeChat.value = chat;
     }

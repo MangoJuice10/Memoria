@@ -112,7 +112,7 @@ model DeckEducationalResource {
 
 model Chat {
   id        Int      @id @default(autoincrement())
-  title     String
+  title     String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   userId    Int
@@ -132,7 +132,6 @@ model ChatMessage {
   id        Int             @id @default(autoincrement())
   role      ChatMessageRole
   content   String
-  citations Json?
   chatId    Int             @map("chat_id")
   createdAt DateTime        @default(now()) @map("created_at")
   updatedAt DateTime        @updatedAt()

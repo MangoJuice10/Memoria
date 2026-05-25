@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {type Component, markRaw, ref} from "vue";
 import {
     AddIcon,
-    CheckIcon,
+    CheckIcon, ClockIcon,
     EditIcon,
     ErrorIcon,
     InfoIcon,
@@ -20,7 +20,8 @@ export type ToastIconId =
     | ToastTypeId
     | "create"
     | "update"
-    | "delete";
+    | "delete"
+    | "pending";
 
 export const toastIcons = {
     success: markRaw(CheckIcon),
@@ -30,6 +31,7 @@ export const toastIcons = {
     create: markRaw(AddIcon),
     update: markRaw(EditIcon),
     delete: markRaw(TrashIcon),
+    pending: markRaw(ClockIcon),
 } as const satisfies Record<ToastIconId, Component>;
 
 export type ToastProps = {

@@ -10,6 +10,11 @@ import {Decks, Deck, DeckInfoTab, EducationalResourcesTab} from "@/pages/decks";
 import {FlashcardsTab} from "@/pages/decks";
 import {Review} from "@/pages/review";
 import {EducationalResources} from "@/pages/educational-resources";
+import {FeatureSpacedRepetition} from "@/pages/feature-spaced-repetition";
+import {FeatureAIAssistance} from "@/pages/feature-ai-assistance";
+import {FeatureTrustworthyAnswers} from "@/pages/feature-trustworthy-answers";
+import {FeatureStatistics} from "@/pages/feature-statistics";
+import {About} from "@/pages/about";
 
 export const routes = [
     {
@@ -28,7 +33,7 @@ export const routes = [
             {
                 path: "about",
                 name: "about",
-                component: Landing,
+                component: About,
                 meta: {public: true}
             },
             {
@@ -46,25 +51,25 @@ export const routes = [
             {
                 path: "feature-spaced-repetition",
                 name: "feature-spaced-repetition",
-                component: Landing,
+                component: FeatureSpacedRepetition,
                 meta: {public: true}
             },
             {
                 path: "feature-ai-assistance",
                 name: "feature-ai-assistance",
-                component: Landing,
+                component: FeatureAIAssistance,
                 meta: {public: true}
             },
             {
                 path: "feature-trustworthy-answers",
                 name: "feature-trustworthy-answers",
-                component: Landing,
+                component: FeatureTrustworthyAnswers,
                 meta: {public: true}
             },
             {
                 path: "feature-statistics",
                 name: "feature-statistics",
-                component: Landing,
+                component: FeatureStatistics,
                 meta: {public: true}
             },
             {

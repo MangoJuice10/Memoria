@@ -44,6 +44,8 @@ export const educationalResourcePropertyCodes = {
 export const chatPropertyCodes = {
     CHAT_RESOURCE_NAME: "CHAT_RESOURCE_NAME",
     CHAT_TITLE: "CHAT_TITLE",
+    CHAT_DEFAULT_TITLE: "CHAT_DEFAULT_TITLE",
+    CHAT_NO_MESSAGES: "CHAT_NO_MESSAGES",
 } satisfies Record<ResourcePropertyCode<"CHAT">, ResourcePropertyCode<"CHAT">>;
 
 export const chatMessagePropertyCodes = {

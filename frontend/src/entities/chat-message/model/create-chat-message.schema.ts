@@ -1,9 +1,6 @@
 import {z} from "zod";
-import type {Composer} from "vue-i18n";
-import {codeToKey} from "@/shared/i18n";
-import {codes} from "@/shared/config";
 
-export function createCreateChatMessageSchema(t: Composer["t"]) {
+export function createCreateChatMessageSchema() {
     return z.strictObject({
         content: z.string()
             .nonempty({

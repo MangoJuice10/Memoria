@@ -7,10 +7,13 @@ import { ChatMessageResponseDto } from "src/chat-message/dto";
 import { ChatMessage, ChatMessageRole } from "@prisma/client";
 import {
   createFlashcardContext,
-  createSystemPromptWithContext,
-  createSystemPromptWithoutContext,
+  createAssistanceSystemPromptWithContext,
+  createAssistanceSystemPromptWithoutContext,
+  createChatTitleSystemPrompt,
+  createQueryRewriteSystemPrompt,
 } from "src/chat-message/constants";
 import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
+import { ChatNotFoundError } from "src/chat/errors";
 
 const HISTORY_CHAT_MESSAGES_LIMIT = 10;
 
@@ -41,17 +44,22 @@ export class ChatMessageService {
         educationalResourceId: true,
       },
     });
-    const linkIds = links.map(({ educationalResourceId }) => educationalResourceId);
-
-    const query = `${flashcardFront}\n${flashcardBack}\n${content}`;
-    const { context, citations } = await this.ragService.retrieve(query, linkIds);
-
-    const systemPrompt = context
-      ? createSystemPromptWithContext(context)
-      : createSystemPromptWithoutContext();
 
     const flashcardContext = createFlashcardContext(flashcardFront, flashcardBack);
 
+    const rewrittenQuery = await this.largeLanguageModelService.invoke([
+      new SystemMessage(createQueryRewriteSystemPrompt()),
+      new SystemMessage(flashcardContext),
+      new HumanMessage(content),
+    ]);
+
+    const linkIds = links.map(({ educationalResourceId }) => educationalResourceId);
+    const context = await this.ragService.retrieve(rewrittenQuery, linkIds);
+
+    const assistanceSystemPrompt = context
+      ? createAssistanceSystemPromptWithContext(context)
+      : createAssistanceSystemPromptWithoutContext();
+    
     const history = (
       await this.prismaService.chatMessage.findMany({
         where: {
@@ -64,8 +72,10 @@ export class ChatMessageService {
       })
     ).reverse();
 
-    const messages = [
-      new SystemMessage(systemPrompt),
+    const isFirstChatMessage = history.length === 1;
+
+    const assistanceMessages = [
+      new SystemMessage(assistanceSystemPrompt),
       new SystemMessage(flashcardContext),
       ...history.map((chatMessage) =>
         chatMessage.role === ChatMessageRole.USER
@@ -74,16 +84,46 @@ export class ChatMessageService {
       ),
     ];
 
-    const assistantResponse = await this.largeLanguageModelService.invoke(messages);
+    const largeLanguageModelResponse =
+      await this.largeLanguageModelService.invoke(assistanceMessages);
 
     const assistantChatMessage = await this.prismaService.chatMessage.create({
       data: {
-        content: assistantResponse,
+        content: largeLanguageModelResponse,
         role: ChatMessageRole.ASSISTANT,
-        citations: citations.length ? citations : undefined,
         chatId,
       },
     });
+
+    const chat = await this.prismaService.chat.findUnique({
+      where: {
+        id: chatId,
+      },
+    });
+    if (!chat) throw new ChatNotFoundError();
+
+    if (isFirstChatMessage && !chat.title) {
+      const chatTitleSystemPrompt = createChatTitleSystemPrompt();
+
+      const chatTitleMessages = [
+        new SystemMessage(chatTitleSystemPrompt),
+        new SystemMessage(flashcardContext),
+        new HumanMessage(content),
+      ];
+
+      const generatedChatTitle = (await this.largeLanguageModelService.invoke(chatTitleMessages))
+        .trim()
+        .slice(0, 100);
+
+      await this.prismaService.chat.update({
+        where: {
+          id: chatId,
+        },
+        data: {
+          title: generatedChatTitle,
+        },
+      });
+    }
 
     await this.prismaService.chat.update({
       where: {
@@ -102,6 +142,9 @@ export class ChatMessageService {
       where: {
         chatId,
       },
+      orderBy: {
+        createdAt: "asc",
+      },
     });
     return chats.map(this.mapChatMessageToResponse.bind(this));
   }
@@ -109,7 +152,6 @@ export class ChatMessageService {
   private mapChatMessageToResponse(chatMessage: ChatMessage): ChatMessageResponseDto {
     return {
       ...chatMessage,
-      citations: chatMessage.citations as ChatMessageResponseDto["citations"],
     };
   }
 }

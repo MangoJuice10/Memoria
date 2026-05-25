@@ -3,10 +3,12 @@ import Hero from "@/pages/landing/ui/Hero.vue";
 import Feature from "@/pages/landing/ui/Feature.vue";
 import {Footer} from "@/widgets/footer";
 import {Button} from "@/shared/ui";
+import {useRouter} from "vue-router";
 import spacedRepetition from "@/assets/images/SpacedRepetition.png";
 import AIAssistance from "@/assets/images/AIAssistance.png";
 import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
 
+const router = useRouter();
 </script>
 <template>
   <div class="grid auto-rows-[minmax(min-content,1fr)] pt-page">
@@ -28,7 +30,7 @@ import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
             <b>{{ $t("landing.spacedRepetition.subheadline.sharedDecks") }}</b>
           </template>
         </i18n-t>
-        <Button class="w-37.5 h-11.5 text-lg">
+        <Button class="w-37.5 h-11.5 text-lg" @click="router.push({ name: 'login' })">
           <span class="font-semibold">{{ $t("landing.spacedRepetition.cta") }}</span>
         </Button>
       </template>
@@ -47,7 +49,7 @@ import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
             <b>{{ $t("landing.AIAssistance.subheadline.understanding") }}</b>
           </template>
         </i18n-t>
-        <Button class="w-37.5 h-11.5 text-lg">
+        <Button class="w-37.5 h-11.5 text-lg" @click="router.push({ name: 'login' })">
           <span class="font-semibold">{{ $t("landing.AIAssistance.cta") }}</span>
         </Button>
       </template>
@@ -66,7 +68,7 @@ import trustworthyAnswers from "@/assets/images/TrustworthyAnswers.png";
             <b>{{ $t("landing.trustworthyAnswers.subheadline.hallucinations") }}</b>
           </template>
         </i18n-t>
-        <Button class="w-37.5 h-11.5 text-lg">
+        <Button class="w-37.5 h-11.5 text-lg" @click="router.push({ name: 'login' })">
           <span class="font-semibold">{{ $t("landing.trustworthyAnswers.cta") }}</span>
         </Button>
       </template>

@@ -14,7 +14,6 @@ const usersData = users;
 async function main() {
   await prisma.flashcard.deleteMany();
   await prisma.deck.deleteMany();
-  await prisma.user.deleteMany();
 
   for (const user of usersData) {
     const passwordHash = await argon.hash(user.password);

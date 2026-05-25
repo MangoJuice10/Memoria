@@ -9,9 +9,11 @@ export type ResourceActionCode = (typeof resourceActionCodes)[number];
 export const resourceActionPropertyCodes = [
     "NAME",
     "DESCRIPTION",
+    "HINT",
     "CANCEL",
     "CONFIRM",
     "SUCCESS",
+    "PENDING",
     "ERROR",
 ] as const;
 

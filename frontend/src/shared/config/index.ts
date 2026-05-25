@@ -23,3 +23,5 @@ export * from "./errors/error-codes.config";
 export * from "./codes.config"
 
 export * from "./files.config";
+
+export * from "./injection-keys/resizable.keys";

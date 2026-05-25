@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
 import {createUploadImageSchema, useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
@@ -8,22 +8,21 @@ import {Form, FormField} from "@/shared/ui";
 import {allowedImageTypes, codes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
-import type {CreateEducationalResourceDto} from "../../model/create-educational-resource.schema";
-import type {EducationalResourceResponseDto} from "../../model/educational-resource-response.dto";
-import {educationalResourcesQueryKeys} from "../../api/educational-resources-query-keys";
-import * as educationalResourcesApi from "../../api/educational-resources";
-import {uploadCover} from "../../api/upload-cover";
 import {codeToKey} from "@/shared/i18n";
 import {
   type CreateEducationalResourceInput, createEducationalResourceSchema
 } from "../../model/create-educational-resource.schema";
+import {
+  createCreateEducationalResourceMutation
+} from "@/entities/educational-resource/api/mutations/create-educational-resource.mutation.ts";
+import {
+  createUploadEducationalResourceCoverMutation
+} from "@/entities/educational-resource/api/mutations/upload-educational-resource-cover.mutation.ts";
 
 const {t} = useI18n();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
 const data = ref<CreateEducationalResourceInput>({
   name: "",
@@ -48,38 +47,25 @@ const {
   t
 });
 
-const createEducationalResourceMutation = useMutation({
-  mutationFn: (createEducationalResourceDto: CreateEducationalResourceDto) => educationalResourcesApi.create(createEducationalResourceDto),
-  onSuccess: async (createdEducationalResource) => {
-    await queryClient.setQueryData(
-        educationalResourcesQueryKeys.all,
-        (old: EducationalResourceResponseDto[] | undefined) => {
-          if (!old) return old;
-          return [...old, createdEducationalResource];
-        }
-    );
-  }
-});
+const createEducationalResourceMutation = createCreateEducationalResourceMutation();
 
 const cover = ref<File | null>(null);
-
 const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE));
 
-const updateEducationalResourceCoverMutation = useMutation({
-  mutationFn: ({educationalResourceId, file}: {
-    educationalResourceId: number;
-    file: File;
-  }) => uploadCover(educationalResourceId, file),
-  onSuccess: async (updatedEducationalResource) => {
-    await queryClient.setQueryData(
-        educationalResourcesQueryKeys.all,
-        (old: EducationalResourceResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map((educationalResource) => educationalResource.id === updatedEducationalResource.id ? updatedEducationalResource : educationalResource);
-        }
-    );
-  }
-});
+const updateEducationalResourceCoverMutation = createUploadEducationalResourceCoverMutation();
+
+const isFormValid = computed(() => (
+    isFormTouched() && isValid && coverValidation.isValid
+));
+
+const isPending = computed(() => (
+    createEducationalResourceMutation.isPending.value
+    || updateEducationalResourceCoverMutation.isPending.value
+));
+
+const isCreationEnabled = computed(() =>
+    isFormValid.value && !isPending.value
+);
 
 const submit = async () => {
   touchAll();
@@ -91,6 +77,7 @@ const submit = async () => {
   if (!coverResult.success) return;
 
   try {
+    push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_CREATE_PENDING)), "info", "pending");
     const {id} = await createEducationalResourceMutation.mutateAsync(result.data);
     if (coverResult.data) await updateEducationalResourceCoverMutation.mutateAsync({
       educationalResourceId: id,
@@ -120,7 +107,7 @@ onMounted(() => {
     <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
-          :is-submit-enabled="isFormTouched() && isValid"
+          :is-submit-enabled="isCreationEnabled"
           :is-reset-enabled="true"
           has-sticky-controls
           form-error-classes="text-center"

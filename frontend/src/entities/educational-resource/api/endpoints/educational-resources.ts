@@ -1,13 +1,7 @@
 import {client, type SuccessResponse} from "@/shared/api";
-import type {
-    CreateEducationalResourceDto
-} from "../model/create-educational-resource.schema";
-import type {
-    EducationalResourceResponseDto
-} from "../model/educational-resource-response.dto";
-import type {
-    UpdateEducationalResourceDto
-} from "../model/update-educational-resource.schema";
+import type {CreateEducationalResourceDto} from "../../model/create-educational-resource.schema";
+import type {UpdateEducationalResourceDto} from "../../model/update-educational-resource.schema";
+import type {EducationalResourceResponseDto} from "../../model/educational-resource-response.dto";
 
 export async function create(createEducationalResourceDto: CreateEducationalResourceDto): Promise<EducationalResourceResponseDto> {
     const formData = new FormData();

@@ -20,7 +20,7 @@ const props = defineProps<{
 const daysUntilDue = computed(() => {
   const msPerDay = 24 * 60 * 60 * 1000;
   const diff = new Date(props.dueAt).getTime() - Date.now();
-  return Math.ceil(diff / msPerDay);
+  return Math.max(0, Math.ceil(diff / msPerDay));
 });
 
 const {t} = useI18n();

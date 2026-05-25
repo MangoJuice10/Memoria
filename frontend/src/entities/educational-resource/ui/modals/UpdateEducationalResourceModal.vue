@@ -7,20 +7,17 @@ import {FormError, Modal, UploadImage} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
 import {allowedImageTypes, codes, MAX_DECK_COVER_SIZE} from "@/shared/config";
 import {
   createUpdateEducationalResourceSchema,
   type UpdateEducationalResourceDto
 } from "../../model/update-educational-resource.schema";
-import * as educationalResourcesApi from "../../api/educational-resources";
-import {educationalResourcesQueryKeys} from "../../api/educational-resources-query-keys";
-import {uploadCover} from "../../api/upload-cover";
-import type {
-  EducationalResourceResponseDto
-} from "../../model/educational-resource-response.dto.ts";
-import {removeCover} from "@/entities/educational-resource";
+import {
+  createDeleteEducationalResourceCoverMutation,
+  createUpdateEducationalResourceMutation,
+  createUploadEducationalResourceCoverMutation,
+} from "@/entities/educational-resource";
 
 const props = defineProps<{
   id: number;
@@ -33,7 +30,6 @@ const {t} = useI18n();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
 const data = ref<UpdateEducationalResourceDto>({
   name: props.name,
@@ -57,55 +53,27 @@ const {
   t
 });
 
-const updateEducationalResourceMutation = useMutation({
-  mutationFn: (updateEducationalResourceDto: UpdateEducationalResourceDto) => educationalResourcesApi.update(props.id, updateEducationalResourceDto),
-  onSuccess: async (updatedEducationalResource) => {
-    await queryClient.setQueryData(
-        educationalResourcesQueryKeys.all,
-        (old: EducationalResourceResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map((educationalResource) => educationalResource.id === updatedEducationalResource.id ? updatedEducationalResource : educationalResource);
-        }
-    );
-  }
-});
+const updateEducationalResourceMutation = createUpdateEducationalResourceMutation();
 
 const cover = ref<File | null>(null);
-
 const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
-const updateEducationalResourceCoverMutation = useMutation({
-  mutationFn: ({educationalResourceId, file}: {
-    educationalResourceId: number;
-    file: File;
-  }) => uploadCover(educationalResourceId, file),
-  onSuccess: async (updatedEducationalResource) => {
-    await queryClient.setQueryData(
-        educationalResourcesQueryKeys.all,
-        (old: EducationalResourceResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map((educationalResource) => educationalResource.id === updatedEducationalResource.id ? updatedEducationalResource : educationalResource);
-        }
-    );
-  }
-});
+const uploadEducationalResourceCoverMutation = createUploadEducationalResourceCoverMutation();
+const deleteEducationalResourceCoverMutation = createDeleteEducationalResourceCoverMutation();
 
-const deleteEducationalResourceCoverMutation = useMutation({
-  mutationFn: (educationalResourceId: number) => removeCover(educationalResourceId),
-  onSuccess: async (updatedEducationalResource) => {
-    await queryClient.setQueryData(
-        educationalResourcesQueryKeys.all,
-        (old: EducationalResourceResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map((educationalResource) => educationalResource.id === updatedEducationalResource.id ? updatedEducationalResource : educationalResource);
-        }
-    );
-  }
-});
-
-const isSubmitEnabled = computed(() =>
+const isFormValid = computed(() => (
     isFormTouched() && isValid.value
-    || coverValidation.isFormTouched() && coverValidation.isValid.value
+    || coverValidation.isFormTouched() && coverValidation.isValid.value)
+);
+
+const isPending = computed(() =>
+    updateEducationalResourceMutation.isPending.value
+    || uploadEducationalResourceCoverMutation.isPending.value
+    || deleteEducationalResourceCoverMutation.isPending.value
+);
+
+const isUpdateEnabled = computed(() =>
+    isFormValid.value && !isPending.value
 );
 
 const submit = async () => {
@@ -118,7 +86,10 @@ const submit = async () => {
   if (!coverResult.success) return;
 
   try {
-    await updateEducationalResourceMutation.mutateAsync(result.data);
+    await updateEducationalResourceMutation.mutateAsync({
+      educationalResourceId: props.id,
+      updateEducationalResourceDto: result.data
+    });
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_UPDATE_SUCCESS)), "success", "update");
   } catch (error) {
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_UPDATE_ERROR)), "error");
@@ -130,7 +101,7 @@ const submit = async () => {
 
   if (coverResult.data) {
     try {
-      await updateEducationalResourceCoverMutation.mutateAsync({
+      await uploadEducationalResourceCoverMutation.mutateAsync({
         educationalResourceId: props.id,
         file: coverResult.data
       });
@@ -171,7 +142,7 @@ onMounted(() => {
     <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
-          :is-submit-enabled="isSubmitEnabled"
+          :is-submit-enabled="isUpdateEnabled"
           :is-reset-enabled="true"
           has-sticky-controls
           form-error-classes="text-center"

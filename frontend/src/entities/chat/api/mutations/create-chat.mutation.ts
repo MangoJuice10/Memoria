@@ -13,7 +13,7 @@ export function createCreateChatMutation() {
                 chatsQueryKeys.all,
                 (old: ChatResponseDto[] | undefined) => {
                     if (!old) return old;
-                    return [...old, newChat];
+                    return [newChat, ...old];
                 }
             );
         },
