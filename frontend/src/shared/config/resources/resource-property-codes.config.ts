@@ -17,6 +17,7 @@ export const flashcardPropertyCodes = {
     FLASHCARD_BACK: "FLASHCARD_BACK",
     FLASHCARD_INTERVAL_DAYS: "FLASHCARD_INTERVAL_DAYS",
     FLASHCARD_DUE_AT: "FLASHCARD_DUE_AT",
+    FLASHCARD_DEFAULT_DUE_AT: "FLASHCARD_DEFAULT_DUE_AT",
 } satisfies Record<ResourcePropertyCode<"FLASHCARD">, ResourcePropertyCode<"FLASHCARD">>;
 
 export const deckPropertyCodes = {

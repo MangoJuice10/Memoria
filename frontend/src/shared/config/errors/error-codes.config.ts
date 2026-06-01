@@ -1,4 +1,5 @@
-import {httpExceptionErrorCodes, domainErrorCodes} from "@/shared/config";
+import {httpExceptionErrorCodes} from "./http-exception-error-codes.config";
+import {domainErrorCodes} from "./domain-error-codes.config";
 
 export const errorCodes = {
     ...httpExceptionErrorCodes,

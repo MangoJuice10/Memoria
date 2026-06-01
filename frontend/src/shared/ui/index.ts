@@ -21,7 +21,10 @@ export {default as Searchbar} from "./searchbar/Searchbar.vue";
 
 export {default as MenuContainer} from "./menu/MenuContainer.vue";
 export {default as MenuItem} from "./menu/MenuItem.vue";
+export {default as Menu} from "./menu/Menu.vue";
+
 export {default as Dropdown} from "./dropdown/Dropdown.vue";
+export {default as DropdownMenu} from "./dropdown/DropdownMenu.vue";
 
 export {default as NavigationLink} from "./navigation/NavigationLink.vue";
 export {default as LocalizedLink} from "./navigation/LocalizedLink.vue";

@@ -9,7 +9,7 @@ import {IconLabel} from "@/shared/ui";
              bg-primary cursor-pointer
              transition duration-200
              hover:scale-105">
-    <IconLabel>
+    <IconLabel class="gap-2.5">
       <template #label>
         <span class="text-sm md:text-base">
           <slot/>

@@ -3,13 +3,25 @@ import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
 import { createAuthHelpers } from "test/helpers/auth/auth.helper";
 import { createFlashcardsHelpers } from "test/helpers/flashcards/flashcards.helper";
 import { defaultAuthData } from "test/fixtures/auth/auth.data";
-import { defaultFlashcardsData, newFlashcardsData } from "test/fixtures/flashcards/flashcards.data";
+import {
+  defaultFlashcardsData,
+  newFlashcardsData,
+  defaultFlashcardData,
+  newFlashcardData,
+} from "test/fixtures/flashcards/flashcards.data";
 import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
 import { createFlashcardsFixtures } from "test/fixtures/flashcards/flashcards.fixture";
 import { defaultDecksData } from "test/fixtures/decks/decks.data";
 import { createDecksHelpers } from "test/helpers/decks/decks.helper";
 import { createDecksFixtures } from "test/fixtures/decks/decks.fixture";
 import { setAccessToken } from "test/helpers/setAccessToken.helper";
+import { createFlashcardGenerationPrompt } from "src/flashcard/providers";
+import {
+  BatchFlashcardDto,
+  BatchFlashcardInput,
+} from "src/flashcard/schemas/batch-flashcard.schema";
+import { BatchFlashcardResponseDto } from "src/flashcard/schemas/batch-flashcard-response.dto";
+import { bulkCreateFlashcardsSchema } from "src/flashcard/schemas";
 
 describe("Flashcards", () => {
   let testingApp: TestingApp;
@@ -19,8 +31,8 @@ describe("Flashcards", () => {
 
   const { username, email, password, otherEmail } = defaultAuthData;
   const { name, description, isPublic } = defaultDecksData;
-  const { front, back } = defaultFlashcardsData;
-  const { newFront, newBack } = newFlashcardsData;
+  const { front, back } = defaultFlashcardData;
+  const { newFront, newBack } = newFlashcardData;
 
   let accessToken: string;
   let otherAccessToken: string;
@@ -28,7 +40,10 @@ describe("Flashcards", () => {
 
   const { createLoginDto, createRegisterDto } = createAuthFixtures(username, email, password);
   const { createCreateDeckDto } = createDecksFixtures(name, description, isPublic);
-  const { createCreateFlashcardDto } = createFlashcardsFixtures(front, back);
+  const { createCreateFlashcardDto, createBatchFlashcardDto } = createFlashcardsFixtures(
+    { front, back },
+    defaultFlashcardsData,
+  );
 
   beforeAll(async () => {
     testingApp = await createTestingApp();
@@ -36,7 +51,11 @@ describe("Flashcards", () => {
 
     authHelpers = createAuthHelpers(testingApp.httpServer, createRegisterDto, createLoginDto);
     decksHelpers = createDecksHelpers(testingApp.httpServer, createCreateDeckDto);
-    flashcardsHelpers = createFlashcardsHelpers(testingApp.httpServer, createCreateFlashcardDto);
+    flashcardsHelpers = createFlashcardsHelpers(
+      testingApp.httpServer,
+      createCreateFlashcardDto,
+      createBatchFlashcardDto,
+    );
   });
 
   afterEach(async () => {
@@ -44,6 +63,7 @@ describe("Flashcards", () => {
   });
 
   afterAll(async () => {
+    await testingApp.prismaService.cleanDatabase();
     await testingApp.app.close();
   });
 
@@ -80,6 +100,22 @@ describe("Flashcards", () => {
     it("should fail to create a flashcard if there is an extra field", async () => {
       const extraCreateFlashcardDto = { extraField: "extra", ...createCreateFlashcardDto() };
       await flashcardsHelpers.create(deckId, accessToken, extraCreateFlashcardDto).expect(422);
+    });
+  });
+
+  describe("Bulk create flashcards", () => {
+    it("should bulk create flashcards", async () => {
+      const res = await flashcardsHelpers
+        .bulkCreate(deckId, accessToken, {
+          flashcards: defaultFlashcardsData,
+        })
+        .expect(201);
+
+      expect(res.body.data).toHaveLength(defaultFlashcardsData.length);
+      for (let i = 0; i < defaultFlashcardsData.length; i++) {
+        expect(res.body.data[i]).toHaveProperty("front", defaultFlashcardsData[i].front);
+        expect(res.body.data[i]).toHaveProperty("back", defaultFlashcardsData[i].back);
+      }
     });
   });
 
@@ -278,5 +314,116 @@ describe("Flashcards", () => {
         ).expect(404);
       },
     );
+  });
+
+  describe("Perform a batch of operations of flashcards", () => {
+    it("should create the flashcards", async () => {
+      const res = await flashcardsHelpers.batch(deckId, accessToken).expect(200);
+      expect(res.body.data.created).toHaveLength(defaultFlashcardsData.length);
+      for (let i = 0; i < defaultFlashcardsData.length; i++) {
+        expect(res.body.data.created[i]).toHaveProperty("front", defaultFlashcardsData[i].front);
+        expect(res.body.data.created[i]).toHaveProperty("back", defaultFlashcardsData[i].back);
+      }
+    });
+
+    it("should update the flashcards", async () => {
+      const batchCreateFlashcardsRes = await flashcardsHelpers
+        .batch(deckId, accessToken)
+        .expect(200);
+      const createdFlashcards = (batchCreateFlashcardsRes.body.data as BatchFlashcardResponseDto)
+        .created;
+
+      const batchUpdateFlashcardsDto = {
+        update: createdFlashcards.map(({ id }, idx) => ({
+          id,
+          ...newFlashcardsData[idx],
+        })),
+      } satisfies BatchFlashcardInput;
+      const batchUpdateRes = await flashcardsHelpers
+        .batch(deckId, accessToken, batchUpdateFlashcardsDto)
+        .expect(200);
+      expect(batchUpdateRes.body.data.updated).toHaveLength(newFlashcardsData.length);
+      for (let i = 0; i < newFlashcardsData.length; i++) {
+        expect(batchUpdateRes.body.data.updated[i]).toHaveProperty(
+          "front",
+          newFlashcardsData[i].front,
+        );
+        expect(batchUpdateRes.body.data.updated[i]).toHaveProperty(
+          "back",
+          newFlashcardsData[i].back,
+        );
+      }
+    });
+
+    it("should delete the flashcards", async () => {
+      const batchCreateFlashcardsRes = await flashcardsHelpers
+        .batch(deckId, accessToken)
+        .expect(200);
+      const createdFlashcards = (batchCreateFlashcardsRes.body.data as BatchFlashcardResponseDto)
+        .created;
+
+      const flashcardsToDeleteIds = createdFlashcards.map(({ id }) => id);
+
+      const batchDeleteFlashcardsDto = {
+        delete: flashcardsToDeleteIds,
+      } satisfies BatchFlashcardInput;
+      const batchDeleteRes = await flashcardsHelpers
+        .batch(deckId, accessToken, batchDeleteFlashcardsDto)
+        .expect(200);
+      expect(batchDeleteRes.body.data.deleted).toHaveLength(flashcardsToDeleteIds.length);
+      expect(batchDeleteRes.body.data.deleted).toEqual(flashcardsToDeleteIds);
+    });
+
+    it("should create, update and delete flashcards", async () => {
+      const batchCreateFlashcardsRes = await flashcardsHelpers
+        .batch(deckId, accessToken)
+        .expect(200);
+      const [flashcardToUpdate, flashcardToDelete] = (
+        batchCreateFlashcardsRes.body.data as BatchFlashcardResponseDto
+      ).created;
+
+      const batchFlashcardsDto = {
+        create: [
+          {
+            front: defaultFlashcardData.front,
+            back: defaultFlashcardData.back,
+          },
+        ],
+        update: [
+          {
+            id: flashcardToUpdate.id,
+            front: newFlashcardData.newFront,
+            back: newFlashcardData.newBack,
+          },
+        ],
+        delete: [flashcardToDelete.id],
+      } satisfies BatchFlashcardInput;
+      const batchFlashcardsRes = await flashcardsHelpers
+        .batch(deckId, accessToken, batchFlashcardsDto)
+        .expect(200);
+
+      expect(batchFlashcardsRes.body.data.created).toHaveLength(1);
+      expect(batchFlashcardsRes.body.data.created[0]).toHaveProperty(
+        "front",
+        defaultFlashcardData.front,
+      );
+      expect(batchFlashcardsRes.body.data.created[0]).toHaveProperty(
+        "back",
+        defaultFlashcardData.back,
+      );
+
+      expect(batchFlashcardsRes.body.data.updated).toHaveLength(1);
+      expect(batchFlashcardsRes.body.data.updated[0]).toHaveProperty(
+        "front",
+        newFlashcardData.newFront,
+      );
+      expect(batchFlashcardsRes.body.data.updated[0]).toHaveProperty(
+        "back",
+        newFlashcardData.newBack,
+      );
+
+      expect(batchFlashcardsRes.body.data.deleted).toHaveLength(1);
+      expect(batchFlashcardsRes.body.data.deleted[0]).toEqual(flashcardToDelete.id);
+    });
   });
 });

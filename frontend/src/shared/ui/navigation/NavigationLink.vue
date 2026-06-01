@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {type MenuItemView} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
-import {IconLabel} from "@/shared/ui";
+import {MenuItem} from "@/shared/ui";
 import {onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
@@ -14,26 +14,13 @@ const props = withDefaults(defineProps<{
 
 onMounted(() => {
   if (!props.menuItemView.routeName) throw new Error("The route name is missing");
-})
+});
 </script>
 
 <template>
   <LocalizedLink :name="menuItemView.routeName!" :params="menuItemView.routeParams">
-    <IconLabel v-if="menuItemView.icon">
-      <template #icon>
-        <component :is="menuItemView.icon" :class="iconClasses"/>
-      </template>
-      <template #label>
-        <span :class="labelClasses">
-          {{ menuItemView.label }}
-        </span>
-      </template>
-    </IconLabel>
-    <div v-else>
-      <div class="px-3 py-1"
-            :class="labelClasses">
-        {{ menuItemView.label }}
-      </div>
-    </div>
+    <MenuItem :menu-item-view
+              :icon-classes
+              :label-classes/>
   </LocalizedLink>
 </template>

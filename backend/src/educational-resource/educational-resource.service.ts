@@ -35,7 +35,7 @@ export class EducationalResourceService {
         data: {
           ...createEducationalResourceDto,
           fileKey,
-          originalFilename: file.originalname,
+          originalFilename: Buffer.from(file.originalname, "latin1").toString("utf8"),
           userId,
         },
       });
@@ -119,14 +119,36 @@ export class EducationalResourceService {
 
   async update(
     educationalResourceId: number,
-    educationalResourceUpdateDto: UpdateEducationalResourceDto,
+    updateEducationalResourceDto: UpdateEducationalResourceDto,
+    file?: Express.Multer.File,
   ): Promise<UpdateEducationalResourceDto> {
     try {
+      if (file) {
+        const fileKey = await this.storageService.upload(file, "educational-resources");
+
+        const originalFilename = Buffer.from(file.originalname, "latin1").toString("utf-8");
+
+        const updatedEducationalResource = await this.prismaService.educationalResource.update({
+          where: {
+            id: educationalResourceId,
+          },
+          data: {
+            ...updateEducationalResourceDto,
+            fileKey,
+            originalFilename,
+          },
+        });
+
+        return this.mapToResponse(updatedEducationalResource);
+      }
+
       const updatedEducationalResource = await this.prismaService.educationalResource.update({
         where: {
           id: educationalResourceId,
         },
-        data: educationalResourceUpdateDto,
+        data: {
+          ...updateEducationalResourceDto,
+        },
       });
 
       return this.mapToResponse(updatedEducationalResource);

@@ -2,13 +2,13 @@
 import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
-import {createLoginSchema, type LoginDto} from "../model/login.schema";
+import {createLoginSchema, type LoginDto} from "@/entities/viewer/model/login.schema";
 import {Form, FormField, TabLinks} from "@/shared/ui";
-import {useMenu, useValidation} from "@/shared/lib";
+import {useMenu, useNavigation, useValidation} from "@/shared/lib";
 import {useViewerStore} from "@/entities/viewer";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {AUTH_LAYOUT, codes} from "@/shared/config";
+import {AUTH_LAYOUT, codes, type MenuItemIsActive, type TabItemId} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const data = ref<LoginDto>({
@@ -20,7 +20,13 @@ const viewer = useViewerStore();
 const route = useRoute();
 const router = useRouter();
 const {t} = useI18n();
-const {menuItemViews} = useMenu(AUTH_LAYOUT, t);
+
+const {isNavigationLinkActive} = useNavigation();
+const isActives = AUTH_LAYOUT.menuItems.reduce((acc, menuItem) => {
+  acc[menuItem.id] = () => isNavigationLinkActive(menuItem);
+  return acc;
+}, {} as Record<TabItemId, MenuItemIsActive>);
+const {menuItemViews} = useMenu(AUTH_LAYOUT, t, {}, isActives);
 
 const {
   isValid,
@@ -75,14 +81,16 @@ const submit = async () => {
         @submit="submit"
         @reset="reset">
     <template #heading>
-      <TabLinks :menu-item-views
-                class="text-2xl"/>
+      <div class="flex justify-center items-center">
+        <TabLinks :menu-item-views
+                  class="text-2xl"/>
+      </div>
     </template>
 
     <template #fields>
-      <div class="flex flex-col gap-4">
-        <FormField id="email"
-                   v-model="data.email"
+      <div class="flex flex-col gap-4 animate-expand-vertically">
+        <FormField v-model="data.email"
+                   id="email"
                    :label="$t(codeToKey(codes.EMAIL_NAME))"
                    :placeholder="$t(codeToKey(codes.EMAIL_PLACEHOLDER))"
                    :touched="isFieldTouched('email')"
@@ -91,10 +99,10 @@ const submit = async () => {
                      touch('email');
                      clientValidate();
                    }"/>
-        <FormField id="password"
-                   v-model="data.password"
+        <FormField v-model="data.password"
+                   variant="password"
+                   id="password"
                    :label="$t(codeToKey(codes.PASSWORD_NAME))"
-                   type="password"
                    :placeholder="$t(codeToKey(codes.PASSWORD_PLACEHOLDER))"
                    :touched="isFieldTouched('password')"
                    :error="getError('password')"

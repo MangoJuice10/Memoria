@@ -51,6 +51,13 @@
     --color-info: ;
 
     /*
+    CRUD colors
+    */
+    --color-create: ;
+    --color-update: ;
+    --color-delete: ;
+
+    /*
     Button colors
     Button colors correspond to the surface colors by default
     */

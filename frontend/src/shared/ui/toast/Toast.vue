@@ -29,7 +29,7 @@ const style = computed(() => ({
               transition duration-150
               hover:scale-105"
        :style>
-    <IconLabel>
+    <IconLabel class="gap-3">
       <template #icon>
         <component :is="icon"
                    class="w-7 h-7"/>

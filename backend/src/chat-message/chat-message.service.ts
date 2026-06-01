@@ -26,7 +26,7 @@ export class ChatMessageService {
   ) {}
   async send(
     chatId: number,
-    { flashcardFront, flashcardBack, deckId, content }: SendChatMessageDto,
+    { content, flashcardFront, flashcardBack, deckId }: SendChatMessageDto,
   ): Promise<ChatMessageResponseDto> {
     await this.prismaService.chatMessage.create({
       data: {
@@ -48,8 +48,7 @@ export class ChatMessageService {
     const flashcardContext = createFlashcardContext(flashcardFront, flashcardBack);
 
     const rewrittenQuery = await this.largeLanguageModelService.invoke([
-      new SystemMessage(createQueryRewriteSystemPrompt()),
-      new SystemMessage(flashcardContext),
+      new SystemMessage([createQueryRewriteSystemPrompt(), flashcardContext].join("\n\n")),
       new HumanMessage(content),
     ]);
 
@@ -59,7 +58,7 @@ export class ChatMessageService {
     const assistanceSystemPrompt = context
       ? createAssistanceSystemPromptWithContext(context)
       : createAssistanceSystemPromptWithoutContext();
-    
+
     const history = (
       await this.prismaService.chatMessage.findMany({
         where: {
@@ -75,8 +74,7 @@ export class ChatMessageService {
     const isFirstChatMessage = history.length === 1;
 
     const assistanceMessages = [
-      new SystemMessage(assistanceSystemPrompt),
-      new SystemMessage(flashcardContext),
+      new SystemMessage([assistanceSystemPrompt, flashcardContext].join("\n\n")),
       ...history.map((chatMessage) =>
         chatMessage.role === ChatMessageRole.USER
           ? new HumanMessage(chatMessage.content)
@@ -106,8 +104,7 @@ export class ChatMessageService {
       const chatTitleSystemPrompt = createChatTitleSystemPrompt();
 
       const chatTitleMessages = [
-        new SystemMessage(chatTitleSystemPrompt),
-        new SystemMessage(flashcardContext),
+        new SystemMessage([chatTitleSystemPrompt, flashcardContext].join("\n\n")),
         new HumanMessage(content),
       ];
 

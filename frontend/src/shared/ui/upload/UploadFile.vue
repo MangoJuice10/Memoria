@@ -3,22 +3,22 @@ import {File, UploadButton} from "@/shared/ui";
 import {computed, ref} from "vue";
 
 const props = defineProps<{
-  oldFileUrl?: string;
-  oldFileName?: string;
+  oldFileUrl?: string | null;
+  oldFilename?: string | null;
   fileClasses?: string;
   labelClasses?: string;
   imgClasses?: string;
 }>();
 
 const emit = defineEmits<{
-  (e: "file-change", file: File | null): void;
+  (e: "file-change", file: File | undefined): void;
 }>();
 
-const newFileName = ref<string | null>(null);
-const displayFileName = computed(() => newFileName.value ?? props.oldFileName ?? null);
+const newFileName = ref<string | undefined>(undefined);
+const displayFileName = computed(() => newFileName.value ?? props.oldFilename);
 
-function handleFileChange(file: File | null) {
-  newFileName.value = file?.name ?? null;
+function handleFileChange(file: File | undefined) {
+  newFileName.value = file?.name ?? undefined;
   emit("file-change", file);
 }
 </script>

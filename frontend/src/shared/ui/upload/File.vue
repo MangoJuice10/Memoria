@@ -13,7 +13,7 @@ defineProps<{
        class="flex flex-col items-center gap-3">
     <FileIcon class="w-20 h-20 sm:w-25 sm:h-25 md:w-30 md:h-30 lg:w-35 lg:h-35 xl:w-40 xl:h-40 object-cover"
               :class="imgClasses"/>
-    <span class="truncate"
+    <span class="flex max-w-80 text-center"
           :class="labelClasses">
       {{ filename }}
     </span>

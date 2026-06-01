@@ -6,8 +6,7 @@ import {useViewerStore} from "@/entities/viewer";
 import {useSidebarStore} from "@/shared/model";
 import {useBackdropStore, useModalStore} from "@/shared/model";
 import {asset, showOne, useMenu} from "@/shared/lib";
-import {Dropdown, MenuContainer} from "@/shared/ui";
-import {MenuItem} from "@/shared/ui";
+import {DropdownMenu} from "@/shared/ui";
 import {USER_PANEL_LAYOUT} from "@/features/settings/config/user-panel-layout.config.ts";
 import {Avatar} from "@/entities/user";
 
@@ -42,32 +41,33 @@ setupMenuCallbacks();
 </script>
 
 <template>
-  <Dropdown side="top"
-            align="center"
-            has-arrow
-            has-pin
-            trigger-classes="border-t border-default"
-            arrow-classes="w-7"
-            pin-classes="w-7"
-            menu-classes="w-4/5">
-    <template #trigger>
-      <div class="flex justify-center items-center gap-5 p-5">
-        <Avatar :src="viewer?.avatarUrl ?? asset('filler/noAvatar.png')"
-                class="w-12 h-12"/>
-        <div>
-          <div class="font-bold mb-2">{{ viewer?.username }}</div>
-          <div class="text-sm">{{ $t("settings.heading") }}</div>
-        </div>
+  <DropdownMenu :menu-item-views
+                side="top"
+                align="center"
+                has-arrow
+                has-pin
+                :gap-rem="2.25"
+                dropdown-trigger-classes="border-t border-default p-1"
+                dropdown-menu-classes="w-4/5"
+                menu-container-classes="divide-y divide-default
+                                        border border-default rounded-2xl overflow-hidden
+                                        font-semibold
+                                        bg-tertiary"
+                menu-item-classes="flex items-center
+                                   w-full px-7 py-3
+                                   hover:bg-hover"
+                menu-item-icon-classes="w-10 h-10"
+                menu-item-label-classes="whitespace-nowrap"
+                arrow-classes="w-7"
+                pin-classes="w-7">
+    <div class="flex justify-center items-center gap-5
+                p-5">
+      <Avatar :src="viewer?.avatarUrl ?? asset('filler/noAvatar.png')"
+              class="w-12 h-12"/>
+      <div>
+        <div class="font-bold mb-2">{{ viewer?.username }}</div>
+        <div class="text-sm">{{ $t("settings.heading") }}</div>
       </div>
-    </template>
-    <template #menu>
-      <MenuContainer class="overflow-hidden border border-default rounded-2xl">
-        <MenuItem v-for="userPanelItemView in menuItemViews"
-                  :menu-item-view="userPanelItemView"
-                  icon-classes="w-10"
-                  class="px-7 py-3"
-                  @click="userPanelItemView.callback"/>
-      </MenuContainer>
-    </template>
-  </Dropdown>
+    </div>
+  </DropdownMenu>
 </template>

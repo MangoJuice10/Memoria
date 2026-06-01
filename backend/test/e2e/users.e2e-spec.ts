@@ -28,6 +28,7 @@ describe("/users E2E", () => {
   });
 
   afterAll(async () => {
+    await testingApp.prismaService.cleanDatabase();
     await testingApp.app.close();
   });
 

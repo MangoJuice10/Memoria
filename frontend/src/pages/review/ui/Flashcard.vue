@@ -41,13 +41,9 @@ function handleFlip() {
 }
 
 async function handleRatingChange(rating: ReviewRating) {
-  console.log({
+  await reviewFlashcard(props.deck.id, props.flashcard.id, {
     rating
   });
-  const reviewedFlashcard = await reviewFlashcard(props.deck.id, props.flashcard.id, {
-    rating
-  });
-  console.log(reviewedFlashcard);
   isFlipped.value = false;
   await queryClient.invalidateQueries({
     queryKey: flashcardsQueryKeys.byDeck(props.deck.id)

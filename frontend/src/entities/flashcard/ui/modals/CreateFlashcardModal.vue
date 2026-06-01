@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {FLASHCARD_LAYOUT} from "@/entities/flashcard/config/flashcard-layout.config";
+import {defineAsyncComponent, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useValidation} from "@/shared/lib";
+import {getMenuItemViewOrThrow, useMenu, useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
-  flashcardsApi,
   createCreateFlashcardSchema,
-  type CreateFlashcardDto,
-  flashcardsQueryKeys, type FlashcardResponseDto
+  type CreateFlashcardDto, useDraftFlashcardStorage,
 } from "@/entities/flashcard";
-import {Modal} from "@/shared/ui";
+import {Modal, TabLinks} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
-import axios from "axios";
-import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 
@@ -22,10 +18,15 @@ const props = defineProps<{
 }>();
 
 const {t} = useI18n();
+
+const {stageCreate} = useDraftFlashcardStorage();
+const {menuItemViews} = useMenu(FLASHCARD_LAYOUT, t, {}, {
+  "create-flashcard": true,
+  "generate-flashcard": false
+});
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
 const data = ref<CreateFlashcardDto>({
   front: "",
@@ -40,27 +41,11 @@ const {
   touch,
   touchAll,
   clientValidate,
-  serverValidate,
   reset,
 } = useValidation(data, createCreateFlashcardSchema(t), {
   mode: "eager",
   delay: 300,
   t
-});
-
-const createFlashcardMutation = useMutation({
-  mutationFn: (createFlashcardDto: CreateFlashcardDto) => flashcardsApi.create(props.deckId, createFlashcardDto),
-  onSuccess: async (createdFlashcard) => {
-    await queryClient.setQueryData(
-        flashcardsQueryKeys.byDeck(props.deckId),
-        (old: FlashcardResponseDto[] | undefined) => {
-          if (!old) return old;
-          return [...old, createdFlashcard];
-        }
-    );
-    backdropStore.hide();
-    modalStore.hide();
-  }
 });
 
 const submit = async () => {
@@ -69,19 +54,26 @@ const submit = async () => {
   const result = await clientValidate();
   if (!result.success) return;
 
-  try {
-    await createFlashcardMutation.mutateAsync(result.data);
-    push(t(codeToKey(codes.FLASHCARD_CREATE_SUCCESS)), "success", "create");
-  } catch (error) {
-    push(t(codeToKey(codes.FLASHCARD_CREATE_ERROR)), "error");
-    if (axios.isAxiosError(error)) {
-      const body = error.response?.data as ErrorResponse;
-      await serverValidate(body);
-    }
-  }
+  stageCreate(result.data);
+  push(t(codeToKey(codes.FLASHCARD_CREATE_DRAFT)), "success", "create");
+  backdropStore.hide();
+  modalStore.hide();
+};
+
+function setupMenuCallbacks() {
+  const generateFlashcardItem = getMenuItemViewOrThrow(menuItemViews.value, "generate-flashcard");
+  generateFlashcardItem.callback = switchToGenerateFlashcardModal;
+}
+
+const switchToGenerateFlashcardModal = () => {
+  const generateFlashcardModal = defineAsyncComponent(() => import("./GenerateFlashcardModal.vue"));
+  modalStore.show(generateFlashcardModal, {
+    deckId: props.deckId
+  });
 };
 
 onMounted(() => {
+  setupMenuCallbacks();
   backdropStore.setCallback(() => {
     modalStore.hide();
   });
@@ -90,7 +82,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Modal>
+  <Modal class="animate-expand">
     <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
@@ -100,15 +92,16 @@ onMounted(() => {
           @submit="submit"
           @reset="reset">
         <template #heading>
-          <h2 class="text-center">
-            {{ $t("form.headings.create-flashcard") }}
-          </h2>
+          <div class="flex justify-center">
+            <TabLinks :menu-item-views
+                      class="text-2xl"/>
+          </div>
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
-            <FormField id="front"
-                       v-model="data.front"
-                       element="textarea"
+            <FormField v-model="data.front"
+                       variant="textarea"
+                       id="front"
                        :label="t(codeToKey(codes.FRONT_NAME))"
                        :placeholder="t(codeToKey(codes.FRONT_PLACEHOLDER))"
                        :touched="isFieldTouched('front')"
@@ -117,9 +110,9 @@ onMounted(() => {
                          touch('front');
                          clientValidate();
                        }"/>
-            <FormField id="back"
-                       v-model="data.back"
-                       element="textarea"
+            <FormField v-model="data.back"
+                       variant="textarea"
+                       id="back"
                        :label="t(codeToKey(codes.BACK_NAME))"
                        :placeholder="t(codeToKey(codes.BACK_PLACEHOLDER))"
                        :touched="isFieldTouched('back')"

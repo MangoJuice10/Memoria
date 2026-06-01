@@ -22,6 +22,15 @@ export type FooterItemId =
     | "feature-trustworthy-answers"
     | "feature-statistics"
 
+export type TabItemId =
+    | "deck-info"
+    | "deck-flashcards"
+    | "deck-educational-resources"
+    | "create-flashcard"
+    | "generate-flashcard"
+    | "login"
+    | "register"
+
 export type ActionsItemId =
     | "settings"
     | "change-language"
@@ -33,30 +42,37 @@ export type SettingsItemId =
     | "language"
     | "theme";
 
-export type AuthId =
-    | "login"
-    | "register"
-
-export type DeckTabId =
-    | "deck-info"
-    | "deck-flashcards"
-    | "deck-educational-resources"
-
 export type OptionsItemId =
     | "edit"
-    | "delete";
+    | "delete"
+    | "rollback";
+
+export type MenuItemId =
+    | NavbarItemId
+    | SidebarItemId
+    | FooterItemId
+    | TabItemId
+    | ActionsItemId
+    | SettingsItemId
+    | OptionsItemId;
+
+export type MenuItemCallback = () => void | Promise<void>;
+export type MenuItemIsActive = boolean | (() => boolean | Promise<boolean>);
 
 export type MenuItem<ItemId extends string | number> = {
     id: ItemId;
+    callback?: MenuItemCallback;
     routeName?: string;
     routeParams?: Record<string, string>;
-    callback?: () => void | Promise<void>;
+    isActive?: MenuItemIsActive;
     labelCode: MenuCode;
     labelOptions?: Record<string, unknown>;
     icon?: Component;
 }
 
-export type MenuItemView<ItemId extends string | number> = Omit<MenuItem<ItemId>, "labelCode" | "labelOptions"> & {
+export type MenuItemView<ItemId extends string | number> =
+    Omit<MenuItem<ItemId>, "labelCode" | "labelOptions">
+    & {
     label: string;
 }
 

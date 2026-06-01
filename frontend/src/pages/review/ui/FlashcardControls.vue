@@ -20,7 +20,7 @@ defineEmits<{
     <Button :enabled="isPreviousEnabled"
             class="w-button h-button"
             @click="$emit('previous')">
-      <IconLabel>
+      <IconLabel class="gap-2.5">
         <template #icon>
           <ArrowIcon class="icon-static-inverse w-7 h-7
                               rotate-180"/>
@@ -32,7 +32,7 @@ defineEmits<{
     </Button>
     <Button class="w-button h-button"
             @click="$emit('flip')">
-      <IconLabel>
+      <IconLabel class="gap-2.5">
         <template #icon>
           <FlipIcon class="icon-static-inverse w-7 h-7"/>
         </template>
@@ -44,7 +44,8 @@ defineEmits<{
     <Button :enabled="isNextEnabled"
             class="w-button h-button"
             @click="$emit('next')">
-      <IconLabel is-reverse>
+      <IconLabel is-reverse
+                 class="gap-2.5">
         <template #icon>
           <ArrowIcon class="icon-static-inverse w-7 h-7"/>
         </template>

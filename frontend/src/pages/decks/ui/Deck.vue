@@ -30,7 +30,8 @@ const {data, isLoading, error} = useQuery({
             :id="data.id"
             :name="data.name"
             :is-public="data.isPublic"
-            class="px-page"/>
+            class="fixed z-1
+                   w-full px-page"/>
         <RouterView v-slot="{ Component }">
           <component :is="Component"
                      :id="data.id"
@@ -38,7 +39,7 @@ const {data, isLoading, error} = useQuery({
                      :description="data.description"
                      :is-public="data.isPublic"
                      :cover-url="data.coverUrl"
-                     class="grow px-page"/>
+                     class="grow px-page pt-20"/>
         </RouterView>
       </div>
     </QueryState>

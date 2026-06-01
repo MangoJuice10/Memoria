@@ -1,26 +1,22 @@
 <script setup lang="ts">
 import type {MenuItemView} from "@/shared/config";
-import NavigationLink from "./NavigationLink.vue";
-import {useNavigation} from "@/shared/lib";
+import Menu from "@/shared/ui/menu/Menu.vue";
+import type {ClassValue} from "vue";
 
 defineProps<{
-  menuItemViews: MenuItemView<string | number>[]
+  menuItemViews: MenuItemView<string | number>[];
+  menuItemActiveClasses?: ClassValue;
 }>();
-
-const {isNavigationLinkActive} = useNavigation();
 </script>
 
 <template>
-  <div class="group/tab-links
-              flex justify-center items-center gap-5">
-    <NavigationLink v-for="menuItemView in menuItemViews"
-                    :key="menuItemView.id"
-                    :menu-item-view
-                    class="transition-transform duration-300
-                           hover:text-shadow-[0_0_1px] hover:underline active:scale-105"
-                    :class="{['text-shadow-[0_0_1px] underline\n' +
-                             'group-hover/tab-links:text-shadow-none group-hover/tab-links:no-underline']: isNavigationLinkActive(menuItemView)}">
-      {{ menuItemView.label }}
-    </NavigationLink>
-  </div>
+  <Menu display="horizontal"
+        :menu-item-views
+        menu-container-classes="group/tab-links gap-10"
+        menu-item-label-classes="transition-transform duration-300
+                                 hover:text-shadow-[0_0_1px] hover:underline active:scale-105"
+        menu-item-icon-classes="w-6.5 h-6.5"
+        :menu-item-active-classes
+        menu-item-active-label-classes="text-shadow-[0_0_1px] underline
+                                        group-hover/tab-links:text-shadow-none group-hover/tab-links:no-underline"/>
 </template>

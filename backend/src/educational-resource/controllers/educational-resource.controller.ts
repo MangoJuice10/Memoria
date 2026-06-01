@@ -8,7 +8,8 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post, Query,
+  Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -60,11 +61,18 @@ export class EducationalResourceController {
   @Patch(":educationalResourceId")
   @HttpCode(200)
   @UseGuards(EducationalResourceOwnershipGuard)
+  @UseInterceptors(FileInterceptor("file", { storage: memoryStorage() }))
   async update(
     @Param("educationalResourceId", ParseIntPipe) educationalResourceId: number,
-    @Body(new ZodValidationPipe(updateEducationalResourceSchema)) updateEducationalResourceDto: UpdateEducationalResourceDto,
+    @Body(new ZodValidationPipe(updateEducationalResourceSchema))
+    updateEducationalResourceDto: UpdateEducationalResourceDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.educationalResourceService.update(educationalResourceId, updateEducationalResourceDto);
+    return this.educationalResourceService.update(
+      educationalResourceId,
+      updateEducationalResourceDto,
+      file,
+    );
   }
 
   @Delete(":educationalResourceId")
@@ -88,9 +96,7 @@ export class EducationalResourceController {
   @Delete(":educationalResourceId/cover")
   @HttpCode(200)
   @UseGuards(EducationalResourceOwnershipGuard)
-  async removeCover(
-    @Param("educationalResourceId", ParseIntPipe) educationalResourceId: number,
-  ) {
+  async removeCover(@Param("educationalResourceId", ParseIntPipe) educationalResourceId: number) {
     return this.educationalResourceService.removeCover(educationalResourceId);
   }
 }

@@ -2,10 +2,12 @@ import {defineStore} from "pinia";
 import {type Component, markRaw, ref} from "vue";
 import {
     AddIcon,
-    CheckIcon, ClockIcon,
+    AiGeneratedIcon,
+    CheckIcon,
+    ClockIcon,
     EditIcon,
     ErrorIcon,
-    InfoIcon,
+    InfoIcon, RefreshIcon,
     TrashIcon,
     WarningIcon
 } from "@/shared/ui";
@@ -19,8 +21,10 @@ export type ToastTypeId =
 export type ToastIconId =
     | ToastTypeId
     | "create"
+    | "generate"
     | "update"
     | "delete"
+    | "batch"
     | "pending";
 
 export const toastIcons = {
@@ -29,8 +33,10 @@ export const toastIcons = {
     warning: markRaw(WarningIcon),
     info: markRaw(InfoIcon),
     create: markRaw(AddIcon),
+    generate: markRaw(AiGeneratedIcon),
     update: markRaw(EditIcon),
     delete: markRaw(TrashIcon),
+    batch: markRaw(RefreshIcon),
     pending: markRaw(ClockIcon),
 } as const satisfies Record<ToastIconId, Component>;
 
@@ -53,7 +59,7 @@ export const useToastStore = defineStore("toast", () => {
         const toast: ToastProps = {
             id,
             message,
-            type: typeId,
+            variant: typeId,
             icon: toastIcons[iconId],
             duration,
         };

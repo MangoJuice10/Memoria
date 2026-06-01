@@ -4,19 +4,17 @@ import {asset, useValidation} from "@/shared/lib";
 import {Form, FormError, FormField, UploadImage} from "@/shared/ui";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
 import {allowedImageTypes, codes, MAX_DECK_COVER_SIZE} from "@/shared/config";
 import {
   createUpdateDeckSchema,
-  type DeckResponseDto,
-  type UpdateDeckDto, uploadCover
+  createDeleteDeckMutation,
+  createUpdateDeckMutation,
+  createUploadDeckCoverMutation,
+  type UpdateDeckDto
 } from "@/entities/deck";
-import {decksQueryKeys} from "@/entities/deck";
-import {decksApi} from "@/entities/deck";
-import {removeCover} from "@/entities/deck";
 import {useI18n} from "vue-i18n";
-import {createUploadImageSchema, useToastStore} from "@/shared/model";
+import {createUploadImageOptionalSchema, type UploadImageOptional, useToastStore} from "@/shared/model";
 
 const props = defineProps<{
   id: number;
@@ -32,7 +30,6 @@ const data = ref<UpdateDeckDto>({
 
 const {t} = useI18n();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
 const {
   isValid,
@@ -51,54 +48,16 @@ const {
   t
 });
 
-const updateDeckDataMutation = useMutation({
-  mutationFn: ({deckId, updateDeckDto}: {
-    deckId: number;
-    updateDeckDto: UpdateDeckDto;
-  }) => decksApi.update(deckId, updateDeckDto),
-  onSuccess: async (updatedDeck, variables) => {
-    await queryClient.setQueryData(
-        decksQueryKeys.byId(variables.deckId),
-        (old: DeckResponseDto | undefined) => {
-          if (!old) return old;
-          return updatedDeck;
-        }
-    );
-  }
+const updateDeckMutation = createUpdateDeckMutation();
+const deleteDeckMutation = createDeleteDeckMutation();
+
+const cover = ref<UploadImageOptional>({
+  image: undefined
 });
 
-const updateDeckCoverMutation = useMutation({
-  mutationFn: ({deckId, file}: {
-    deckId: number;
-    file: File;
-  }) => uploadCover(deckId, file),
-  onSuccess: async (updatedDeck, variables) => {
-    await queryClient.setQueryData(
-        decksQueryKeys.byId(variables.deckId),
-        (old: DeckResponseDto | undefined) => {
-          if (!old) return old;
-          return updatedDeck;
-        }
-    );
-  }
-});
+const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
-const deleteDeckCoverMutation = useMutation({
-  mutationFn: (deckId: number) => removeCover(deckId),
-  onSuccess: async (updatedDeck, variables) => {
-    await queryClient.setQueryData(
-        decksQueryKeys.byId(variables),
-        (old: DeckResponseDto | undefined) => {
-          if (!old) return old;
-          return updatedDeck;
-        }
-    );
-  }
-});
-
-const cover = ref<File | null>(null);
-
-const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
+const updateDeckCoverMutation = createUploadDeckCoverMutation();
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value
@@ -115,7 +74,7 @@ const submit = async () => {
   if (!coverResult.success) return;
 
   try {
-    await updateDeckDataMutation.mutateAsync({
+    await updateDeckMutation.mutateAsync({
       deckId: props.id,
       updateDeckDto: result.data
     });
@@ -128,11 +87,11 @@ const submit = async () => {
     }
   }
 
-  if (coverResult.data) {
+  if (coverResult.data.image) {
     try {
       await updateDeckCoverMutation.mutateAsync({
         deckId: props.id,
-        file: coverResult.data
+        file: coverResult.data.image
       });
       push(t(codeToKey(codes.DECK_COVER_UPDATE_SUCCESS)), "success", "update");
     } catch (error) {
@@ -144,7 +103,7 @@ const submit = async () => {
     }
   } else {
     try {
-      await deleteDeckCoverMutation.mutateAsync(props.id);
+      await deleteDeckMutation.mutateAsync(props.id);
       push(t(codeToKey(codes.DECK_COVER_DELETE_SUCCESS)), "success", "update");
     } catch (error) {
       push(t(codeToKey(codes.DECK_COVER_DELETE_ERROR)), "error");
@@ -176,18 +135,17 @@ const submit = async () => {
             <UploadImage :old-image-url="coverUrl"
                          :default-img-url="asset('filler/noDeckCover.png')"
                          @img-change="(file) => {
-                             coverValidation.touch('cover');
-                             cover = file;
+                             coverValidation.touch('image');
+                             cover.image = file;
                              coverValidation.clientValidate();
                            }"
                          img-classes="p-10 border border-dashed border-default"
                          class="grow"/>
-            <FormError :error="coverValidation.getError('cover')"/>
+            <FormError :error="coverValidation.getError('image')"/>
           </div>
         </div>
-        <FormField id="front"
-                   v-model="data.name"
-                   element="input"
+        <FormField v-model="data.name"
+                   id="front"
                    :label="$t(codeToKey(codes.NAME_NAME))"
                    :placeholder="$t(codeToKey(codes.NAME_PLACEHOLDER))"
                    :touched="isFieldTouched('front')"
@@ -196,9 +154,9 @@ const submit = async () => {
                          touch('front');
                          clientValidate();
                        }"/>
-        <FormField id="back"
-                   v-model="data.description"
-                   element="textarea"
+        <FormField v-model="data.description"
+                   variant="textarea"
+                   id="back"
                    :label="$t(codeToKey(codes.DESCRIPTION_NAME))"
                    :placeholder="$t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                    :touched="isFieldTouched('back')"
@@ -207,7 +165,7 @@ const submit = async () => {
                          touch('back');
                          clientValidate();
                        }"
-                   class="h-110"/>
+                   inputClasses="h-110"/>
       </template>
       <template #submit>
         {{ $t(codeToKey(codes.DECK_UPDATE_CONFIRM)) }}

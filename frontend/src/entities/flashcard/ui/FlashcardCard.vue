@@ -1,118 +1,154 @@
 <script setup lang="ts">
-import {ClockIcon} from "@/shared/ui";
-import {Dropdown, IconLabel, MenuContainer, MenuItem} from "@/shared/ui";
-import {useBackdropStore, useModalStore} from "@/shared/model";
+import {useDraftFlashcardStorage} from "@/entities/flashcard";
+import {createFlashcardsOptionsLayout} from "@/entities/flashcard/config/flashcard-options-layout.config";
+import {ClockIcon, DropdownMenu} from "@/shared/ui";
+import {IconLabel} from "@/shared/ui";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {computed, defineAsyncComponent} from "vue";
-import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
+import {showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
-import {codes, createOptionsLayout} from "@/shared/config";
+import {codes, type MenuItemCallback, type OptionsItemId} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
+import type {DisplayFlashcard} from "../model/types/display-flashcard.type";
 
 const props = defineProps<{
-  id: number;
-  front: string;
-  back: string;
-  dueAt: string;
-  deckId: number;
+  flashcard: DisplayFlashcard
 }>();
 
 const daysUntilDue = computed(() => {
+  if (props.flashcard.status === "CREATED") return null;
+
   const msPerDay = 24 * 60 * 60 * 1000;
-  const diff = new Date(props.dueAt).getTime() - Date.now();
+  const diff = new Date(props.flashcard.dueAt).getTime() - Date.now();
   return Math.max(0, Math.ceil(diff / msPerDay));
 });
 
 const {t} = useI18n();
 
+const {unstage} = useDraftFlashcardStorage();
+const {push} = useToastStore();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 
-const {menuItemViews} = useMenu(createOptionsLayout(t(codeToKey(codes.FLASHCARD_RESOURCE_NAME))), t);
+const callbacks = {
+  edit: openUpdateFlashcardModal,
+  delete: openDeleteFlashcardModal,
+  rollback: rollbackFlashcard
+} satisfies Record<OptionsItemId, MenuItemCallback>;
 
-function setupMenuCallbacks() {
-  const editItem = getMenuItemViewOrThrow(menuItemViews.value, "edit");
-  editItem.callback = openUpdateFlashcardModal;
+const {menuItemViews} = useMenu(createFlashcardsOptionsLayout(t(codeToKey(codes.FLASHCARD_RESOURCE_NAME))), t, callbacks);
 
-  const deleteItem = getMenuItemViewOrThrow(menuItemViews.value, "delete");
-  deleteItem.callback = openDeleteFlashcardModal;
-}
-
-const openUpdateFlashcardModal = () => {
+function openUpdateFlashcardModal() {
   const updateFlashcardModal = defineAsyncComponent(() => import("./modals/UpdateFlashcardModal.vue"));
   showOne(backdropStore);
   modalStore.show(updateFlashcardModal, {
-    id: props.id,
-    front: props.front,
-    back: props.back,
-    deckId: props.deckId
+    id: props.flashcard.id,
+    flashcardData: {
+      front: props.flashcard.front,
+      back: props.flashcard.back,
+    }
   });
 };
 
-const openDeleteFlashcardModal = () => {
+function openDeleteFlashcardModal() {
   const deleteFlashcardModal = defineAsyncComponent(() => import("./modals/DeleteFlashcardModal.vue"));
   showOne(backdropStore);
   modalStore.show(deleteFlashcardModal, {
-    id: props.id,
-    deckId: props.deckId
+    id: props.flashcard.id
   });
 };
 
-setupMenuCallbacks();
+function rollbackFlashcard() {
+  unstage(props.flashcard.id);
+  push(t(codeToKey(codes.FLASHCARD_BATCH_ROLLBACK)));
+}
+
+const style = computed(() => {
+  switch (props.flashcard.status) {
+    case "COMMITTED": {
+      return {
+        "border": "0.0625rem solid",
+        "border-color": "var(--color-border-default)"
+      };
+    }
+    case "CREATED": {
+      return {
+        "border": "0.2rem dashed",
+        "border-color": "var(--color-create)"
+      };
+    }
+    case "UPDATED": {
+      return {
+        "border": "0.2rem dashed",
+        "border-color": "var(--color-update)"
+      };
+    }
+    case "DELETED": {
+      return {
+        "border": "0.2rem dashed",
+        "border-color": "var(--color-delete)"
+      };
+    }
+  }
+});
 </script>
 
 <template>
   <div class="group/flashcard
               grid grid-rows-20 grid-cols-1 divide-y divide-default
-              w-flashcard h-flashcard border border-default rounded-2xl
-              bg-primary cursor-pointer
-              shadow-lg
+              w-flashcard h-flashcard rounded-2xl
+              cursor-pointer
+              bg-primary shadow-lg
               transition duration-200
               hover:scale-105 hover:shadow-2xl"
+       :style
        @click="openUpdateFlashcardModal">
     <div class="row-span-1 flex justify-end px-4 py-2 border-b-0
                 opacity-0
                 transition-all duration-300
                 group-hover/flashcard:opacity-100">
-      <Dropdown align="left"
-                :gap-rem="2.25"
-                trigger-classes="p-1 rounded-full">
-        <template #trigger>
-          <OptionsIcon class="w-5 h-5"/>
-        </template>
-        <template #menu>
-          <MenuContainer class="overflow-hidden border border-default rounded-2xl text-xs">
-            <MenuItem v-for="optionsItemView in menuItemViews"
-                      :menu-item-view="optionsItemView"
-                      icon-classes="w-5"
-                      label-classes="whitespace-nowrap"
-                      class="px-3 py-1"
-                      @click.stop="optionsItemView.callback"/>
-          </MenuContainer>
-        </template>
-      </Dropdown>
+      <DropdownMenu :menu-item-views
+                    align="left"
+                    :gap-rem="2.25"
+                    dropdown-trigger-classes="p-1 rounded-full"
+                    menu-container-classes="divide-y divide-default
+                                            overflow-hidden border border-default rounded-2xl
+                                            text-xs
+                                            bg-tertiary"
+                    menu-item-classes="flex items-center
+                                       w-full h-10 px-3 py-1
+                                       hover:bg-hover"
+                    menu-item-icon-classes="w-5 h-5"
+                    menu-item-label-classes="whitespace-nowrap">
+        <OptionsIcon class="w-5 h-5"/>
+      </DropdownMenu>
     </div>
     <div class="row-span-5 p-4">
       <div class="text-lg text-center line-clamp-2">
-        {{ front }}
+        {{ flashcard.front }}
       </div>
     </div>
     <div class="row-span-10 p-4">
       <div class="text-base text-center line-clamp-5">
-        {{ back }}
+        {{ flashcard.back }}
       </div>
     </div>
     <div class="row-span-4
                 rounded-b-2xl px-5 py-3
                 bg-tertiary">
-      <IconLabel>
+
+      <IconLabel class="gap-2.5">
         <template #label>
-          <span>
+          <span v-if="flashcard.status === 'CREATED'">
+            {{ $t(codeToKey(codes.FLASHCARD_DEFAULT_DUE_AT)) }}
+          </span>
+          <span v-else>
             {{ $t(codeToKey(codes.FLASHCARD_DUE_AT), {n: daysUntilDue}) }}
           </span>
         </template>
         <template #icon>
-          <ClockIcon class="w-7"/>
+          <ClockIcon class="min-w-7 min-h-7"/>
         </template>
       </IconLabel>
     </div>

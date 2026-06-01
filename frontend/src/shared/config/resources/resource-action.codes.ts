@@ -1,7 +1,9 @@
 export const resourceActionCodes = [
     "CREATE",
+    "GENERATE",
     "UPDATE",
-    "DELETE"
+    "DELETE",
+    "BATCH"
 ] as const;
 
 export type ResourceActionCode = (typeof resourceActionCodes)[number];
@@ -12,6 +14,8 @@ export const resourceActionPropertyCodes = [
     "HINT",
     "CANCEL",
     "CONFIRM",
+    "DRAFT",
+    "ROLLBACK",
     "SUCCESS",
     "PENDING",
     "ERROR",

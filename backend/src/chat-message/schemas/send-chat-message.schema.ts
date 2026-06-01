@@ -1,10 +1,10 @@
-import z from "zod";
+import { z } from "zod";
 import { createChatMessageSchema } from "./create-chat-message.schema";
-import { createBackSchema, createFrontSchema } from "src/flashcard/schemas";
+import { frontSchema, backSchema } from "src/flashcard/schemas/flashcard.schemas";
 
 export const sendChatMessageSchema = createChatMessageSchema.extend({
-  flashcardFront: createFrontSchema,
-  flashcardBack: createBackSchema,
+  flashcardFront: frontSchema.nonempty(),
+  flashcardBack: backSchema.nonempty(),
   deckId: z.number().int().positive(),
 });
 

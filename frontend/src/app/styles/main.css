@@ -140,6 +140,10 @@
         --color-warning: var(--color-yellow-100);
         --color-info: var(--color-blue-1200);
 
+        --color-create: var(--color-green-700);
+        --color-update: var(--color-yellow-100);
+        --color-delete: var(--color-red-100);
+
         --font-weight-default: var(--font-weight-400);
         --font-family-default: var(--font-family-inter), var(--font-family-sans-serif);
         --font-size-default: var(--font-size-base);
@@ -531,6 +535,18 @@ Utility classes used to quickly apply semantic tokens to the elements
     background-color: var(--color-info);
 }
 
+@utility bg-create {
+    background-color: var(--color-create);
+}
+
+@utility bg-update {
+    background-color: var(--color-update);
+}
+
+@utility bg-delete {
+    background-color: var(--color-delete);
+}
+
 @utility bg-hover {
     background-color: var(--color-surface-hover);
 }
@@ -633,6 +649,18 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility border-l-info {
     border-left-color: var(--color-info);
+}
+
+@utility border-create {
+    border-color: var(--color-create);
+}
+
+@utility border-update {
+    border-color: var(--color-update);
+}
+
+@utility border-delete {
+    border-color: var(--color-delete);
 }
 
 @utility divide-default {
@@ -920,32 +948,117 @@ Size and spacing utility classes
     cursor: var(--cursor-ns-resize);
 }
 
+/*
+Animations
+*/
+
+@keyframes roll-out {
+    from {
+        clip-path: inset(0 0 100% 0);
+        opacity: 0;
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+}
+
+.animate-roll-out {
+    animation: roll-out 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes expand-vertically {
+    from {
+        transform: scaleY(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+.animate-expand-vertically {
+    animation: expand-vertically 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/*
+Vibe-Coded styles for the code highlights
+*/
+
 @layer hljs {
     :root[data-theme="light"] {
         .hljs {
             color: #24292e;
             background: #ffffff;
         }
+
         .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword,
         .hljs-template-tag, .hljs-template-variable, .hljs-type,
-        .hljs-variable.language_ { color: #d73a49 }
+        .hljs-variable.language_ {
+            color: #d73a49
+        }
+
         .hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__,
-        .hljs-title.function_ { color: #6f42c1 }
+        .hljs-title.function_ {
+            color: #6f42c1
+        }
+
         .hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta,
         .hljs-number, .hljs-operator, .hljs-variable,
-        .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id { color: #005cc5 }
-        .hljs-regexp, .hljs-string, .hljs-meta .hljs-string { color: #032f62 }
-        .hljs-built_in, .hljs-symbol { color: #e36209 }
-        .hljs-comment, .hljs-code, .hljs-formula { color: #6a737d }
+        .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id {
+            color: #005cc5
+        }
+
+        .hljs-regexp, .hljs-string, .hljs-meta .hljs-string {
+            color: #032f62
+        }
+
+        .hljs-built_in, .hljs-symbol {
+            color: #e36209
+        }
+
+        .hljs-comment, .hljs-code, .hljs-formula {
+            color: #6a737d
+        }
+
         .hljs-name, .hljs-quote, .hljs-selector-tag,
-        .hljs-selector-pseudo { color: #22863a }
-        .hljs-subst { color: #24292e }
-        .hljs-section { color: #005cc5; font-weight: bold }
-        .hljs-bullet { color: #735c0f }
-        .hljs-emphasis { color: #24292e; font-style: italic }
-        .hljs-strong { color: #24292e; font-weight: bold }
-        .hljs-addition { color: #22863a; background-color: #f0fff4 }
-        .hljs-deletion { color: #b31d28; background-color: #ffeef0 }
+        .hljs-selector-pseudo {
+            color: #22863a
+        }
+
+        .hljs-subst {
+            color: #24292e
+        }
+
+        .hljs-section {
+            color: #005cc5;
+            font-weight: bold
+        }
+
+        .hljs-bullet {
+            color: #735c0f
+        }
+
+        .hljs-emphasis {
+            color: #24292e;
+            font-style: italic
+        }
+
+        .hljs-strong {
+            color: #24292e;
+            font-weight: bold
+        }
+
+        .hljs-addition {
+            color: #22863a;
+            background-color: #f0fff4
+        }
+
+        .hljs-deletion {
+            color: #b31d28;
+            background-color: #ffeef0
+        }
     }
 
     :root[data-theme="dark"] {
@@ -953,25 +1066,72 @@ Size and spacing utility classes
             color: #c9d1d9;
             background: #0d1117;
         }
+
         .hljs-doctag, .hljs-keyword, .hljs-meta .hljs-keyword,
         .hljs-template-tag, .hljs-template-variable, .hljs-type,
-        .hljs-variable.language_ { color: #ff7b72 }
+        .hljs-variable.language_ {
+            color: #ff7b72
+        }
+
         .hljs-title, .hljs-title.class_, .hljs-title.class_.inherited__,
-        .hljs-title.function_ { color: #d2a8ff }
+        .hljs-title.function_ {
+            color: #d2a8ff
+        }
+
         .hljs-attr, .hljs-attribute, .hljs-literal, .hljs-meta,
         .hljs-number, .hljs-operator, .hljs-variable,
-        .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id { color: #79c0ff }
-        .hljs-regexp, .hljs-string, .hljs-meta .hljs-string { color: #a5d6ff }
-        .hljs-built_in, .hljs-symbol { color: #ffa657 }
-        .hljs-comment, .hljs-code, .hljs-formula { color: #8b949e }
+        .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id {
+            color: #79c0ff
+        }
+
+        .hljs-regexp, .hljs-string, .hljs-meta .hljs-string {
+            color: #a5d6ff
+        }
+
+        .hljs-built_in, .hljs-symbol {
+            color: #ffa657
+        }
+
+        .hljs-comment, .hljs-code, .hljs-formula {
+            color: #8b949e
+        }
+
         .hljs-name, .hljs-quote, .hljs-selector-tag,
-        .hljs-selector-pseudo { color: #7ee787 }
-        .hljs-subst { color: #c9d1d9 }
-        .hljs-section { color: #1f6feb; font-weight: bold }
-        .hljs-bullet { color: #f2cc60 }
-        .hljs-emphasis { color: #c9d1d9; font-style: italic }
-        .hljs-strong { color: #c9d1d9; font-weight: bold }
-        .hljs-addition { color: #aff5b4; background-color: #033a16 }
-        .hljs-deletion { color: #ffdcd7; background-color: #67060c }
+        .hljs-selector-pseudo {
+            color: #7ee787
+        }
+
+        .hljs-subst {
+            color: #c9d1d9
+        }
+
+        .hljs-section {
+            color: #1f6feb;
+            font-weight: bold
+        }
+
+        .hljs-bullet {
+            color: #f2cc60
+        }
+
+        .hljs-emphasis {
+            color: #c9d1d9;
+            font-style: italic
+        }
+
+        .hljs-strong {
+            color: #c9d1d9;
+            font-weight: bold
+        }
+
+        .hljs-addition {
+            color: #aff5b4;
+            background-color: #033a16
+        }
+
+        .hljs-deletion {
+            color: #ffdcd7;
+            background-color: #67060c
+        }
     }
 }

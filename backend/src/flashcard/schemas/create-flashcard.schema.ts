@@ -1,11 +1,9 @@
 import { z } from "zod";
-
-export const createFrontSchema = z.string().nonempty();
-export const createBackSchema = z.string().nonempty();
+import { frontSchema, backSchema } from "./flashcard.schemas";
 
 export const createFlashcardSchema = z.strictObject({
-  front: createFrontSchema,
-  back: createBackSchema,
+  front: frontSchema,
+  back: backSchema,
 });
 
 export type CreateFlashcardDto = z.infer<typeof createFlashcardSchema>;

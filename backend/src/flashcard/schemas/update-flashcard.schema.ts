@@ -1,8 +1,9 @@
 import { z } from "zod";
+import { frontSchema, backSchema } from "./flashcard.schemas";
 
 export const updateFlashcardSchema = z.strictObject({
-  front: z.string().nonempty().optional(),
-  back: z.string().nonempty().optional(),
+  front: frontSchema.optional(),
+  back: backSchema.optional(),
 });
 
 export type UpdateFlashcardDto = z.infer<typeof updateFlashcardSchema>;

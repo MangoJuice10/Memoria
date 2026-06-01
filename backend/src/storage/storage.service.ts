@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import {
   DeleteObjectCommand,
+  DeleteObjectsCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -18,15 +20,16 @@ export class StorageService {
 
   constructor(private readonly configService: ConfigService) {
     this.s3 = new S3Client({
-      endpoint: configService.get("B2_ENDPOINT"),
-      region: configService.get("B2_REGION"),
+      endpoint: configService.get("STORAGE_ENDPOINT"),
+      region: configService.get("STORAGE_REGION"),
       credentials: {
-        accessKeyId: configService.get("B2_APPLICATION_KEY_ID") as string,
-        secretAccessKey: configService.get("B2_APPLICATION_KEY_SECRET") as string,
+        accessKeyId: configService.get("STORAGE_ACCESS_KEY") as string,
+        secretAccessKey: configService.get("STORAGE_SECRET_ACCESS_KEY") as string,
       },
+      forcePathStyle: true
     });
-    this.bucket = configService.get("B2_BUCKET_NAME") as string;
-    this.publicUrl = configService.get("B2_PUBLIC_URL") as string;
+    this.bucket = configService.get("STORAGE_BUCKET_NAME") as string;
+    this.publicUrl = configService.get("STORAGE_PUBLIC_URL") as string;
   }
 
   async upload(file: Express.Multer.File, folder: string): Promise<string> {
@@ -61,5 +64,34 @@ export class StorageService {
     return getSignedUrl(this.s3, command, {
       expiresIn: expiresInSeconds,
     });
+  }
+
+  async cleanBucket() {
+    let continuationToken: string | undefined;
+
+    do {
+      const listResponse = await this.s3.send(
+        new ListObjectsV2Command({
+          Bucket: this.bucket,
+          ContinuationToken: continuationToken,
+        }),
+      );
+
+      const objects = listResponse?.Contents ?? [];
+
+      if (objects.length > 0) {
+        await this.s3.send(
+          new DeleteObjectsCommand({
+            Bucket: this.bucket,
+            Delete: {
+              Objects: objects.map(({ Key }) => ({ Key })),
+              Quiet: true,
+            },
+          }),
+        );
+      }
+
+      continuationToken = listResponse.IsTruncated ? listResponse.NextContinuationToken : undefined;
+    } while (continuationToken);
   }
 }

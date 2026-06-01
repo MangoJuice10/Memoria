@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import NavbarLinks from "./NavbarLinks.vue";
-import Logo from "@/shared/ui/logo/Logo.vue";
+import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
+import type {MenuItemIsActive, NavbarItemId} from "@/shared/config";
 import {BurgerMenu} from "@/shared/ui";
 import {LocalizedLink} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
-import {storeToRefs} from "pinia";
-import NavbarPreferences from "@/widgets/navbar/ui/NavbarPreferences.vue";
-import NavbarActions from "@/widgets/navbar/ui/NavbarActions.vue";
-import {useSidebarStore} from "@/shared/model/sidebar.store.ts";
+import {useSidebarStore} from "@/shared/model/sidebar.store";
 import {useBackdropStore} from "@/shared/model";
-import {NAVBAR_AUTHENTICATED_LAYOUT, NAVBAR_GUEST_LAYOUT} from "../config/navbar-layout.config.ts";
-import {useMenu} from "@/shared/lib";
-import {useI18n} from "vue-i18n";
+import {NAVBAR_AUTHENTICATED_LAYOUT, NAVBAR_GUEST_LAYOUT} from "../config/navbar-layout.config";
+import {useMenu, useNavigation} from "@/shared/lib";
+import Logo from "@/shared/ui/logo/Logo.vue";
+import NavbarLinks from "./NavbarLinks.vue";
+import NavbarPreferences from "./NavbarPreferences.vue";
+import NavbarActions from "./NavbarActions.vue";
 
 const {t} = useI18n();
 
@@ -21,8 +22,15 @@ const {isAuthenticated} = storeToRefs(viewer);
 const sidebarStore = useSidebarStore();
 const backdropStore = useBackdropStore();
 
+const {isNavigationLinkActive} = useNavigation();
 const getNavbarLayout = () => isAuthenticated.value ? NAVBAR_AUTHENTICATED_LAYOUT : NAVBAR_GUEST_LAYOUT;
-const {menuItemViews} = useMenu(getNavbarLayout, t);
+
+const isActives = getNavbarLayout().menuItems.reduce((acc, menuItem) => {
+  acc[menuItem.id] = () => isNavigationLinkActive(menuItem);
+  return acc;
+}, {} as Record<NavbarItemId, MenuItemIsActive>);
+
+const {menuItemViews} = useMenu(getNavbarLayout, t, {}, isActives);
 
 function handleToggle() {
   sidebarStore.toggle();
@@ -47,7 +55,7 @@ function handleToggle() {
         <Logo has-logotype logotype-classes="max-lg:hidden" class="py-2"/>
       </LocalizedLink>
     </div>
-    <NavbarLinks :menu-item-views="menuItemViews"
+    <NavbarLinks :menu-item-views
                  class="max-md:hidden"/>
     <NavbarPreferences/>
     <NavbarActions :is-authenticated

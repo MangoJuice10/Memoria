@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {type ClassValue, computed, ref} from "vue";
 import {ChevronIcon, PinIcon} from "@/shared/ui/icons";
 
 type Side =
@@ -18,10 +18,10 @@ const props = withDefaults(defineProps<{
   gapRem?: number;
   hasArrow?: boolean;
   hasPin?: boolean;
-  triggerClasses?: string;
-  arrowClasses?: string;
-  pinClasses?: string;
-  menuClasses?: string;
+  triggerClasses?: ClassValue;
+  arrowClasses?: ClassValue;
+  pinClasses?: ClassValue;
+  menuClasses?: ClassValue;
 }>(), {
   isRelative: true,
   side: "bottom",

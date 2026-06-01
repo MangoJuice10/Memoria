@@ -1,6 +1,7 @@
 import {computed, toValue, type MaybeRefOrGetter} from "vue";
 import {type Composer} from "vue-i18n";
 import type {
+    MenuItemCallback, MenuItemIsActive,
     MenuItemView,
     MenuLayout,
     MenuSectionView,
@@ -12,7 +13,9 @@ export function useMenu<
     ItemId extends string | number,
 >(
     getMenuLayout: MaybeRefOrGetter<MenuLayout<SectionId, ItemId>>,
-    t: Composer["t"]
+    t: Composer["t"],
+    callbacks: Partial<Record<ItemId, MenuItemCallback>> = {},
+    isActives: Partial<Record<ItemId, MenuItemIsActive>> = {}
 ) {
     const menuItemViews = computed(() => {
         const menuLayout = toValue(getMenuLayout);
@@ -21,6 +24,8 @@ export function useMenu<
                 const {labelCode, labelOptions, ...menuItemProperties} = menuItem;
                 return {
                     ...menuItemProperties,
+                    callback: callbacks[menuItem.id],
+                    isActive: isActives[menuItem.id],
                     label: t(codeToKey(labelCode), {
                         ...labelOptions
                     })

@@ -3,8 +3,10 @@ import type {Directive} from "vue";
 const handlerMap = new WeakMap<HTMLTextAreaElement, () => void>();
 
 function resize(el: HTMLTextAreaElement) {
+    const style = getComputedStyle(el);
+
     el.style.height = "auto";
-    el.style.height = `${el.scrollHeight}px`;
+    el.style.height = `${el.scrollHeight + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth)}px`;
 }
 
 export const vAutoResize: Directive<HTMLTextAreaElement> = {

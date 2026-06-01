@@ -1,29 +1,35 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {asset, useValidation} from "@/shared/lib";
-import {createUploadImageSchema, useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
-import {FormError, Modal, UploadImage} from "@/shared/ui";
-import {Form, FormField} from "@/shared/ui";
-import axios from "axios";
-import type {ErrorResponse} from "@/shared/api";
-import {codeToKey} from "@/shared/i18n";
-import {allowedImageTypes, codes, MAX_DECK_COVER_SIZE} from "@/shared/config";
-import {
-  createUpdateEducationalResourceSchema,
-  type UpdateEducationalResourceDto
-} from "../../model/update-educational-resource.schema";
 import {
   createDeleteEducationalResourceCoverMutation,
   createUpdateEducationalResourceMutation,
   createUploadEducationalResourceCoverMutation,
 } from "@/entities/educational-resource";
+import type {ErrorResponse} from "@/shared/api";
+import {allowedImageTypes, codes, MAX_DECK_COVER_SIZE} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+import {asset, useValidation} from "@/shared/lib";
+import {
+  createUploadImageOptionalSchema,
+  type UploadImageOptional,
+  useBackdropStore,
+  useModalStore,
+  useToastStore
+} from "@/shared/model";
+import {Form, FormError, FormField, FormFieldError, Modal, UploadFile, UploadImage} from "@/shared/ui";
+import axios from "axios";
+import {computed, onMounted, ref} from "vue";
+import {useI18n} from "vue-i18n";
+import {
+  createUpdateEducationalResourceSchema,
+  type UpdateEducationalResourceInput,
+} from "../../model/update-educational-resource.schema";
 
 const props = defineProps<{
   id: number;
   name: string;
   description: string;
-  coverUrl: string;
+  coverUrl: string | null;
+  originalFilename: string;
 }>();
 
 const {t} = useI18n();
@@ -31,9 +37,10 @@ const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
 
-const data = ref<UpdateEducationalResourceDto>({
+const data = ref<UpdateEducationalResourceInput>({
   name: props.name,
   description: props.description,
+  file: undefined
 });
 
 const {
@@ -55,8 +62,10 @@ const {
 
 const updateEducationalResourceMutation = createUpdateEducationalResourceMutation();
 
-const cover = ref<File | null>(null);
-const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
+const cover = ref<UploadImageOptional>({
+  image: undefined
+});
+const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
 const uploadEducationalResourceCoverMutation = createUploadEducationalResourceCoverMutation();
 const deleteEducationalResourceCoverMutation = createDeleteEducationalResourceCoverMutation();
@@ -99,11 +108,11 @@ const submit = async () => {
     }
   }
 
-  if (coverResult.data) {
+  if (coverResult.data.image) {
     try {
       await uploadEducationalResourceCoverMutation.mutateAsync({
         educationalResourceId: props.id,
-        file: coverResult.data
+        file: coverResult.data.image
       });
       push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_UPDATE_SUCCESS)), "success", "update");
     } catch (error) {
@@ -155,17 +164,31 @@ onMounted(() => {
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
-            <div class="w-fit">
-              <h3 class="font-semibold mb-5">
+            <span class="font-semibold">
+              {{ $t(codeToKey(codes.EDUCATIONAL_RESOURCE_FILE)) }}
+            </span>
+            <div class="flex flex-col items-center gap-5
+                        w-fit">
+              <UploadFile @file-change="(file) => {
+                             touch('file');
+                             data.file = file;
+                             clientValidate();
+                          }"
+                          :old-filename="originalFilename"
+                          fileClasses="border border-dashed p-10 border-default"/>
+              <FormFieldError :touched="isFieldTouched('file')" :error="getError('file')"/>
+            </div>
+            <div class="flex flex-col w-fit">
+              <span class="font-semibold mb-5">
                 {{ $t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER)) }}
-              </h3>
+              </span>
               <div class="flex flex-col items-center gap-5
                       h-full">
                 <UploadImage :old-image-url="coverUrl"
                              :default-img-url="asset('filler/noEducationalResourceCover.png')"
                              @img-change="(file) => {
                              coverValidation.touch('cover');
-                             cover = file;
+                             cover.image = file;
                              coverValidation.clientValidate();
                            }"
                              img-classes="h-fit! p-10 border border-dashed border-default"
@@ -173,9 +196,8 @@ onMounted(() => {
                 <FormError :error="coverValidation.getError('cover')"/>
               </div>
             </div>
-            <FormField id="front"
-                       v-model="data.name"
-                       element="textarea"
+            <FormField v-model="data.name"
+                       id="front"
                        :label="$t(codeToKey(codes.NAME_NAME))"
                        :placeholder="$t(codeToKey(codes.NAME_PLACEHOLDER))"
                        :touched="isFieldTouched('name')"
@@ -184,9 +206,9 @@ onMounted(() => {
                          touch('name');
                          clientValidate();
                        }"/>
-            <FormField id="back"
-                       v-model="data.description"
-                       element="textarea"
+            <FormField v-model="data.description"
+                       variant="textarea"
+                       id="back"
                        :label="$t(codeToKey(codes.DESCRIPTION_NAME))"
                        :placeholder="$t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                        :touched="isFieldTouched('description')"

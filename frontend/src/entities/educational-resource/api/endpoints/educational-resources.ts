@@ -6,6 +6,7 @@ import type {EducationalResourceResponseDto} from "../../model/educational-resou
 export async function create(createEducationalResourceDto: CreateEducationalResourceDto): Promise<EducationalResourceResponseDto> {
     const formData = new FormData();
     Object.entries(createEducationalResourceDto).forEach(([key, value]) => {
+        if (value === undefined) return;
         formData.append(key, value);
     });
 
@@ -33,9 +34,19 @@ export async function findAllByDeck(deckId: number): Promise<EducationalResource
 }
 
 export async function update(educationalResourceId: number, updateEducationalResourceDto: UpdateEducationalResourceDto): Promise<EducationalResourceResponseDto> {
+    const formData = new FormData();
+    Object.entries(updateEducationalResourceDto).forEach(([key, value]) => {
+        if (value === undefined) return;
+        formData.append(key, value);
+    });
     const {data: {data}} = await client.patch<SuccessResponse<EducationalResourceResponseDto>>(
         `/educational-resources/${educationalResourceId}`,
-        updateEducationalResourceDto
+        formData,
+        {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
     );
     return data;
 }

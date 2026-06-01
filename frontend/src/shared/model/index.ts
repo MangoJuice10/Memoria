@@ -1,4 +1,4 @@
-export type {ErrorMessage} from "./error-message.type.ts";
+export type {ErrorMessage} from "./error-message.type";
 export type {VisibilityControls, StoreVisibilityControls} from "./visibility-controls.type";
 export type {
     DynamicComponentControls, StoreDynamicComponentControls
@@ -7,4 +7,6 @@ export {useModalStore} from "./modal.store";
 export {useBackdropStore} from "./backdrop.store";
 export {useSidebarStore} from "./sidebar.store";
 export {useToastStore, type ToastTypeId, type ToastIconId, type ToastProps} from "./toast.store";
-export {createUploadImageSchema} from "./upload-image.schema";
+export * from "./schemas/file.schema";
+export * from "./schemas/upload-image-required.schema";
+export * from "./schemas/upload-image-optional.schema";

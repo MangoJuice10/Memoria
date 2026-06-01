@@ -4,8 +4,7 @@ import {
     sidebarItemCodes,
     footerSectionCodes,
     footerItemCodes,
-    authItemCodes,
-    deckItemCodes
+    tabItemCodes
 } from "./navigation-item-codes.config.ts";
 import {settingsCodes} from "./settings-codes.config.ts";
 import {optionsCodes} from "./options-codes.config.ts";
@@ -17,8 +16,7 @@ export const menuCodes = {
     ...navbarItemCodes,
     ...sidebarItemCodes,
     ...footerItemCodes,
-    ...authItemCodes,
-    ...deckItemCodes,
+    ...tabItemCodes,
     ...settingsCodes,
     ...userPanelCodes,
     ...optionsCodes,

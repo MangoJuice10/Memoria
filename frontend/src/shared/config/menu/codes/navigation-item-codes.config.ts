@@ -3,7 +3,7 @@ export const navigationElementsNameCodes = [
     "SIDEBAR",
     "FOOTER",
     "AUTH",
-    "DECK",
+    "TAB",
 ] as const;
 
 export type NavigationElementNameCode = (typeof navigationElementsNameCodes)[number];
@@ -46,13 +46,13 @@ export const footerItemCodes = {
     FOOTER_ITEM_FEATURE_STATISTICS: "FOOTER_ITEM_FEATURE_STATISTICS",
 } satisfies Record<NavigationItemCode<"FOOTER">, NavigationItemCode<"FOOTER">>;
 
-export const authItemCodes = {
-    AUTH_ITEM_LOGIN: "AUTH_ITEM_LOGIN",
-    AUTH_ITEM_REGISTER: "AUTH_ITEM_REGISTER",
-} satisfies Record<NavigationItemCode<"AUTH">, NavigationItemCode<"AUTH">>;
-
-export const deckItemCodes = {
-    DECK_ITEM_INFO: "DECK_ITEM_INFO",
-    DECK_ITEM_FLASHCARDS: "DECK_ITEM_FLASHCARDS",
-    DECK_ITEM_EDUCATIONAL_RESOURCES: "DECK_ITEM_EDUCATIONAL_RESOURCES",
-} satisfies Record<NavigationItemCode<"DECK">, NavigationItemCode<"DECK">>;
+export const tabItemCodes = {
+    TAB_ITEM_INFO: "TAB_ITEM_INFO",
+    TAB_ITEM_FLASHCARDS: "TAB_ITEM_FLASHCARDS",
+    TAB_ITEM_EDUCATIONAL_RESOURCES: "TAB_ITEM_EDUCATIONAL_RESOURCES",
+    TAB_ITEM_CREATE_FLASHCARD: "TAB_ITEM_CREATE_FLASHCARD",
+    TAB_ITEM_GENERATE_FLASHCARD: "TAB_ITEM_GENERATE_FLASHCARD",
+    TAB_ITEM_LOGIN: "TAB_ITEM_LOGIN",
+    TAB_ITEM_REGISTER: "TAB_ITEM_REGISTER",
+    
+} satisfies Record<NavigationItemCode<"TAB">, NavigationItemCode<"TAB">>;

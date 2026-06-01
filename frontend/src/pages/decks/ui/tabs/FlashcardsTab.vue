@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import {CreateFlashcard, FlashcardCard} from "@/entities/flashcard";
+import {mergeFlashcards} from "@/entities/flashcard/lib/merge-flashcards";
+import {storeToRefs} from "pinia";
 import {computed} from "vue";
-import {flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {useRoute} from "vue-router";
+import {CreateFlashcard, FlashcardCard, useDraftFlashcardStorage} from "@/entities/flashcard";
+import {flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {getIdRouteParam} from "@/app/router";
 import {useQuery} from "@tanstack/vue-query";
 import {useSearch} from "@/shared/lib";
@@ -14,12 +16,15 @@ const deckId = computed(() => getIdRouteParam(route.params.deckId));
 
 const {search, committedSearch} = useSearch();
 
+const draftFlashcardsStore = useDraftFlashcardStorage();
+const {draftFlashcards} = storeToRefs(draftFlashcardsStore);
+
 const {data, isLoading, error} = useQuery({
   queryKey: computed(() => flashcardsQueryKeys.byDeck(deckId.value, committedSearch.value || undefined)),
   queryFn: () => flashcardsApi.findAll(deckId.value, committedSearch.value || undefined)
 });
 
-const flashcards = computed(() => data.value ?? []);
+const flashcards = computed(() => mergeFlashcards(data.value ? data : [], draftFlashcards));
 
 </script>
 
@@ -29,7 +34,7 @@ const flashcards = computed(() => data.value ?? []);
       <Toolbar v-model:search="search"/>
       <LocalizedLink name="review" :params="{deckId: String(deckId)}">
         <Button>
-          <IconLabel>
+          <IconLabel class="gap-2.5">
             <template #label>
               {{ $t("actions.study") }}
             </template>
@@ -48,13 +53,8 @@ const flashcards = computed(() => data.value ?? []);
            class="flashcards mt-10">
         <CreateFlashcard :deck-id="Number(route.params.deckId)"/>
         <FlashcardCard v-for="flashcard in flashcards"
-                       :id="flashcard.id"
                        :key="flashcard.id"
-                       :front="flashcard.front"
-                       :back="flashcard.back"
-                       :intervalDays="flashcard.intervalDays"
-                       :dueAt="flashcard.dueAt"
-                       :deckId="flashcard.deckId"/>
+                       :flashcard/>
       </div>
     </QueryState>
   </div>

@@ -2,6 +2,7 @@ export {default as LogomarkIcon} from "./LogomarkIcon.vue";
 
 export {default as AIAssistanceIcon} from "./ai/AIAssistanceIcon.vue";
 export {default as AiChatIcon} from "./ai/AiChatIcon.vue";
+export {default as AiGeneratedIcon} from "./ai/AIGeneratedIcon.vue";
 
 export {
     default as SpacedRepetitionFeatureIcon
@@ -15,7 +16,10 @@ export {
 } from "./spaced-repetition/SharedDecksIntroductionIcon.vue";
 
 export {default as FlashcardIcon} from "./spaced-repetition/FlashcardIcon.vue";
+export {default as FlashcardsIcon} from "./spaced-repetition/FlashcardsIcon.vue";
+export {default as CreateFlashcardIcon} from "./spaced-repetition/CreateFlashcardIcon.vue";
 export {default as DeckIcon} from "./spaced-repetition/DeckIcon.vue";
+export {default as DeckInfoIcon} from "./spaced-repetition/DeckInfoIcon.vue";
 
 export {
     default as EducationalResourcesIntroductionIcon
@@ -68,7 +72,11 @@ export {default as CheckIcon} from "./common/CheckIcon.vue";
 export {default as ErrorIcon} from "./common/ErrorIcon.vue";
 export {default as WarningIcon} from "./common/WarningIcon.vue";
 export {default as InfoIcon} from "./common/InfoIcon.vue";
-export {default as RefreshIcon} from './common/RefreshIcon.vue';
+export {default as RefreshIcon} from "./common/RefreshIcon.vue";
+export {default as SaveIcon} from "./common/SaveIcon.vue";
+export {default as BackIcon} from "./common/BackIcon.vue";
+
+export {default as LinkIcon} from "./common/LinkIcon.vue";
 
 export {default as AddIcon} from "./common/AddIcon.vue";
 export {default as EditIcon} from "./common/EditIcon.vue";

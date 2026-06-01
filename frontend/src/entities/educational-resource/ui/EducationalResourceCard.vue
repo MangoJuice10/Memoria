@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import {EducationalResourceFillerIcon} from "@/shared/ui";
-import {Dropdown, MenuContainer, MenuItem} from "@/shared/ui";
+import {
+  createEducationalResourceOptionsLayout
+} from "@/entities/educational-resource/config/educational-resource-options-layout.config";
+import {DropdownMenu, EducationalResourceFillerIcon} from "@/shared/ui";
 import {useBackdropStore, useModalStore} from "@/shared/model";
 import {defineAsyncComponent} from "vue";
 import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
-import {codes, createOptionsLayout} from "@/shared/config";
+import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const props = defineProps<{
@@ -14,7 +16,8 @@ const props = defineProps<{
   name: string;
   description: string;
   fileUrl: string;
-  coverUrl?: string | null;
+  coverUrl: string | null;
+  originalFilename: string;
   createdAt: string;
 }>();
 
@@ -23,7 +26,7 @@ const {t} = useI18n();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 
-const {menuItemViews} = useMenu(createOptionsLayout(t(codeToKey(codes.EDUCATIONAL_RESOURCE_RESOURCE_NAME))), t);
+const {menuItemViews} = useMenu(createEducationalResourceOptionsLayout(t(codeToKey(codes.EDUCATIONAL_RESOURCE_RESOURCE_NAME))), t);
 
 function setupMenuCallbacks() {
   const editItem = getMenuItemViewOrThrow(menuItemViews.value, "edit");
@@ -40,7 +43,8 @@ const openUpdateEducationalResourceModal = () => {
     id: props.id,
     name: props.name,
     description: props.description,
-    coverUrl: props.coverUrl
+    coverUrl: props.coverUrl,
+    originalFilename: props.originalFilename
   });
 };
 
@@ -69,26 +73,24 @@ setupMenuCallbacks();
                 opacity-0
                 group-hover/educational-resource:opacity-100"
          @click.stop>
-      <Dropdown side="top"
-                align="left"
-                :gap-rem="1.25"
-                trigger-classes="p-1 border rounded-full border-default
-                                 bg-primary"
-                class="z-3">
-        <template #trigger>
-          <OptionsIcon class="w-5 h-5"/>
-        </template>
-        <template #menu>
-          <MenuContainer class="overflow-hidden border border-default rounded-2xl text-xs">
-            <MenuItem v-for="optionsItemView in menuItemViews"
-                      :menu-item-view="optionsItemView"
-                      icon-classes="w-5"
-                      label-classes="whitespace-nowrap"
-                      class="px-3 py-1"
-                      @click="optionsItemView.callback"/>
-          </MenuContainer>
-        </template>
-      </Dropdown>
+      <DropdownMenu :menu-item-views
+                    side="top"
+                    align="left"
+                    :gap-rem="1.25"
+                    dropdown-trigger-classes="p-1 border rounded-full border-default
+                                              bg-primary"
+                    menu-container-classes="divide-y divide-default
+                                            overflow-hidden border border-default rounded-2xl
+                                            text-xs
+                                            bg-tertiary"
+                    menu-item-classes="flex items-center
+                                       w-full h-10 px-3 py-1
+                                       hover:bg-hover"
+                    menu-item-icon-classes="w-5 h-5"
+                    menu-item-label-classes="whitespace-nowrap"
+                    class="z-3">
+        <OptionsIcon class="w-5 h-5"/>
+      </DropdownMenu>
     </div>
     <div
         class="relative

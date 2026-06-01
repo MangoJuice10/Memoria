@@ -27,8 +27,8 @@ async function handleConfirm() {
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_DELETE_SUCCESS)), "success", "delete");
     backdropStore.hide();
     modalStore.hide();
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
       push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_DELETE_ERROR)), "error");
     }
   }

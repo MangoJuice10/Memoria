@@ -1,18 +1,18 @@
-import type {MenuLayout, AuthId} from "../../menu.config";
-import {authItemCodes} from "../codes/navigation-item-codes.config";
+import {codes} from "@/shared/config/codes.config";
+import type {MenuItemId, MenuLayout} from "../../menu.config";
 
 export const AUTH_LAYOUT = {
     menuItems: [
         {
             id: "login",
             routeName: "login",
-            labelCode: authItemCodes.AUTH_ITEM_LOGIN
+            labelCode: codes.TAB_ITEM_LOGIN
         },
         {
             id: "register",
             routeName: "register",
-            labelCode: authItemCodes.AUTH_ITEM_REGISTER
+            labelCode: codes.TAB_ITEM_REGISTER
         }
     ],
     menuSections: []
-} satisfies MenuLayout<any, AuthId>;
+} satisfies MenuLayout<any, MenuItemId>;

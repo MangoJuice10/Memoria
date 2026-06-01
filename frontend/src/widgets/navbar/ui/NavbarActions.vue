@@ -11,7 +11,7 @@ defineProps<{
   <div class="inline-flex justify-between items-center gap-3 lg:gap-5">
     <LocalizedLink v-if="!isAuthenticated" name="login">
       <Button class="py-1!">
-        <IconLabel>
+        <IconLabel class="gap-2.5">
           <template #icon>
             <LoginIcon class="w-7"/>
           </template>

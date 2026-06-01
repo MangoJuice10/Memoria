@@ -117,4 +117,10 @@ export class VectorStoreService implements OnModuleInit {
       },
     });
   }
+
+  async cleanCollection() {
+    await this.vectorStore.client.delete(COLLECTION, {
+      filter: {},
+    });
+  }
 }

@@ -2,20 +2,23 @@
 import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
-import {createUploadImageSchema, useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
+import {
+  createUploadImageOptionalSchema,
+  type UploadImageOptional,
+  useBackdropStore,
+  useModalStore,
+  useToastStore
+} from "@/shared/model";
 import {FormError, Modal, UploadImage} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {allowedImageTypes, codes} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {
+  createCreateDeckMutation,
   createCreateDeckSchema,
-  type CreateDeckDto,
-  type DeckResponseDto,
-  decksQueryKeys, uploadCover
+  type CreateDeckDto, createUploadDeckCoverMutation,
 } from "@/entities/deck";
-import {decksApi} from "@/entities/deck";
 import {codeToKey} from "@/shared/i18n";
 import {MAX_DECK_COVER_SIZE} from "@/shared/config/files.config.ts";
 
@@ -23,7 +26,6 @@ const {t} = useI18n();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
 const data = ref<CreateDeckDto>({
   name: "",
@@ -48,38 +50,14 @@ const {
   t
 });
 
-const createDeckDataMutation = useMutation({
-  mutationFn: (createDeckDto: CreateDeckDto) => decksApi.create(createDeckDto),
-  onSuccess: async (createdDeck) => {
-    await queryClient.setQueryData(
-        decksQueryKeys.all,
-        (old: DeckResponseDto[] | undefined) => {
-          if (!old) return old;
-          return [...old, createdDeck];
-        }
-    );
-  }
+const createDeckMutation = createCreateDeckMutation();
+const uploadDeckCoverMutation = createUploadDeckCoverMutation();
+
+const cover = ref<UploadImageOptional>({
+  image: undefined,
 });
 
-const updateDeckCoverMutation = useMutation({
-  mutationFn: ({deckId, file}: {
-    deckId: number;
-    file: File;
-  }) => uploadCover(deckId, file),
-  onSuccess: async (updatedDeck) => {
-    await queryClient.setQueryData(
-        decksQueryKeys.all,
-        (old: DeckResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map((deck) => deck.id === updatedDeck.id ? updatedDeck : deck);
-        }
-    );
-  }
-});
-
-const cover = ref<File | null>(null);
-
-const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_DECK_COVER_SIZE));
+const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_DECK_COVER_SIZE));
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value
@@ -96,10 +74,10 @@ const submit = async () => {
   if (!coverResult.success) return;
 
   try {
-    const {id} = await createDeckDataMutation.mutateAsync(result.data);
-    if (coverResult.data) await updateDeckCoverMutation.mutateAsync({
+    const {id} = await createDeckMutation.mutateAsync(result.data);
+    if (coverResult.data.image) await uploadDeckCoverMutation.mutateAsync({
       deckId: id,
-      file: coverResult.data
+      file: coverResult.data.image
     });
     push(t(codeToKey(codes.DECK_CREATE_SUCCESS)), "success", "create");
     backdropStore.hide();
@@ -139,9 +117,8 @@ onMounted(() => {
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
-            <FormField id="name"
-                       v-model="data.name"
-                       element="textarea"
+            <FormField v-model="data.name"
+                       id="name"
                        :label="t(codeToKey(codes.NAME_NAME))"
                        :placeholder="t(codeToKey(codes.NAME_PLACEHOLDER))"
                        :touched="isFieldTouched('name')"
@@ -150,9 +127,9 @@ onMounted(() => {
                          touch('name');
                          clientValidate();
                        }"/>
-            <FormField id="back"
-                       v-model="data.description"
-                       element="textarea"
+            <FormField v-model="data.description"
+                       variant="textarea"
+                       id="name"
                        :label="t(codeToKey(codes.DESCRIPTION_NAME))"
                        :placeholder="t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                        :touched="isFieldTouched('description')"
@@ -165,12 +142,12 @@ onMounted(() => {
               <UploadImage :default-img-url="asset('filler/noDeckCover.png')"
                            :img-size-rem="30"
                            @img-change="(file) => {
-                             coverValidation.touch('cover');
-                             cover = file;
+                             coverValidation.touch('image');
+                             cover.image = file;
                              coverValidation.clientValidate();
                            }"
                            imgClasses="border border-dashed p-10 border-default"/>
-              <FormError :error="coverValidation.getError('cover')"/>
+              <FormError :error="coverValidation.getError('image')"/>
             </div>
           </div>
         </template>

@@ -16,3 +16,26 @@ import {Resizable} from "@/shared/ui";
     </Resizable>
   </div>
 </template>
+
+<style>
+@keyframes expand {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  1% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal {
+  animation: expand 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+</style>

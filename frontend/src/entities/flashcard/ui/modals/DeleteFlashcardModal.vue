@@ -1,50 +1,28 @@
 <script setup lang="ts">
+import {useDraftFlashcardStorage} from "@/entities/flashcard";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {ActionModal} from "@/shared/ui";
 import {onMounted} from "vue";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
-import {type FlashcardResponseDto, flashcardsApi, flashcardsQueryKeys} from "@/entities/flashcard";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
-  id: number;
-  deckId: number;
+  id: number
 }>();
 
 const {t} = useI18n();
 
+const {stageDelete} = useDraftFlashcardStorage();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
-
-const deleteFlashcardMutation = useMutation({
-  mutationFn: ({deckId, flashcardId}: {
-    deckId: number;
-    flashcardId: number
-  }) => flashcardsApi.remove(deckId, flashcardId),
-  onSuccess: async (_, variables) => {
-    push(t(codeToKey(codes.FLASHCARD_DELETE_SUCCESS)), "success", "delete");
-    await queryClient.setQueryData(
-        flashcardsQueryKeys.byDeck(variables.deckId),
-        (old: FlashcardResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.filter(flashcard => flashcard.id !== variables.flashcardId);
-        }
-    );
-    backdropStore.hide();
-    modalStore.hide();
-  },
-  onError: () => push(t(codeToKey(codes.FLASHCARD_DELETE_ERROR)), "error")
-});
 
 async function handleConfirm() {
-  await deleteFlashcardMutation.mutateAsync({
-    deckId: props.deckId,
-    flashcardId: props.id
-  });
+  stageDelete(props.id);
+  push(t(codeToKey(codes.FLASHCARD_DELETE_DRAFT)), "success", "delete");
+  backdropStore.hide();
+  modalStore.hide();
 }
 
 async function handleCancel() {

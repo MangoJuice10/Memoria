@@ -35,6 +35,7 @@ describe("Deck", () => {
   });
 
   afterAll(async () => {
+    await testingApp.prismaService.cleanDatabase();
     await testingApp.app.close();
   });
 

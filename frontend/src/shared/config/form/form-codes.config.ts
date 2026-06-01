@@ -9,9 +9,12 @@ export const formFieldNameCodes = [
     "CONFIRM_PASSWORD",
     "FRONT",
     "BACK",
+    "INSTRUCTION",
+    "COUNT",
     "NAME",
     "DESCRIPTION",
     "IS_PUBLIC",
+    "FILE",
     "TITLE",
     "CONTENT",
 ] as const;

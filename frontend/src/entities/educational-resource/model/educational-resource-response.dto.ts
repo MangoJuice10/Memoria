@@ -3,7 +3,8 @@ export type EducationalResourceResponseDto = {
     name: string;
     description: string;
     fileUrl: string;
-    coverUrl?: string | null;
+    coverUrl: string | null;
+    originalFilename: string;
     userId: number;
     createdAt: string;
     updatedAt: string;

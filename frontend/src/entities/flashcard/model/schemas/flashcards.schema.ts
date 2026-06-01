@@ -1,5 +1,5 @@
-import {z} from "zod";
 import type {Composer} from "vue-i18n";
+import {z} from "zod";
 import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
@@ -33,11 +33,4 @@ export function createCreateBackSchema(t: Composer["t"]) {
         });
 }
 
-export function createCreateFlashcardSchema(t: Composer["t"]) {
-    return z.object({
-        front: createCreateFrontSchema(t),
-        back: createCreateBackSchema(t)
-    });
-}
 
-export type CreateFlashcardDto = z.infer<ReturnType<typeof createCreateFlashcardSchema>>;

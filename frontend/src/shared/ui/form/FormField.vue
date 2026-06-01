@@ -1,53 +1,84 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string | number">
 import type {ErrorMessage} from "@/shared/model";
-import FormInput from "./FormInput.vue";
-import FormTextarea from "./FormTextarea.vue";
+import type {ClassValue} from "vue";
+import NumberInput from "./inputs/NumberInput.vue";
+import TextInput from "./inputs/TextInput.vue";
+import RangeInput from "./inputs/RangeInput.vue";
+import PasswordInput from "./inputs/PasswordInput.vue";
+import Textarea from "./Textarea.vue";
 import FormFieldError from "./FormFieldError.vue";
 
-type BaseProps = {
+export type BaseProps = {
   id: string;
   label: string;
   error?: ErrorMessage;
   touched?: boolean;
+  inputClasses?: ClassValue;
 }
 
-type Props = (BaseProps & {
-  element?: "input",
-  type?: string;
-}) | (BaseProps & {
-  element: "textarea";
-});
+export type ModelModifiers = {
+  modelModifiers?: {
+    number?: boolean;
+  }
+}
 
-defineOptions({
-  inheritAttrs: false,
-});
+export type Props =
+    (| BaseProps & {
+      variant?: "text" | "password" | "textarea";
+      placeholder?: string;
+    } | BaseProps & {
+      variant: "number" | "range";
+      min?: number;
+      max?: number;
+      step?: number;
+    }) & ModelModifiers;
 
 withDefaults(defineProps<Props>(), {
-  element: "input",
-  type: "text",
+  variant: "text",
   error: null,
   touched: false,
 });
 
-const modelValue = defineModel<string>();
+const modelValue = defineModel<T>();
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-start gap-1.25 w-full">
-    <label v-text="label" :for="id" class="font-semibold
-                                           cursor-pointer"/>
-    <FormInput v-if="element === 'input'"
+  <label class="flex flex-col items-start justify-start gap-1.25 w-full
+                cursor-pointer">
+    <span class="font-semibold">
+      {{ label }}
+    </span>
+    <TextInput v-if="variant === 'text' && typeof modelValue === 'string'"
                v-model="modelValue"
-               v-bind="$attrs"
-               :type="type"
-               :data-testid="id"/>
-    <FormTextarea v-else
-                  v-model="modelValue"
-                  v-bind="$attrs"
-                  :data-testid="id"/>
+               :id
+               :placeholder
+               :class="inputClasses"/>
+    <PasswordInput v-else-if="variant === 'password' && typeof modelValue === 'string'"
+                   v-model="modelValue"
+                   :id
+                   :placeholder
+                   :class="inputClasses"/>
+    <NumberInput v-else-if="variant === 'number' && typeof modelValue === 'number'"
+                 v-model.number="modelValue"
+                 :id
+                 :min
+                 :max
+                 :step
+                 :class="inputClasses"/>
+    <RangeInput v-else-if="variant === 'range' && typeof modelValue === 'number'"
+                v-model.number="modelValue"
+                :id
+                :min
+                :max
+                :step
+                :class="inputClasses"/>
+    <Textarea v-else-if="variant === 'textarea' && typeof modelValue === 'string'"
+              v-model="modelValue"
+              :id
+              :placeholder
+              :class="inputClasses"/>
     <FormFieldError :error
                     :touched
-                    :data-testid="`${id}-validation-error`"
                     class="text-xs"/>
-  </div>
+  </label>
 </template>

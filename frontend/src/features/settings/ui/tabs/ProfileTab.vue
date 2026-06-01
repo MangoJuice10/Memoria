@@ -9,7 +9,7 @@ import {allowedImageTypes, codes, MAX_USER_AVATAR_SIZE} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {codeToKey} from "@/shared/i18n";
-import {createUploadImageSchema, useToastStore} from "@/shared/model";
+import {createUploadImageRequiredSchema, useToastStore} from "@/shared/model";
 
 const {t} = useI18n();
 const {viewer, updateMe, uploadAvatar} = useViewerStore();
@@ -69,7 +69,7 @@ const touchPasswordFields = () => {
 
 const avatar = ref<File | null>(null);
 
-const avatarValidation = useValidation(avatar, createUploadImageSchema("cover", t, allowedImageTypes, MAX_USER_AVATAR_SIZE));
+const avatarValidation = useValidation(avatar, createUploadImageRequiredSchema("cover", t, allowedImageTypes, MAX_USER_AVATAR_SIZE));
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value

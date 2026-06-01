@@ -1,7 +1,7 @@
 import {client} from "@/shared/api";
 import {setAccessToken, clearAccessToken} from "@/shared/auth/token.storage.ts";
-import type {RegisterDto} from "@/pages/register/model/register.schema.ts";
-import type {LoginDto} from "@/pages/login/model/login.schema.ts";
+import type {RegisterDto} from "@/entities/viewer/model/register.schema.ts";
+import type {LoginDto} from "@/entities/viewer/model/login.schema.ts";
 import type {SuccessResponse} from "@/shared/api/response.types";
 import type {AccessTokenResponseDto} from "../dto/access-token-response.dto";
 

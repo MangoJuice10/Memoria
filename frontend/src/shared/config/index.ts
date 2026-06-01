@@ -1,6 +1,5 @@
 export * from "./menu.config";
 export * from "./menu/layout/auth-layout.config";
-export * from "./menu/layout/options-layout.config";
 
 export * from "./resources/resource-name.codes";
 export * from "./resources/resource-action.codes";

@@ -4,37 +4,27 @@ import {useI18n} from "vue-i18n";
 import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
+  useDraftFlashcardStorage,
   createUpdateFlashcardSchema,
-  type CreateFlashcardDto,
-  type UpdateFlashcardDto,
-  flashcardsQueryKeys, type FlashcardResponseDto
+  type CreateFlashcardDto, type FlashcardData,
 } from "@/entities/flashcard";
 import {Modal} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
-import {flashcardsApi} from "@/entities/flashcard";
-import axios from "axios";
-import type {ErrorResponse} from "@/shared/api";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 
 const props = defineProps<{
   id: number;
-  front: string;
-  back: string;
-  deckId: number;
+  flashcardData: FlashcardData;
 }>();
 
 const {t} = useI18n();
+const {stageUpdate} = useDraftFlashcardStorage();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
-const queryClient = useQueryClient();
 
-const data = ref<CreateFlashcardDto>({
-  front: props.front,
-  back: props.back
-});
+const data = ref<CreateFlashcardDto>(props.flashcardData);
 
 const {
   isValid,
@@ -44,7 +34,6 @@ const {
   touch,
   touchAll,
   clientValidate,
-  serverValidate,
   reset,
 } = useValidation(data, createUpdateFlashcardSchema(t), {
   mode: "eager",
@@ -52,37 +41,18 @@ const {
   t
 });
 
-const updateFlashcardMutation = useMutation({
-  mutationFn: (updateFlashcardDto: UpdateFlashcardDto) => flashcardsApi.update(props.deckId, props.id, updateFlashcardDto),
-  onSuccess: async (updatedFlashcard) => {
-    await queryClient.setQueryData(
-        flashcardsQueryKeys.byDeck(props.deckId),
-        (old: FlashcardResponseDto[] | undefined) => {
-          if (!old) return old;
-          return old.map(flashcard => flashcard.id === updatedFlashcard.id ? updatedFlashcard : flashcard);
-        }
-    );
-    backdropStore.hide();
-    modalStore.hide();
-  }
-});
-
 const submit = async () => {
   touchAll();
 
   const result = await clientValidate();
   if (!result.success) return;
-
-  try {
-    await updateFlashcardMutation.mutateAsync(result.data);
-    push(t(codeToKey(codes.FLASHCARD_UPDATE_SUCCESS)), "success", "update");
-  } catch (error) {
-    push(t(codeToKey(codes.FLASHCARD_UPDATE_CANCEL)), "error");
-    if (axios.isAxiosError(error)) {
-      const body = error.response?.data as ErrorResponse;
-      await serverValidate(body);
-    }
-  }
+  stageUpdate(props.id, {
+    ...props.flashcardData,
+    ...result.data
+  });
+  push(t(codeToKey(codes.FLASHCARD_UPDATE_DRAFT)), "success", "update");
+  backdropStore.hide();
+  modalStore.hide();
 };
 
 onMounted(() => {
@@ -110,9 +80,9 @@ onMounted(() => {
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
-            <FormField id="front"
-                       v-model="data.front"
-                       element="textarea"
+            <FormField v-model="data.front"
+                       variant="textarea"
+                       id="front"
                        :label="$t(codeToKey(codes.FRONT_NAME))"
                        :placeholder="$t(codeToKey(codes.FRONT_PLACEHOLDER))"
                        :touched="isFieldTouched('front')"
@@ -121,9 +91,9 @@ onMounted(() => {
                          touch('front');
                          clientValidate();
                        }"/>
-            <FormField id="back"
-                       v-model="data.back"
-                       element="textarea"
+            <FormField v-model="data.back"
+                       variant="textarea"
+                       id="back"
                        :label="$t(codeToKey(codes.BACK_NAME))"
                        :placeholder="$t(codeToKey(codes.BACK_PLACEHOLDER))"
                        :touched="isFieldTouched('back')"

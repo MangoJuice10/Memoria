@@ -1,7 +1,4 @@
-export * as decksApi from "./api/decks";
-export {uploadCover} from "./api/upload-cover";
-export {removeCover} from "./api/remove-cover";
-export {decksQueryKeys} from "./api/decks-query-keys.ts";
+export * from "./api";
 export {createCreateDeckSchema, type CreateDeckDto} from "./model/create-deck.schema";
 export {createUpdateDeckSchema, type UpdateDeckDto} from "./model/update-deck.schema";
 export type {DeckResponseDto} from "./model/deck-response.dto";

@@ -36,7 +36,6 @@ export const useViewerStore = defineStore("viewer", {
         },
 
         async register(registerDto: RegisterDto) {
-            console.log(registerDto);
             await auth.register(registerDto);
             this.viewer = await getMe();
         },

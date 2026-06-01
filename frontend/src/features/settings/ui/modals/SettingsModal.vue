@@ -44,7 +44,7 @@ onMounted(() => {
                     :key="settingsItem.id"
                     :menu-item-view="settingsItem"
                     icon-classes="w-10"
-                    class="px-7 py-3 transition-colors"
+                    class="w-full px-7 py-3 transition-colors"
                     :class="activeTab === settingsItem.id
                       ? 'bg-secondary text-inverse'
                       : 'hover:bg-hover'"

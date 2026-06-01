@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {asset, useValidation} from "@/shared/lib";
-import {createUploadImageSchema, useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
-import {FormError, FormFieldError, Modal, UploadFile, UploadImage} from "@/shared/ui";
-import {Form, FormField} from "@/shared/ui";
-import {allowedImageTypes, codes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE} from "@/shared/config";
-import axios from "axios";
-import type {ErrorResponse} from "@/shared/api";
-import {codeToKey} from "@/shared/i18n";
-import {
-  type CreateEducationalResourceInput, createEducationalResourceSchema
-} from "../../model/create-educational-resource.schema";
 import {
   createCreateEducationalResourceMutation
-} from "@/entities/educational-resource/api/mutations/create-educational-resource.mutation.ts";
+} from "@/entities/educational-resource/api/mutations/create-educational-resource.mutation";
 import {
   createUploadEducationalResourceCoverMutation
-} from "@/entities/educational-resource/api/mutations/upload-educational-resource-cover.mutation.ts";
+} from "@/entities/educational-resource/api/mutations/upload-educational-resource-cover.mutation";
+import type {ErrorResponse} from "@/shared/api";
+import {allowedImageTypes, codes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+import {asset, useValidation} from "@/shared/lib";
+import {
+  createUploadImageOptionalSchema,
+  type UploadImageOptional,
+  useBackdropStore,
+  useModalStore,
+  useToastStore
+} from "@/shared/model";
+import {Form, FormError, FormField, FormFieldError, Modal, UploadFile, UploadImage} from "@/shared/ui";
+import axios from "axios";
+import {computed, onMounted, ref} from "vue";
+import {useI18n} from "vue-i18n";
+import {
+  type CreateEducationalResourceInput,
+  createEducationalResourceSchema
+} from "../../model/create-educational-resource.schema";
 
 const {t} = useI18n();
 const backdropStore = useBackdropStore();
@@ -27,7 +33,7 @@ const {push} = useToastStore();
 const data = ref<CreateEducationalResourceInput>({
   name: "",
   description: "",
-  file: null
+  file: undefined
 });
 
 const {
@@ -49,14 +55,16 @@ const {
 
 const createEducationalResourceMutation = createCreateEducationalResourceMutation();
 
-const cover = ref<File | null>(null);
-const coverValidation = useValidation(cover, createUploadImageSchema("cover", t, allowedImageTypes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE));
+const cover = ref<UploadImageOptional>({
+  image: undefined
+});
+const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE));
 
 const updateEducationalResourceCoverMutation = createUploadEducationalResourceCoverMutation();
 
-const isFormValid = computed(() => (
-    isFormTouched() && isValid && coverValidation.isValid
-));
+const isFormValid = computed(() =>
+    isFormTouched() && isValid.value && coverValidation.isValid.value
+);
 
 const isPending = computed(() => (
     createEducationalResourceMutation.isPending.value
@@ -79,9 +87,9 @@ const submit = async () => {
   try {
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_CREATE_PENDING)), "info", "pending");
     const {id} = await createEducationalResourceMutation.mutateAsync(result.data);
-    if (coverResult.data) await updateEducationalResourceCoverMutation.mutateAsync({
+    if (coverResult.data.image) await updateEducationalResourceCoverMutation.mutateAsync({
       educationalResourceId: id,
-      file: coverResult.data
+      file: coverResult.data.image
     });
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_CREATE_SUCCESS)), "success", "create");
     backdropStore.hide();
@@ -104,7 +112,7 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="min-w-[50vw] h-full p-10 overflow-auto">
+    <div class="min-w-[50vw] h-full p-10">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isCreationEnabled"
@@ -133,9 +141,8 @@ onMounted(() => {
                           fileClasses="border border-dashed p-10 border-default"/>
               <FormFieldError :touched="isFieldTouched('file')" :error="getError('file')"/>
             </div>
-            <FormField id="name"
-                       v-model="data.name"
-                       element="input"
+            <FormField v-model="data.name"
+                       id="name"
                        :label="t(codeToKey(codes.NAME_NAME))"
                        :placeholder="t(codeToKey(codes.NAME_PLACEHOLDER))"
                        :touched="isFieldTouched('name')"
@@ -144,9 +151,9 @@ onMounted(() => {
                          touch('name');
                          clientValidate();
                        }"/>
-            <FormField id="back"
-                       v-model="data.description"
-                       element="textarea"
+            <FormField v-model="data.description"
+                       variant="textarea"
+                       id="back"
                        :label="t(codeToKey(codes.DESCRIPTION_NAME))"
                        :placeholder="t(codeToKey(codes.DESCRIPTION_PLACEHOLDER))"
                        :touched="isFieldTouched('description')"
@@ -155,7 +162,7 @@ onMounted(() => {
                          touch('description');
                          clientValidate();
                        }"/>
-            <div class="flex flex-col">
+            <div class="flex flex-col w-fit">
               <span class="font-semibold mb-5">
                 {{ $t(codeToKey(codes.DECK_COVER)) }}
               </span>
@@ -164,7 +171,7 @@ onMounted(() => {
                              :img-size-rem="30"
                              @img-change="(file) => {
                              coverValidation.touch('cover');
-                             cover = file;
+                             cover.image = file;
                              coverValidation.clientValidate();
                            }"
                              imgClasses="h-fit! border border-dashed p-10 border-default"/>

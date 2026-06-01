@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { AuthenticatedUser } from "src/auth/types";
-import { FlashcardService } from "src/flashcard/flashcard.service";
+import { FlashcardService } from "src/flashcard/services/flashcard.service";
 
 type FlashcardRequest = {
   params: {

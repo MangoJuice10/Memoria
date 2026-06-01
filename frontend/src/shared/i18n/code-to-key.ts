@@ -38,6 +38,7 @@ const baseSidebarSectionKey = "navigation.sidebar.sections";
 const baseFooterItemKey = "navigation.footer.navigation-links";
 const baseFooterSectionKey = "navigation.footer.sections";
 const baseAuthItemKey = "navigation.auth.navigation-links";
+const baseFlashcardItemKey = "navigation.flashcard.navigation-links";
 const baseDeckItemKey = "navigation.deck.navigation-links";
 
 const baseSettingsKey = "settings.navigation-links";
@@ -95,12 +96,15 @@ const codesToKeys = {
     FOOTER_ITEM_FEATURE_TRUSTWORTHY_ANSWERS: `${baseFooterItemKey}.feature-trustworthy-answers`,
     FOOTER_ITEM_FEATURE_STATISTICS: `${baseFooterItemKey}.feature-statistics`,
 
-    AUTH_ITEM_LOGIN: `${baseAuthItemKey}.login`,
-    AUTH_ITEM_REGISTER: `${baseAuthItemKey}.register`,
+    TAB_ITEM_LOGIN: `${baseAuthItemKey}.login`,
+    TAB_ITEM_REGISTER: `${baseAuthItemKey}.register`,
 
-    DECK_ITEM_INFO: `${baseDeckItemKey}.info`,
-    DECK_ITEM_FLASHCARDS: `${baseDeckItemKey}.flashcards`,
-    DECK_ITEM_EDUCATIONAL_RESOURCES: `${baseDeckItemKey}.educational_resources`,
+    TAB_ITEM_CREATE_FLASHCARD: `${baseFlashcardItemKey}.create-flashcard`,
+    TAB_ITEM_GENERATE_FLASHCARD: `${baseFlashcardItemKey}.generate-flashcard`,
+
+    TAB_ITEM_INFO: `${baseDeckItemKey}.info`,
+    TAB_ITEM_FLASHCARDS: `${baseDeckItemKey}.flashcards`,
+    TAB_ITEM_EDUCATIONAL_RESOURCES: `${baseDeckItemKey}.educational_resources`,
 
     SETTINGS_PROFILE: `${baseSettingsKey}.profile`,
     SETTINGS_THEME: `${baseSettingsKey}.theme`,
@@ -113,6 +117,7 @@ const codesToKeys = {
 
     OPTIONS_EDIT: `${baseOptionsKey}.edit`,
     OPTIONS_DELETE: `${baseOptionsKey}.delete`,
+    OPTIONS_ROLLBACK: `${baseOptionsKey}.rollback`,
 
     ...formFieldNamePropertyKeys,
 
@@ -126,6 +131,7 @@ const codesToKeys = {
     FLASHCARD_BACK: `${baseResourceKey}.flashcard.${resourcePropertiesKey}.back`,
     FLASHCARD_INTERVAL_DAYS: `${baseResourceKey}.flashcard.${resourcePropertiesKey}.interval-days`,
     FLASHCARD_DUE_AT: `${baseResourceKey}.flashcard.${resourcePropertiesKey}.due-at`,
+    FLASHCARD_DEFAULT_DUE_AT: `${baseResourceKey}.flashcard.${resourcePropertiesKey}.default_due_at`,
 
     DECK_RESOURCE_NAME: `${baseResourceKey}.deck.${resourceNameKey}`,
     DECK_NAME: `${baseResourceKey}.deck.${resourcePropertiesKey}.name`,

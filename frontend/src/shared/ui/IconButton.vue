@@ -11,6 +11,8 @@ const props = withDefaults(defineProps<{
   colorSecondary?: string;
   colorHoverPrimary?: string;
   colorHoverSecondary?: string;
+  scaleHover?: number;
+  scaleActive?: number;
 }>(), {
   enabled: true,
   sizeRem: 1.8,
@@ -21,6 +23,8 @@ const props = withDefaults(defineProps<{
   colorSecondary: "var(--color-secondary)",
   colorHoverPrimary: "var(--color-secondary)",
   colorHoverSecondary: "var(--color-primary)",
+  scaleHover: 1.10,
+  scaleActive: 1.15,
 });
 
 const style = computed(() => ({
@@ -32,7 +36,9 @@ const style = computed(() => ({
   "--icon-button-color-primary": `${props.colorPrimary}`,
   "--icon-button-color-secondary": `${props.colorSecondary}`,
   "--icon-button-color-hover-primary": `${props.colorHoverPrimary}`,
-  "--icon-button-color-hover-secondary": `${props.colorHoverSecondary}`
+  "--icon-button-color-hover-secondary": `${props.colorHoverSecondary}`,
+  "--scale-hover": `${props.scaleHover}`,
+  "--scale-active": `${props.scaleActive}`,
 }));
 
 </script>
@@ -41,7 +47,7 @@ const style = computed(() => ({
           class="border rounded-full border-transparent
                  focus-visible:border-default focus-visible:bg-focus
                  transition-all duration-100
-                 enabled:hover:scale-105 enabled:active:scale-110"
+                 enabled:hover:scale-(--scale-hover) enabled:active:scale-(--scale-active)"
           :class="[
                     hasRing && 'icon-button-ring\n' +
                                'enabled:hover:border-default enabled:hover:bg-hover\n' +

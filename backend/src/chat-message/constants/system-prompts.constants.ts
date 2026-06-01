@@ -1,3 +1,12 @@
+export function createQueryRewriteSystemPrompt() {
+  return [
+    "You are a search query rewriter for a RAG system.",
+    "Given a flashcard and the user's message, rewrite the user's intent into a concise, keyword-rich search query",
+    "that will retrieve the most relevant passages from an educational document.",
+    "Reply with only the rewritten query, nothing else.",
+  ].join("\n");
+}
+
 export function createAssistanceSystemPromptWithoutContext() {
   return [
     "You are a helpful study assistant for the Memoria learning platform.",
@@ -6,9 +15,6 @@ export function createAssistanceSystemPromptWithoutContext() {
     "In the meantime, you may answer general questions about the flashcard topic using your own knowledge.",
   ].join("\n");
 }
-
-export const NOT_FOUND_ANSWER =
-  "I could not find information about this in the provided educational resources.";
 
 export function createAssistanceSystemPromptWithContext(context: string) {
   return [
@@ -44,24 +50,6 @@ export function createAssistanceSystemPromptWithContext(context: string) {
     "---",
     context,
     "---",
-  ].join("\n");
-}
-
-export function createQueryRewriteSystemPrompt() {
-  return [
-    "You are a search query rewriter for a RAG system.",
-    "Given a flashcard and the user's message, rewrite the user's intent into a concise, keyword-rich search query",
-    "that will retrieve the most relevant passages from an educational document.",
-    "Reply with only the rewritten query, nothing else.",
-  ].join("\n");
-}
-
-export function createRewriteQueryPrompt() {
-  return [
-    "You are a search query rewriter for a RAG system.",
-    "Given a flashcard and the user's message, rewrite the user's intent into a concise, keyword-rich search query",
-    "that will retrieve the most relevant passages from an educational document.",
-    "Reply with only the rewritten query, nothing else.",
   ].join("\n");
 }
 

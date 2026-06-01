@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <span class="icon-static
-               inline-flex justify-center items-center gap-2.5">
+               inline-flex justify-center items-center">
     <template v-if="!isReverse">
       <slot name="icon"/>
       <slot name="label"/>

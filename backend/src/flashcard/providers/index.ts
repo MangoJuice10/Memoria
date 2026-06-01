@@ -1,0 +1,1 @@
+export * from "./flashcard-generation-prompt.provider"

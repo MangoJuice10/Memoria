@@ -1,5 +1,5 @@
-import type {CreateChatDto} from "src/entities/chat/model/create-chat.schema.ts";
-import type {ChatResponseDto} from "src/entities/chat/model/chat-response.dto.ts";
+import type {CreateChatDto} from "../../model/create-chat.schema.ts";
+import type {ChatResponseDto} from "../../model/chat-response.dto.ts";
 import {client, type SuccessResponse} from "@/shared/api";
 
 export async function create(createChatDto: CreateChatDto): Promise<ChatResponseDto> {

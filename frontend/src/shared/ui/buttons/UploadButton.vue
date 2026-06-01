@@ -4,25 +4,26 @@ import {UploadIcon} from "@/shared/ui/icons";
 import {ref} from "vue";
 
 const emit = defineEmits<{
-  (e: "change", file: File | null): void,
+  (e: "change", file: File | undefined): void,
 }>();
 
-const inputRef = ref<HTMLInputElement | null>(null);
+const inputRef = ref<HTMLInputElement>();
 
-function handleClick() {
-  inputRef.value?.click();
+function handleButtonClick() {
+  if (!inputRef.value) throw new Error("The file input didn't render");
+  inputRef.value.click();
 }
 
-function handleFileChange(e: Event | null) {
-  const input = e?.target as HTMLInputElement;
-  const file = input.files?.[0] ?? null;
+function handleFileChange(e: Event) {
+  const input = e.target as HTMLInputElement;
+  const file = input.files?.[0];
   emit("change", file);
 }
 </script>
 
 <template>
   <div>
-    <Button @click.prevent="handleClick">
+    <Button @click.prevent="handleButtonClick">
       <IconLabel>
         <template #icon>
           <UploadIcon class="w-7 h-7"/>
