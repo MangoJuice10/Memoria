@@ -19,17 +19,20 @@ import {
   createFlashcardSchema,
   GenerateFlashcardDto,
   generateFlashcardSchema,
+  RegenerateFlashcardDto,
+  regenerateFlashcardSchema,
   UpdateFlashcardDto,
   updateFlashcardSchema,
 } from "./schemas";
 import { DeckOwnershipGuard } from "src/deck/guards/deck-ownership.guard";
 import { FlashcardOwnershipGuard } from "./guards/flashcard-ownership.guard";
 import { ZodValidationPipe } from "src/common";
-import { FlashcardGenerationService } from "./services/flashcard-generation.service";
+import { FlashcardGenerationService } from "src/flashcard/services/flashcard-generation.service";
 import {
   BatchFlashcardDto,
   batchFlashcardSchema,
 } from "src/flashcard/schemas/batch-flashcard.schema";
+import { User } from "src/auth/decorators";
 
 @UseGuards(DeckOwnershipGuard)
 @Controller("decks/:deckId/flashcards")
@@ -66,6 +69,16 @@ export class FlashcardController {
     generateFlashcardDto: GenerateFlashcardDto,
   ) {
     return this.flashcardGenerationService.generate(deckId, generateFlashcardDto);
+  }
+
+  @Post(":flashcardId/regenerate")
+  @HttpCode(200)
+  async regenerate(
+    @Param("flashcardId", ParseIntPipe) flashcardId: number,
+    @Body(new ZodValidationPipe(regenerateFlashcardSchema))
+    regenerateFlashcardDto: RegenerateFlashcardDto,
+  ) {
+    return this.flashcardGenerationService.regenerate(flashcardId, regenerateFlashcardDto);
   }
 
   @Get()

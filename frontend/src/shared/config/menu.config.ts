@@ -28,6 +28,9 @@ export type TabItemId =
     | "deck-educational-resources"
     | "create-flashcard"
     | "generate-flashcard"
+    | "update-flashcard"
+    | "regenerate-flashcard"
+    | "split-flashcard"
     | "login"
     | "register"
 

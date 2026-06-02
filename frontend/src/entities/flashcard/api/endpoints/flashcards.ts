@@ -1,25 +1,21 @@
-import type {
-    CreateFlashcardDto,
-    UpdateFlashcardDto,
-    FlashcardResponseDto
-} from "@/entities/flashcard";
-import type {
-    BatchFlashcardResponseDto
-} from "@/entities/flashcard/model/dtos/batch-flashcard-response.dto";
-import type {
-    GenerateFlashcardDto
-} from "@/entities/flashcard/model/schemas/generate-flashcard.schema";
-import type {BatchFlashcardDto} from "../../model/dtos/batch-flashcard.dto";
-import type {SuccessResponse} from "@/shared/api";
 import {client} from "@/shared/api";
+import type {CreateFlashcardDto} from "../../model/schemas/create-flashcard.schema";
+import type {GenerateFlashcardDto} from "../../model/schemas/generate-flashcard.schema";
+import type {UpdateFlashcardDto} from "../../model/schemas/update-flashcard.schema";
+import type {RegenerateFlashcardDto} from "../../model/schemas/regenerate-flashcard.schema";
+import type {BatchFlashcardDto} from "../../model/dto/batch-flashcard.dto";
+import type {SuccessResponse} from "@/shared/api";
+import type {FlashcardResponseDto} from "../../model/dto/flashcard-response.dto";
+import type {GeneratedFlashcardDto} from "../../model/dto/generated-flashcard.dto";
+import type {BatchFlashcardResponseDto} from "../../model/dto/batch-flashcard-response.dto";
 
 export async function create(deckId: number, createFlashcardDto: CreateFlashcardDto): Promise<FlashcardResponseDto> {
     const {data: {data}} = await client.post<SuccessResponse<FlashcardResponseDto>>(`/decks/${deckId}/flashcards`, createFlashcardDto);
     return data;
 }
 
-export async function generate(deckId: number, generateFlashcardDto: GenerateFlashcardDto): Promise<FlashcardResponseDto[]> {
-    const {data: {data}} = await client.post<SuccessResponse<FlashcardResponseDto[]>>(`/decks/${deckId}/flashcards/generate`, generateFlashcardDto);
+export async function generate(deckId: number, generateFlashcardDto: GenerateFlashcardDto): Promise<GeneratedFlashcardDto[]> {
+    const {data: {data}} = await client.post<SuccessResponse<GeneratedFlashcardDto[]>>(`/decks/${deckId}/flashcards/generate`, generateFlashcardDto);
     return data;
 }
 
@@ -39,6 +35,11 @@ export async function findAll(deckId: number, search?: string): Promise<Flashcar
 
 export async function update(deckId: number, flashcardId: number, updateFlashcardDto: UpdateFlashcardDto) {
     const {data: {data}} = await client.patch<SuccessResponse<FlashcardResponseDto>>(`/decks/${deckId}/flashcards/${flashcardId}`, updateFlashcardDto);
+    return data;
+}
+
+export async function regenerate(deckId: number, flashcardId: number, regenerateFlashcardDto: RegenerateFlashcardDto): Promise<GeneratedFlashcardDto> {
+    const {data: {data}} = await client.post<SuccessResponse<GeneratedFlashcardDto>>(`/decks/${deckId}/flashcards/${flashcardId}/regenerate`, regenerateFlashcardDto);
     return data;
 }
 

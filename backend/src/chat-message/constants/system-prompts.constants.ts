@@ -1,22 +1,22 @@
-export function createQueryRewriteSystemPrompt() {
+export function createFlashcardContext(front: string, back: string) {
+  return ["Flashcard data:", `Front: ${front}`, `Back: ${back}`].join("\n");
+}
+
+export function createEducationalResourcesContext(context: string) {
+  return ["SOURCES:", "---", context, "---"].join("\n");
+}
+
+export function createQueryRewriteSystemPrompt(front: string, back: string) {
   return [
     "You are a search query rewriter for a RAG system.",
     "Given a flashcard and the user's message, rewrite the user's intent into a concise, keyword-rich search query",
     "that will retrieve the most relevant passages from an educational document.",
     "Reply with only the rewritten query, nothing else.",
+    createFlashcardContext(front, back),
   ].join("\n");
 }
 
-export function createAssistanceSystemPromptWithoutContext() {
-  return [
-    "You are a helpful study assistant for the Memoria learning platform.",
-    "This deck has no educational resources attached yet.",
-    "Let the user know they can attach resources to get source-grounded answers.",
-    "In the meantime, you may answer general questions about the flashcard topic using your own knowledge.",
-  ].join("\n");
-}
-
-export function createAssistanceSystemPromptWithContext(context: string) {
+export function createAssistanceSystemPrompt(front: string, back: string, context: string) {
   return [
     "You are a helpful study assistant for the Memoria learning platform.",
     "Your role is to help students understand the material from their educational resources.",
@@ -46,17 +46,16 @@ export function createAssistanceSystemPromptWithContext(context: string) {
     "   If the user writes in Russian, respond in Russian. If in English, respond in English.",
     "   Never default to English regardless of the language of the source documents.",
     "",
-    "SOURCES:",
-    "---",
-    context,
-    "---",
+    createFlashcardContext(front, back),
+    createEducationalResourcesContext(context),
   ].join("\n");
 }
 
-export function createChatTitleSystemPrompt() {
+export function createChatTitleSystemPrompt(front: string, back: string) {
   return [
     "Generate a short, descriptive chat title (max 60 characters, no quotes) " +
       "based on the user's first message and the flashcard topic. " +
       "Reply with only the title, nothing else.",
+    createFlashcardContext(front, back),
   ].join("\n");
 }

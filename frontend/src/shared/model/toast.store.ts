@@ -59,7 +59,7 @@ export const useToastStore = defineStore("toast", () => {
         const toast: ToastProps = {
             id,
             message,
-            variant: typeId,
+            type: typeId,
             icon: toastIcons[iconId],
             duration,
         };

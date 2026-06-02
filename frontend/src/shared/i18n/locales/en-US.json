@@ -90,7 +90,10 @@
     "flashcard": {
       "navigation-links": {
         "create-flashcard": "Create",
-        "generate-flashcard": "Generate"
+        "generate-flashcard": "Generate",
+        "update-flashcard": "Update",
+        "regenerate-flashcard": "Regenerate",
+        "split-flashcard": "Split"
       }
     }
   },
@@ -162,7 +165,7 @@
       },
       "instruction": {
         "name": "Instruction",
-        "placeholder": "Describe what flashcards to generate, e.g. 'photosynthesis'"
+        "placeholder": "Describe how exactly to generate your flashcards"
       },
       "count": {
         "name": "Count"
@@ -294,6 +297,24 @@
           "pending": "Generating flashcards...",
           "success": "Flashcards generated successfully",
           "error": "Failed to generate flashcards"
+        },
+        "regenerate": {
+          "name": "Regenerate",
+          "description": "Regenerate the flashcard using AI",
+          "cancel": "Cancel",
+          "confirm": "Regenerate",
+          "pending": "Regenerating the flashcard...",
+          "success": "Flashcards regenerated successfully",
+          "error": "Failed to regenerate flashcards"
+        },
+        "split": {
+          "name": "Split",
+          "description": "Split the flashcard using AI",
+          "cancel": "Cancel",
+          "confirm": "Split",
+          "pending": "Splitting the flashcard...",
+          "success": "Flashcard split successfully",
+          "error": "Failed to split the flashcard"
         }
       }
     },

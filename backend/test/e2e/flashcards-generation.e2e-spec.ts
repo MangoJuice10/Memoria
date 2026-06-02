@@ -1,3 +1,4 @@
+import request from "supertest";
 import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
 import { createAuthHelpers } from "test/helpers/auth/auth.helper";
 import { createDecksHelpers } from "test/helpers/decks/decks.helper";
@@ -11,8 +12,8 @@ import {
   newFlashcardData,
 } from "test/fixtures/flashcards/flashcards.data";
 import {
-  createFlashcardGenerationPrompt,
   FLASHCARD_GENERATION_PROMPT,
+  FLASHCARD_REGENERATION_PROMPT,
 } from "src/flashcard/providers";
 import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
 import { createDecksFixtures } from "test/fixtures/decks/decks.fixture";
@@ -20,32 +21,9 @@ import { createFlashcardsFixtures } from "test/fixtures/flashcards/flashcards.fi
 import { defaultEducationalResourcesData } from "test/fixtures/educational-resources/educational-resources.data";
 import { createEducationalResourcesFixtures } from "test/fixtures/educational-resources/educational-resources.fixture";
 import { createEducationalResourcesHelpers } from "test/helpers/educational-resources/educational-resources.helper";
-
-const mockFlashcardGenerationPrompt: typeof createFlashcardGenerationPrompt = (
-  context: string,
-  count: number,
-) => {
-  const testFlashcards = Array.from(
-    {
-      length: count,
-    },
-    (_, i) => ({
-      front: `TEST_FRONT_${i + 1}`,
-      back: `TEST_BACK_${i + 1}`,
-    }),
-  );
-
-  return [
-    "You are a test assistant.",
-    "If the SOURCES section below contains any content, output ONLY this exact JSON and nothing else:",
-    JSON.stringify(testFlashcards),
-    "If the SOURCES section is empty or blank, output ONLY this exact JSON and nothing else: []",
-    "SOURCES:",
-    "---",
-    context,
-    "---",
-  ].join("\n");
-};
+import { createFlashcardsGenerationPromptMock } from "test/mocks/create-flashcards-generation-prompt.mock";
+import { createFlashcardsRegenerationPromptMock } from "test/mocks/create-flashcards-regeneration-prompt.mock";
+import { setAccessToken } from "test/helpers/setAccessToken.helper";
 
 describe("Flashcards generation", () => {
   let testingApp: TestingApp;
@@ -68,10 +46,15 @@ describe("Flashcards generation", () => {
   let accessToken: string;
   let otherAccessToken: string;
   let deckId: number;
+  let educationalResourceId: number;
+  let flashcardId: number;
 
   const { createLoginDto, createRegisterDto } = createAuthFixtures(username, email, password);
   const { createCreateDeckDto } = createDecksFixtures(name, description, isPublic);
-  const { createCreateFlashcardDto, createBatchFlashcardDto } = createFlashcardsFixtures({ front, back }, defaultFlashcardsData);
+  const { createCreateFlashcardDto, createBatchFlashcardDto } = createFlashcardsFixtures(
+    { front, back },
+    defaultFlashcardsData,
+  );
   const { createCreateEducationalResourceDto } = createEducationalResourcesFixtures(
     name,
     description,
@@ -81,14 +64,20 @@ describe("Flashcards generation", () => {
     testingApp = await createTestingApp((testingAppBuilder) =>
       testingAppBuilder
         .overrideProvider(FLASHCARD_GENERATION_PROMPT)
-        .useValue(mockFlashcardGenerationPrompt),
+        .useValue(createFlashcardsGenerationPromptMock)
+        .overrideProvider(FLASHCARD_REGENERATION_PROMPT)
+        .useValue(createFlashcardsRegenerationPromptMock),
     );
     await testingApp.prismaService.cleanDatabase();
     await testingApp.vectorStoreService.cleanCollection();
 
     authHelpers = createAuthHelpers(testingApp.httpServer, createRegisterDto, createLoginDto);
     decksHelpers = createDecksHelpers(testingApp.httpServer, createCreateDeckDto);
-    flashcardsHelpers = createFlashcardsHelpers(testingApp.httpServer, createCreateFlashcardDto, createBatchFlashcardDto);
+    flashcardsHelpers = createFlashcardsHelpers(
+      testingApp.httpServer,
+      createCreateFlashcardDto,
+      createBatchFlashcardDto,
+    );
     educationalResourcesHelpers = createEducationalResourcesHelpers(
       testingApp.httpServer,
       createCreateEducationalResourceDto,
@@ -102,12 +91,21 @@ describe("Flashcards generation", () => {
         }),
       ),
     );
+
     ({
       body: {
         data: { id: deckId },
       },
     } = await decksHelpers.create(accessToken));
-  });
+
+    ({
+      body: {
+        data: { id: educationalResourceId },
+      },
+    } = await educationalResourcesHelpers
+      .create(accessToken, educationalResourceFileContent, educationalResourceFilename)
+      .expect(201));
+  }, 30000);
 
   afterAll(async () => {
     await testingApp.prismaService.cleanDatabase();
@@ -128,82 +126,175 @@ describe("Flashcards generation", () => {
         expect(res.body.data).toEqual([]);
       });
     });
-  });
 
-  describe("when the deck has an attached educational resource", () => {
-    let educationalResourceId: number;
+    describe("when the deck has an attached educational resource", () => {
+      beforeAll(async () => {
+        await educationalResourcesHelpers
+          .attachToDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
 
-    beforeAll(async () => {
-      ({
-        body: {
-          data: { id: educationalResourceId },
+      it(
+        "should return exactly one generated flashcard when the instruction matches the content of the educational resource," +
+          " without persisting the flashcard to the database",
+        async () => {
+          const res = await flashcardsHelpers
+            .generate(deckId, accessToken, {
+              instruction: generationData.instruction,
+              count: 1,
+            })
+            .expect(200);
+
+          expect(res.body.data).toHaveLength(1);
+          expect(res.body.data[0]).toHaveProperty("front", "TEST_FRONT_1");
+          expect(res.body.data[0]).toHaveProperty("back", "TEST_BACK_1");
+
+          const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
+            where: {
+              deckId,
+            },
+          });
+
+          expect(persistedFlashcards).toHaveLength(0);
         },
-      } = await educationalResourcesHelpers
-        .create(accessToken, educationalResourceFileContent, educationalResourceFilename)
-        .expect(201));
+      );
 
-      await educationalResourcesHelpers
-        .attachToDeck(deckId, educationalResourceId, accessToken)
-        .expect(200);
-    }, 30000);
+      it(
+        "should return the provided number of flashcards when the instruction matches the content of the educational resource," +
+          " without persisting the flashcard to the database",
+        async () => {
+          const res = await flashcardsHelpers
+            .generate(deckId, accessToken, {
+              instruction: generationData.instruction,
+              count: 5,
+            })
+            .expect(200);
 
-    it(
-      "should return exactly one generated flashcard when the instruction matches the content of the educational resource," +
-        " without persisting the flashcard to the database",
-      async () => {
+          expect(res.body.data).toHaveLength(5);
+
+          const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
+            where: {
+              deckId,
+            },
+          });
+
+          expect(persistedFlashcards).toHaveLength(0);
+        },
+      );
+
+      it("should return an empty array when the instruction doesn't match the content of the educational resource", async () => {
         const res = await flashcardsHelpers
           .generate(deckId, accessToken, {
-            instruction: generationData.instruction,
+            instruction: generationData.unrelatedInstruction,
             count: 1,
           })
           .expect(200);
 
-        expect(res.body.data).toHaveLength(1);
-        expect(res.body.data[0]).toHaveProperty("front", "TEST_FRONT_1");
-        expect(res.body.data[0]).toHaveProperty("back", "TEST_BACK_1");
+        expect(res.body.data).toHaveLength(0);
+      });
 
-        const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
-          where: {
-            deckId,
-          },
-        });
-
-        expect(persistedFlashcards).toHaveLength(0);
-      },
-    );
-
-    it(
-      "should return the provided number of flashcards when the instruction matches the content of the educational resource," +
-        " without persisting the flashcard to the database",
-      async () => {
-        const res = await flashcardsHelpers
-          .generate(deckId, accessToken, {
-            instruction: generationData.instruction,
-            count: 5,
-          })
+      afterAll(async () => {
+        await educationalResourcesHelpers
+          .detachFromDeck(deckId, educationalResourceId, accessToken)
           .expect(200);
+      });
+    });
+  });
 
-        expect(res.body.data).toHaveLength(5);
+  describe("Regenerate the flashcard", () => {
+    beforeEach(async () => {
+      const res = await flashcardsHelpers.create(deckId, accessToken);
+      flashcardId = res.body.data.id;
+    });
 
-        const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
-          where: {
-            deckId,
-          },
-        });
+    afterEach(async () => {
+      await testingApp.prismaService.flashcard.delete({
+        where: {
+          id: flashcardId,
+        },
+      });
+    });
 
-        expect(persistedFlashcards).toHaveLength(0);
-      },
-    );
+    describe("when the deck has no attached educational resources", () => {
+      it(
+        "should regenerate the flashcard based on the flashcard's content when the instruction doesn't match the content of the" +
+          " educational resource, without persisting the changes to the database",
+        async () => {
+          const res = await flashcardsHelpers
+            .regenerate(deckId, flashcardId, accessToken, {
+              instruction: generationData.instruction,
+            })
+            .expect(200);
+          expect(res.body.data).toHaveProperty("front", "ORIGINAL_FRONT");
+          expect(res.body.data).toHaveProperty("back", "ORIGINAL_BACK");
 
-    it("should return an empty array when the instruction doesn't match the content of the educational resource", async () => {
-      const res = await flashcardsHelpers
-        .generate(deckId, accessToken, {
-          instruction: generationData.unrelatedInstruction,
-          count: 1,
-        })
-        .expect(200);
+          const persistedFlashcard = await testingApp.prismaService.flashcard.findUnique({
+            where: {
+              id: flashcardId,
+            },
+          });
+          expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
+          expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
+        },
+      );
+    });
 
-      expect(res.body.data).toHaveLength(0);
+    describe("when the deck has an attached educational resource", () => {
+      beforeAll(async () => {
+        await educationalResourcesHelpers
+          .attachToDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
+
+      it(
+        "should regenerate the flashcard based on the educational resources when the instruction matches the content of the" +
+          " educational resource, without persisting the changes to the database",
+        async () => {
+          const res = await flashcardsHelpers
+            .regenerate(deckId, flashcardId, accessToken, {
+              instruction: generationData.instruction,
+            })
+            .expect(200);
+          expect(res.body.data).toHaveProperty("front", "REGENERATED_FRONT");
+          expect(res.body.data).toHaveProperty("back", "REGENERATED_BACK");
+
+          const persistedFlashcard = await testingApp.prismaService.flashcard.findUnique({
+            where: {
+              id: flashcardId,
+            },
+          });
+          expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
+          expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
+        },
+      );
+
+      it(
+        "should regenerate the flashcard based on the flashcard's content when the instruction doesn't match the content of the" +
+          " educational resource, without persisting the changes to the database",
+        async () => {
+          const res = await flashcardsHelpers
+            .regenerate(deckId, flashcardId, accessToken, {
+              instruction: generationData.unrelatedInstruction,
+            })
+            .expect(200);
+          expect(res.body.data).toHaveProperty("front", "ORIGINAL_FRONT");
+          expect(res.body.data).toHaveProperty("back", "ORIGINAL_BACK");
+
+          const persistedFlashcard = await testingApp.prismaService.flashcard.findUnique({
+            where: {
+              id: flashcardId,
+            },
+          });
+          expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
+          expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
+        },
+      );
+
+      afterAll(async () => {
+        await educationalResourcesHelpers
+          .detachFromDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
     });
   });
 });

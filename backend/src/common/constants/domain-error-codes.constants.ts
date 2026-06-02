@@ -41,7 +41,7 @@ export const domainErrorCodes = {
   ...validationErrorCodes,
   ...notFoundErrorCodes,
   ...missingPermissionsErrorCodes,
-  FLASHCARD_GENERATION_FAILED: "FLASHCARD_GENERATION_FAILED",
+  FLASHCARD_GENERATION_ERROR: "FLASHCARD_GENERATION_ERROR",
 } as const;
 
 export type DomainErrorCode = keyof typeof domainErrorCodes;

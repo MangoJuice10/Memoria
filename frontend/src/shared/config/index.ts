@@ -1,8 +1,8 @@
 export * from "./menu.config";
 export * from "./menu/layout/auth-layout.config";
 
-export * from "./resources/resource-name.codes";
-export * from "./resources/resource-action.codes";
+export * from "./resources/resource-name-codes.config";
+export * from "./resources/resource-action-codes.config";
 export * from "./resources/resource-name-action-property-codes.config";
 export * from "./resources/resource-property-codes.config";
 export * from "./resources/resource-codes.config";

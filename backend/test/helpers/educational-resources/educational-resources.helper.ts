@@ -19,9 +19,24 @@ export function createEducationalResourcesHelpers(
       .attach("file", Buffer.from(fileContent), filename);
   };
 
-  const attachToDeck = (deckId: number, educationalResourceId: number, accessToken: string) => {
+  const attachToDeck = (
+    deckId: number,
+    educationalResourceId: number,
+    accessToken: string,
+  ) => {
     return setAccessToken(
       request(httpServer).post(`/decks/${deckId}/educational-resources/${educationalResourceId}`),
+      accessToken,
+    );
+  };
+
+  const detachFromDeck = (
+    deckId: number,
+    educationalResourceId: number,
+    accessToken: string,
+  ) => {
+    return setAccessToken(
+      request(httpServer).delete(`/decks/${deckId}/educational-resources/${educationalResourceId}`),
       accessToken,
     );
   };
@@ -36,6 +51,7 @@ export function createEducationalResourcesHelpers(
   return {
     create,
     attachToDeck,
+    detachFromDeck,
     remove,
   };
 }

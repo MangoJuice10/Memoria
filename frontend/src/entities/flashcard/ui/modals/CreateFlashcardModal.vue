@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {FLASHCARD_LAYOUT} from "@/entities/flashcard/config/flashcard-layout.config";
+import {CREATE_FLASHCARD_LAYOUT} from "../../config/create-flashcard-layout.config";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {getMenuItemViewOrThrow, useMenu, useValidation} from "@/shared/lib";
+import {useMenu, useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
   createCreateFlashcardSchema,
@@ -20,10 +20,13 @@ const props = defineProps<{
 const {t} = useI18n();
 
 const {stageCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useMenu(FLASHCARD_LAYOUT, t, {}, {
+const {menuItemViews} = useMenu(CREATE_FLASHCARD_LAYOUT, t, {
+  "generate-flashcard": switchToGenerateFlashcardModal
+}, {
   "create-flashcard": true,
   "generate-flashcard": false
 });
+
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
@@ -60,12 +63,7 @@ const submit = async () => {
   modalStore.hide();
 };
 
-function setupMenuCallbacks() {
-  const generateFlashcardItem = getMenuItemViewOrThrow(menuItemViews.value, "generate-flashcard");
-  generateFlashcardItem.callback = switchToGenerateFlashcardModal;
-}
-
-const switchToGenerateFlashcardModal = () => {
+function switchToGenerateFlashcardModal() {
   const generateFlashcardModal = defineAsyncComponent(() => import("./GenerateFlashcardModal.vue"));
   modalStore.show(generateFlashcardModal, {
     deckId: props.deckId
@@ -73,7 +71,6 @@ const switchToGenerateFlashcardModal = () => {
 };
 
 onMounted(() => {
-  setupMenuCallbacks();
   backdropStore.setCallback(() => {
     modalStore.hide();
   });
@@ -82,7 +79,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Modal class="animate-expand">
+  <Modal>
     <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"

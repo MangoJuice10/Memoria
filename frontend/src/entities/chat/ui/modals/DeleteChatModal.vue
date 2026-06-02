@@ -9,7 +9,7 @@ import {createDeleteChatMutation} from "@/entities/chat";
 import axios from "axios";
 
 const props = defineProps<{
-  id: number;
+  chatId: number;
 }>();
 
 const {t} = useI18n();
@@ -22,7 +22,7 @@ const deleteChatMutation = createDeleteChatMutation();
 
 async function handleConfirm() {
   try {
-    await deleteChatMutation.mutateAsync(props.id);
+    await deleteChatMutation.mutateAsync(props.chatId);
     push(t(codeToKey(codes.CHAT_DELETE_SUCCESS)), "success", "delete");
   } catch (error) {
     if (axios.isAxiosError(error)) {

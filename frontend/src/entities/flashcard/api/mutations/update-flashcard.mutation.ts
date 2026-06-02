@@ -3,7 +3,7 @@ import {queryClient} from "@/shared/api";
 import {update} from "../endpoints/flashcards";
 import {flashcardsQueryKeys} from "../../api/query-keys/flashcards-query-keys";
 import type {UpdateFlashcardDto} from "../../model/schemas/update-flashcard.schema";
-import type {FlashcardResponseDto} from "../../model/dtos/flashcard-response.dto";
+import type {FlashcardResponseDto} from "@/entities/flashcard/model/dto/flashcard-response.dto";
 
 export function createUpdateFlashcardMutation(deckId: number, flashcardId: number) {
     return useMutation({

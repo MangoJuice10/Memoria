@@ -1,5 +1,5 @@
 import {type MaybeRefOrGetter, toValue} from "vue";
-import type {FlashcardResponseDto} from "../model/dtos/flashcard-response.dto";
+import type {FlashcardResponseDto} from "@/entities/flashcard/model/dto/flashcard-response.dto";
 import type {DraftCreatedFlashcard, DraftFlashcard} from "../model/types/draft-flashcard.type";
 import type {DisplayFlashcard} from "../model/types/display-flashcard.type";
 

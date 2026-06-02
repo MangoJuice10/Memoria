@@ -1,21 +1,21 @@
 <script setup lang="ts">
+import {useI18n} from "vue-i18n";
+import axios from "axios";
 import {createGenerateFlashcardMutation} from "@/entities/flashcard/api/mutations/generate-flashcard.mutation";
 import {
   createGenerateFlashcardSchema, type GenerateFlashcardDto,
 } from "@/entities/flashcard/model/schemas/generate-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
-import NumberInput from "@/shared/ui/form/inputs/NumberInput.vue";
-import axios from "axios";
-import {FLASHCARD_LAYOUT} from "../../config/flashcard-layout.config";
+import {CREATE_FLASHCARD_LAYOUT} from "../../config/create-flashcard-layout.config";
 import {defineAsyncComponent, onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {getMenuItemViewOrThrow, useMenu, useValidation} from "@/shared/lib";
+import {useMenu, useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {useDraftFlashcardStorage,} from "@/entities/flashcard";
 import {Modal, TabLinks} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
+import {NumberInput} from "@/shared/ui";
 
 const props = defineProps<{
   deckId: number;
@@ -24,7 +24,9 @@ const props = defineProps<{
 const {t} = useI18n();
 
 const {bulkStageCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useMenu(FLASHCARD_LAYOUT, t, {}, {
+const {menuItemViews} = useMenu(CREATE_FLASHCARD_LAYOUT, t, {
+  "create-flashcard": switchToCreateFlashcardModal
+}, {
   "create-flashcard": false,
   "generate-flashcard": true,
 });
@@ -77,20 +79,14 @@ const submit = async () => {
   }
 };
 
-function setupMenuCallbacks() {
-  const createFlashcardItem = getMenuItemViewOrThrow(menuItemViews.value, "create-flashcard");
-  createFlashcardItem.callback = switchToCreateFlashcardModal;
-}
-
-const switchToCreateFlashcardModal = () => {
+function switchToCreateFlashcardModal() {
   const createFlashcardModal = defineAsyncComponent(() => import("./CreateFlashcardModal.vue"));
   modalStore.show(createFlashcardModal, {
     deckId: props.deckId
   });
-};
+}
 
 onMounted(() => {
-  setupMenuCallbacks();
   backdropStore.setCallback(() => {
     modalStore.hide();
   });

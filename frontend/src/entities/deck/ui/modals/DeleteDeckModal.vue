@@ -10,7 +10,7 @@ import {codes} from "@/shared/config";
 import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
-  id: number;
+  deckId: number;
 }>();
 
 const router = useRouter();
@@ -39,7 +39,7 @@ const deleteDeckMutation = useMutation({
 });
 
 async function handleConfirm() {
-  await deleteDeckMutation.mutateAsync(props.id);
+  await deleteDeckMutation.mutateAsync(props.deckId);
 }
 
 async function handleCancel() {

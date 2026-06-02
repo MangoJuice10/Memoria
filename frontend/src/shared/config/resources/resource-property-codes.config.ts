@@ -1,6 +1,4 @@
-import type {
-    ResourceNameCode
-} from "./resource-name.codes.ts";
+import type {ResourceNameCode} from "./resource-name-codes.config";
 
 type ResourcePropertyCode<R extends ResourceNameCode> = `${R}_${string}`;
 

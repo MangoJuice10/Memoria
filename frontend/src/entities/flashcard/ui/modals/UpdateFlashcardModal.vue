@@ -1,30 +1,50 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {useValidation} from "@/shared/lib";
-import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
-  useDraftFlashcardStorage,
-  createUpdateFlashcardSchema,
-  type CreateFlashcardDto, type FlashcardData,
-} from "@/entities/flashcard";
-import {Modal} from "@/shared/ui";
-import {Form, FormField} from "@/shared/ui";
+  UPDATE_DRAFT_FLASHCARD_LAYOUT,
+  UPDATE_FLASHCARD_LAYOUT
+} from "@/entities/flashcard/config/update-flashcard-layout.config";
+import {defineAsyncComponent, onMounted, ref} from "vue";
+import {useI18n} from "vue-i18n";
+import {useMenu, useValidation} from "@/shared/lib";
+import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
+import {createUpdateFlashcardSchema} from "../../model/schemas/update-flashcard.schema";
+import {useDraftFlashcardStorage} from "../../model/use-draft-flashcard-storage.composable";
+import type {CreateFlashcardDto} from "../../model/schemas/create-flashcard.schema";
+import type {DisplayFlashcard} from "../../model/types/display-flashcard.type";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
+import {Modal, TabLinks} from "@/shared/ui";
+import {Form, FormField} from "@/shared/ui";
 
 const props = defineProps<{
-  id: number;
-  flashcardData: FlashcardData;
+  flashcard: DisplayFlashcard
 }>();
 
 const {t} = useI18n();
 const {stageUpdate} = useDraftFlashcardStorage();
+
+const layout = isCreatedFlashcard() ? UPDATE_DRAFT_FLASHCARD_LAYOUT : UPDATE_FLASHCARD_LAYOUT;
+
+const callbacks = isCreatedFlashcard() ? {} : {"regenerate-flashcard": switchToRegenerateFlashcardModal};
+
+const isActives = isCreatedFlashcard()
+    ? {"update-flashcard": true}
+    : {
+      "update-flashcard": true,
+      "regenerate-flashcard": false,
+      "split-flashcard": false
+    };
+
+const {menuItemViews} = useMenu(layout, t, callbacks, isActives);
+
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
 
-const data = ref<CreateFlashcardDto>(props.flashcardData);
+const data = ref<CreateFlashcardDto>({
+  front: props.flashcard.front,
+  back: props.flashcard.back,
+});
 
 const {
   isValid,
@@ -46,8 +66,9 @@ const submit = async () => {
 
   const result = await clientValidate();
   if (!result.success) return;
-  stageUpdate(props.id, {
-    ...props.flashcardData,
+  stageUpdate(props.flashcard.id, {
+    front: props.flashcard.front,
+    back: props.flashcard.back,
     ...result.data
   });
   push(t(codeToKey(codes.FLASHCARD_UPDATE_DRAFT)), "success", "update");
@@ -55,12 +76,22 @@ const submit = async () => {
   modalStore.hide();
 };
 
+function switchToRegenerateFlashcardModal() {
+  const regenerateFlashcardModal = defineAsyncComponent(() => import("./RegenerateFlashcardModal.vue"));
+  modalStore.show(regenerateFlashcardModal, {
+    flashcard: props.flashcard
+  });
+}
+
+function isCreatedFlashcard() {
+  return props.flashcard.status === "CREATED";
+}
+
 onMounted(() => {
   backdropStore.setCallback(() => {
     modalStore.hide();
   });
 });
-
 </script>
 
 <template>
@@ -74,9 +105,10 @@ onMounted(() => {
           @submit="submit"
           @reset="reset">
         <template #heading>
-          <h2 class="text-center">
-            {{ $t("form.headings.update-flashcard") }}
-          </h2>
+          <div class="flex justify-center items-center">
+            <TabLinks :menu-item-views
+                      class="text-2xl"/>
+          </div>
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
@@ -105,7 +137,7 @@ onMounted(() => {
           </div>
         </template>
         <template #submit>
-          {{ $t("form.actions.update") }}
+          {{ $t(codeToKey(codes.FLASHCARD_UPDATE_NAME)) }}
         </template>
       </Form>
     </div>

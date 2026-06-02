@@ -2,7 +2,7 @@ import {queryClient} from "@/shared/api";
 import {useMutation} from "@tanstack/vue-query";
 import {remove} from "../endpoints/flashcards";
 import {flashcardsQueryKeys} from "../query-keys/flashcards-query-keys";
-import type {FlashcardResponseDto} from "../../model/dtos/flashcard-response.dto";
+import type {FlashcardResponseDto} from "@/entities/flashcard/model/dto/flashcard-response.dto";
 
 export function createDeleteFlashcardMutation() {
     return useMutation({

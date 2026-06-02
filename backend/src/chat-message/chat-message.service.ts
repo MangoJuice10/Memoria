@@ -6,9 +6,7 @@ import { SendChatMessageDto } from "src/chat-message/schemas";
 import { ChatMessageResponseDto } from "src/chat-message/dto";
 import { ChatMessage, ChatMessageRole } from "@prisma/client";
 import {
-  createFlashcardContext,
-  createAssistanceSystemPromptWithContext,
-  createAssistanceSystemPromptWithoutContext,
+  createAssistanceSystemPrompt,
   createChatTitleSystemPrompt,
   createQueryRewriteSystemPrompt,
 } from "src/chat-message/constants";
@@ -36,6 +34,11 @@ export class ChatMessageService {
       },
     });
 
+    const rewrittenQuery = await this.largeLanguageModelService.invoke([
+      new SystemMessage(createQueryRewriteSystemPrompt(flashcardFront, flashcardBack)),
+      new HumanMessage(content),
+    ]);
+
     const links = await this.prismaService.deckEducationalResource.findMany({
       where: {
         deckId,
@@ -44,20 +47,14 @@ export class ChatMessageService {
         educationalResourceId: true,
       },
     });
-
-    const flashcardContext = createFlashcardContext(flashcardFront, flashcardBack);
-
-    const rewrittenQuery = await this.largeLanguageModelService.invoke([
-      new SystemMessage([createQueryRewriteSystemPrompt(), flashcardContext].join("\n\n")),
-      new HumanMessage(content),
-    ]);
-
     const linkIds = links.map(({ educationalResourceId }) => educationalResourceId);
     const context = await this.ragService.retrieve(rewrittenQuery, linkIds);
 
-    const assistanceSystemPrompt = context
-      ? createAssistanceSystemPromptWithContext(context)
-      : createAssistanceSystemPromptWithoutContext();
+    const assistanceSystemPrompt = createAssistanceSystemPrompt(
+      flashcardFront,
+      flashcardBack,
+      context,
+    );
 
     const history = (
       await this.prismaService.chatMessage.findMany({
@@ -74,7 +71,7 @@ export class ChatMessageService {
     const isFirstChatMessage = history.length === 1;
 
     const assistanceMessages = [
-      new SystemMessage([assistanceSystemPrompt, flashcardContext].join("\n\n")),
+      new SystemMessage(assistanceSystemPrompt),
       ...history.map((chatMessage) =>
         chatMessage.role === ChatMessageRole.USER
           ? new HumanMessage(chatMessage.content)
@@ -101,10 +98,10 @@ export class ChatMessageService {
     if (!chat) throw new ChatNotFoundError();
 
     if (isFirstChatMessage && !chat.title) {
-      const chatTitleSystemPrompt = createChatTitleSystemPrompt();
+      const chatTitleSystemPrompt = createChatTitleSystemPrompt(flashcardFront, flashcardBack);
 
       const chatTitleMessages = [
-        new SystemMessage([chatTitleSystemPrompt, flashcardContext].join("\n\n")),
+        new SystemMessage(chatTitleSystemPrompt),
         new HumanMessage(content),
       ];
 

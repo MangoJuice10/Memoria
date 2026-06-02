@@ -3,7 +3,7 @@ import type {MenuLayout} from "@/shared/config";
 import {CreateFlashcardIcon} from "@/shared/ui";
 import {AiGeneratedIcon} from "@/shared/ui";
 
-export const FLASHCARD_LAYOUT = {
+export const CREATE_FLASHCARD_LAYOUT = {
     menuItems: [
         {
             id: "create-flashcard",

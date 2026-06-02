@@ -1,6 +1,6 @@
 export const FLASHCARD_GENERATION_PROMPT = Symbol("FLASHCARD_GENERATION_PROMPT");
 
-export function createFlashcardGenerationPrompt(context: string, count: number) {
+export function createFlashcardGenerationPrompt(count: number, context: string) {
   return [
     "You are a flashcard generation assistant for the Memoria learning platform.",
     "Your task is to generate study flashcards based ONLY on the provided source material.",

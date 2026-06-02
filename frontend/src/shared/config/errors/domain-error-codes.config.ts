@@ -2,6 +2,8 @@ export const validationErrorCodes = {
     VALIDATION_ERROR: "VALIDATION_ERROR",
     REQUIRED: "REQUIRED",
     EMAIL: "EMAIL",
+    MIN: "MIN",
+    MAX: "MAX",
     MIN_LENGTH: "MIN_LENGTH",
     MAX_LENGTH: "MAX_LENGTH",
     INVALID_PASSWORD: "INVALID_PASSWORD",

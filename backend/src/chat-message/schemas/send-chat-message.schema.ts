@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createChatMessageSchema } from "./create-chat-message.schema";
-import { frontSchema, backSchema } from "src/flashcard/schemas/flashcard.schemas";
+import { frontSchema, backSchema } from "src/flashcard/schemas/flashcards.schema";
 
 export const sendChatMessageSchema = createChatMessageSchema.extend({
   flashcardFront: frontSchema.nonempty(),

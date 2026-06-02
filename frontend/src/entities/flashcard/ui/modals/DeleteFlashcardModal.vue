@@ -8,7 +8,7 @@ import {codes} from "@/shared/config";
 import {useI18n} from "vue-i18n";
 
 const props = defineProps<{
-  id: number
+  flashcardId: number
 }>();
 
 const {t} = useI18n();
@@ -19,7 +19,7 @@ const backdropStore = useBackdropStore();
 const {push} = useToastStore();
 
 async function handleConfirm() {
-  stageDelete(props.id);
+  stageDelete(props.flashcardId);
   push(t(codeToKey(codes.FLASHCARD_DELETE_DRAFT)), "success", "delete");
   backdropStore.hide();
   modalStore.hide();

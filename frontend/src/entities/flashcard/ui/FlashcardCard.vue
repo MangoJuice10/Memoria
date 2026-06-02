@@ -43,11 +43,7 @@ function openUpdateFlashcardModal() {
   const updateFlashcardModal = defineAsyncComponent(() => import("./modals/UpdateFlashcardModal.vue"));
   showOne(backdropStore);
   modalStore.show(updateFlashcardModal, {
-    id: props.flashcard.id,
-    flashcardData: {
-      front: props.flashcard.front,
-      back: props.flashcard.back,
-    }
+    flashcard: props.flashcard
   });
 };
 
@@ -55,7 +51,7 @@ function openDeleteFlashcardModal() {
   const deleteFlashcardModal = defineAsyncComponent(() => import("./modals/DeleteFlashcardModal.vue"));
   showOne(backdropStore);
   modalStore.show(deleteFlashcardModal, {
-    id: props.flashcard.id
+    flashcardId: props.flashcard.id
   });
 };
 

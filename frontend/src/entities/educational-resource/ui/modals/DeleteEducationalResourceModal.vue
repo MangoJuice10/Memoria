@@ -9,7 +9,7 @@ import {createDeleteEducationalResourceMutation} from "@/entities/educational-re
 import axios from "axios";
 
 const props = defineProps<{
-  id: number;
+  educationalResourceId: number;
 }>();
 
 const {t} = useI18n();
@@ -23,7 +23,7 @@ const isDeletionEnabled = computed(() => !deleteEducationalResourceMutation.isPe
 
 async function handleConfirm() {
   try {
-    await deleteEducationalResourceMutation.mutateAsync(props.id);
+    await deleteEducationalResourceMutation.mutateAsync(props.educationalResourceId);
     push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_DELETE_SUCCESS)), "success", "delete");
     backdropStore.hide();
     modalStore.hide();

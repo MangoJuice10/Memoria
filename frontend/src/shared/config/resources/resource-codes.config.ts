@@ -6,7 +6,10 @@ import {
     chatPropertyCodes,
     chatMessagePropertyCodes
 } from "./resource-property-codes.config";
-import {resourceNameActionPropertyCodes} from "./resource-name-action-property-codes.config";
+import {
+    flashcardNameActionPropertyCodes,
+    resourceNameActionPropertyCodes
+} from "./resource-name-action-property-codes.config";
 
 export const resourceCodes = {
     ...userPropertyCodes,
@@ -15,7 +18,8 @@ export const resourceCodes = {
     ...educationalResourcePropertyCodes,
     ...chatPropertyCodes,
     ...chatMessagePropertyCodes,
-    ...resourceNameActionPropertyCodes
-}
+    ...resourceNameActionPropertyCodes,
+    ...flashcardNameActionPropertyCodes,
+};
 
 export type ResourceCode = (typeof resourceCodes)[keyof typeof resourceCodes];

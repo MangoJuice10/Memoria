@@ -8,7 +8,9 @@ import { LargeLanguageModelModule } from "src/large-language-model/large-languag
 import { FlashcardGenerationService } from "src/flashcard/services/flashcard-generation.service";
 import {
   createFlashcardGenerationPrompt,
+  createFlashcardRegenerationPrompt,
   FLASHCARD_GENERATION_PROMPT,
+  FLASHCARD_REGENERATION_PROMPT,
 } from "src/flashcard/providers";
 
 @Module({
@@ -20,6 +22,10 @@ import {
     {
       provide: FLASHCARD_GENERATION_PROMPT,
       useValue: createFlashcardGenerationPrompt,
+    },
+    {
+      provide: FLASHCARD_REGENERATION_PROMPT,
+      useValue: createFlashcardRegenerationPrompt,
     },
   ],
 })

@@ -4,6 +4,7 @@ import {
   BulkCreateFlashcardsDto,
   CreateFlashcardDto,
   GenerateFlashcardDto,
+  RegenerateFlashcardDto,
 } from "src/flashcard/schemas";
 import { setAccessToken } from "test/helpers/setAccessToken.helper";
 import { BatchFlashcardInput } from "src/flashcard/schemas/batch-flashcard.schema";
@@ -34,6 +35,18 @@ export function createFlashcardsHelpers(
       request(httpServer).post(`/decks/${deckId}/flashcards/generate`),
       accessToken,
     ).send(generateFlashcardsDto);
+  };
+
+  const regenerate = (
+    deckId: number,
+    flashcardId: number,
+    accessToken: string,
+    regenerateFlashcardDto: RegenerateFlashcardDto,
+  ) => {
+    return setAccessToken(
+      request(httpServer).post(`/decks/${deckId}/flashcards/${flashcardId}/regenerate`),
+      accessToken,
+    ).send(regenerateFlashcardDto);
   };
 
   const bulkCreate = (
@@ -69,6 +82,7 @@ export function createFlashcardsHelpers(
     create,
     findOne,
     generate,
+    regenerate,
     bulkCreate,
     batch,
   };

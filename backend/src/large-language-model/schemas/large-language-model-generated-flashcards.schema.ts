@@ -1,9 +1,6 @@
 import { z } from "zod";
-import { backSchema, frontSchema } from "src/flashcard/schemas/flashcard.schemas";
+import { largeLanguageModelGeneratedFlashcardSchema } from "./large-language-model-generated-flashcard.schema";
 
 export const largeLanguageModelGeneratedFlashcardsSchema = z.array(
-  z.strictObject({
-    front: frontSchema,
-    back: backSchema,
-  }),
+  largeLanguageModelGeneratedFlashcardSchema,
 );

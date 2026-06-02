@@ -3,6 +3,7 @@ export {default as LogomarkIcon} from "./LogomarkIcon.vue";
 export {default as AIAssistanceIcon} from "./ai/AIAssistanceIcon.vue";
 export {default as AiChatIcon} from "./ai/AiChatIcon.vue";
 export {default as AiGeneratedIcon} from "./ai/AIGeneratedIcon.vue";
+export {default as AiSplitIcon} from "./ai/AiSplitIcon.vue";
 
 export {
     default as SpacedRepetitionFeatureIcon

@@ -7,7 +7,6 @@ export {useVisibility} from "./use-visibility.ts";
 export {useDynamicComponent} from "./use-dynamic-component.ts";
 
 export {useMenu} from "./menu/useMenu";
-export {getMenuItemViewOrThrow} from "./menu/get-menu-item-or-throw";
 export {useNavigation} from "./navigation/use-navigation.ts";
 
 export {useSearch} from "./use-search.composable";

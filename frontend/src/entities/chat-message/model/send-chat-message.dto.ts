@@ -2,11 +2,11 @@ import {z} from "zod";
 import {
     type CreateChatMessageDto,
 } from "./create-chat-message.schema";
-import {createCreateFrontSchema, createCreateBackSchema} from "@/entities/flashcard";
+import {createFrontSchema, createBackSchema} from "@/entities/flashcard";
 
 export type FlashcardContext = {
-    flashcardFront: z.infer<ReturnType<typeof createCreateFrontSchema>>;
-    flashcardBack: z.infer<ReturnType<typeof createCreateBackSchema>>;
+    flashcardFront: z.infer<ReturnType<typeof createFrontSchema>>;
+    flashcardBack: z.infer<ReturnType<typeof createBackSchema>>;
 }
 
 export type DeckContext = {

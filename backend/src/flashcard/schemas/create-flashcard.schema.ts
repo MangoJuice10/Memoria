@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { frontSchema, backSchema } from "./flashcard.schemas";
+import { frontSchema, backSchema } from "src/flashcard/schemas/flashcards.schema";
 
 export const createFlashcardSchema = z.strictObject({
   front: frontSchema,

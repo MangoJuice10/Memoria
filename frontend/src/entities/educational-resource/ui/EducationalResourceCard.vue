@@ -5,7 +5,7 @@ import {
 import {DropdownMenu, EducationalResourceFillerIcon} from "@/shared/ui";
 import {useBackdropStore, useModalStore} from "@/shared/model";
 import {defineAsyncComponent} from "vue";
-import {getMenuItemViewOrThrow, showOne, useMenu} from "@/shared/lib";
+import {showOne, useMenu} from "@/shared/lib";
 import {OptionsIcon} from "@/shared/ui/icons";
 import {useI18n} from "vue-i18n";
 import {codes} from "@/shared/config";
@@ -26,17 +26,12 @@ const {t} = useI18n();
 const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 
-const {menuItemViews} = useMenu(createEducationalResourceOptionsLayout(t(codeToKey(codes.EDUCATIONAL_RESOURCE_RESOURCE_NAME))), t);
+const {menuItemViews} = useMenu(createEducationalResourceOptionsLayout(t(codeToKey(codes.EDUCATIONAL_RESOURCE_RESOURCE_NAME))), t, {
+  edit: openUpdateEducationalResourceModal,
+  delete: openDeleteEducationalResourceModal
+});
 
-function setupMenuCallbacks() {
-  const editItem = getMenuItemViewOrThrow(menuItemViews.value, "edit");
-  editItem.callback = openUpdateEducationalResourceModal;
-
-  const deleteItem = getMenuItemViewOrThrow(menuItemViews.value, "delete");
-  deleteItem.callback = openDeleteEducationalResourceModal;
-}
-
-const openUpdateEducationalResourceModal = () => {
+function openUpdateEducationalResourceModal() {
   const updateEducationalResourceModal = defineAsyncComponent(() => import("./modals/UpdateEducationalResourceModal.vue"));
   showOne(backdropStore);
   modalStore.show(updateEducationalResourceModal, {
@@ -46,17 +41,15 @@ const openUpdateEducationalResourceModal = () => {
     coverUrl: props.coverUrl,
     originalFilename: props.originalFilename
   });
-};
+}
 
-const openDeleteEducationalResourceModal = () => {
+function openDeleteEducationalResourceModal() {
   const deleteEducationalResourceModal = defineAsyncComponent(() => import("./modals/DeleteEducationalResourceModal.vue"));
   showOne(backdropStore);
   modalStore.show(deleteEducationalResourceModal, {
     id: props.id,
   });
-};
-
-setupMenuCallbacks();
+}
 </script>
 
 <template>

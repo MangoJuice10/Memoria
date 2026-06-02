@@ -1,12 +1,19 @@
 export const resourceActionCodes = [
     "CREATE",
-    "GENERATE",
     "UPDATE",
     "DELETE",
     "BATCH"
 ] as const;
 
 export type ResourceActionCode = (typeof resourceActionCodes)[number];
+
+export const flashcardActionCodes = [
+    "GENERATE",
+    "REGENERATE",
+    "SPLIT",
+] as const;
+
+export type FlashcardActionCode = (typeof flashcardActionCodes)[number];
 
 export const resourceActionPropertyCodes = [
     "NAME",
