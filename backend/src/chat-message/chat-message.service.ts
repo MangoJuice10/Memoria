@@ -8,7 +8,7 @@ import { ChatMessage, ChatMessageRole } from "@prisma/client";
 import {
   createAssistanceSystemPrompt,
   createChatTitleSystemPrompt,
-  createQueryRewriteSystemPrompt,
+  createFlashcardQueryRewriteSystemPrompt,
 } from "src/chat-message/constants";
 import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { ChatNotFoundError } from "src/chat/errors";
@@ -34,8 +34,9 @@ export class ChatMessageService {
       },
     });
 
+    const query = content;
     const rewrittenQuery = await this.largeLanguageModelService.invoke([
-      new SystemMessage(createQueryRewriteSystemPrompt(flashcardFront, flashcardBack)),
+      new SystemMessage(createFlashcardQueryRewriteSystemPrompt(query, flashcardFront, flashcardBack)),
       new HumanMessage(content),
     ]);
 

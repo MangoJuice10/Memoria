@@ -14,6 +14,10 @@ import { FlashcardGenerationError, FlashcardNotFoundError } from "src/flashcard/
 import { largeLanguageModelGeneratedFlashcardsSchema } from "src/large-language-model/schemas";
 import { FLASHCARD_REGENERATION_PROMPT } from "src/flashcard/providers/flashcard-regeneration-prompt.provider";
 import { largeLanguageModelGeneratedFlashcardSchema } from "src/large-language-model/schemas/large-language-model-generated-flashcard.schema";
+import {
+  createFlashcardQueryRewriteSystemPrompt,
+  createQueryRewriteSystemPrompt,
+} from "src/chat-message/constants";
 
 @Injectable()
 export class FlashcardGenerationService {
@@ -41,11 +45,17 @@ export class FlashcardGenerationService {
     });
     const linkIds = links.map(({ educationalResourceId }) => educationalResourceId);
 
-    const context = await this.ragService.retrieve(instruction, linkIds);
+    // TODO: Add linkIds 0 length check to terminate early when there are no attached educational resources
+
+    const query = instruction;
+    const rewrittenQuery = await this.largeLanguageModelService.invoke([
+      new SystemMessage(createQueryRewriteSystemPrompt(query)),
+    ]);
+
+    const context = await this.ragService.retrieve(rewrittenQuery, linkIds);
 
     const messages = [
-      new SystemMessage(this.flashcardGenerationPrompt(count, context)),
-      new HumanMessage(instruction),
+      new SystemMessage(this.flashcardGenerationPrompt(count, instruction, context)),
     ];
 
     const serializedGeneratedFlashcards = await this.largeLanguageModelService.invoke(messages);
@@ -80,16 +90,17 @@ export class FlashcardGenerationService {
       ({ educationalResourceId }) => educationalResourceId,
     );
 
-    const query = [front, back, instruction].join("\n");
+    const query = instruction;
+    const rewrittenQuery = await this.largeLanguageModelService.invoke([
+      new SystemMessage(createFlashcardQueryRewriteSystemPrompt(query, front, back)),
+    ]);
 
-    const context = await this.ragService.retrieve(query, linkIds);
+    const context = await this.ragService.retrieve(rewrittenQuery, linkIds);
 
     const messages = [
-      new SystemMessage(this.flashcardRegenerationPrompt(front, back, context)),
-      new HumanMessage(instruction),
+      new SystemMessage(this.flashcardRegenerationPrompt(front, back, instruction, context)),
     ];
 
-    console.log(messages);
     const serializedRegeneratedFlashcard = await this.largeLanguageModelService.invoke(messages);
     return this.deserializeRegeneratedFlashcard(serializedRegeneratedFlashcard);
   }

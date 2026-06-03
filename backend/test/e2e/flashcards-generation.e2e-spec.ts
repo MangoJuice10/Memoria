@@ -1,4 +1,3 @@
-import request from "supertest";
 import { createTestingApp, TestingApp } from "test/setup/create-testing-app";
 import { createAuthHelpers } from "test/helpers/auth/auth.helper";
 import { createDecksHelpers } from "test/helpers/decks/decks.helper";
@@ -22,8 +21,7 @@ import { defaultEducationalResourcesData } from "test/fixtures/educational-resou
 import { createEducationalResourcesFixtures } from "test/fixtures/educational-resources/educational-resources.fixture";
 import { createEducationalResourcesHelpers } from "test/helpers/educational-resources/educational-resources.helper";
 import { createFlashcardsGenerationPromptMock } from "test/mocks/create-flashcards-generation-prompt.mock";
-import { createFlashcardsRegenerationPromptMock } from "test/mocks/create-flashcards-regeneration-prompt.mock";
-import { setAccessToken } from "test/helpers/setAccessToken.helper";
+import { createFlashcardRegenerationPromptMock } from "test/mocks/create-flashcard-regeneration-prompt.mock";
 
 describe("Flashcards generation", () => {
   let testingApp: TestingApp;
@@ -66,7 +64,7 @@ describe("Flashcards generation", () => {
         .overrideProvider(FLASHCARD_GENERATION_PROMPT)
         .useValue(createFlashcardsGenerationPromptMock)
         .overrideProvider(FLASHCARD_REGENERATION_PROMPT)
-        .useValue(createFlashcardsRegenerationPromptMock),
+        .useValue(createFlashcardRegenerationPromptMock),
     );
     await testingApp.prismaService.cleanDatabase();
     await testingApp.vectorStoreService.cleanCollection();
