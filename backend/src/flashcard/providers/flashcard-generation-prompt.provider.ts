@@ -1,9 +1,26 @@
+import {
+  createEducationalResourcesContext, createFlashcardAntiMetadataGuidelinesContext,
+  createFlashcardCoverageGuidelinesContext,
+  createFlashcardQualityGuidelinesContext,
+  createFlashcardStyleGuidelinesContext,
+  createInstructionContext,
+} from "src/chat-message/constants";
+
 export const FLASHCARD_GENERATION_PROMPT = Symbol("FLASHCARD_GENERATION_PROMPT");
 
-export function createFlashcardGenerationPrompt(count: number, context: string) {
+export function createFlashcardGenerationPrompt(
+  count: number,
+  instruction: string,
+  context: string,
+) {
   return [
     "You are a flashcard generation assistant for the Memoria learning platform.",
     "Your task is to generate study flashcards based ONLY on the provided source material.",
+    "",
+    createFlashcardQualityGuidelinesContext(),
+    createFlashcardStyleGuidelinesContext(),
+    createFlashcardCoverageGuidelinesContext(),
+    createFlashcardAntiMetadataGuidelinesContext(),
     "",
     "GUIDELINES:",
     `1. Generate exactly ${count} flashcards.`,
@@ -14,10 +31,10 @@ export function createFlashcardGenerationPrompt(count: number, context: string) 
     "   The array must conform exactly to this structure:",
     '   [{ "front": "...", "back": "..." }, ...]',
     "6. Respond in the same language the user writes in.",
+    "7. The user's instruction is a strict coverage requirement. Make sure the generated cards directly cover the requested topic when the sources support it.",
     "",
-    "SOURCES:",
-    "---",
-    context,
-    "---",
+    createInstructionContext(instruction),
+    "",
+    createEducationalResourcesContext(context),
   ].join("\n");
 }

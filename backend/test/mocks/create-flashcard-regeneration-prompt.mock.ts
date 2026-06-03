@@ -11,9 +11,10 @@ const regeneratedFlashcard = {
   back: "REGENERATED_BACK",
 };
 
-export const createFlashcardsRegenerationPromptMock: typeof createFlashcardRegenerationPrompt = (
+export const createFlashcardRegenerationPromptMock: typeof createFlashcardRegenerationPrompt = (
   _front: string,
   _back: string,
+  _instruction: string,
   context: string,
 ) => {
   return [

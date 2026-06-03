@@ -3,6 +3,7 @@ import { createEducationalResourcesContext } from "src/chat-message/constants";
 
 export const createFlashcardsGenerationPromptMock: typeof createFlashcardGenerationPrompt = (
   count: number,
+  _instruction: string,
   context: string,
 ) => {
   const testFlashcards = Array.from(

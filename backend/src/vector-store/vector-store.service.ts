@@ -7,6 +7,9 @@ import { EducationalResource } from "@prisma/client";
 import { EducationalResourceMetadata } from "src/educational-resource/types";
 
 const COLLECTION = "educational-resources";
+const DEFAULT_TOP_K = 10;
+const DEFAULT_FETCH_K = 30;
+const DEFAULT_MIN_SCORE = 0.2;
 
 export type ChunkMetadata = EducationalResourceMetadata & {
   chunkIdx: number;
@@ -72,9 +75,9 @@ export class VectorStoreService implements OnModuleInit {
   async search(
     query: string,
     educationalResourceIds: number[],
-    topK = 10,
-    fetchK = 15,
-    minScore = 0.5,
+    topK = DEFAULT_TOP_K,
+    fetchK = DEFAULT_FETCH_K,
+    minScore = DEFAULT_MIN_SCORE,
   ): Promise<Chunk[]> {
     if (!educationalResourceIds.length) return [];
 
@@ -98,7 +101,7 @@ export class VectorStoreService implements OnModuleInit {
         metadata: document.metadata as ChunkMetadata,
       }))
       .filter(({ score }) => score >= minScore)
-      .sort((chunkA, chunkB) => chunkA.score - chunkB.score)
+      .sort((chunkA, chunkB) => chunkB.score - chunkA.score)
       .slice(0, topK);
   }
 
