@@ -1,18 +1,20 @@
 <script setup lang="ts">
+import {createSplitFlashcardMutation} from "@/entities/flashcard/api/mutations/split-flashcard.mutation";
+import {UPDATE_FLASHCARD_LAYOUT} from "@/entities/flashcard/config/update-flashcard-layout.config";
 import {useUpdateFlashcardModalMenu} from "@/entities/flashcard/lib/use-update-flashcard-modal-menu.composable";
 import {
-  createRegenerateFlashcardSchema,
-  type RegenerateFlashcardDto
-} from "@/entities/flashcard/model/schemas/regenerate-flashcard.schema";
+  createSplitFlashcardSchema,
+  type SplitFlashcardDto
+} from "@/entities/flashcard/model/schemas/split-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import {defineAsyncComponent, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useValidation} from "@/shared/lib";
+import {useMenu, useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
   useDraftFlashcardStorage,
-  createRegenerateFlashcardMutation, type DisplayFlashcard, type DraftCreatedFlashcard,
+  type DisplayFlashcard, type DraftCreatedFlashcard,
 } from "@/entities/flashcard";
 import {Modal, TabLinks} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
@@ -24,16 +26,17 @@ const props = defineProps<{
 }>();
 
 const {t} = useI18n();
-const {stageUpdate} = useDraftFlashcardStorage();
+const {stageDelete, stageBulkCreate} = useDraftFlashcardStorage();
 
-const {menuItemViews} = useUpdateFlashcardModalMenu("regenerate-flashcard", props.flashcard, t);
+const {menuItemViews} = useUpdateFlashcardModalMenu("split-flashcard", props.flashcard, t);
 
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
 const {push} = useToastStore();
 
-const data = ref<RegenerateFlashcardDto>({
-  instruction: ""
+const data = ref<SplitFlashcardDto>({
+  instruction: undefined,
+  count: 2,
 });
 
 const {
@@ -46,13 +49,13 @@ const {
   clientValidate,
   serverValidate,
   reset,
-} = useValidation(data, createRegenerateFlashcardSchema(t), {
+} = useValidation(data, createSplitFlashcardSchema(t), {
   mode: "eager",
   delay: 300,
   t
 });
 
-const regenerateFlashcardMutation = createRegenerateFlashcardMutation();
+const splitFlashcardMutation = createSplitFlashcardMutation();
 
 const submit = async () => {
   touchAll();
@@ -61,16 +64,15 @@ const submit = async () => {
   if (!result.success) return;
 
   try {
-    push(t(codeToKey(codes.FLASHCARD_REGENERATE_PENDING)), "info", "pending");
-    const regeneratedFlashcard = await regenerateFlashcardMutation.mutateAsync({
+    push(t(codeToKey(codes.FLASHCARD_SPLIT_PENDING)), "info", "pending");
+    const splitFlashcards = await splitFlashcardMutation.mutateAsync({
       deckId: props.flashcard.deckId,
       flashcardId: props.flashcard.id,
-      regenerateFlashcardDto: result.data
+      splitFlashcardDto: result.data
     });
-    push(t(codeToKey(codes.FLASHCARD_REGENERATE_SUCCESS)), "success", "generate");
-    stageUpdate(props.flashcard.id, {
-      ...regeneratedFlashcard
-    });
+    push(t(codeToKey(codes.FLASHCARD_SPLIT_SUCCESS)), "success", "generate");
+    stageDelete(props.flashcard.id);
+    stageBulkCreate(splitFlashcards);
     backdropStore.hide();
     modalStore.hide();
   } catch (error) {
@@ -91,7 +93,7 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="w-[50vw] p-10">
+    <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isValid"
@@ -101,26 +103,41 @@ onMounted(() => {
           @submit="submit"
           @reset="reset">
         <template #heading>
-          <TabLinks :menu-item-views
-                    class="text-2xl"/>
+          <div class="flex justify-center">
+            <TabLinks :menu-item-views
+                      class="text-2xl"/>
+          </div>
         </template>
         <template #fields>
           <div class="flex flex-col gap-4">
-            <FormField v-model="data.instruction"
-                       variant="textarea"
-                       id="instruction"
-                       :label="$t(codeToKey(codes.INSTRUCTION_NAME))"
-                       :placeholder="$t(codeToKey(codes.INSTRUCTION_PLACEHOLDER))"
+            <FormField variant="textarea"
+                       id="front"
+                       v-model="data.instruction"
+                       :label="t(codeToKey(codes.INSTRUCTION_NAME))"
+                       :placeholder="t(codeToKey(codes.INSTRUCTION_PLACEHOLDER))"
                        :touched="isFieldTouched('instruction')"
                        :error="getError('instruction')"
                        @blur="() => {
                          touch('instruction');
                          clientValidate();
                        }"/>
+            <FormField id="count-range"
+                       variant="range-number"
+                       v-model.number="data.count"
+                       :min="2"
+                       :max="5"
+                       :label="t(codeToKey(codes.COUNT_NAME))"
+                       :touched="isFieldTouched('count')"
+                       :error="getError('count')"
+                       optional
+                       @blur="() => {
+                         touch('count');
+                         clientValidate();
+                       }"/>
           </div>
         </template>
         <template #submit>
-          {{ $t(codeToKey(codes.FLASHCARD_REGENERATE_NAME)) }}
+          {{ $t(codeToKey(codes.FLASHCARD_SPLIT_NAME)) }}
         </template>
       </Form>
     </div>

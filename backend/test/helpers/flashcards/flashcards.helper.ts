@@ -9,6 +9,7 @@ import {
 import { setAccessToken } from "test/helpers/setAccessToken.helper";
 import { BatchFlashcardInput } from "src/flashcard/schemas/batch-flashcard.schema";
 import { BatchFlashcardResponseDto } from "src/flashcard/schemas/batch-flashcard-response.dto";
+import { SplitFlashcardDto } from "src/flashcard/schemas/split-flashcard.schema";
 
 export function createFlashcardsHelpers(
   httpServer: ReturnType<INestApplication["getHttpServer"]>,
@@ -49,6 +50,18 @@ export function createFlashcardsHelpers(
     ).send(regenerateFlashcardDto);
   };
 
+  const split = (
+    deckId: number,
+    flashcardId: number,
+    accessToken: string,
+    splitFlashcardDto: SplitFlashcardDto,
+  ) => {
+    return setAccessToken(
+      request(httpServer).post(`/decks/${deckId}/flashcards/${flashcardId}/split`),
+      accessToken,
+    ).send(splitFlashcardDto);
+  };
+
   const bulkCreate = (
     deckId: number,
     accessToken: string,
@@ -83,6 +96,7 @@ export function createFlashcardsHelpers(
     findOne,
     generate,
     regenerate,
+    split,
     bulkCreate,
     batch,
   };

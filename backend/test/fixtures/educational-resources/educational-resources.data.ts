@@ -1,8 +1,9 @@
 export const defaultEducationalResourcesData = {
-  name: "Photosynthesis Guide",
-  description: "A guide about photosynthesis",
-  filename: "photosynthesis.txt",
+  name: "Chemistry Guide",
+  description: "A guide about chemistry",
+  filename: "chemistry.txt",
   fileContent:
-    "Photosynthesis is the process by which green plants convert sunlight, " +
-    "water, and carbon dioxide into glucose and oxygen.",
+    "Sodium is a chemical element with the symbol Na (from Latin: Natrium) and atomic number 11. " +
+    "It is a soft, silvery-white, highly reactive metal. Sodium is an essential element for all animals and some plants. " +
+    "The chemical symbol Na comes from the Latin word Natrium.",
 };

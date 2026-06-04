@@ -33,6 +33,10 @@ import {
   batchFlashcardSchema,
 } from "src/flashcard/schemas/batch-flashcard.schema";
 import { User } from "src/auth/decorators";
+import {
+  SplitFlashcardDto,
+  splitFlashcardSchema,
+} from "src/flashcard/schemas/split-flashcard.schema";
 
 @UseGuards(DeckOwnershipGuard)
 @Controller("decks/:deckId/flashcards")
@@ -71,16 +75,6 @@ export class FlashcardController {
     return this.flashcardGenerationService.generate(deckId, generateFlashcardDto);
   }
 
-  @Post(":flashcardId/regenerate")
-  @HttpCode(200)
-  async regenerate(
-    @Param("flashcardId", ParseIntPipe) flashcardId: number,
-    @Body(new ZodValidationPipe(regenerateFlashcardSchema))
-    regenerateFlashcardDto: RegenerateFlashcardDto,
-  ) {
-    return this.flashcardGenerationService.regenerate(flashcardId, regenerateFlashcardDto);
-  }
-
   @Get()
   @HttpCode(200)
   async findAll(@Param("deckId", ParseIntPipe) deckId: number, @Query("search") search?: string) {
@@ -102,6 +96,25 @@ export class FlashcardController {
     @Body(new ZodValidationPipe(updateFlashcardSchema)) updateFlashcardDto: UpdateFlashcardDto,
   ) {
     return this.flashcardService.update(flashcardId, updateFlashcardDto);
+  }
+
+  @Post(":flashcardId/regenerate")
+  @HttpCode(200)
+  async regenerate(
+    @Param("flashcardId", ParseIntPipe) flashcardId: number,
+    @Body(new ZodValidationPipe(regenerateFlashcardSchema))
+    regenerateFlashcardDto: RegenerateFlashcardDto,
+  ) {
+    return this.flashcardGenerationService.regenerate(flashcardId, regenerateFlashcardDto);
+  }
+
+  @Post(":flashcardId/split")
+  @HttpCode(200)
+  async split(
+    @Param("flashcardId", ParseIntPipe) flashcardId: number,
+    @Body(new ZodValidationPipe(splitFlashcardSchema)) splitFlashcardDto: SplitFlashcardDto,
+  ) {
+    return this.flashcardGenerationService.split(flashcardId, splitFlashcardDto);
   }
 
   @Delete(":flashcardId")

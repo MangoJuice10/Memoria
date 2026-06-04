@@ -1,0 +1,2 @@
+export const MIN_FLASHCARD_SPLIT_COUNT = 2;
+export const MAX_FLASHCARD_SPLIT_COUNT = 5;

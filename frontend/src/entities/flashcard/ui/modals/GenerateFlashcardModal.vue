@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {useCreateFlashcardModalMenu} from "@/entities/flashcard/lib/use-create-flashcard-modal-menu.composable";
 import {useI18n} from "vue-i18n";
 import axios from "axios";
 import {createGenerateFlashcardMutation} from "@/entities/flashcard/api/mutations/generate-flashcard.mutation";
@@ -15,7 +16,6 @@ import {Modal, TabLinks} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
-import {NumberInput} from "@/shared/ui";
 
 const props = defineProps<{
   deckId: number;
@@ -23,13 +23,8 @@ const props = defineProps<{
 
 const {t} = useI18n();
 
-const {bulkStageCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useMenu(CREATE_FLASHCARD_LAYOUT, t, {
-  "create-flashcard": switchToCreateFlashcardModal
-}, {
-  "create-flashcard": false,
-  "generate-flashcard": true,
-});
+const {stageBulkCreate} = useDraftFlashcardStorage();
+const {menuItemViews} = useCreateFlashcardModalMenu("generate-flashcard", t);
 const {push} = useToastStore();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
@@ -55,7 +50,7 @@ const {
   t
 });
 
-const generateFlashcardMutation = createGenerateFlashcardMutation(props.deckId);
+const generateFlashcardMutation = createGenerateFlashcardMutation();
 
 const submit = async () => {
   touchAll();
@@ -65,8 +60,11 @@ const submit = async () => {
 
   try {
     push(t(codeToKey(codes.FLASHCARD_GENERATE_PENDING)), "info", "pending");
-    const generatedFlashcards = await generateFlashcardMutation.mutateAsync(result.data);
-    bulkStageCreate(generatedFlashcards);
+    const generatedFlashcards = await generateFlashcardMutation.mutateAsync({
+      deckId: props.deckId,
+      generateFlashcardDto: result.data
+    });
+    stageBulkCreate(generatedFlashcards);
     push(t(codeToKey(codes.FLASHCARD_GENERATE_SUCCESS)), "success", "generate");
     backdropStore.hide();
     modalStore.hide();
@@ -96,11 +94,12 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="min-w-[50vw] h-full p-10 overflow-auto">
+    <div class="min-w-[50vw] h-full p-10 overflow-y-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isValid"
           :is-reset-enabled="true"
+          has-sticky-controls
           form-error-classes="text-center"
           @submit="submit"
           @reset="reset">
@@ -123,22 +122,17 @@ onMounted(() => {
                          touch('instruction');
                          clientValidate();
                        }"/>
-            <div class="flex items-center gap-3 w-full">
-              <FormField id="count-range"
-                         variant="range"
-                         v-model.number="data.count"
-                         :max="20"
-                         :label="t(codeToKey(codes.COUNT_NAME))"
-                         :touched="isFieldTouched('count')"
-                         :error="getError('count')"
-                         input-classes="w-full"
-                         @blur="() => {
+            <FormField id="count-range"
+                       variant="range-number"
+                       v-model.number="data.count"
+                       :max="20"
+                       :label="t(codeToKey(codes.COUNT_NAME))"
+                       :touched="isFieldTouched('count')"
+                       :error="getError('count')"
+                       @blur="() => {
                          touch('count');
                          clientValidate();
                        }"/>
-              <NumberInput v-model.number="data.count"
-                           :max="20"/>
-            </div>
           </div>
         </template>
         <template #submit>

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { RagService } from "src/rag/rag.service";
 import { LargeLanguageModelService } from "src/large-language-model/large-language-model.service";
@@ -8,10 +8,18 @@ import { ChatMessage, ChatMessageRole } from "@prisma/client";
 import {
   createAssistanceSystemPrompt,
   createChatTitleSystemPrompt,
-  createFlashcardQueryRewriteSystemPrompt,
+  createMessageContext,
+  createQueryContext,
 } from "src/chat-message/constants";
+import {
+  createFlashcardQueryRewritePrompt,
+  FLASHCARD_QUERY_REWRITE_PROMPT,
+} from "src/flashcard/providers";
 import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { ChatNotFoundError } from "src/chat/errors";
+import { FlashcardNotFoundError } from "src/flashcard/errors";
+import { MAX_CHAT_TITLE_LENGTH, MIN_CHAT_TITLE_LENGTH } from "src/chat/schemas";
+import { largeLanguageModelChatTitleSchema } from "src/large-language-model/schemas/large-language-model-chat-title.schema";
 
 const HISTORY_CHAT_MESSAGES_LIMIT = 10;
 
@@ -21,10 +29,12 @@ export class ChatMessageService {
     private readonly prismaService: PrismaService,
     private readonly largeLanguageModelService: LargeLanguageModelService,
     private readonly ragService: RagService,
+    @Inject(FLASHCARD_QUERY_REWRITE_PROMPT)
+    private readonly flashcardQueryRewritePrompt: typeof createFlashcardQueryRewritePrompt
   ) {}
   async send(
     chatId: number,
-    { content, flashcardFront, flashcardBack, deckId }: SendChatMessageDto,
+    { content, flashcardId }: SendChatMessageDto,
   ): Promise<ChatMessageResponseDto> {
     await this.prismaService.chatMessage.create({
       data: {
@@ -34,28 +44,41 @@ export class ChatMessageService {
       },
     });
 
-    const query = content;
-    const rewrittenQuery = await this.largeLanguageModelService.invoke([
-      new SystemMessage(createFlashcardQueryRewriteSystemPrompt(query, flashcardFront, flashcardBack)),
-      new HumanMessage(content),
-    ]);
-
-    const links = await this.prismaService.deckEducationalResource.findMany({
+    const flashcardWithEducationalResources = await this.prismaService.flashcard.findUnique({
       where: {
-        deckId,
+        id: flashcardId,
       },
       select: {
-        educationalResourceId: true,
+        front: true,
+        back: true,
+        deck: {
+          select: {
+            educationalResources: {
+              select: {
+                educationalResourceId: true,
+              },
+            },
+          },
+        },
       },
     });
-    const linkIds = links.map(({ educationalResourceId }) => educationalResourceId);
+    if (!flashcardWithEducationalResources) throw new FlashcardNotFoundError();
+
+    const { front, back } = flashcardWithEducationalResources;
+
+    const linkIds = flashcardWithEducationalResources.deck.educationalResources.map(
+      ({ educationalResourceId }) => educationalResourceId,
+    );
+
+    const query = content;
+    const rewrittenQuery = await this.largeLanguageModelService.invoke([
+      new SystemMessage(this.flashcardQueryRewritePrompt(front, back)),
+      new HumanMessage(createQueryContext(query)),
+    ]);
+
     const context = await this.ragService.retrieve(rewrittenQuery, linkIds);
 
-    const assistanceSystemPrompt = createAssistanceSystemPrompt(
-      flashcardFront,
-      flashcardBack,
-      context,
-    );
+    const assistanceSystemPrompt = createAssistanceSystemPrompt(front, back, context);
 
     const history = (
       await this.prismaService.chatMessage.findMany({
@@ -99,16 +122,21 @@ export class ChatMessageService {
     if (!chat) throw new ChatNotFoundError();
 
     if (isFirstChatMessage && !chat.title) {
-      const chatTitleSystemPrompt = createChatTitleSystemPrompt(flashcardFront, flashcardBack);
+      const chatTitleSystemPrompt = createChatTitleSystemPrompt(
+        MIN_CHAT_TITLE_LENGTH,
+        MAX_CHAT_TITLE_LENGTH,
+        front,
+        back,
+      );
 
       const chatTitleMessages = [
         new SystemMessage(chatTitleSystemPrompt),
-        new HumanMessage(content),
+        new HumanMessage(createMessageContext(content)),
       ];
 
-      const generatedChatTitle = (await this.largeLanguageModelService.invoke(chatTitleMessages))
-        .trim()
-        .slice(0, 100);
+      const generatedChatTitle = largeLanguageModelChatTitleSchema.parse(
+        await this.largeLanguageModelService.invoke(chatTitleMessages),
+      );
 
       await this.prismaService.chat.update({
         where: {

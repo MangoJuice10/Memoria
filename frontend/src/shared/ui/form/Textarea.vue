@@ -10,7 +10,7 @@ const modelValue = defineModel<string>();
   <textarea v-model="modelValue"
             v-bind="$attrs"
             v-auto-resize
-            class="w-full min-h-50 max-h-130 px-2.5 py-1.25 border rounded-lg border-default
+            class="w-full min-h-40 max-h-130 px-2.5 py-1.25 border rounded-lg border-default
                    bg-primary
                    hover:outline-3 hover:-outline-offset-1 hover:outline-active"/>
 </template>

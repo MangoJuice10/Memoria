@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import {
-  UPDATE_DRAFT_FLASHCARD_LAYOUT,
-  UPDATE_FLASHCARD_LAYOUT
-} from "@/entities/flashcard/config/update-flashcard-layout.config";
-import {defineAsyncComponent, onMounted, ref} from "vue";
+import {useUpdateFlashcardModalMenu} from "@/entities/flashcard/lib/use-update-flashcard-modal-menu.composable";
+import {onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useMenu, useValidation} from "@/shared/lib";
+import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {createUpdateFlashcardSchema} from "../../model/schemas/update-flashcard.schema";
 import {useDraftFlashcardStorage} from "../../model/use-draft-flashcard-storage.composable";
@@ -23,19 +20,7 @@ const props = defineProps<{
 const {t} = useI18n();
 const {stageUpdate} = useDraftFlashcardStorage();
 
-const layout = isCreatedFlashcard() ? UPDATE_DRAFT_FLASHCARD_LAYOUT : UPDATE_FLASHCARD_LAYOUT;
-
-const callbacks = isCreatedFlashcard() ? {} : {"regenerate-flashcard": switchToRegenerateFlashcardModal};
-
-const isActives = isCreatedFlashcard()
-    ? {"update-flashcard": true}
-    : {
-      "update-flashcard": true,
-      "regenerate-flashcard": false,
-      "split-flashcard": false
-    };
-
-const {menuItemViews} = useMenu(layout, t, callbacks, isActives);
+const {menuItemViews} = useUpdateFlashcardModalMenu("update-flashcard", props.flashcard, t);
 
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
@@ -76,17 +61,6 @@ const submit = async () => {
   modalStore.hide();
 };
 
-function switchToRegenerateFlashcardModal() {
-  const regenerateFlashcardModal = defineAsyncComponent(() => import("./RegenerateFlashcardModal.vue"));
-  modalStore.show(regenerateFlashcardModal, {
-    flashcard: props.flashcard
-  });
-}
-
-function isCreatedFlashcard() {
-  return props.flashcard.status === "CREATED";
-}
-
 onMounted(() => {
   backdropStore.setCallback(() => {
     modalStore.hide();
@@ -96,11 +70,12 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="w-[50vw] p-10">
+    <div class="w-[50vw] h-full p-10 overflow-y-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isValid"
           :is-reset-enabled="true"
+          has-sticky-controls
           form-error-classes="text-center"
           @submit="submit"
           @reset="reset">

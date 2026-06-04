@@ -4,8 +4,11 @@ import type {
 import {useMutation} from "@tanstack/vue-query";
 import {generate} from "../endpoints/flashcards";
 
-export function createGenerateFlashcardMutation(deckId: number) {
+export function createGenerateFlashcardMutation() {
     return useMutation({
-        mutationFn: (generateFlashcardMutation: GenerateFlashcardDto) => generate(deckId, generateFlashcardMutation),
+        mutationFn: ({deckId, generateFlashcardDto}: {
+            deckId: number;
+            generateFlashcardDto: GenerateFlashcardDto;
+        }) => generate(deckId, generateFlashcardDto),
     });
 }

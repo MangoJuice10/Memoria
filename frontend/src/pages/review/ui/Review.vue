@@ -40,12 +40,10 @@ const {
 const isLoading = computed(() => deckIsLoading || dueFlashcardsIsLoading);
 const error = computed(() => deckError ?? dueFlashcardsError ?? null);
 
-watch([currentFlashcard, deckId], ([flashcard, id]) => {
+watch([currentFlashcard], ([flashcard]) => {
   if (flashcard) {
     chatStore.setContext({
-      flashcardFront: flashcard.front,
-      flashcardBack: flashcard.back,
-      deckId: id
+      flashcardId: flashcard.id,
     });
   }
 }, {immediate: true});

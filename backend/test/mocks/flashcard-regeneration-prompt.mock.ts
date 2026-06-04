@@ -14,7 +14,6 @@ const regeneratedFlashcard = {
 export const createFlashcardRegenerationPromptMock: typeof createFlashcardRegenerationPrompt = (
   _front: string,
   _back: string,
-  _instruction: string,
   context: string,
 ) => {
   return [

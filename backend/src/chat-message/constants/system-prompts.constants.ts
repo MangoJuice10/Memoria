@@ -14,19 +14,36 @@ export function createInstructionContext(instruction: string) {
   return ["USER INSTRUCTION:", "---", instruction, "---"].join("\n");
 }
 
+export function createMessageContext(message: string) {
+  return ["USER MESSAGE:", "---", message, "---"].join("\n");
+}
+
+export function createFlashcardResponseFormatContext() {
+  return [
+    "CRITICAL: Respond with ONLY a valid JSON object. No prose, no markdown, no code fences.",
+    "The object must conform exactly to this structure:",
+    '{ "front": "...", "back": "..." }',
+  ].join("\n");
+}
+
+export function createFlashcardsResponseFormatContext() {
+  return [
+    "CRITICAL: Respond with ONLY a valid JSON array. No prose, no markdown, no code fences.",
+    "The array must conform exactly to this structure:",
+    '[{ "front": "...", "back": "..." }, ...]',
+  ].join("\n");
+}
+
 export function createFlashcardQualityGuidelinesContext() {
   return [
     "FLASHCARD QUALITY GUIDELINES:",
     "1. Prefer atomic cards: one idea, fact, relationship, or step per card.",
     "2. Keep each front and back short enough for a quick review; if a card needs multiple clauses, split it.",
-    "3. Ask recall questions, not recognition questions. Prefer prompts that force the learner to retrieve the answer from memory.",
-    "4. Make the answer the smallest complete answer that is still correct. Avoid essays, paragraphs, and long lists.",
-    "5. If a source contains several important details, turn them into separate cards unless they are tightly linked and naturally belong together.",
-    "6. Use context cues only when needed to disambiguate. Never make the question so specific that it gives away the answer.",
-    "7. Prioritize high-value material: definitions, distinctions, causes, effects, steps, and other testable knowledge over trivia or redundant rewording.",
-    "8. If the source material is dense, split it into multiple smaller flashcards instead of one overloaded card.",
-    "9. Preserve the source terminology and the user's language, but keep the wording concise and direct.",
-    "10. Only generate cards that would genuinely help long-term recall.",
+    "3. The front must ask recall questions, which force the learner to retrieve the answer from memory.",
+    "4. Prioritize high-value material: definitions, distinctions, causes, effects, steps, and other testable knowledge over" +
+      " trivia or redundant rewording.",
+    "5. Preserve the source terminology and the user's language, but keep the wording concise and direct.",
+    "6. When a technical term appears in a flashcard, define it briefly in the same card instead of leaving it unexplained.",
   ].join("\n");
 }
 
@@ -70,27 +87,6 @@ export function createFlashcardAntiMetadataGuidelinesContext() {
   ].join("\n");
 }
 
-export function createQueryRewriteSystemPrompt(query: string) {
-  return [
-    "You are a search query rewriter for a RAG system.",
-    "Rewrite the user's query into a concise, keyword-rich search query that will retrieve the " +
-      "most relevant passages from an educational document.",
-    "Preserve exact technical terms from the user's message whenever possible.",
-    "If the user asks about a named concept, include that concept verbatim in the rewritten query.",
-    "Prefer source-like terminology over broad paraphrases.",
-    "Reply with only the rewritten query, nothing else.",
-    createQueryContext(query),
-  ].join("\n");
-}
-
-export function createFlashcardQueryRewriteSystemPrompt(
-  query: string,
-  front: string,
-  back: string,
-) {
-  return [createQueryRewriteSystemPrompt(query), createFlashcardContext(front, back)].join("\n");
-}
-
 export function createAssistanceSystemPrompt(front: string, back: string, context: string) {
   return [
     "You are a helpful study assistant for the Memoria learning platform.",
@@ -126,11 +122,11 @@ export function createAssistanceSystemPrompt(front: string, back: string, contex
   ].join("\n");
 }
 
-export function createChatTitleSystemPrompt(front: string, back: string) {
+export function createChatTitleSystemPrompt(min: number, max: number, front: string, back: string) {
   return [
-    "Generate a short, descriptive chat title (max 60 characters, no quotes) " +
-      "based on the user's first message and the flashcard topic. " +
-      "Reply with only the title, nothing else.",
+    "Generate a short, descriptive chat title based on the user's first message and the flashcard topic. " +
+      `The chat title must be AT LEAST ${min} characters long and AT MOST ${max} characters long`,
+    "Reply with only the title, nothing else.",
     createFlashcardContext(front, back),
   ].join("\n");
 }
