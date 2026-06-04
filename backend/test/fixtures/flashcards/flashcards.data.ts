@@ -9,7 +9,7 @@ export const newFlashcardData = {
 };
 
 export const generationData = {
-  instruction: "photosynthesis",
+  instruction: "sodium chemical symbol",
   unrelatedInstruction: "medieval siege warfare",
 };
 

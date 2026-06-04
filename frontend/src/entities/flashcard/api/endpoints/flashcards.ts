@@ -1,3 +1,4 @@
+import type {SplitFlashcardDto} from "@/entities/flashcard/model/schemas/split-flashcard.schema";
 import {client} from "@/shared/api";
 import type {CreateFlashcardDto} from "../../model/schemas/create-flashcard.schema";
 import type {GenerateFlashcardDto} from "../../model/schemas/generate-flashcard.schema";
@@ -40,6 +41,11 @@ export async function update(deckId: number, flashcardId: number, updateFlashcar
 
 export async function regenerate(deckId: number, flashcardId: number, regenerateFlashcardDto: RegenerateFlashcardDto): Promise<GeneratedFlashcardDto> {
     const {data: {data}} = await client.post<SuccessResponse<GeneratedFlashcardDto>>(`/decks/${deckId}/flashcards/${flashcardId}/regenerate`, regenerateFlashcardDto);
+    return data;
+}
+
+export async function split(deckId: number, flashcardId: number, splitFlashcardDto: SplitFlashcardDto): Promise<GeneratedFlashcardDto[]> {
+    const {data: {data}} = await client.post<SuccessResponse<GeneratedFlashcardDto[]>>(`/decks/${deckId}/flashcards/${flashcardId}/split`, splitFlashcardDto);
     return data;
 }
 

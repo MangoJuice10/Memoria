@@ -9,7 +9,7 @@ import { EducationalResourceMetadata } from "src/educational-resource/types";
 const COLLECTION = "educational-resources";
 const DEFAULT_TOP_K = 10;
 const DEFAULT_FETCH_K = 30;
-const DEFAULT_MIN_SCORE = 0.2;
+const DEFAULT_MIN_SCORE = 0.7;
 
 export type ChunkMetadata = EducationalResourceMetadata & {
   chunkIdx: number;

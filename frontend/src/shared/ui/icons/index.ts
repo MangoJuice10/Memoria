@@ -84,6 +84,9 @@ export {default as EditIcon} from "./common/EditIcon.vue";
 export {default as CloseIcon} from "./common/CloseIcon.vue";
 export {default as TrashIcon} from "./common/TrashIcon.vue";
 
+export {default as PlusIcon} from "./common/PlusIcon.vue";
+export {default as MinusIcon} from "./common/MinusIcon.vue";
+
 export {default as OptionsIcon} from "./common/OptionsIcon.vue";
 
 export {default as EducationalResourceFillerIcon} from "./filler/EducationalResourceFillerIcon.vue";

@@ -2,7 +2,7 @@ import {codes} from "@/shared/config";
 import {type MenuLayout, type OptionsItemId} from "@/shared/config/menu.config";
 import {EditIcon, TrashIcon, BackIcon} from "@/shared/ui";
 
-export function createFlashcardsOptionsLayout(resourceName: string): MenuLayout<any, OptionsItemId> {
+export function createFlashcardOptionsLayout(resourceName: string): MenuLayout<any, OptionsItemId> {
     return {
         menuItems: [
             {

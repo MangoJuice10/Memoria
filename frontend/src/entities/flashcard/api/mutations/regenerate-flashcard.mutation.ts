@@ -4,9 +4,10 @@ import type {
 import {regenerate} from "../endpoints/flashcards";
 import {useMutation} from "@tanstack/vue-query";
 
-export function createRegenerateFlashcardMutation(deckId: number) {
+export function createRegenerateFlashcardMutation() {
     return useMutation({
-        mutationFn: ({flashcardId, regenerateFlashcardDto}: {
+        mutationFn: ({deckId, flashcardId, regenerateFlashcardDto}: {
+            deckId: number;
             flashcardId: number;
             regenerateFlashcardDto: RegenerateFlashcardDto
         }) => regenerate(deckId, flashcardId, regenerateFlashcardDto)

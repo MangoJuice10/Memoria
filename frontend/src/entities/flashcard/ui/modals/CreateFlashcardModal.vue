@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {useCreateFlashcardModalMenu} from "@/entities/flashcard/lib/use-create-flashcard-modal-menu.composable";
 import {CREATE_FLASHCARD_LAYOUT} from "../../config/create-flashcard-layout.config";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
@@ -20,12 +21,7 @@ const props = defineProps<{
 const {t} = useI18n();
 
 const {stageCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useMenu(CREATE_FLASHCARD_LAYOUT, t, {
-  "generate-flashcard": switchToGenerateFlashcardModal
-}, {
-  "create-flashcard": true,
-  "generate-flashcard": false
-});
+const {menuItemViews} = useCreateFlashcardModalMenu("create-flashcard", t);
 
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
@@ -80,11 +76,12 @@ onMounted(() => {
 
 <template>
   <Modal>
-    <div class="min-w-[50vw] h-full p-10 overflow-auto">
+    <div class="min-w-[50vw] h-full p-10 overflow-y-auto">
       <Form
           :form-error="getFormError()"
           :is-submit-enabled="isValid"
           :is-reset-enabled="true"
+          has-sticky-controls
           form-error-classes="text-center"
           @submit="submit"
           @reset="reset">

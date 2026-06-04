@@ -11,8 +11,8 @@ export const createFlashcardsGenerationPromptMock: typeof createFlashcardGenerat
       length: count,
     },
     (_, i) => ({
-      front: `TEST_FRONT_${i + 1}`,
-      back: `TEST_BACK_${i + 1}`,
+      front: `GENERATED_FRONT_${i + 1}`,
+      back: `GENERATED_BACK_${i + 1}`,
     }),
   );
 

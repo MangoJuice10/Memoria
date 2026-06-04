@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { chatTitleSchema } from "./chats.schema";
 
 export const createChatSchema = z.strictObject({
-  title: z.string().trim().min(1).max(100).optional(),
+  title: chatTitleSchema.optional(),
 });
 
 export type CreateChatDto = z.infer<typeof createChatSchema>;

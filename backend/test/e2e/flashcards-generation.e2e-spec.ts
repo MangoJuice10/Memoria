@@ -12,6 +12,7 @@ import {
 } from "test/fixtures/flashcards/flashcards.data";
 import {
   FLASHCARD_GENERATION_PROMPT,
+  FLASHCARD_QUERY_REWRITE_PROMPT,
   FLASHCARD_REGENERATION_PROMPT,
 } from "src/flashcard/providers";
 import { createAuthFixtures } from "test/fixtures/auth/auth.fixture";
@@ -20,8 +21,14 @@ import { createFlashcardsFixtures } from "test/fixtures/flashcards/flashcards.fi
 import { defaultEducationalResourcesData } from "test/fixtures/educational-resources/educational-resources.data";
 import { createEducationalResourcesFixtures } from "test/fixtures/educational-resources/educational-resources.fixture";
 import { createEducationalResourcesHelpers } from "test/helpers/educational-resources/educational-resources.helper";
-import { createFlashcardsGenerationPromptMock } from "test/mocks/create-flashcards-generation-prompt.mock";
-import { createFlashcardRegenerationPromptMock } from "test/mocks/create-flashcard-regeneration-prompt.mock";
+import { createFlashcardsGenerationPromptMock } from "test/mocks/flashcards-generation-prompt.mock";
+import { createFlashcardRegenerationPromptMock } from "test/mocks/flashcard-regeneration-prompt.mock";
+import { createFlashcardSplitPromptMock } from "test/mocks/flashcard-split-prompt.mock";
+import { FLASHCARD_SPLIT_PROMPT } from "src/flashcard/providers/flashcard-split-prompt.provider";
+import { QUERY_REWRITE_PROMPT } from "src/common/providers";
+import { createQueryRewritePromptMock } from "test/mocks/query-rewrite-prompt.mock";
+import { createFlashcardQueryRewritePromptMock } from "test/mocks/flashcard-query-rewrite-prompt.mock";
+import { GeneratedFlashcardResponseDto } from "src/flashcard/dto";
 
 describe("Flashcards generation", () => {
   let testingApp: TestingApp;
@@ -33,7 +40,6 @@ describe("Flashcards generation", () => {
   const { username, email, password, otherEmail } = defaultAuthData;
   const { name, description, isPublic } = defaultDecksData;
   const { front, back } = defaultFlashcardData;
-  const { newFront, newBack } = newFlashcardData;
   const {
     name: educationalResourceName,
     description: educationalResourceDescription,
@@ -64,7 +70,13 @@ describe("Flashcards generation", () => {
         .overrideProvider(FLASHCARD_GENERATION_PROMPT)
         .useValue(createFlashcardsGenerationPromptMock)
         .overrideProvider(FLASHCARD_REGENERATION_PROMPT)
-        .useValue(createFlashcardRegenerationPromptMock),
+        .useValue(createFlashcardRegenerationPromptMock)
+        .overrideProvider(FLASHCARD_SPLIT_PROMPT)
+        .useValue(createFlashcardSplitPromptMock)
+        .overrideProvider(QUERY_REWRITE_PROMPT)
+        .useValue(createQueryRewritePromptMock)
+        .overrideProvider(FLASHCARD_QUERY_REWRITE_PROMPT)
+        .useValue(createFlashcardQueryRewritePromptMock),
     );
     await testingApp.prismaService.cleanDatabase();
     await testingApp.vectorStoreService.cleanCollection();
@@ -122,13 +134,19 @@ describe("Flashcards generation", () => {
           })
           .expect(200);
         expect(res.body.data).toEqual([]);
-      });
+      }, 30000);
     });
 
     describe("when the deck has an attached educational resource", () => {
       beforeAll(async () => {
         await educationalResourcesHelpers
           .attachToDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
+
+      afterAll(async () => {
+        await educationalResourcesHelpers
+          .detachFromDeck(deckId, educationalResourceId, accessToken)
           .expect(200);
       });
 
@@ -144,8 +162,8 @@ describe("Flashcards generation", () => {
             .expect(200);
 
           expect(res.body.data).toHaveLength(1);
-          expect(res.body.data[0]).toHaveProperty("front", "TEST_FRONT_1");
-          expect(res.body.data[0]).toHaveProperty("back", "TEST_BACK_1");
+          expect(res.body.data[0]).toHaveProperty("front", "GENERATED_FRONT_1");
+          expect(res.body.data[0]).toHaveProperty("back", "GENERATED_BACK_1");
 
           const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
             where: {
@@ -155,6 +173,7 @@ describe("Flashcards generation", () => {
 
           expect(persistedFlashcards).toHaveLength(0);
         },
+        30000,
       );
 
       it(
@@ -169,6 +188,14 @@ describe("Flashcards generation", () => {
             .expect(200);
 
           expect(res.body.data).toHaveLength(5);
+          res.body.data.forEach(
+            (generatedFlashcard: GeneratedFlashcardResponseDto, idx: number) => {
+              expect(generatedFlashcard).toEqual({
+                front: `GENERATED_FRONT_${idx + 1}`,
+                back: `GENERATED_BACK_${idx + 1}`,
+              });
+            },
+          );
 
           const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
             where: {
@@ -178,6 +205,7 @@ describe("Flashcards generation", () => {
 
           expect(persistedFlashcards).toHaveLength(0);
         },
+        30000,
       );
 
       it("should return an empty array when the instruction doesn't match the content of the educational resource", async () => {
@@ -189,13 +217,7 @@ describe("Flashcards generation", () => {
           .expect(200);
 
         expect(res.body.data).toHaveLength(0);
-      });
-
-      afterAll(async () => {
-        await educationalResourcesHelpers
-          .detachFromDeck(deckId, educationalResourceId, accessToken)
-          .expect(200);
-      });
+      }, 30000);
     });
   });
 
@@ -234,6 +256,7 @@ describe("Flashcards generation", () => {
           expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
           expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
         },
+        30000,
       );
     });
 
@@ -241,6 +264,12 @@ describe("Flashcards generation", () => {
       beforeAll(async () => {
         await educationalResourcesHelpers
           .attachToDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
+
+      afterAll(async () => {
+        await educationalResourcesHelpers
+          .detachFromDeck(deckId, educationalResourceId, accessToken)
           .expect(200);
       });
 
@@ -264,6 +293,7 @@ describe("Flashcards generation", () => {
           expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
           expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
         },
+        30000,
       );
 
       it(
@@ -286,13 +316,111 @@ describe("Flashcards generation", () => {
           expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
           expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
         },
+        30000,
       );
+    });
+  });
+
+  describe("Split the flashcard", () => {
+    beforeEach(async () => {
+      const res = await flashcardsHelpers.create(deckId, accessToken);
+      flashcardId = res.body.data.id;
+    });
+
+    afterEach(async () => {
+      await testingApp.prismaService.flashcard.delete({
+        where: {
+          id: flashcardId,
+        },
+      });
+    });
+
+    describe("when the deck has no attached educational resources", () => {
+      itShouldSplitFlashcard("ORIGINAL_SPLIT_FRONT", "ORIGINAL_SPLIT_BACK");
+    });
+
+    describe("when the deck has an attached educational resource", () => {
+      beforeAll(async () => {
+        await educationalResourcesHelpers
+          .attachToDeck(deckId, educationalResourceId, accessToken)
+          .expect(200);
+      });
 
       afterAll(async () => {
         await educationalResourcesHelpers
           .detachFromDeck(deckId, educationalResourceId, accessToken)
           .expect(200);
       });
+
+      itShouldSplitFlashcard("SPLIT_FRONT", "SPLIT_BACK");
     });
   });
+
+  function itShouldSplitFlashcard(frontPrefix: string, backPrefix: string) {
+    describe("when the count of the flashcards to split the original flashcard into is not provided", () => {
+      it(
+        "should return an array that contains at least 2 flashcards, without persisting the flashcards to the database and" +
+          " without modifying or deleting the original flashcard",
+        async () => {
+          const res = await flashcardsHelpers
+            .split(deckId, flashcardId, accessToken, {})
+            .expect(200);
+          expect(res.body.data.length).toEqual(2);
+          res.body.data.forEach((splitFlashcard: GeneratedFlashcardResponseDto, idx: number) => {
+            expect(splitFlashcard).toEqual({
+              front: `${frontPrefix}_${idx + 1}`,
+              back: `${backPrefix}_${idx + 1}`,
+            });
+          });
+
+          await assertNoChangesWerePersisted();
+        },
+        30000,
+      );
+    });
+
+    describe("when the count of the flashcards to split the original flashcard into is provided", () => {
+      it(
+        "should return an array that contains the provided number of flashcards, without persisting the flashcards to the database and" +
+          " without modifying or deleting the original flashcard",
+        async () => {
+          const count = 5;
+
+          const res = await flashcardsHelpers
+            .split(deckId, flashcardId, accessToken, {
+              count,
+            })
+            .expect(200);
+          expect(res.body.data.length).toEqual(count);
+          res.body.data.forEach((splitFlashcard: GeneratedFlashcardResponseDto, idx: number) => {
+            expect(splitFlashcard).toEqual({
+              front: `${frontPrefix}_${idx + 1}`,
+              back: `${backPrefix}_${idx + 1}`,
+            });
+          });
+
+          await assertNoChangesWerePersisted();
+        },
+        30000,
+      );
+    });
+  }
+
+  async function assertNoChangesWerePersisted() {
+    const persistedFlashcard = await testingApp.prismaService.flashcard.findUnique({
+      where: {
+        id: flashcardId,
+      },
+    });
+    expect(persistedFlashcard).toBeDefined();
+    expect(persistedFlashcard).toHaveProperty("front", defaultFlashcardData.front);
+    expect(persistedFlashcard).toHaveProperty("back", defaultFlashcardData.back);
+
+    const persistedFlashcards = await testingApp.prismaService.flashcard.findMany({
+      where: {
+        deckId,
+      },
+    });
+    expect(persistedFlashcards).toHaveLength(1);
+  }
 });

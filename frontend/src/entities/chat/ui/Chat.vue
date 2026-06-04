@@ -63,7 +63,7 @@ const findAllChatsQuery = createFindAllChatsQuery();
 const createChatMutation = createCreateChatMutation();
 
 const findAllChatMessagesQuery = createFindAllChatMessagesQuery(() => activeChat.value?.id, computed(() => !!activeChat.value));
-const sendChatMessageMutation = createSendChatMessageMutation(() => activeChat.value?.id);
+const sendChatMessageMutation = createSendChatMessageMutation();
 
 const isSendEnabled = computed(() =>
     isFormTouched() && isValid.value && !sendChatMessageMutation.isPending.value
@@ -104,8 +104,11 @@ async function send() {
     );
 
     if (context.value) await sendChatMessageMutation.mutateAsync({
-      ...result.data,
-      ...context.value
+      chatId: activeChat.value!.id,
+      sendChatMessageDto: {
+        ...result.data,
+        ...context.value
+      }
     });
 
     await queryClient.invalidateQueries({

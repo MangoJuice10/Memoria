@@ -8,10 +8,15 @@ import { LargeLanguageModelModule } from "src/large-language-model/large-languag
 import { FlashcardGenerationService } from "src/flashcard/services/flashcard-generation.service";
 import {
   createFlashcardGenerationPrompt,
+  createFlashcardQueryRewritePrompt,
   createFlashcardRegenerationPrompt,
+  createFlashcardSplitPrompt,
   FLASHCARD_GENERATION_PROMPT,
+  FLASHCARD_QUERY_REWRITE_PROMPT,
   FLASHCARD_REGENERATION_PROMPT,
+  FLASHCARD_SPLIT_PROMPT,
 } from "src/flashcard/providers";
+import { createQueryRewritePrompt, QUERY_REWRITE_PROMPT } from "src/common/providers";
 
 @Module({
   imports: [DeckModule, RagModule, LargeLanguageModelModule],
@@ -26,6 +31,18 @@ import {
     {
       provide: FLASHCARD_REGENERATION_PROMPT,
       useValue: createFlashcardRegenerationPrompt,
+    },
+    {
+      provide: FLASHCARD_SPLIT_PROMPT,
+      useValue: createFlashcardSplitPrompt,
+    },
+    {
+      provide: QUERY_REWRITE_PROMPT,
+      useValue: createQueryRewritePrompt,
+    },
+    {
+      provide: FLASHCARD_QUERY_REWRITE_PROMPT,
+      useValue: createFlashcardQueryRewritePrompt,
     },
   ],
 })

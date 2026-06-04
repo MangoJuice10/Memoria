@@ -25,7 +25,7 @@ export const UPDATE_FLASHCARD_LAYOUT = {
     menuSections: []
 } satisfies MenuLayout<any, MenuItemId>;
 
-export const UPDATE_DRAFT_FLASHCARD_LAYOUT = {
+export const UPDATE_TOUCHED_FLASHCARD_LAYOUT = {
     menuItems: [
         {
             id: "update-flashcard",

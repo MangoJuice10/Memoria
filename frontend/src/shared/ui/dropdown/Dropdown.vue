@@ -61,7 +61,7 @@ function toggle() {
                       : 'group-hover/dropdown:border-default group-hover/dropdown:bg-hover',
                    triggerClasses
                  ]"
-         @click="toggle">
+         @click.stop="toggle">
       <slot name="trigger"/>
       <ChevronIcon v-if="hasArrow"
                    class="icon-dynamic-inverse

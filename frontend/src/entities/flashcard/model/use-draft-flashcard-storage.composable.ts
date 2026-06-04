@@ -37,7 +37,7 @@ export const useDraftFlashcardStorage = defineStore("draftFlashcards", () => {
         commit();
     };
 
-    const bulkStageCreate = (flashcardsData: FlashcardData[]) => {
+    const stageBulkCreate = (flashcardsData: FlashcardData[]) => {
         if (!deckId.value) throw new DraftStoreInitializationError();
 
         const draftFlashcardsToCreate: DraftFlashcard[] = flashcardsData.map((flashcardData) => ({
@@ -122,7 +122,7 @@ export const useDraftFlashcardStorage = defineStore("draftFlashcards", () => {
         init,
         draftFlashcards,
         stageCreate,
-        bulkStageCreate,
+        stageBulkCreate,
         stageUpdate,
         stageDelete,
         unstage,

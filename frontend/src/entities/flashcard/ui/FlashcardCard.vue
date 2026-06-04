@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useDraftFlashcardStorage} from "@/entities/flashcard";
-import {createFlashcardsOptionsLayout} from "@/entities/flashcard/config/flashcard-options-layout.config";
+import {createFlashcardOptionsLayout} from "@/entities/flashcard/config/flashcard-options-layout.config";
 import {ClockIcon, DropdownMenu} from "@/shared/ui";
 import {IconLabel} from "@/shared/ui";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
@@ -37,7 +37,7 @@ const callbacks = {
   rollback: rollbackFlashcard
 } satisfies Record<OptionsItemId, MenuItemCallback>;
 
-const {menuItemViews} = useMenu(createFlashcardsOptionsLayout(t(codeToKey(codes.FLASHCARD_RESOURCE_NAME))), t, callbacks);
+const {menuItemViews} = useMenu(createFlashcardOptionsLayout(t(codeToKey(codes.FLASHCARD_RESOURCE_NAME))), t, callbacks);
 
 function openUpdateFlashcardModal() {
   const updateFlashcardModal = defineAsyncComponent(() => import("./modals/UpdateFlashcardModal.vue"));
