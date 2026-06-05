@@ -46,13 +46,6 @@ model Deck {
   @@map("decks")
 }
 
-enum ReviewRating {
-  AGAIN
-  BAD
-  GOOD
-  PERFECT
-}
-
 model Flashcard {
   id           Int      @id @default(autoincrement())
   front        String
@@ -65,13 +58,20 @@ model Flashcard {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  deck          Deck            @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  reviewHistory ReviewHistory[]
+  deck    Deck     @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  reviews Review[]
 
   @@map("flashcards")
 }
 
-model ReviewHistory {
+enum ReviewRating {
+  AGAIN
+  BAD
+  GOOD
+  PERFECT
+}
+
+model Review {
   id          Int          @id @default(autoincrement())
   flashcardId Int          @map("flashcard_id")
   rating      ReviewRating
@@ -79,7 +79,7 @@ model ReviewHistory {
 
   flashcard Flashcard @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  @@map("review_history")
+  @@map("reviews")
 }
 
 model EducationalResource {

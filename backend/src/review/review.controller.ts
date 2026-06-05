@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { ReviewService } from "src/review/services/review.service";
 import { ZodValidationPipe } from "src/common";
-import { ReviewFlashcardDto, reviewFlashcardSchema } from "src/review/schemas";
+import { reviewSchema, type ReviewDto } from "src/review/schemas";
 
 @Controller("decks/:deckId/review")
 export class ReviewController {
@@ -23,8 +23,8 @@ export class ReviewController {
   @HttpCode(200)
   async reviewFlashcard(
     @Param("flashcardId", ParseIntPipe) flashcardId: number,
-    @Body(new ZodValidationPipe(reviewFlashcardSchema)) reviewFlashcardDto: ReviewFlashcardDto,
+    @Body(new ZodValidationPipe(reviewSchema)) reviewDto: ReviewDto,
   ) {
-    return this.reviewService.reviewFlashcard(flashcardId, reviewFlashcardDto);
+    return this.reviewService.review(flashcardId, reviewDto);
   }
 }

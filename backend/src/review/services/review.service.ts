@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Sm2Service } from "src/review/services/sm2.service";
-import { ReviewFlashcardDto } from "src/review/schemas";
+import { ReviewDto } from "src/review/schemas";
 import { FlashcardNotFoundError } from "src/flashcard/errors";
 
 @Injectable()
@@ -35,7 +35,7 @@ export class ReviewService {
     });
   }
 
-  async reviewFlashcard(flashcardId: number, { rating }: ReviewFlashcardDto) {
+  async review(flashcardId: number, { rating }: ReviewDto) {
     const flashcard = await this.prismaService.flashcard.findUnique({
       where: {
         id: flashcardId,
@@ -45,7 +45,7 @@ export class ReviewService {
 
     const now = new Date();
 
-    const newFlashcardSchedulingState = this.sm2Service.schedule(
+    const newReviewSchedulingState = this.sm2Service.schedule(
       {
         repetitions: flashcard.repetitions,
         intervalDays: flashcard.intervalDays,
@@ -57,14 +57,15 @@ export class ReviewService {
     );
 
     return this.prismaService.$transaction(async (tx) => {
+
       const updatedFlashcard = await tx.flashcard.update({
         where: {
           id: flashcardId,
         },
-        data: newFlashcardSchedulingState,
+        data: newReviewSchedulingState,
       });
 
-      await tx.reviewHistory.create({
+      await tx.review.create({
         data: {
           flashcardId,
           rating,

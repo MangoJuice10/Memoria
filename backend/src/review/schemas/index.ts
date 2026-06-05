@@ -1,1 +1,1 @@
-export * from "./review-flashcard.schema";
+export * from "./review.schema";

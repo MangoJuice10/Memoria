@@ -21,7 +21,7 @@ import { createFlashcardsFixtures } from "test/fixtures/flashcards/flashcards.fi
 import { defaultEducationalResourcesData } from "test/fixtures/educational-resources/educational-resources.data";
 import { createEducationalResourcesFixtures } from "test/fixtures/educational-resources/educational-resources.fixture";
 import { createEducationalResourcesHelpers } from "test/helpers/educational-resources/educational-resources.helper";
-import { createFlashcardsGenerationPromptMock } from "test/mocks/flashcards-generation-prompt.mock";
+import { createFlashcardGenerationPromptMock } from "test/mocks/flashcards-generation-prompt.mock";
 import { createFlashcardRegenerationPromptMock } from "test/mocks/flashcard-regeneration-prompt.mock";
 import { createFlashcardSplitPromptMock } from "test/mocks/flashcard-split-prompt.mock";
 import { FLASHCARD_SPLIT_PROMPT } from "src/flashcard/providers/flashcard-split-prompt.provider";
@@ -68,7 +68,7 @@ describe("Flashcards generation", () => {
     testingApp = await createTestingApp((testingAppBuilder) =>
       testingAppBuilder
         .overrideProvider(FLASHCARD_GENERATION_PROMPT)
-        .useValue(createFlashcardsGenerationPromptMock)
+        .useValue(createFlashcardGenerationPromptMock)
         .overrideProvider(FLASHCARD_REGENERATION_PROMPT)
         .useValue(createFlashcardRegenerationPromptMock)
         .overrideProvider(FLASHCARD_SPLIT_PROMPT)

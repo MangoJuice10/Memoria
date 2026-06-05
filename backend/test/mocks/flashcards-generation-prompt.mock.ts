@@ -1,9 +1,8 @@
 import { createFlashcardGenerationPrompt } from "src/flashcard/providers";
 import { createEducationalResourcesContext } from "src/chat-message/constants";
 
-export const createFlashcardsGenerationPromptMock: typeof createFlashcardGenerationPrompt = (
+export const createFlashcardGenerationPromptMock: typeof createFlashcardGenerationPrompt = (
   count: number,
-  _instruction: string,
   context: string,
 ) => {
   const testFlashcards = Array.from(
