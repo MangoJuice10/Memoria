@@ -20,6 +20,7 @@ export function createUpdateEducationalResourceSchema(t: Composer["t"]) {
         )
             .optional(),
         file: createEducationalResourceFileSchema(t)
+            .nullable()
             .optional()
     });
 }

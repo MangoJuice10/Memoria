@@ -84,7 +84,9 @@
       "navigation-links": {
         "info": "Info",
         "flashcards": "Flashcards",
-        "educational_resources": "Educational Resources"
+        "educational_resources": "Educational Resources",
+        "tags": "Tags",
+        "feedback": "Feedback"
       }
     },
     "flashcard": {
@@ -150,6 +152,9 @@
       "is_public": {
         "name": "Public",
         "placeholder": ""
+      },
+      "file": {
+        "name": "File"
       },
       "message": {
         "name": "Message",
@@ -234,6 +239,10 @@
           "pending": "Updating avatar...",
           "success": "Avatar updated successfully",
           "error": "Failed to update avatar"
+        },
+        "delete": {
+          "success": "Avatar deleted successfully",
+          "error": "Failed to delete avatar"
         }
       }
     },
