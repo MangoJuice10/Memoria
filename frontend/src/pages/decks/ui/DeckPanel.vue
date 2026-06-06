@@ -60,7 +60,7 @@ const openDeleteDeckModal = () => {
   const deleteDeckModal = defineAsyncComponent(() => import("@/entities/deck/ui/modals/DeleteDeckModal.vue"));
   showOne(backdropStore);
   modalStore.show(deleteDeckModal, {
-    id: props.id
+    deckId: props.id
   });
 };
 
@@ -103,19 +103,21 @@ async function submit() {
   <div class="flex justify-between
               py-4 border-b border-default
               bg-(--color-tertiary)/60 shadow-xl backdrop-blur">
-    <div class="flex items-center gap-6">
-      <IconLabel class="gap-2.5">
+    <div class="flex items-center gap-6
+                max-w-1/4">
+      <IconLabel class="gap-2.5
+                        w-full">
         <template #label>
-          <span class="text-xl font-semibold">
+          <span class="text-xl font-semibold truncate">
             {{ name }}
           </span>
         </template>
         <template #icon>
-          <DeckIcon class="w-8"/>
+          <DeckIcon class="w-8 h-8"/>
         </template>
       </IconLabel>
       <Toggle v-model:is-on="data.isPublic"
-              class="grow
+              class="grow shrink-0
                      h-10"
               @click="submit">
         <template #on>

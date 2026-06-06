@@ -109,8 +109,9 @@ const submit = async () => {
                    clientValidate();
                    touch('email');
                  }"/>
-        <FormField id="password"
-                   v-model="data.password"
+        <FormField v-model="data.password"
+                   variant="password"
+                   id="password"
                    :label="$t('auth.register.password.title')"
                    :placeholder="$t('auth.register.password.placeholder')"
                    type="password"
@@ -121,6 +122,7 @@ const submit = async () => {
                    touch('password');
                  }"/>
         <FormField id="confirmPassword"
+                   variant="password"
                    v-model="data.confirmPassword"
                    :label="$t('auth.register.confirmPassword.title')"
                    :placeholder="$t('auth.register.confirmPassword.placeholder')"

@@ -21,6 +21,7 @@ export {default as FlashcardsIcon} from "./spaced-repetition/FlashcardsIcon.vue"
 export {default as CreateFlashcardIcon} from "./spaced-repetition/CreateFlashcardIcon.vue";
 export {default as DeckIcon} from "./spaced-repetition/DeckIcon.vue";
 export {default as DeckInfoIcon} from "./spaced-repetition/DeckInfoIcon.vue";
+export {default as DeckFeedbackIcon} from "./spaced-repetition/DeckFeedbackIcon.vue";
 
 export {
     default as EducationalResourcesIntroductionIcon

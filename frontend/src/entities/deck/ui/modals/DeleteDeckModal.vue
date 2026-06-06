@@ -2,8 +2,7 @@
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {ActionModal} from "@/shared/ui";
 import {onMounted} from "vue";
-import {useMutation} from "@tanstack/vue-query";
-import {decksApi} from "@/entities/deck";
+import {createDeleteDeckMutation} from "@/entities/deck";
 import {useRoute, useRouter} from "vue-router";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
@@ -20,9 +19,11 @@ const modalStore = useModalStore();
 const backdropStore = useBackdropStore();
 const {push} = useToastStore();
 
-const deleteDeckMutation = useMutation({
-  mutationFn: (deckId: number) => decksApi.remove(deckId),
-  onSuccess: async () => {
+const deleteDeckMutation = createDeleteDeckMutation();
+
+async function handleConfirm() {
+  try {
+    await deleteDeckMutation.mutateAsync(props.deckId);
     push(t(codeToKey(codes.DECK_DELETE_SUCCESS)), "success", "delete");
     backdropStore.hide();
     modalStore.hide();
@@ -32,14 +33,9 @@ const deleteDeckMutation = useMutation({
       query: route.query,
       hash: route.hash,
     });
-  },
-  onError: () => {
+  } catch (error) {
     push(t(codeToKey(codes.DECK_DELETE_ERROR)), "error");
   }
-});
-
-async function handleConfirm() {
-  await deleteDeckMutation.mutateAsync(props.deckId);
 }
 
 async function handleCancel() {

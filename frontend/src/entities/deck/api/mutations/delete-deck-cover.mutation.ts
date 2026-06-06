@@ -1,18 +1,18 @@
 import {useMutation} from "@tanstack/vue-query";
 import {queryClient} from "@/shared/api";
-import {remove} from "../endpoints/decks";
+import {removeCover} from "../endpoints/remove-cover";
 import {decksQueryKeys} from "../query-keys/decks-query-keys";
 import {type DeckResponseDto} from "../../model/deck-response.dto";
 
-export function createDeleteDeckMutation() {
+export function createDeleteDeckCoverMutation() {
     return useMutation({
-        mutationFn: (deckId: number) => remove(deckId),
-        onSuccess: async (_, variables) => {
+        mutationFn: (deckId: number) => removeCover(deckId),
+        onSuccess: async (updatedDeck, variables) => {
             await queryClient.setQueryData(
-                decksQueryKeys.all,
-                (old: DeckResponseDto[] | undefined) => {
+                decksQueryKeys.byId(variables),
+                (old: DeckResponseDto | undefined) => {
                     if (!old) return old;
-                    return old.map((deck) => deck.id !== variables);
+                    return updatedDeck;
                 }
             );
         }
