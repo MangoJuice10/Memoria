@@ -10,8 +10,7 @@ import {allowedImageTypes, codes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE} from "@/s
 import {codeToKey} from "@/shared/i18n";
 import {asset, useValidation} from "@/shared/lib";
 import {
-  createUploadImageOptionalSchema,
-  type UploadImageOptional,
+  createUploadImageOptionalSchema, type UploadImageOptionalInput,
   useBackdropStore,
   useModalStore,
   useToastStore
@@ -33,7 +32,7 @@ const {push} = useToastStore();
 const data = ref<CreateEducationalResourceInput>({
   name: "",
   description: "",
-  file: undefined
+  file: null
 });
 
 const {
@@ -55,7 +54,7 @@ const {
 
 const createEducationalResourceMutation = createCreateEducationalResourceMutation();
 
-const cover = ref<UploadImageOptional>({
+const cover = ref<UploadImageOptionalInput>({
   image: undefined
 });
 const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_EDUCATIONAL_RESOURCE_COVER_SIZE));

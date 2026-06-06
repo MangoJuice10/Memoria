@@ -11,14 +11,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "file-change", file: File | undefined): void;
+  (e: "file-change", file: File | null): void;
 }>();
 
-const newFileName = ref<string | undefined>(undefined);
+const newFileName = ref<string | null | undefined>(undefined);
 const displayFileName = computed(() => newFileName.value ?? props.oldFilename);
 
-function handleFileChange(file: File | undefined) {
-  newFileName.value = file?.name ?? undefined;
+function handleFileChange(file: File | null) {
+  newFileName.value = file?.name ?? null;
   emit("file-change", file);
 }
 </script>

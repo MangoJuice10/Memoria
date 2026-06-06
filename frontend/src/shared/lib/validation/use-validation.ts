@@ -110,9 +110,25 @@ export const useValidation = <Schema extends ZodType>(
         const result = await parseSchema();
 
         isValid.value = result.success;
-        if (result.error) clientErrors.value = createErrorsMap(result.error);
 
-        return result;
+        if (result.error) {
+            clientErrors.value = createErrorsMap(result.error);
+            return result;
+        }
+
+        const changedData = {};
+        walkObject(result.data, (path: string) => {
+            const currentValue = get(result.data, path);
+            const initialValue = get(initialData, path);
+            if (currentValue !== initialValue) {
+                set(changedData, path, currentValue);
+            }
+        });
+
+        return {
+            ...result,
+            data: changedData as z.output<Schema>,
+        };
     };
 
     const serverValidate = async (errorRes: ErrorResponse) => {

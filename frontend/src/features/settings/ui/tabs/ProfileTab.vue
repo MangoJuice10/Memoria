@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {removeAvatar} from "@/entities/viewer/api/remove-avatar";
 import {computed, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
@@ -9,7 +10,11 @@ import {allowedImageTypes, codes, MAX_USER_AVATAR_SIZE} from "@/shared/config";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
 import {codeToKey} from "@/shared/i18n";
-import {createUploadImageRequiredSchema, useToastStore} from "@/shared/model";
+import {
+  createUploadImageOptionalSchema,
+  useToastStore,
+  type UploadImageOptionalInput,
+} from "@/shared/model";
 
 const {t} = useI18n();
 const {viewer, updateMe, uploadAvatar} = useViewerStore();
@@ -67,9 +72,9 @@ const touchPasswordFields = () => {
   touch("confirmPassword");
 };
 
-const avatar = ref<File | null>(null);
+const avatar = ref<UploadImageOptionalInput>({image: undefined});
 
-const avatarValidation = useValidation(avatar, createUploadImageRequiredSchema("cover", t, allowedImageTypes, MAX_USER_AVATAR_SIZE));
+const avatarValidation = useValidation(avatar, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_USER_AVATAR_SIZE));
 
 const isSubmitEnabled = computed(() =>
     isFormTouched() && isValid.value
@@ -96,14 +101,27 @@ const submit = async () => {
     }
   }
 
-  try {
-    if (avatarResult.data) await uploadAvatar(avatarResult.data);
-    push(t(codeToKey(codes.USER_AVATAR_UPDATE_SUCCESS)), "success", "update");
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      push(t(codeToKey(codes.USER_AVATAR_UPDATE_ERROR)), "error");
-      const body = error?.response?.data as ErrorResponse;
-      await serverValidate(body);
+  if (avatarResult.data.image) {
+    try {
+      await uploadAvatar(avatarResult.data.image);
+      push(t(codeToKey(codes.USER_AVATAR_UPDATE_SUCCESS)), "success", "update");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        push(t(codeToKey(codes.USER_AVATAR_UPDATE_ERROR)), "error");
+        const body = error?.response?.data as ErrorResponse;
+        await serverValidate(body);
+      }
+    }
+  } else if (avatarResult.data.image === null) {
+    try {
+      await removeAvatar();
+      push(t(codeToKey(codes.USER_AVATAR_DELETE_SUCCESS)), "success", "update");
+    } catch (error) {
+      push(t(codeToKey(codes.USER_AVATAR_DELETE_ERROR)), "error");
+      if (axios.isAxiosError(error)) {
+        const body = error.response?.data as ErrorResponse;
+        await avatarValidation.serverValidate(body);
+      }
     }
   }
 };
@@ -132,7 +150,7 @@ const submit = async () => {
                        imgClasses="rounded-full"
                        @img-change="(file) => {
                          avatarValidation.touch('avatar');
-                         avatar = file;
+                         avatar.image = file;
                          avatarValidation.clientValidate();
                        }"/>
           <FormError :error="avatarValidation.getError('avatar')"/>

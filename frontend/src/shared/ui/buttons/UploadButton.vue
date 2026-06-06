@@ -4,7 +4,7 @@ import {UploadIcon} from "@/shared/ui/icons";
 import {ref} from "vue";
 
 const emit = defineEmits<{
-  (e: "change", file: File | undefined): void,
+  (e: "change", file: File | null): void,
 }>();
 
 const inputRef = ref<HTMLInputElement>();
@@ -16,7 +16,7 @@ function handleButtonClick() {
 
 function handleFileChange(e: Event) {
   const input = e.target as HTMLInputElement;
-  const file = input.files?.[0];
+  const file = input.files?.[0] ?? null;
   emit("change", file);
 }
 </script>
@@ -24,7 +24,7 @@ function handleFileChange(e: Event) {
 <template>
   <div>
     <Button @click.prevent="handleButtonClick">
-      <IconLabel>
+      <IconLabel class="gap-2.5">
         <template #icon>
           <UploadIcon class="w-7 h-7"/>
         </template>

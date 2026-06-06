@@ -48,22 +48,5 @@ export function createEducationalResourceDescriptionSchema(t: Composer["t"]) {
 }
 
 export function createEducationalResourceFileSchema(t: Composer["t"]) {
-    return z.instanceof(File)
-        .optional()
-        .transform((file, ctx) => {
-            if (!file) {
-                ctx.addIssue({
-                    code: "invalid_type",
-                    expected: "file",
-                    message: t(codeToKey(codes.REQUIRED), {
-                        fieldName: t(codeToKey(codes.FILE_NAME))
-                    }),
-                });
-                return z.NEVER;
-            }
-            return file;
-        })
-        .pipe(
-            createFileSchema(t, allowedEducationalResourceFileTypes, MAX_EDUCATIONAL_RESOURCE_FILE_SIZE)
-        );
+    return createFileSchema(t, allowedEducationalResourceFileTypes, MAX_EDUCATIONAL_RESOURCE_FILE_SIZE)
 }

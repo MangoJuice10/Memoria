@@ -4,7 +4,11 @@ import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 
 export function createFileSchema(t: Composer["t"], allowedFileTypes: Record<string, string>, maxSize: number) {
-    return z.instanceof(File)
+    return z.instanceof(File, {
+        error: () => t(codeToKey(codes.REQUIRED), {
+            fieldName: t(codeToKey(codes.FILE_NAME))
+        }),
+    })
         .refine((file) => allowedFileTypes.hasOwnProperty(file.type), {
             error: () => t(codeToKey(codes.INVALID_MIME_TYPE), {
                 allowedTypes: Object.values(allowedFileTypes).join(", ")

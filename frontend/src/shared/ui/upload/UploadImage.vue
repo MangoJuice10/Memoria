@@ -9,17 +9,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "img-change", file: File | undefined): void,
+  (e: "img-change", file: File | null): void,
 }>();
 
-const newImageUrl = ref<string | undefined>(undefined);
+const newImageUrl = ref<string | null | undefined>(undefined);
 const displayImageUrl = computed(() => newImageUrl.value ?? props.oldImageUrl ?? props.defaultImgUrl);
 
-function handleImgChange(file: File | undefined) {
-  if (newImageUrl.value) {
-    URL.revokeObjectURL(newImageUrl.value);
-    newImageUrl.value = undefined;
-  }
+function handleImgChange(file: File | null) {
+  if (newImageUrl.value) URL.revokeObjectURL(newImageUrl.value);
 
   if (file) newImageUrl.value = URL.createObjectURL(file);
   else newImageUrl.value = props.defaultImgUrl;
@@ -36,8 +33,8 @@ function handleImgChange(file: File | undefined) {
     <div class="flex gap-10">
       <UploadButton class="w-35"
                     @change="handleImgChange"/>
-      <Button @click.prevent="handleImgChange(undefined)">
-        <IconLabel>
+      <Button @click.prevent="handleImgChange(null)">
+        <IconLabel class="gap-2.5">
           <template #icon>
             <TrashIcon class="w-7 h-7"/>
           </template>

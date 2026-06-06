@@ -4,10 +4,10 @@ import {useI18n} from "vue-i18n";
 import {asset, useValidation} from "@/shared/lib";
 import {
   createUploadImageOptionalSchema,
-  type UploadImageOptional,
   useBackdropStore,
   useModalStore,
-  useToastStore
+  useToastStore,
+  type UploadImageOptionalInput,
 } from "@/shared/model";
 import {FormError, Modal, UploadImage} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
@@ -53,7 +53,7 @@ const {
 const createDeckMutation = createCreateDeckMutation();
 const uploadDeckCoverMutation = createUploadDeckCoverMutation();
 
-const cover = ref<UploadImageOptional>({
+const cover = ref<UploadImageOptionalInput>({
   image: undefined,
 });
 

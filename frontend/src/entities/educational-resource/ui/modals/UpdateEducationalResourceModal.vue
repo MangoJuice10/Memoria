@@ -10,10 +10,10 @@ import {codeToKey} from "@/shared/i18n";
 import {asset, useValidation} from "@/shared/lib";
 import {
   createUploadImageOptionalSchema,
-  type UploadImageOptional,
   useBackdropStore,
   useModalStore,
-  useToastStore
+  useToastStore,
+  type UploadImageOptionalInput,
 } from "@/shared/model";
 import {Form, FormError, FormField, FormFieldError, Modal, UploadFile, UploadImage} from "@/shared/ui";
 import axios from "axios";
@@ -62,7 +62,7 @@ const {
 
 const updateEducationalResourceMutation = createUpdateEducationalResourceMutation();
 
-const cover = ref<UploadImageOptional>({
+const cover = ref<UploadImageOptionalInput>({
   image: undefined
 });
 const coverValidation = useValidation(cover, createUploadImageOptionalSchema(t, allowedImageTypes, MAX_DECK_COVER_SIZE));
@@ -122,7 +122,7 @@ const submit = async () => {
         await coverValidation.serverValidate(body);
       }
     }
-  } else {
+  } else if (coverResult.data.image === null) {
     try {
       await deleteEducationalResourceCoverMutation.mutateAsync(props.id);
       push(t(codeToKey(codes.EDUCATIONAL_RESOURCE_COVER_DELETE_SUCCESS)), "success", "delete");

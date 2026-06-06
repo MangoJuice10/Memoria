@@ -4,8 +4,11 @@ import {createFileSchema} from "@/shared/model/schemas/file.schema.ts";
 
 export function createUploadImageOptionalSchema(t: Composer["t"], allowedFileTypes: Record<string, string>, maxSize: number) {
     return z.object({
-        image: createFileSchema(t, allowedFileTypes, maxSize).optional()
+        image: createFileSchema(t, allowedFileTypes, maxSize)
+            .nullable()
+            .optional()
     });
 }
 
-export type UploadImageOptional = z.infer<ReturnType<typeof createUploadImageOptionalSchema>>;
+export type UploadImageOptionalInput = z.input<ReturnType<typeof createUploadImageOptionalSchema>>;
+export type UploadImageOptionalOutput = z.infer<ReturnType<typeof createUploadImageOptionalSchema>>;

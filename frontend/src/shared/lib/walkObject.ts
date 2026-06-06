@@ -3,8 +3,16 @@ export const walkObject = (obj: unknown, callback: (path: string) => void, path 
         if (path) callback(path);
         return;
     }
-    for (const key of Object.keys(obj)) {
-        const newPath = path ? `${path}${key}` : key;
+
+    const keys = Object.keys(obj);
+
+    if (keys.length === 0) {
+        if (path) callback(path);
+        return;
+    }
+
+    for (const key of keys) {
+        const newPath = path ? `${path}.${key}` : key;
         walkObject((obj as Record<string, any>)[key], callback, newPath);
     }
 };
