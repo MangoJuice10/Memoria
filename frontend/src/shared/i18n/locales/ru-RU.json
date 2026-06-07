@@ -84,7 +84,9 @@
       "navigation-links": {
         "info": "Информация",
         "flashcards": "Карточки",
-        "educational_resources": "Образовательные ресурсы"
+        "educational_resources": "Образовательные ресурсы",
+        "tags": "Метки",
+        "feedback": "Отзывы"
       }
     },
     "flashcard": {

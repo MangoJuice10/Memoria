@@ -57,5 +57,7 @@ export const tabItemCodes = {
     TAB_ITEM_SPLIT_FLASHCARD: "TAB_ITEM_SPLIT_FLASHCARD",
     TAB_ITEM_LOGIN: "TAB_ITEM_LOGIN",
     TAB_ITEM_REGISTER: "TAB_ITEM_REGISTER",
+    TAB_ITEM_TAGS: "TAB_ITEM_TAGS",
+    TAB_ITEM_FEEDBACK: "TAB_ITEM_FEEDBACK",
     
 } satisfies Record<NavigationItemCode<"TAB">, NavigationItemCode<"TAB">>;

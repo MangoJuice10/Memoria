@@ -77,6 +77,7 @@ export {default as InfoIcon} from "./common/InfoIcon.vue";
 export {default as RefreshIcon} from "./common/RefreshIcon.vue";
 export {default as SaveIcon} from "./common/SaveIcon.vue";
 export {default as BackIcon} from "./common/BackIcon.vue";
+export {default as TagIcon} from "./common/TagIcon.vue";
 
 export {default as LinkIcon} from "./common/LinkIcon.vue";
 

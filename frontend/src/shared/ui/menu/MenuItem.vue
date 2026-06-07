@@ -5,6 +5,7 @@ import {type ClassValue, toValue} from "vue";
 
 defineProps<{
   menuItemView: MenuItemView<string | number>,
+  iconLabelClasses?: ClassValue,
   iconClasses?: ClassValue;
   labelClasses?: ClassValue;
   inactiveClasses?: ClassValue;
@@ -21,7 +22,8 @@ defineProps<{
                  :class="toValue(menuItemView.isActive) ? activeClasses : inactiveClasses"
                  @click.stop="menuItemView.callback?.()">
     <IconLabel v-if="menuItemView.icon"
-               class="gap-1.5">
+               class="gap-3"
+               :class="iconLabelClasses">
       <template #icon>
         <component :is="menuItemView.icon"
                    :class="[
@@ -30,8 +32,7 @@ defineProps<{
                            ]"/>
       </template>
       <template #label>
-          <span class="px-3 py-1"
-                :class="[
+          <span :class="[
                             labelClasses,
                             toValue(menuItemView.isActive) && activeLabelClasses
                         ]">
@@ -40,8 +41,7 @@ defineProps<{
       </template>
     </IconLabel>
     <div v-else>
-      <div class="px-3 py-1"
-           :class="[
+      <div :class="[
                        labelClasses,
                        toValue(menuItemView.isActive) && activeLabelClasses
                    ]">
@@ -53,7 +53,9 @@ defineProps<{
        class="cursor-pointer"
        :class="toValue(menuItemView.isActive) ? activeClasses : inactiveClasses"
        @click.stop="menuItemView.callback?.()">
-    <IconLabel v-if="menuItemView.icon">
+    <IconLabel v-if="menuItemView.icon"
+               class="gap-2.5"
+               :class="iconLabelClasses">
       <template #icon>
         <component :is="menuItemView.icon"
                    :class="[
@@ -62,8 +64,7 @@ defineProps<{
                            ]"/>
       </template>
       <template #label>
-      <span class="px-3 py-1"
-            :class="[
+      <span :class="[
                         labelClasses,
                         toValue(menuItemView.isActive) && activeLabelClasses
                     ]">
@@ -72,7 +73,7 @@ defineProps<{
       </template>
     </IconLabel>
     <div v-else>
-      <div class="px-3 py-1">
+      <div>
         {{ menuItemView.label }}
       </div>
     </div>

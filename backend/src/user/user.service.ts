@@ -8,6 +8,7 @@ import { validationErrorCodes } from "src/common/constants";
 import { email } from "zod";
 import { UserResponseDto } from "src/user/dto";
 import { StorageService } from "src/storage/storage.service";
+import { DeckResponseDto } from "src/deck/dto/deck-response.dto";
 
 const userResponseDtoSelect: Prisma.UserSelect = {
   id: true,
@@ -98,6 +99,26 @@ export class UserService {
       },
       data: {
         avatarKey,
+      },
+      select: userResponseDtoSelect,
+    });
+
+    return this.mapToResponse(updatedUser);
+  }
+
+  async removeAvatar(userId: number): Promise<UserResponseDto> {
+    const { avatarKey } = await this.getUserOrThrow(userId, {
+      avatarKey: true,
+    });
+
+    if (avatarKey) await this.storageService.delete(avatarKey);
+
+    const updatedUser = await this.prismaService.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        avatarKey: null,
       },
       select: userResponseDtoSelect,
     });

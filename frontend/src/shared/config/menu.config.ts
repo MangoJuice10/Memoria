@@ -26,6 +26,8 @@ export type TabItemId =
     | "deck-info"
     | "deck-flashcards"
     | "deck-educational-resources"
+    | "deck-tags"
+    | "deck-feedback"
     | "create-flashcard"
     | "generate-flashcard"
     | "update-flashcard"

@@ -7,9 +7,8 @@ import {
   createGenerateFlashcardSchema, type GenerateFlashcardDto,
 } from "@/entities/flashcard/model/schemas/generate-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
-import {CREATE_FLASHCARD_LAYOUT} from "../../config/create-flashcard-layout.config";
-import {defineAsyncComponent, onMounted, ref} from "vue";
-import {useMenu, useValidation} from "@/shared/lib";
+import {onMounted, ref} from "vue";
+import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {useDraftFlashcardStorage,} from "@/entities/flashcard";
 import {Modal, TabLinks} from "@/shared/ui";
@@ -76,13 +75,6 @@ const submit = async () => {
     }
   }
 };
-
-function switchToCreateFlashcardModal() {
-  const createFlashcardModal = defineAsyncComponent(() => import("./CreateFlashcardModal.vue"));
-  modalStore.show(createFlashcardModal, {
-    deckId: props.deckId
-  });
-}
 
 onMounted(() => {
   backdropStore.setCallback(() => {

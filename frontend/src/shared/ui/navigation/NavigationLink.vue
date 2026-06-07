@@ -2,12 +2,13 @@
 import {type MenuItemView} from "@/shared/config";
 import LocalizedLink from "@/shared/ui/navigation/LocalizedLink.vue";
 import {MenuItem} from "@/shared/ui";
-import {onMounted} from "vue";
+import {type ClassValue, onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
   menuItemView: MenuItemView<string | number>;
-  iconClasses?: string;
-  labelClasses?: string;
+  iconLabelClasses?: ClassValue
+  iconClasses?: ClassValue;
+  labelClasses?: ClassValue;
 }>(), {
   iconClasses: "w-7.5"
 });
@@ -20,6 +21,7 @@ onMounted(() => {
 <template>
   <LocalizedLink :name="menuItemView.routeName!" :params="menuItemView.routeParams">
     <MenuItem :menu-item-view
+              :icon-label-classes
               :icon-classes
               :label-classes/>
   </LocalizedLink>

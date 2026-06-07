@@ -3,8 +3,10 @@ import type {MenuItemView} from "@/shared/config";
 import {MenuContainer, MenuItem} from "@/shared/ui";
 import type {ClassValue} from "vue";
 
+export type MenuDisplay = "vertical" | "horizontal" | "custom";
+
 withDefaults(defineProps<{
-  display?: "vertical" | "horizontal" | "custom";
+  display?: MenuDisplay;
   menuItemViews: MenuItemView<string | number>[];
   menuContainerClasses?: ClassValue;
   menuItemClasses?: ClassValue;

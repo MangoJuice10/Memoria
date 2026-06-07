@@ -192,7 +192,7 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
   <QueryState :is-loading
               :error
               class="grow">
-    <div class="flex flex-col gap-6 py-8">
+    <div class="flex flex-col gap-10 py-8">
       <section class="rounded-4xl border border-default bg-primary p-6 shadow-lg">
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
@@ -464,7 +464,7 @@ async function detachEducationalResource(resource: EducationalResourceResponseDt
 .sections {
   display: grid;
   align-items: start;
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 
 .resource-grid {

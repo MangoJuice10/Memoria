@@ -1,5 +1,6 @@
-import { Injectable } from "@nestjs/common";
+ import { Injectable } from "@nestjs/common";
 import {
+  CopyObjectCommand,
   DeleteObjectCommand,
   DeleteObjectsCommand,
   GetObjectCommand,
@@ -54,6 +55,21 @@ export class StorageService {
         Key: key,
       }),
     );
+  }
+
+  async copy(sourceKey: string, folder: string): Promise<string> {
+    const extension = extname(sourceKey);
+    const destinationKey = `${folder}/${randomUUID()}${extension}`;
+
+    await this.s3.send(
+      new CopyObjectCommand({
+        Bucket: this.bucket,
+        CopySource: `${this.bucket}/${sourceKey}`,
+        Key: destinationKey,
+      }),
+    );
+
+    return destinationKey;
   }
 
   async getPresignedUrl(key: string, expiresInSeconds = 3600): Promise<string> {

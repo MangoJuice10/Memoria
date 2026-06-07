@@ -14,13 +14,31 @@ const deckWithFlashcardsCountQuery = {
       flashcards: true,
     },
   },
+  /* ===== AI GENERATED CODE START ===== */
+  tags: {
+    include: {
+      tag: true,
+    },
+  },
+  /* ===== AI GENERATED CODE END ===== */
 };
 
+/* ===== AI GENERATED CODE START ===== */
 type DeckWithFlashcardsCount = Deck & {
   _count: {
     flashcards: number;
   };
+  tags: Array<{
+    deckId: number;
+    tagId: number;
+    tag: {
+      id: number;
+      name: string;
+      color: string;
+    };
+  }>;
 };
+/* ===== AI GENERATED CODE END ===== */
 
 @Injectable()
 export class DeckService {
@@ -150,12 +168,21 @@ export class DeckService {
   private async mapDeckWithFlashcardsCountToResponse(
     deck: DeckWithFlashcardsCount,
   ): Promise<DeckResponseDto> {
-    const { _count, coverKey, ...deckProperties } = deck;
+    /* ===== AI GENERATED CODE START ===== */
+    const { _count, coverKey, tags, ...deckProperties } = deck;
+    /* ===== AI GENERATED CODE END ===== */
     const coverUrl = coverKey ? await this.storageService.getPresignedUrl(coverKey) : null;
     return {
       ...deckProperties,
       coverUrl,
       flashcardsCount: _count.flashcards,
+      /* ===== AI GENERATED CODE START ===== */
+      tags: tags.map(({ tag }) => ({
+        id: tag.id,
+        name: tag.name,
+        color: tag.color,
+      })),
+      /* ===== AI GENERATED CODE END ===== */
     };
   }
 }

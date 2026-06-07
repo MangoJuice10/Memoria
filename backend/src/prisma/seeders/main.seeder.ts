@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import * as argon from "argon2";
 import users from "./users.json";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { seedSharedDecks } from "./shared-decks.seeder";
 
 const pgAdapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -36,6 +37,8 @@ async function main() {
       },
     });
   }
+
+  await seedSharedDecks(prisma);
 
   console.log("Main seeder executed successfully");
 }

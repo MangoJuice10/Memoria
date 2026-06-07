@@ -25,6 +25,7 @@ model User {
   decks                Deck[]
   educationalResources EducationalResource[]
   chats                Chat[]
+  feedback             Feedback[]
 
   @@map("users")
 }
@@ -42,6 +43,8 @@ model Deck {
   user                 User                      @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   flashcards           Flashcard[]
   educationalResources DeckEducationalResource[]
+  tags                 DeckTag[]
+  feedback             Feedback[]
 
   @@map("decks")
 }
@@ -140,4 +143,40 @@ model ChatMessage {
 
   @@index([chatId, createdAt])
   @@map("chat_messages")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String
+  color String
+
+  decks DeckTag[]
+
+  @@map("tags")
+}
+
+model DeckTag {
+  deckId Int @map("deck_id")
+  tagId  Int @map("tag_id")
+
+  deck Deck @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@id([deckId, tagId])
+  @@map("deck_tags")
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Int
+  deckId    Int      @map("deck_id")
+  userId    Int      @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deck Deck @relation(fields: [deckId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("feedbacks")
 }

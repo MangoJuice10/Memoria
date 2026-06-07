@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {useCreateFlashcardModalMenu} from "@/entities/flashcard/lib/use-create-flashcard-modal-menu.composable";
-import {CREATE_FLASHCARD_LAYOUT} from "../../config/create-flashcard-layout.config";
-import {defineAsyncComponent, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useMenu, useValidation} from "@/shared/lib";
+import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
   createCreateFlashcardSchema,
@@ -13,10 +12,6 @@ import {Modal, TabLinks} from "@/shared/ui";
 import {Form, FormField} from "@/shared/ui";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
-
-const props = defineProps<{
-  deckId: number;
-}>();
 
 const {t} = useI18n();
 
@@ -57,13 +52,6 @@ const submit = async () => {
   push(t(codeToKey(codes.FLASHCARD_CREATE_DRAFT)), "success", "create");
   backdropStore.hide();
   modalStore.hide();
-};
-
-function switchToGenerateFlashcardModal() {
-  const generateFlashcardModal = defineAsyncComponent(() => import("./GenerateFlashcardModal.vue"));
-  modalStore.show(generateFlashcardModal, {
-    deckId: props.deckId
-  });
 };
 
 onMounted(() => {

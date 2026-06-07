@@ -20,6 +20,8 @@ import { VectorStoreModule } from "src/vector-store/vector-store.module";
 import { RagModule } from './rag/rag.module';
 import { ChatModule } from './chat/chat.module';
 import { ChatMessageModule } from './chat-message/chat-message.module';
+import { TagModule } from './tag/tag.module';
+import { SharedDecksModule } from './shared-decks/shared-decks.module';
 
 @Module({
   imports: [
@@ -39,7 +41,9 @@ import { ChatMessageModule } from './chat-message/chat-message.module';
     VectorStoreModule,
     RagModule,
     ChatModule,
-    ChatMessageModule
+    ChatMessageModule,
+    TagModule,
+    SharedDecksModule,
   ],
   providers: [
     SuccessResponseInterceptor,

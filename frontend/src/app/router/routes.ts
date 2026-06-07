@@ -6,7 +6,7 @@ import {MainLayout} from "@/app/layouts";
 import {Landing} from "@/pages/landing";
 import {Login} from "@/pages/login";
 import {Register} from "@/pages/register";
-import {Decks, Deck, DeckInfoTab, EducationalResourcesTab} from "@/pages/decks";
+import {Decks, Deck, DeckInfoTab, EducationalResourcesTab, FeedbackTab} from "@/pages/decks";
 import {FlashcardsTab} from "@/pages/decks";
 import {Review} from "@/pages/review";
 import {EducationalResources} from "@/pages/educational-resources";
@@ -15,6 +15,7 @@ import {FeatureAIAssistance} from "@/pages/feature-ai-assistance";
 import {FeatureTrustworthyAnswers} from "@/pages/feature-trustworthy-answers";
 import {FeatureStatistics} from "@/pages/feature-statistics";
 import {About} from "@/pages/about";
+import {SharedDecks, SharedDeck} from "@/pages/shared-decks";
 
 export const routes = [
     {
@@ -102,6 +103,11 @@ export const routes = [
                         path: "educational-resources",
                         name: "deck-educational-resources",
                         component: EducationalResourcesTab
+                    },
+                    {
+                        path: "feedback",
+                        name: "deck-feedback",
+                        component: FeedbackTab
                     }
                 ]
             },
@@ -113,7 +119,12 @@ export const routes = [
             {
                 path: "shared-decks",
                 name: "shared-decks",
-                component: Landing,
+                component: SharedDecks,
+            },
+            {
+                path: "shared-decks/:sharedDeckId",
+                name: "shared-deck",
+                component: SharedDeck,
             },
             {
                 path: "educational-resources",

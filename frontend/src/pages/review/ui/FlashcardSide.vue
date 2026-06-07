@@ -15,7 +15,8 @@ defineProps<{
     <h2 class="p-10">
       {{ heading }}
     </h2>
-    <p class="h-full p-10 overflow-y-auto
+    <p class="flex justify-center items-center
+              h-full p-10 overflow-y-auto
               text-xl">
       {{ content }}
     </p>

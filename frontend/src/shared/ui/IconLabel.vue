@@ -5,15 +5,26 @@ defineProps<{
 </script>
 
 <template>
-  <span class="icon-static
-               inline-flex justify-center items-center">
-    <template v-if="!isReverse">
+  <div v-if="!isReverse"
+        class="icon-label icon-static
+               flex justify-center items-center">
       <slot name="icon"/>
       <slot name="label"/>
-    </template>
-    <template v-else>
+  </div>
+  <div v-else
+        class="icon-label-reverse icon-static
+               flex justify-center items-center">
       <slot name="label"/>
       <slot name="icon"/>
-    </template>
-  </span>
+  </div>
 </template>
+
+<style scoped>
+.icon-label > :first-child {
+  flex-shrink: 0;
+}
+
+.icon-label-reverse > :last-child {
+  flex-shrink: 0;
+}
+</style>

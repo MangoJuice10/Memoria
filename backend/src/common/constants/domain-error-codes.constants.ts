@@ -28,6 +28,9 @@ export const notFoundErrorCodes = {
   DECK_EDUCATIONAL_RESOURCE_NOT_FOUND: "DECK_EDUCATIONAL_RESOURCE_NOT_FOUND",
   CHAT_NOT_FOUND: "CHAT_NOT_FOUND",
   CHAT_MESSAGE_NOT_FOUND: "CHAT_MESSAGE_NOT_FOUND",
+  TAG_NOT_FOUND: "TAG_NOT_FOUND",
+  FEEDBACK_NOT_FOUND: "FEEDBACK_NOT_FOUND",
+  SHARED_DECK_NOT_FOUND: "SHARED_DECK_NOT_FOUND",
 } as const;
 
 export type NotFoundErrorCode = (typeof notFoundErrorCodes)[keyof typeof notFoundErrorCodes];
@@ -37,10 +40,18 @@ export const missingPermissionsErrorCodes = {
 
 export type MissingPermissionsErrorCode = (typeof missingPermissionsErrorCodes)[keyof typeof missingPermissionsErrorCodes];
 
+export const forbiddenErrorCodes = {
+  DECK_COPY_FORBIDDEN: "DECK_COPY_FORBIDDEN",
+  FEEDBACK_FORBIDDEN: "FEEDBACK_FORBIDDEN",
+} as const;
+
+export type ForbiddenErrorCode = (typeof forbiddenErrorCodes)[keyof typeof forbiddenErrorCodes];
+
 export const domainErrorCodes = {
   ...validationErrorCodes,
   ...notFoundErrorCodes,
   ...missingPermissionsErrorCodes,
+  ...forbiddenErrorCodes,
   FLASHCARD_GENERATION_ERROR: "FLASHCARD_GENERATION_ERROR",
 } as const;
 

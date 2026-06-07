@@ -19,6 +19,10 @@ export * from "./form";
 
 export {default as Searchbar} from "./searchbar/Searchbar.vue";
 
+/* ===== AI GENERATED CODE START ===== */
+export * from "./rating-filter";
+/* ===== AI GENERATED CODE END ===== */
+
 export {default as MenuContainer} from "./menu/MenuContainer.vue";
 export {default as MenuItem} from "./menu/MenuItem.vue";
 export {default as Menu} from "./menu/Menu.vue";

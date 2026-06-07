@@ -62,6 +62,7 @@
         --color-surface-danger: var(--color-red-300);
 
         --color-border-default: var(--color-gray-700);
+        --color-border-active: var(--color-gray-1400);
         --color-outline-active: var(--color-gray-1400);
 
         --color-text-default: var(--color-gray-1400);
@@ -95,6 +96,7 @@
         --color-surface-danger: var(--color-red-150);
 
         --color-border-default: var(--color-gray-300);
+        --color-border-active: var(--color-gray-0);
         --color-outline-active: var(--color-gray-0);
 
         --color-text-default: var(--color-gray-0);
@@ -189,8 +191,8 @@
         --width-flashcard: 9rem;
         --height-flashcard: 13.5rem;
 
-        --width-deck: 20rem;
-        --height-deck: 30rem;
+        --width-deck: 21rem;
+        --height-deck: 32rem;
 
         --width-educational-resource: 19.5rem;
         --height-educational-resource: 25rem;
@@ -569,6 +571,10 @@ Utility classes used to quickly apply semantic tokens to the elements
 
 @utility border-default {
     border-color: var(--color-border-default);
+}
+
+@utility border-active {
+    border-color: var(--color-border-active);
 }
 
 @utility border-success {

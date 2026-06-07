@@ -51,7 +51,7 @@ export class DeckController {
   @HttpCode(200)
   @UseGuards(DeckOwnershipGuard)
   async update(
-    @Param("deckId", new ParseIntPipe()) deckId: number,
+    @Param("deckId", ParseIntPipe) deckId: number,
     @Body(new ZodValidationPipe(updateDeckSchema)) updateDeckDto: UpdateDeckDto,
   ) {
     return this.deckService.update(deckId, updateDeckDto);
@@ -60,7 +60,7 @@ export class DeckController {
   @Delete(":deckId")
   @HttpCode(204)
   @UseGuards(DeckOwnershipGuard)
-  async remove(@Param("deckId", new ParseIntPipe()) deckId: number) {
+  async remove(@Param("deckId", ParseIntPipe) deckId: number) {
     await this.deckService.remove(deckId);
   }
 
@@ -68,7 +68,7 @@ export class DeckController {
   @HttpCode(200)
   @UseInterceptors(FileInterceptor("file", { storage: memoryStorage() }))
   async uploadCover(
-    @Param("deckId", new ParseIntPipe()) deckId: number,
+    @Param("deckId", ParseIntPipe) deckId: number,
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.deckService.uploadCover(deckId, file);
@@ -77,7 +77,7 @@ export class DeckController {
   @Delete(":deckId/cover")
   @HttpCode(200)
   async removeCover(
-    @Param("deckId", new ParseIntPipe()) deckId: number
+    @Param("deckId", ParseIntPipe) deckId: number
   ) {
     return this.deckService.removeCover(deckId);
   }

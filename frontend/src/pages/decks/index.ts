@@ -3,3 +3,5 @@ export {default as Deck} from "./ui/Deck.vue";
 export {default as FlashcardsTab} from "./ui/tabs/FlashcardsTab.vue";
 export {default as DeckInfoTab} from "./ui/tabs/DeckInfoTab.vue";
 export {default as EducationalResourcesTab} from "./ui/tabs/EducationalResourcesTab.vue";
+export {default as TagsTab} from "./ui/tabs/TagsTab.vue";
+export {default as FeedbackTab} from "./ui/tabs/FeedbackTab.vue";

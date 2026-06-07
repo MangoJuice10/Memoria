@@ -35,7 +35,7 @@ watch(() => props.activeChat, () => {
 
 watch(() => [props.chatMessages, props.newChatMessageIsPending], () => {
   scrollToBottom();
-}, { deep: true });
+}, {deep: true});
 
 </script>
 
@@ -51,7 +51,7 @@ watch(() => [props.chatMessages, props.newChatMessageIsPending], () => {
                         opacity-70">
         <template #icon>
           <ChatIcon class="icon-dynamic-inverse
-                           w-13 h-13"/>
+                           w-10 h-10"/>
         </template>
         <template #label>
           <span class="font-semibold text-lg">
@@ -91,11 +91,11 @@ watch(() => [props.chatMessages, props.newChatMessageIsPending], () => {
            class="flex justify-center items-center
                   w-full h-full">
         <IconLabel class="gap-4
-                        w-3/4 h-3/4
-                        opacity-70">
+                          w-3/4 h-3/4
+                          opacity-70">
           <template #icon>
             <ChatIcon class="icon-dynamic-inverse
-                           min-w-10 min-h-10"/>
+                             w-10 h-10"/>
           </template>
           <template #label>
           <span class="font-semibold text-lg">

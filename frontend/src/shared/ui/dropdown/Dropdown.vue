@@ -2,11 +2,11 @@
 import {type ClassValue, computed, ref} from "vue";
 import {ChevronIcon, PinIcon} from "@/shared/ui/icons";
 
-type Side =
+export type Side =
     | "top"
     | "bottom";
 
-type Align =
+export type Align =
     | "left"
     | "center"
     | "right";
