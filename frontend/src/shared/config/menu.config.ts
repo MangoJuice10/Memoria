@@ -72,6 +72,7 @@ export type MenuItem<ItemId extends string | number> = {
     isActive?: MenuItemIsActive;
     labelCode: MenuCode;
     labelOptions?: Record<string, unknown>;
+    imageUrl?: string;
     icon?: Component;
 }
 

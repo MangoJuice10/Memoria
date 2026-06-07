@@ -11,7 +11,7 @@ import {useSidebarStore} from "@/shared/model";
 import {Resizable} from "@/shared/ui";
 import {SIDEBAR_GUEST_LAYOUT} from "../config/sidebar-layout.config.ts";
 import {decksApi} from "@/entities/deck";
-import {useMenu} from "@/shared/lib";
+import {asset, useMenu} from "@/shared/lib";
 import {useQuery} from "@tanstack/vue-query";
 import {decksQueryKeys} from "@/entities/deck";
 import {
@@ -50,7 +50,7 @@ const menuSectionViews = computed(() => {
       routeParams: {
         deckId: String(deck.id)
       },
-      icon: SpacedRepetitionFeatureIcon
+      imageUrl: deck.coverUrl ?? asset("filler/noDeckCover.png")
     })),
   };
   return [decksSectionView];

@@ -17,8 +17,8 @@ const {isNavigationLinkActive} = useNavigation();
                     :menu-item-view
                     icon-label-classes="justify-start"
                     iconClasses="icon-static
-                                 w-7.5"
-                    label-classes="truncate"
+                                 w-10 h-10"
+                    label-classes="text-base truncate"
                     class="grow-0 w-full font-semibold px-5 py-2
                            border rounded-xl border-transparent"
                     :class="isNavigationLinkActive(menuItemView)

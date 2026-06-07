@@ -13,6 +13,13 @@ export function createUpdateDeckMutation() {
         }) => update(deckId, updateDeckDto),
         onSuccess: async (updatedDeck, variables) => {
             await queryClient.setQueryData(
+                decksQueryKeys.all,
+                (old: DeckResponseDto[] | undefined) => {
+                    if (!old) return old;
+                    return old.map((deck) => deck.id === updatedDeck.id ? updatedDeck : deck);
+                }
+            );
+            await queryClient.setQueryData(
                 decksQueryKeys.byId(variables.deckId),
                 (old: DeckResponseDto | undefined) => {
                     if (!old) return old;
