@@ -41,14 +41,14 @@ const deleteChatMutation = createDeleteChatMutation();
                   error-classes="w-3/5 h-3/5"
                   error-label-classes="text-sm">
         <div class="flex flex-col divide-y divide-default
-                          max-h-[50vh] border rounded-2xl border-default overflow-y-auto
-                          text-base
-                          bg-tertiary">
+                    max-h-[50vh] border rounded-2xl border-default overflow-y-auto
+                    text-base
+                    bg-tertiary">
           <button class="shrink-0
                          h-15 px-5 py-3 text-left
                          hover:bg-hover transition-colors"
                   @click="$emit('create:chat')">
-            <IconLabel>
+            <IconLabel class="gap-2.5">
               <template #icon>
                 <AddIcon class="w-7 h-7"/>
               </template>
@@ -62,7 +62,7 @@ const deleteChatMutation = createDeleteChatMutation();
           <button v-for="chat in chats"
                   :key="chat.id"
                   class="shrink-0
-                         flex justify-between items-center
+                         flex justify-between items-center gap-10
                          h-15 px-5 py-3 text-left
                          truncate
                          hover:bg-hover transition-colors"

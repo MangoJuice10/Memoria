@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import {createReviewMutation} from "@/pages/review/api/mutations/review.mutation";
 import {computed, ref} from "vue";
-import {flashcardsQueryKeys, type FlashcardResponseDto} from "@/entities/flashcard";
-import {reviewFlashcard} from "../api/review-flashcard";
-import {type ReviewRating} from "../model/review-rating.dto";
+import {useI18n} from "vue-i18n";
+import type {FlashcardResponseDto} from "@/entities/flashcard";
+import type {ReviewRating} from "../model/review.dto";
+import type {DeckResponseDto} from "@/entities/deck";
 import FlashcardSide from "./FlashcardSide.vue";
 import FlashcardControls from "./FlashcardControls.vue";
 import RatingControls from "./RatingControls.vue";
-import type {DeckResponseDto} from "@/entities/deck";
-import {queryClient} from "@/shared/api/query-client.ts";
-import {useI18n} from "vue-i18n";
 
 defineOptions({
   inheritAttrs: false,
@@ -24,12 +23,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "rated", flashcardId: number): void;
+  (e: "rated", flashcard: FlashcardResponseDto): void;
   (e: "previous"): void;
   (e: "next"): void;
 }>();
 
 const {t} = useI18n();
+
+const review = createReviewMutation();
 
 const isFlipped = ref(false);
 
@@ -41,14 +42,15 @@ function handleFlip() {
 }
 
 async function handleRatingChange(rating: ReviewRating) {
-  await reviewFlashcard(props.deck.id, props.flashcard.id, {
-    rating
+  const reviewedFlashcard = await review.mutateAsync({
+    deckId: props.deck.id,
+    flashcardId: props.flashcard.id,
+    reviewDto: {
+      rating
+    }
   });
   isFlipped.value = false;
-  await queryClient.invalidateQueries({
-    queryKey: flashcardsQueryKeys.byDeck(props.deck.id)
-  });
-  emit("rated", props.flashcard.id);
+  emit("rated", reviewedFlashcard);
 }
 </script>
 

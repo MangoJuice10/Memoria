@@ -4,6 +4,6 @@ export type ReviewRating =
     | "GOOD"
     | "PERFECT"
 
-export type ReviewRatingDto = {
+export type ReviewDto = {
     rating: ReviewRating;
 }

@@ -1,11 +1,11 @@
-import {computed, type Ref, ref, watch} from "vue";
+import {computed, type MaybeRefOrGetter, ref, toValue, watch} from "vue";
 import type {FlashcardResponseDto} from "@/entities/flashcard";
 
-export function useReview(flashcardsSource: Ref<FlashcardResponseDto[] | undefined>) {
+export function useReview(flashcardsSource: MaybeRefOrGetter<FlashcardResponseDto[] | undefined>) {
     const flashcards = ref<FlashcardResponseDto[]>([]);
     const currentIdx = ref(0);
 
-    watch(flashcardsSource, initialFlashcards => {
+    watch(() => toValue(flashcardsSource), initialFlashcards => {
         flashcards.value = initialFlashcards ? [...initialFlashcards] : [];
         currentIdx.value = 0;
     }, {immediate: true});
@@ -23,11 +23,17 @@ export function useReview(flashcardsSource: Ref<FlashcardResponseDto[] | undefin
         if (!isLast.value) currentIdx.value++;
     };
 
-    const markRated = (flashcardId: number) => {
-        const flashcardIdx = flashcards.value.findIndex(flashcard => flashcard.id === flashcardId);
+    const assessReviewedFlashcard = (reviewedFlashcard: FlashcardResponseDto) => {
+        const flashcardIdx = flashcards.value.findIndex(flashcard => flashcard.id === reviewedFlashcard.id);
         if (flashcardIdx === -1) return;
 
         flashcards.value.splice(flashcardIdx, 1);
+
+        const now = new Date();
+        const dueAt = new Date(reviewedFlashcard.dueAt);
+        const isReviewedFlashcardDue = dueAt <= now;
+
+        if (isReviewedFlashcardDue) flashcards.value.push(reviewedFlashcard);
 
         if (currentIdx.value >= flashcards.value.length) currentIdx.value = Math.max(0, flashcards.value.length - 1);
     };
@@ -41,6 +47,6 @@ export function useReview(flashcardsSource: Ref<FlashcardResponseDto[] | undefin
         isLast,
         previous,
         next,
-        markRated
+        assessReviewedFlashcard
     };
 }

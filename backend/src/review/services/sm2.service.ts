@@ -16,7 +16,11 @@ export type FlashcardSchedulingState = {
 
 @Injectable()
 export class Sm2Service {
-  schedule(flashcard: FlashcardSchedulingState, rating: ReviewRating, now: Date): FlashcardSchedulingState {
+  schedule(
+    flashcard: FlashcardSchedulingState,
+    rating: ReviewRating,
+    now: Date,
+  ): FlashcardSchedulingState {
     const quality = REVIEW_RATING_TO_QUALITY[rating];
 
     const newEaseFactor = this.computeEaseFactor(flashcard.easeFactor, quality);
@@ -24,9 +28,17 @@ export class Sm2Service {
     if (quality < 3)
       return {
         repetitions: 0,
-        intervalDays: FIRST_INTERVAL_DAYS,
+        intervalDays: 0,
         easeFactor: newEaseFactor,
-        dueAt: this.addDays(now, FIRST_INTERVAL_DAYS),
+        dueAt: now,
+      };
+
+    if (quality === 3)
+      return {
+        repetitions: flashcard.repetitions,
+        intervalDays: 0,
+        easeFactor: newEaseFactor,
+        dueAt: now,
       };
 
     if (flashcard.repetitions === 0)

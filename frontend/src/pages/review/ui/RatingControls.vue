@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {ReviewRating} from "../model/review-rating.dto";
+import type {ReviewRating} from "src/pages/review/model/review.dto";
 import {Button} from "@/shared/ui";
 
 defineEmits<{
