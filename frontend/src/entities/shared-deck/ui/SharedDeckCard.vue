@@ -110,13 +110,19 @@ function handleAddToCollection() {
                px-8 py-5 border-t-2 border-default
                bg-linear-to-r from-(--color-secondary)/5 to-(--color-primary)"
         @click.stop="handleAddToCollection">
+      <!--REFACTORED-->
       <Button v-if="!isOwner"
               :enabled="!isPending"
               class="w-full">
-        <span v-if="isPending" class="flex items-center justify-center gap-2">
-          <Loader class="w-4! h-4! border-2"/>
-          <span class="font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
-        </span>
+        <IconLabel v-if="isPending" class="gap-3">
+          <template #icon>
+            <Loader :size-rem="1.25"
+                    :border-width-rem="0.125"/>
+          </template>
+          <template #label>
+            <span class="font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
+          </template>
+        </IconLabel>
         <IconLabel v-else
                    class="gap-2.5">
           <template #icon>
@@ -130,6 +136,7 @@ function handleAddToCollection() {
           </template>
         </IconLabel>
       </Button>
+      <!--REFACTORED-->
       <div v-else class="text-sm font-semibold text-muted flex items-center gap-2">
         <CheckIcon class="w-5 h-5"/>
         {{ t(codeToKey(codes.SHARED_DECK_YOUR_DECK)) }}

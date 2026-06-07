@@ -7,7 +7,7 @@ import {useQuery} from "@tanstack/vue-query";
 import {storeToRefs} from "pinia";
 import {queryClient} from "@/shared/api";
 import {getIdRouteParam} from "@/app/router";
-import {ArrowIcon, Button, FlashcardsIcon, IconLabel, Loader, QueryState, StarIcon} from "@/shared/ui";
+import {ArrowIcon, Button, FlashcardsIcon, IconLabel, Loader, PlusIcon, QueryState, StarIcon} from "@/shared/ui";
 import {useViewerStore} from "@/entities/viewer";
 import {sharedDecksApi, sharedDecksQueryKeys} from "@/entities/shared-deck";
 import {createCopySharedDeckMutation} from "@/entities/shared-deck/api/mutations/copy-shared-deck.mutation";
@@ -103,19 +103,6 @@ function handleAddToCollection() {
                 <h1 class="text-4xl font-bold tracking-tight leading-tight mb-2">{{ deck.name }}</h1>
                 <p class="text-lg text-muted leading-relaxed">{{ deck.description }}</p>
               </div>
-              <Button
-                  v-if="!isOwner"
-                  :enabled="!isPending"
-                  class="shrink-0 shadow-lg hover:shadow-xl transition-all px-6 py-3"
-                  @click="handleAddToCollection">
-                <span v-if="isPending" class="flex items-center gap-2.5">
-                  <Loader class="w-5 h-5 border-2"/>
-                  <span class="font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
-                </span>
-                <span v-else class="flex items-center gap-2.5 font-semibold">
-                  {{ t(codeToKey(codes.SHARED_DECK_ADD_TO_COLLECTION)) }}
-                </span>
-              </Button>
             </div>
 
             <!-- Tags with better styling -->
@@ -124,7 +111,8 @@ function handleAddToCollection() {
             </div>
 
             <!-- Enhanced stats row -->
-            <div class="flex flex-wrap items-center gap-x-8 gap-y-3 pt-6 border-t-2 border-default">
+            <div class="flex justify-between items-center gap-x-8 gap-y-3 pt-6 border-t-2 border-default">
+              <div class="flex items-center gap-10">
               <span class="inline-flex items-center gap-2 font-bold text-base">
                 <div class="p-2 rounded-lg bg-secondary/10">
                   <span class="flex items-center gap-1"
@@ -142,7 +130,7 @@ function handleAddToCollection() {
                 <span v-else class="font-normal text-muted">{{ t(codeToKey(codes.SHARED_DECK_NO_RATING)) }}</span>
               </span>
 
-              <span class="inline-flex items-center gap-2 text-base font-semibold text-muted">
+                <span class="inline-flex items-center gap-2 text-base font-semibold text-muted">
                 <IconLabel class="gap-2.5">
                   <template #icon>
                     <FlashcardsIcon class="w-6 h-6"/>
@@ -155,11 +143,40 @@ function handleAddToCollection() {
                 </IconLabel>
               </span>
 
-              <div class="inline-flex items-center gap-2 text-base font-semibold text-muted">
-                <Avatar :src="deck.ownerAvatarUrl ?? asset('filler/noAvatar.png')"
-                        class="w-8 h-8 rounded-full overflow-hidden border-2 border-default bg-tertiary"/>
-                {{ deck.ownerUsername }}
+                <div class="inline-flex items-center gap-2 text-base font-semibold text-muted">
+                  <Avatar :src="deck.ownerAvatarUrl ?? asset('filler/noAvatar.png')"
+                          class="w-8 h-8 rounded-full overflow-hidden border-2 border-default bg-tertiary"/>
+                  {{ deck.ownerUsername }}
+                </div>
               </div>
+
+              <Button
+                  v-if="!isOwner"
+                  :enabled="!isPending"
+                  class="shrink-0 shadow-lg hover:shadow-xl transition-all px-6 py-3"
+                  @click="handleAddToCollection">
+                <IconLabel v-if="isPending" class="gap-3">
+                  <template #icon>
+                    <Loader :size-rem="1.5"
+                            :border-width-rem="0.2"/>
+                  </template>
+                  <template #label>
+                    <span class="text-base font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
+                  </template>
+                </IconLabel>
+                <IconLabel v-else
+                           class="gap-2.5">
+                  <template #icon>
+                    <PlusIcon class="icon-static-inverse
+                                     w-5 h-5"/>
+                  </template>
+                  <template #label>
+                    <span class="font-semibold text-base">
+                      {{ t(codeToKey(codes.SHARED_DECK_ADD_TO_COLLECTION)) }}
+                    </span>
+                  </template>
+                </IconLabel>
+              </Button>
             </div>
           </div>
         </section>
