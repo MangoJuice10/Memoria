@@ -7,7 +7,7 @@ import {
   SECOND_INTERVAL_DAYS,
 } from "src/review/constants/spaced-repetition.constants";
 
-export type FlashcardSchedulingState = {
+export type SchedulingState = {
   repetitions: number;
   intervalDays: number;
   easeFactor: number;
@@ -17,13 +17,11 @@ export type FlashcardSchedulingState = {
 @Injectable()
 export class Sm2Service {
   schedule(
-    flashcard: FlashcardSchedulingState,
-    rating: ReviewRating,
+    schedulingState: SchedulingState,
+    quality: number,
     now: Date,
-  ): FlashcardSchedulingState {
-    const quality = REVIEW_RATING_TO_QUALITY[rating];
-
-    const newEaseFactor = this.computeEaseFactor(flashcard.easeFactor, quality);
+  ): SchedulingState {
+    const newEaseFactor = this.computeEaseFactor(schedulingState.easeFactor, quality);
 
     if (quality < 3)
       return {
@@ -33,7 +31,7 @@ export class Sm2Service {
         dueAt: now,
       };
 
-    if (flashcard.repetitions === 0)
+    if (schedulingState.repetitions === 0)
       return {
         repetitions: 1,
         intervalDays: FIRST_INTERVAL_DAYS,
@@ -41,7 +39,7 @@ export class Sm2Service {
         dueAt: this.addDays(now, FIRST_INTERVAL_DAYS),
       };
 
-    if (flashcard.repetitions === 1)
+    if (schedulingState.repetitions === 1)
       return {
         repetitions: 2,
         intervalDays: SECOND_INTERVAL_DAYS,
@@ -49,10 +47,10 @@ export class Sm2Service {
         dueAt: this.addDays(now, SECOND_INTERVAL_DAYS),
       };
 
-    const newIntervalDays = Math.ceil(flashcard.intervalDays * newEaseFactor);
+    const newIntervalDays = Math.ceil(schedulingState.intervalDays * newEaseFactor);
 
     return {
-      repetitions: flashcard.repetitions + 1,
+      repetitions: schedulingState.repetitions + 1,
       intervalDays: newIntervalDays,
       easeFactor: newEaseFactor,
       dueAt: this.addDays(now, newIntervalDays),

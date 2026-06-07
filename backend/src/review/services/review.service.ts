@@ -3,6 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { Sm2Service } from "src/review/services/sm2.service";
 import { ReviewDto } from "src/review/schemas";
 import { FlashcardNotFoundError } from "src/flashcard/errors";
+import { REVIEW_RATING_TO_QUALITY } from "src/review/constants/spaced-repetition.constants";
 
 @Injectable()
 export class ReviewService {
@@ -35,7 +36,7 @@ export class ReviewService {
     });
   }
 
-  async review(flashcardId: number, { rating }: ReviewDto) {
+  async review(flashcardId: number, { rating, startedAt }: ReviewDto) {
     const flashcard = await this.prismaService.flashcard.findUnique({
       where: {
         id: flashcardId,
@@ -45,16 +46,27 @@ export class ReviewService {
 
     const now = new Date();
 
-    const newReviewSchedulingState = this.sm2Service.schedule(
+    const oldRepetitions = flashcard.repetitions;
+    const oldIntervalDays = flashcard.intervalDays;
+    const oldEaseFactor = flashcard.easeFactor;
+
+    const quality = REVIEW_RATING_TO_QUALITY[rating];
+
+    const newSchedulingState = this.sm2Service.schedule(
       {
         repetitions: flashcard.repetitions,
         intervalDays: flashcard.intervalDays,
         easeFactor: flashcard.easeFactor,
         dueAt: flashcard.dueAt,
       },
-      rating,
+      quality,
       now,
     );
+
+    const oldLapses = flashcard.lapses;
+    const isLapse = quality < 3 && oldRepetitions >= 3;
+
+    const newLapses = isLapse ? oldLapses + 1 : oldLapses;
 
     return this.prismaService.$transaction(async (tx) => {
 
@@ -62,14 +74,20 @@ export class ReviewService {
         where: {
           id: flashcardId,
         },
-        data: newReviewSchedulingState,
+        data: {
+          ...newSchedulingState,
+          lapses: newLapses,
+        },
       });
 
       await tx.review.create({
         data: {
           flashcardId,
           rating,
-          reviewedAt: now,
+          startedAt: new Date(startedAt),
+          endedAt: now,
+          oldIntervalDays,
+          oldEaseFactor,
         },
       });
 

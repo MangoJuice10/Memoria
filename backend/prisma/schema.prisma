@@ -55,6 +55,7 @@ model Flashcard {
   back         String
   deckId       Int      @map("deck_id")
   repetitions  Int      @default(0)
+  lapses       Int      @default(0)
   intervalDays Int      @default(0) @map("interval_days")
   easeFactor   Float    @default(2.5) @map("ease_factor")
   dueAt        DateTime @default(now()) @map("due_at")
@@ -75,12 +76,14 @@ enum ReviewRating {
 }
 
 model Review {
-  id          Int          @id @default(autoincrement())
-  flashcardId Int          @map("flashcard_id")
-  rating      ReviewRating
-  reviewedAt  DateTime     @default(now()) @map("reviewed_at")
-
-  flashcard Flashcard @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  id              Int          @id @default(autoincrement())
+  flashcardId     Int          @map("flashcard_id")
+  rating          ReviewRating
+  startedAt       DateTime     @map("started_at")
+  endedAt         DateTime     @default(now()) @map("ended_at")
+  oldIntervalDays Int          @default(0) @map("old_interval_days")
+  oldEaseFactor   Float        @default(2.5) @map("old_ease_factor")
+  flashcard       Flashcard    @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("reviews")
 }
