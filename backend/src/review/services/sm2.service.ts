@@ -33,14 +33,6 @@ export class Sm2Service {
         dueAt: now,
       };
 
-    if (quality === 3)
-      return {
-        repetitions: flashcard.repetitions,
-        intervalDays: 0,
-        easeFactor: newEaseFactor,
-        dueAt: now,
-      };
-
     if (flashcard.repetitions === 0)
       return {
         repetitions: 1,
