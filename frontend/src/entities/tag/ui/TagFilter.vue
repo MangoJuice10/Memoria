@@ -4,6 +4,11 @@ import {computed} from "vue";
 import type {TagResponseDto} from "../model/tag-response.dto";
 import {IconLabel, TagIcon} from "@/shared/ui";
 import TagContainer from "./TagContainer.vue";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+
+const {t} = useI18n();
 
 const props = defineProps<{
   tags: TagResponseDto[];
@@ -32,7 +37,7 @@ function isTagSelected(tagId: number): boolean {
         </template>
         <template #label>
           <span class="font-semibold text-muted text-base">
-            Filter by Tags:
+            {{ t(codeToKey(codes.SHARED_DECK_FILTER_BY_TAGS)) }}
           </span>
         </template>
       </IconLabel>
@@ -51,7 +56,7 @@ function isTagSelected(tagId: number): boolean {
           class="text-base font-medium font-semibold transition-colors pl-1 hover:underline"
           @click="emit('clearFilters')"
       >
-        Clear filters
+        {{ t(codeToKey(codes.SHARED_DECK_CLEAR_FILTERS)) }}
       </button>
     </div>
   </div>

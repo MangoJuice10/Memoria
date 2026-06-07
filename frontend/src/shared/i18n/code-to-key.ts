@@ -154,6 +154,12 @@ const codesToKeys = {
     FLASHCARD_INTERVAL_DAYS: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.interval-days`,
     FLASHCARD_DUE_AT: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.due-at`,
     FLASHCARD_DEFAULT_DUE_AT: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.default_due_at`,
+    /* ===== AI GENERATED CODE START ===== */
+    FLASHCARD_REVIEW_COMPLETE_TITLE: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.review-complete-title`,
+    FLASHCARD_REVIEW_COMPLETE_MESSAGE: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.review-complete-message`,
+    FLASHCARD_REVIEW_COMPLETE_BACK_TO_DECK: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.review-complete-back-to-deck`,
+    FLASHCARD_REVIEW_COMPLETE_CONGRATS: `${baseResourceKey}.flashcard.${baseResourcePropertiesKey}.review-complete-congrats`,
+    /* ===== AI GENERATED CODE END ===== */
 
     DECK_RESOURCE_NAME: `${baseResourceKey}.deck.${baseResourceNameKey}`,
     DECK_NAME: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.name`,
@@ -166,12 +172,20 @@ const codesToKeys = {
     DECK_INFO: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.info`,
     DECK_FLASHCARDS: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.flashcards`,
     DECK_EDUCATIONAL_RESOURCES: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.educational_resources`,
+    /* ===== AI GENERATED CODE START ===== */
+    DECK_SEARCH_PLACEHOLDER: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.search-placeholder`,
+    DECK_PAGE_DESCRIPTION: `${baseResourceKey}.deck.${baseResourcePropertiesKey}.page-description`,
+    /* ===== AI GENERATED CODE END ===== */
 
     EDUCATIONAL_RESOURCE_RESOURCE_NAME: `${baseResourceKey}.educational_resource.${baseResourceNameKey}`,
     EDUCATIONAL_RESOURCE_NAME: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.name`,
     EDUCATIONAL_RESOURCE_DESCRIPTION: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.description`,
     EDUCATIONAL_RESOURCE_FILE: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.file`,
     EDUCATIONAL_RESOURCE_COVER: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.cover`,
+    /* ===== AI GENERATED CODE START ===== */
+    EDUCATIONAL_RESOURCE_SEARCH_PLACEHOLDER: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.search-placeholder`,
+    EDUCATIONAL_RESOURCE_PAGE_DESCRIPTION: `${baseResourceKey}.educational_resource.${baseResourcePropertiesKey}.page-description`,
+    /* ===== AI GENERATED CODE END ===== */
 
     CHAT_RESOURCE_NAME: `${baseResourceKey}.chat.${baseResourceNameKey}`,
     CHAT_TITLE: `${baseResourceKey}.chat.${baseResourcePropertiesKey}.title`,
@@ -180,6 +194,45 @@ const codesToKeys = {
 
     CHAT_MESSAGE_RESOURCE_NAME: `${baseResourceKey}.chat_message.${baseResourceNameKey}`,
     CHAT_MESSAGE_CONTENT: `${baseResourceKey}.chat_message.${baseResourcePropertiesKey}.content`,
+
+    /* ===== AI GENERATED CODE START ===== */
+    SHARED_DECK_RESOURCE_NAME: `${baseResourceKey}.shared_deck.${baseResourceNameKey}`,
+    SHARED_DECK_NAME: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.name`,
+    SHARED_DECK_DESCRIPTION: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.description`,
+    SHARED_DECK_OWNER: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.owner`,
+    SHARED_DECK_RATING: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.rating`,
+    SHARED_DECK_NO_RATING: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-rating`,
+    SHARED_DECK_FLASHCARDS_COUNT: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.flashcards-count`,
+    SHARED_DECK_REVIEWS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.reviews`,
+    SHARED_DECK_NO_REVIEWS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-reviews`,
+    SHARED_DECK_LEAVE_REVIEW: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.leave-review`,
+    SHARED_DECK_ADD_TO_COLLECTION: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.add-to-collection`,
+    SHARED_DECK_ADDING: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.adding`,
+    SHARED_DECK_NO_DECKS_FOUND: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-decks-found`,
+    SHARED_DECK_NO_DECKS_WITH_TAGS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-decks-with-tags`,
+    SHARED_DECK_NO_DECKS_WITH_RATING: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-decks-with-rating`,
+    SHARED_DECK_NO_DECKS_YET: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-decks-yet`,
+    SHARED_DECK_SEARCH_PLACEHOLDER: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.search-placeholder`,
+    SHARED_DECK_FILTER_BY_RATING: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.filter-by-rating`,
+    SHARED_DECK_FILTER_BY_TAGS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.filter-by-tags`,
+    SHARED_DECK_CLEAR_FILTERS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.clear-filters`,
+    SHARED_DECK_PAGE_TITLE: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.page-title`,
+    SHARED_DECK_PAGE_DESCRIPTION: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.page-description`,
+    SHARED_DECK_FLASHCARDS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.flashcards`,
+    SHARED_DECK_NO_FLASHCARDS: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.no-flashcards`,
+    SHARED_DECK_SCROLL_HINT: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.scroll-hint`,
+    SHARED_DECK_BE_FIRST_REVIEWER: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.be-first-reviewer`,
+    SHARED_DECK_YOUR_DECK: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.your-deck`,
+    SHARED_DECK_RATING_LABEL: `${baseResourceKey}.shared_deck.${baseResourcePropertiesKey}.rating-label`,
+
+    FEEDBACK_RESOURCE_NAME: `${baseResourceKey}.feedback.${baseResourceNameKey}`,
+    FEEDBACK_CONTENT: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.content`,
+    FEEDBACK_RATING: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.rating`,
+    FEEDBACK_RATING_REQUIRED: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.rating-required`,
+    FEEDBACK_CONTENT_PLACEHOLDER: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.content-placeholder`,
+    FEEDBACK_SUBMIT: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.submit`,
+    FEEDBACK_RATE_OUT_OF_5: `${baseResourceKey}.feedback.${baseResourcePropertiesKey}.rate-out-of-5`,
+    /* ===== AI GENERATED CODE END ===== */
 
     BAD_REQUEST: `${baseHttpExceptionErrorKey}.bad-request`,
     UNAUTHORIZED: `${baseHttpExceptionErrorKey}.unauthorized`,

@@ -9,8 +9,14 @@ import {sharedDecksApi, sharedDecksQueryKeys} from "@/entities/shared-deck";
 import SharedDeckCard from "@/entities/shared-deck/ui/SharedDeckCard.vue";
 /* ===== AI GENERATED CODE START ===== */
 import {TagFilter} from "@/entities/tag";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
 /* ===== AI GENERATED CODE END ===== */
 
+/* ===== AI GENERATED CODE START ===== */
+const {t} = useI18n();
+/* ===== AI GENERATED CODE END ===== */
 const route = useRoute();
 const router = useRouter();
 
@@ -114,16 +120,16 @@ function navigateToDeck(deckId: number) {
               <SharedDecksIntroductionIcon class="icon-dynamic w-12 h-12"/>
             </div>
             <div>
-              <h1 class="text-3xl font-bold tracking-tight">Shared Decks</h1>
+              <h1 class="text-3xl font-bold tracking-tight">{{ t(codeToKey(codes.SHARED_DECK_PAGE_TITLE)) }}</h1>
               <p class="mt-2 text-base text-muted leading-relaxed">
-                Discover and explore flashcard decks created by the community
+                {{ t(codeToKey(codes.SHARED_DECK_PAGE_DESCRIPTION)) }}
               </p>
             </div>
           </div>
 
           <!-- ===== AI GENERATED CODE START ===== -->
           <!-- Search bar -->
-          <Searchbar v-model="searchQuery" placeholder="Search decks by name or description..."/>
+          <Searchbar v-model="searchQuery" :placeholder="t(codeToKey(codes.SHARED_DECK_SEARCH_PLACEHOLDER))"/>
           <!-- ===== AI GENERATED CODE END ===== -->
 
           <!-- ===== AI GENERATED CODE START ===== -->
@@ -158,14 +164,14 @@ function navigateToDeck(deckId: number) {
             <SharedDecksIntroductionIcon class="icon-static w-24"/>
           </div>
           <div class="max-w-md">
-            <h2 class="text-2xl font-bold mb-2">No decks found</h2>
+            <h2 class="text-2xl font-bold mb-2">{{ t(codeToKey(codes.SHARED_DECK_NO_DECKS_FOUND)) }}</h2>
             <p class="text-base text-muted leading-relaxed">
               {{
                 selectedTagIds.size > 0
-                    ? "No decks match the selected tags. Try adjusting your filters."
+                    ? t(codeToKey(codes.SHARED_DECK_NO_DECKS_WITH_TAGS))
                     : minRating
-                        ? "No decks match the selected rating. Try adjusting your filter or browse all decks."
-                        : "No public decks have been shared yet. Be the first to share your knowledge!"
+                        ? t(codeToKey(codes.SHARED_DECK_NO_DECKS_WITH_RATING))
+                        : t(codeToKey(codes.SHARED_DECK_NO_DECKS_YET))
               }}
             </p>
           </div>

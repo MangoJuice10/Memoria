@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="23.767" height="23.767" viewBox="0 0 17.825 17.825">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.825 17.825">
     <g style="stroke:var(--color-icon-default);stroke-width:2.25;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers">
       <g stroke="none" style="opacity:1">
         <path

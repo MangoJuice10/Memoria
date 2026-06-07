@@ -7,35 +7,19 @@ import {CreateDeck} from "@/entities/deck";
 /* ===== AI GENERATED CODE START ===== */
 import {ref, computed} from "vue";
 import {TagFilter} from "@/entities/tag";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+/* ===== AI GENERATED CODE END ===== */
+
+/* ===== AI GENERATED CODE START ===== */
+const {t} = useI18n();
 /* ===== AI GENERATED CODE END ===== */
 
 const {data, isLoading, error} = useQuery({
   queryKey: decksQueryKeys.all,
   queryFn: () => decksApi.findAll()
 });
-
-/* ===== AI GENERATED CODE START ===== */
-// Debug: Log fetched deck data
-import {watchEffect} from "vue";
-
-if (import.meta.env.DEV) {
-  watchEffect(() => {
-    if (data.value) {
-      console.group("🔍 Decks.vue Debug");
-      console.log("Full fetched data:", data.value);
-      console.log("Number of decks:", data.value.length);
-      data.value.forEach((deck, index) => {
-        console.log(`Deck ${index} (${deck.name}):`, {
-          id: deck.id,
-          tags: deck.tags,
-          tagsCount: deck.tags?.length ?? "undefined"
-        });
-      });
-      console.groupEnd();
-    }
-  });
-}
-/* ===== AI GENERATED CODE END ===== */
 
 /* ===== AI GENERATED CODE START ===== */
 const searchQuery = ref("");
@@ -114,15 +98,15 @@ function clearTagFilters() {
               <DecksIntroductionIcon class="icon-static w-12"/>
             </div>
             <div>
-            <h1 class="text-3xl font-bold tracking-tight">My Decks</h1>
+            <h1 class="text-3xl font-bold tracking-tight">{{ t(codeToKey(codes.NAVBAR_ITEM_DECKS)) }}</h1>
             <p class="mt-2 text-base text-muted leading-relaxed">
-              Manage and organize your flashcard decks
+              {{ t(codeToKey(codes.DECK_PAGE_DESCRIPTION)) }}
             </p>
             </div>
           </div>
 
           <!-- Search bar -->
-          <Searchbar v-model="searchQuery" placeholder="Search decks by name or description..."/>
+          <Searchbar v-model="searchQuery" :placeholder="t(codeToKey(codes.DECK_SEARCH_PLACEHOLDER))"/>
 
           <!-- ===== AI GENERATED CODE START ===== -->
           <!-- Tag filter section -->

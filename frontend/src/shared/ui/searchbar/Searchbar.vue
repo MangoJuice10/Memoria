@@ -13,7 +13,7 @@ const modelValue = defineModel();
     <!--TODO-->
     <input v-model="modelValue"
            type="text"
-           placeholder="Search..."
+           :placeholder="$t('actions.search')"
            class="grow
                   text-base
                   outline-none">

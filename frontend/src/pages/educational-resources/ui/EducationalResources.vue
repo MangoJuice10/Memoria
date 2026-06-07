@@ -1,6 +1,9 @@
 <script setup lang="ts">
 /* ===== AI GENERATED CODE START ===== */
 import {ref, computed} from "vue";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
 /* ===== AI GENERATED CODE END ===== */
 import {QueryState, Searchbar} from "@/shared/ui";
 import {CreateEducationalResource} from "@/entities/educational-resource";
@@ -10,6 +13,7 @@ import {
 } from "@/entities/educational-resource/api/queries/create-find-all-educational-resources.query.ts";
 /* ===== AI GENERATED CODE START ===== */
 import {EducationalResourcesIntroductionIcon} from "@/shared/ui";
+const {t} = useI18n();
 /* ===== AI GENERATED CODE END ===== */
 
 const findAllEducationalResourcesQuery = createFindAllEducationalResourcesQuery();
@@ -48,15 +52,15 @@ const filteredResources = computed(() => {
               <EducationalResourcesIntroductionIcon class="icon-static w-12"/>
             </div>
             <div>
-              <h1 class="text-3xl font-bold tracking-tight">My Resources</h1>
+              <h1 class="text-3xl font-bold tracking-tight">{{ t(codeToKey(codes.NAVBAR_ITEM_EDUCATIONAL_RESOURCES)) }}</h1>
               <p class="mt-2 text-base text-muted leading-relaxed">
-                Manage and organize your educational resources
+                {{ t(codeToKey(codes.EDUCATIONAL_RESOURCE_PAGE_DESCRIPTION)) }}
               </p>
             </div>
           </div>
 
           <!-- Search bar -->
-          <Searchbar v-model="searchQuery" placeholder="Search resources by name, description, or filename..."/>
+          <Searchbar v-model="searchQuery" :placeholder="t(codeToKey(codes.EDUCATIONAL_RESOURCE_SEARCH_PLACEHOLDER))"/>
         </div>
       </div>
     </section>

@@ -7,6 +7,13 @@ import {TagContainer} from "@/entities/tag";
 import {createCopySharedDeckMutation} from "../api/mutations/copy-shared-deck.mutation";
 import {asset} from "@/shared/lib";
 import type {SharedDeckResponseDto} from "../model/shared-deck-response.dto";
+/* ===== AI GENERATED CODE START ===== */
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+
+const {t} = useI18n();
+/* ===== AI GENERATED CODE END ===== */
 
 const props = defineProps<{
   deck: SharedDeckResponseDto;
@@ -108,7 +115,7 @@ function handleAddToCollection() {
               class="w-full">
         <span v-if="isPending" class="flex items-center justify-center gap-2">
           <Loader class="w-4! h-4! border-2"/>
-          <span class="font-semibold">Adding...</span>
+          <span class="font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
         </span>
         <IconLabel v-else
                    class="gap-2.5">
@@ -118,14 +125,14 @@ function handleAddToCollection() {
           </template>
           <template #label>
             <span class="font-semibold">
-              Add to Collection
+              {{ t(codeToKey(codes.SHARED_DECK_ADD_TO_COLLECTION)) }}
             </span>
           </template>
         </IconLabel>
       </Button>
       <div v-else class="text-sm font-semibold text-muted flex items-center gap-2">
         <CheckIcon class="w-5 h-5"/>
-        Your Deck
+        {{ t(codeToKey(codes.SHARED_DECK_YOUR_DECK)) }}
       </div>
     </div>
     <!-- REFACTORING -->

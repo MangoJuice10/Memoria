@@ -6,6 +6,13 @@ import {createFeedbackSchema, type CreateFeedbackDto} from "../model/create-feed
 import {createCreateFeedbackMutation} from "../api/mutations/create-feedback.mutation";
 import axios from "axios";
 import type {ErrorResponse} from "@/shared/api";
+/* ===== AI GENERATED CODE START ===== */
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+
+const {t} = useI18n();
+/* ===== AI GENERATED CODE END ===== */
 
 const props = defineProps<{
   sharedDeckId: number;
@@ -76,7 +83,7 @@ function setRating(value: number) {
       <div class="flex flex-col gap-6">
         <!-- Star rating picker -->
         <div class="flex flex-col gap-2">
-          <span class="font-semibold mb-1">Rating</span>
+          <span class="font-semibold mb-1">{{ t(codeToKey(codes.FEEDBACK_RATING)) }}</span>
           <div
             class="flex items-center gap-2.5"
             @mouseleave="hoverRating = 0"
@@ -86,7 +93,7 @@ function setRating(value: number) {
               :key="star"
               type="button"
               class="transition-all duration-200 ease-out hover:scale-125 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 rounded-sm will-change-transform"
-              :aria-label="`Rate ${star} out of 5`"
+              :aria-label="t(codeToKey(codes.FEEDBACK_RATE_OUT_OF_5), {n: star})"
               @mouseenter="hoverRating = star"
               @click="setRating(star)"
             >
@@ -108,7 +115,7 @@ function setRating(value: number) {
             </span>
           </div>
           <p v-if="isFieldTouched('rating') && getError('rating')" class="text-sm text-error font-semibold">
-            Please select a rating.
+            {{ t(codeToKey(codes.FEEDBACK_RATING_REQUIRED)) }}
           </p>
         </div>
         
@@ -116,8 +123,8 @@ function setRating(value: number) {
           v-model="data.content"
           variant="textarea"
           id="feedback-content"
-          label="Content"
-          placeholder="Share your thoughts about this deck..."
+          :label="t(codeToKey(codes.FEEDBACK_CONTENT))"
+          :placeholder="t(codeToKey(codes.FEEDBACK_CONTENT_PLACEHOLDER))"
           :touched="isFieldTouched('content')"
           :error="getError('content')"
           @blur="clientValidate"
@@ -126,7 +133,7 @@ function setRating(value: number) {
     </template>
 
     <template #submit>
-      Submit review
+      {{ t(codeToKey(codes.FEEDBACK_SUBMIT)) }}
     </template>
   </Form>
 </template>

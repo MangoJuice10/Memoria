@@ -254,7 +254,11 @@
         "back": "Back side",
         "interval-days": "Interval {n} day | Interval {n} days",
         "due-at": "Review in {n} day | Review in {n} days",
-        "default_due_at": "No spaced repetition data yet"
+        "default_due_at": "No spaced repetition data yet",
+        "review-complete-title": "Review Complete!",
+        "review-complete-message": "Great work! You've reviewed all due flashcards for today.",
+        "review-complete-back-to-deck": "Back to Deck",
+        "review-complete-congrats": "Congratulations!"
       },
       "actions": {
         "create": {
@@ -339,7 +343,9 @@
         "flashcards-count": "{n} flashcard | {n} flashcards",
         "info": "Info",
         "flashcards": "Flashcards",
-        "educational_resources": "Educational Resources"
+        "educational_resources": "Educational Resources",
+        "search-placeholder": "Search decks by name or description...",
+        "page-description": "Manage and organize your flashcard decks"
       },
       "actions": {
         "create": {
@@ -390,7 +396,9 @@
         "name": "Name",
         "description": "Description",
         "file": "File",
-        "cover": "Cover"
+        "cover": "Cover",
+        "search-placeholder": "Search resources by name, description, or filename...",
+        "page-description": "Manage and organize your educational resources"
       },
       "actions": {
         "create": {
@@ -526,6 +534,49 @@
           "error": "Failed to delete message"
         }
       }
+    },
+    "shared_deck": {
+      "name": "Shared Deck",
+      "properties": {
+        "name": "Name",
+        "description": "Description",
+        "owner": "Owner",
+        "rating": "Rating",
+        "no-rating": "No ratings yet",
+        "flashcards-count": "{n} flashcard | {n} flashcards",
+        "reviews": "Reviews",
+        "no-reviews": "No reviews yet",
+        "leave-review": "Leave a review",
+        "add-to-collection": "Add to Collection",
+        "adding": "Adding...",
+        "no-decks-found": "No decks found",
+        "no-decks-with-tags": "No decks match the selected tags. Try adjusting your filters.",
+        "no-decks-with-rating": "No decks match the selected rating. Try adjusting your filter or browse all decks.",
+        "no-decks-yet": "No public decks have been shared yet. Be the first to share your knowledge!",
+        "search-placeholder": "Search decks by name or description...",
+        "filter-by-rating": "Filter by Rating:",
+        "filter-by-tags": "Filter by Tags:",
+        "clear-filters": "Clear filters",
+        "page-title": "Shared Decks",
+        "page-description": "Discover and explore flashcard decks created by the community",
+        "flashcards": "Flashcards",
+        "no-flashcards": "No flashcards yet",
+        "scroll-hint": "Scroll to see all flashcards",
+        "be-first-reviewer": "Be the first to leave a review for this deck.",
+        "your-deck": "Your Deck",
+        "rating-label": "Rating"
+      }
+    },
+    "feedback": {
+      "name": "Feedback",
+      "properties": {
+        "content": "Content",
+        "rating": "Rating",
+        "rating-required": "Please select a rating.",
+        "content-placeholder": "Share your thoughts about this deck...",
+        "submit": "Submit review",
+        "rate-out-of-5": "Rate {n} out of 5"
+      }
     }
   },
   "errors": {
@@ -582,7 +633,9 @@
       "good": "Good",
       "perfect": "Perfect"
     },
-    "study": "Start learning"
+    "study": "Start learning",
+    "search": "Search",
+    "back": "Back"
   },
   "deckEducationalResources": {
     "heading": "Educational resources for {deckName}",

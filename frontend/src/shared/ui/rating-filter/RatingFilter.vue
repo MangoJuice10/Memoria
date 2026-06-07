@@ -2,6 +2,11 @@
 <script setup lang="ts">
 import {IconLabel} from "@/shared/ui";
 import {StarIcon} from "../icons";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
+
+const {t} = useI18n();
 
 export interface RatingOption {
   label: string;
@@ -26,7 +31,7 @@ const emit = defineEmits<{
       </template>
       <template #label>
         <span class="text-base font-semibold text-muted mr-2">
-          Filter by Rating:
+          {{ t(codeToKey(codes.SHARED_DECK_FILTER_BY_RATING)) }}
         </span>
       </template>
     </IconLabel>

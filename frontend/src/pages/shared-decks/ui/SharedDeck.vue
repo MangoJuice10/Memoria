@@ -17,8 +17,14 @@ import FeedbackForm from "@/entities/feedback/ui/FeedbackForm.vue";
 import {useToastStore} from "@/shared/model";
 /* ===== AI GENERATED CODE START ===== */
 import {SharedFlashcardPreview} from "@/entities/shared-deck";
+import {useI18n} from "vue-i18n";
+import {codes} from "@/shared/config";
+import {codeToKey} from "@/shared/i18n";
 /* ===== AI GENERATED CODE END ===== */
 
+/* ===== AI GENERATED CODE START ===== */
+const {t} = useI18n();
+/* ===== AI GENERATED CODE END ===== */
 const route = useRoute();
 const router = useRouter();
 
@@ -62,7 +68,7 @@ const {mutate: copyDeck, isPending} = createCopySharedDeckMutation();
 function handleAddToCollection() {
   copyDeck(sharedDeckId, {
     onSuccess: (newDeck) => {
-      useToastStore().push("Deck added to your collection!", "success", "create");
+      useToastStore().push(t(codeToKey(codes.DECK_CREATE_SUCCESS)), "success", "create");
       router.push({
         name: "deck-flashcards",
         params: {...route.params, deckId: String(newDeck.id)},
@@ -104,11 +110,10 @@ function handleAddToCollection() {
                   @click="handleAddToCollection">
                 <span v-if="isPending" class="flex items-center gap-2.5">
                   <Loader class="w-5 h-5 border-2"/>
-                  <span class="font-semibold">Adding...</span>
+                  <span class="font-semibold">{{ t(codeToKey(codes.SHARED_DECK_ADDING)) }}</span>
                 </span>
                 <span v-else class="flex items-center gap-2.5 font-semibold">
-
-                  Add to Collection
+                  {{ t(codeToKey(codes.SHARED_DECK_ADD_TO_COLLECTION)) }}
                 </span>
               </Button>
             </div>
@@ -134,7 +139,7 @@ function handleAddToCollection() {
                   </span>
                 </div>
                 <span v-if="ratingDisplay" class="text-lg">{{ ratingDisplay }}</span>
-                <span v-else class="font-normal text-muted">No ratings yet</span>
+                <span v-else class="font-normal text-muted">{{ t(codeToKey(codes.SHARED_DECK_NO_RATING)) }}</span>
               </span>
 
               <span class="inline-flex items-center gap-2 text-base font-semibold text-muted">
@@ -144,7 +149,7 @@ function handleAddToCollection() {
                   </template>
                   <template #label>
                     <span>
-                      {{ deck.flashcardsCount }} flashcard{{ deck.flashcardsCount === 1 ? "" : "s" }}
+                      {{ t(codeToKey(codes.SHARED_DECK_FLASHCARDS_COUNT), {n: deck.flashcardsCount}) }}
                     </span>
                   </template>
                 </IconLabel>
@@ -162,7 +167,7 @@ function handleAddToCollection() {
         <!-- Flashcards section -->
         <section class="rounded-4xl border border-default bg-primary p-10 shadow-lg">
           <div class="flex items-center justify-between gap-4 mb-8">
-            <h2 class="text-xl font-semibold">Flashcards</h2>
+            <h2 class="text-xl font-semibold">{{ t(codeToKey(codes.SHARED_DECK_FLASHCARDS)) }}</h2>
             <span class="rounded-full border border-default bg-tertiary px-3 py-1 text-sm font-semibold">
               {{ deck.flashcards.length }}
             </span>
@@ -172,8 +177,8 @@ function handleAddToCollection() {
               v-if="deck.flashcards.length === 0"
               class="flex flex-col items-center gap-3 py-12 border border-dashed border-default rounded-3xl bg-tertiary text-center"
           >
-            <p class="text-base font-semibold">No flashcards yet</p>
-            <p class="text-sm text-muted">This deck doesn't have any flashcards.</p>
+            <p class="text-base font-semibold">{{ t(codeToKey(codes.SHARED_DECK_NO_FLASHCARDS)) }}</p>
+            <p class="text-sm text-muted">{{ t(codeToKey(codes.SHARED_DECK_NO_FLASHCARDS)) }}</p>
           </div>
 
           <!-- Horizontal scrolling carousel for flashcards -->
@@ -199,7 +204,7 @@ function handleAddToCollection() {
                                 rotate-180
                                 opacity-80"/>
               <span class="text-muted font-semibold">
-                {{ deck.flashcards.length > 3 ? "Scroll to see all flashcards" : "" }}
+                {{ deck.flashcards.length > 3 ? t(codeToKey(codes.SHARED_DECK_SCROLL_HINT)) : "" }}
               </span>
               <ArrowIcon class="w-6 h-6
                                 opacity-80"/>
@@ -214,7 +219,7 @@ function handleAddToCollection() {
                           text-base
                           bg-primary p-10 shadow-lg flex flex-col">
             <div class="flex items-center justify-between gap-4 mb-8">
-              <h2 class="text-xl font-semibold">Reviews</h2>
+              <h2 class="text-xl font-semibold">{{ t(codeToKey(codes.SHARED_DECK_REVIEWS)) }}</h2>
               <span class="rounded-full border border-default bg-tertiary px-3 py-1 text-sm font-semibold">
                 {{ deck.feedback.length }}
               </span>
@@ -223,8 +228,8 @@ function handleAddToCollection() {
             <div
                 v-if="deck.feedback.length === 0"
                 class="flex flex-col items-center gap-3 py-12 border border-dashed border-default rounded-3xl bg-tertiary text-center">
-              <p class="text-base font-semibold">No reviews yet</p>
-              <p class="text-sm text-muted">Be the first to leave a review for this deck.</p>
+              <p class="text-base font-semibold">{{ t(codeToKey(codes.SHARED_DECK_NO_REVIEWS)) }}</p>
+              <p class="text-sm text-muted">{{ t(codeToKey(codes.SHARED_DECK_BE_FIRST_REVIEWER)) }}</p>
             </div>
 
             <div v-else class="flex-1 overflow-y-auto max-h-[600px]">
@@ -238,7 +243,7 @@ function handleAddToCollection() {
 
           <!-- Leave a review (non-owners only) -->
           <section v-if="!isOwner" class="rounded-4xl border border-default bg-primary p-10 shadow-lg">
-            <h2 class="text-xl font-semibold">Leave a review</h2>
+            <h2 class="text-xl font-semibold">{{ t(codeToKey(codes.SHARED_DECK_LEAVE_REVIEW)) }}</h2>
             <FeedbackForm
                 :shared-deck-id="sharedDeckId"
                 @submitted="onFeedbackSubmitted"

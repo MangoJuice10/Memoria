@@ -4,7 +4,11 @@ import {
     deckPropertyCodes,
     educationalResourcePropertyCodes,
     chatPropertyCodes,
-    chatMessagePropertyCodes
+    chatMessagePropertyCodes,
+    /* ===== AI GENERATED CODE START ===== */
+    sharedDeckPropertyCodes,
+    feedbackPropertyCodes,
+    /* ===== AI GENERATED CODE END ===== */
 } from "./resource-property-codes.config";
 import {
     flashcardNameActionPropertyCodes,
@@ -18,6 +22,10 @@ export const resourceCodes = {
     ...educationalResourcePropertyCodes,
     ...chatPropertyCodes,
     ...chatMessagePropertyCodes,
+    /* ===== AI GENERATED CODE START ===== */
+    ...sharedDeckPropertyCodes,
+    ...feedbackPropertyCodes,
+    /* ===== AI GENERATED CODE END ===== */
     ...resourceNameActionPropertyCodes,
     ...flashcardNameActionPropertyCodes,
 };
