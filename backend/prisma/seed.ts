@@ -6,6 +6,7 @@ import { seedTags } from './seeders/seed-tags';
 import { seedDecksAndFlashcards } from './seeders/seed-decks-flashcards';
 import { seedReviews } from './seeders/seed-reviews';
 import { seedFeedbacks } from './seeders/seed-feedbacks';
+import { seedRBAC } from './seed-rbac';
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL environment variable is not set');
@@ -47,6 +48,10 @@ async function main() {
 
   // Seed in order
   const users = await seedUsers(prisma);
+  
+  // Seed RBAC (roles, permissions, assign default roles to users)
+  await seedRBAC(prisma);
+  
   const tags = await seedTags(prisma);
   const { decks, flashcards } = await seedDecksAndFlashcards(prisma);
   const reviews = await seedReviews(prisma);
@@ -71,13 +76,20 @@ async function main() {
   console.log('\n');
 
   console.log('🔐 Тестовые учетные данные:');
+  console.log('\n   📚 Демонстрационный пользователь (для презентации):');
+  console.log('   Email: student@education.com');
+  console.log('   Password: password123');
+  console.log('   Роль: user');
+  console.log('   (Владеет основными колодами по темам ваших книг)\n');
+  console.log('   👤 Администратор:');
   console.log('   Email: aleksandr@example.com');
   console.log('   Password: password123');
-  console.log('\n   Другие пользователи:');
+  console.log('   Роли: user, admin');
+  console.log('\n   👥 Другие пользователи:');
   console.log('   - dmitriy@example.com');
   console.log('   - maksim@example.com');
   console.log('   - sergey@example.com');
-  console.log('   (все с паролем: password123)');
+  console.log('   (все с паролем: password123, роль: user)');
   console.log('\n');
 
   console.log('✨ Полное заполнение завершено!\n');

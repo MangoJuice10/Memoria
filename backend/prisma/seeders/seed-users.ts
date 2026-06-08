@@ -4,6 +4,29 @@ import * as argon2 from 'argon2';
 export async function seedUsers(prisma: PrismaClient) {
   console.log('👥 Создание пользователей...');
 
+  const password = await argon2.hash('password123');
+  const users = [];
+
+  // First, create the demo student user
+  const demoEmail = 'student@education.com';
+  let demoUser = await prisma.user.findUnique({ where: { email: demoEmail } });
+
+  if (demoUser) {
+    users.push(demoUser);
+    console.log(`   ⏭️  Демонстрационный пользователь ${demoUser.username} (${demoEmail}) уже существует`);
+  } else {
+    demoUser = await prisma.user.create({
+      data: {
+        username: 'student',
+        email: demoEmail,
+        passwordHash: password,
+      },
+    });
+    users.push(demoUser);
+    console.log(`   ✅ Создан демонстрационный пользователь student (${demoEmail})`);
+  }
+
+  // Create regular test users
   const russianNames = [
     'Александр', 'Дмитрий', 'Максим', 'Сергей', 'Андрей',
     'Алексей', 'Артём', 'Илья', 'Кирилл', 'Михаил',
@@ -17,9 +40,6 @@ export async function seedUsers(prisma: PrismaClient) {
     'anna', 'mariya', 'elena', 'olga', 'irina',
     'natalya', 'tatyana', 'yuliya', 'svetlana', 'ekaterina'
   ];
-
-  const password = await argon2.hash('password123');
-  const users = [];
 
   for (let i = 0; i < 20; i++) {
     const name = russianNames[i % russianNames.length];

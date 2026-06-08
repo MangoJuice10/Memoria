@@ -80,16 +80,38 @@ export async function seedDecksAndFlashcards(prisma: PrismaClient) {
     return { decks: [], flashcards: 0 };
   }
 
+  // Find the demo user (student@education.com)
+  const demoUser = users.find(u => u.email === 'student@education.com');
+  const regularUsers = users.filter(u => u.email !== 'student@education.com');
+
+  if (!demoUser) {
+    console.log('⚠️  Демонстрационный пользователь не найден');
+    return { decks: [], flashcards: 0 };
+  }
+
   const createdDecks = [];
   let totalFlashcards = 0;
 
-  // Assign decks to users
+  // Priority decks for demo user (book topics)
+  const priorityDeckIndices = [0, 1, 2, 3, 4, 5, 6, 7]; // First 8 decks from your book list
+
+  // Assign decks
   for (let i = 0; i < DECK_DEFINITIONS.length; i++) {
     const deckDef = DECK_DEFINITIONS[i];
-    const user = users[i % users.length];
-    const isPublic = Math.random() > 0.3; // 70% public
+    
+    // Assign priority decks to demo user, others distributed among regular users
+    let user: typeof demoUser;
+    let isPublic: boolean;
+    
+    if (priorityDeckIndices.includes(i)) {
+      user = demoUser;
+      isPublic = Math.random() > 0.4; // 60% public for demo user decks
+    } else {
+      user = regularUsers[i % regularUsers.length] || demoUser;
+      isPublic = Math.random() > 0.3; // 70% public for other decks
+    }
 
-    console.log(`📖 Создание колоды: ${deckDef.name}`);
+    console.log(`📖 Создание колоды: ${deckDef.name} (владелец: ${user.username})`);
 
     // Create deck
     const deck = await prisma.deck.create({
@@ -167,6 +189,7 @@ export async function seedDecksAndFlashcards(prisma: PrismaClient) {
     console.log(`   ✅ Создано ${flashcardsData.length} карточек`);
   }
 
-  console.log(`\n✅ Создано ${createdDecks.length} колод и ${totalFlashcards} карточек\n`);
+  console.log(`\n✅ Создано ${createdDecks.length} колод и ${totalFlashcards} карточек`);
+  console.log(`   📌 Демонстрационный пользователь (${demoUser.username}) владеет ${priorityDeckIndices.length} колодами\n`);
   return { decks: createdDecks, flashcards: totalFlashcards };
 }

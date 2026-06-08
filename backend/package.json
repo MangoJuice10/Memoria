@@ -14,7 +14,7 @@
     "db:dev:restart": "npm run db:dev:rm && npm run db:dev:up && sleep 1 && npm run prisma:dev:deploy",
     "seed": "dotenv -e .env -- ts-node prisma/seed.ts",
     "seed:all": "dotenv -e .env -- ts-node prisma/seed-all.ts",
-    "seed:rbac": "dotenv -e .env -- ts-node prisma/seed-rbac.ts",
+    "seed:rbac": "dotenv -e .env -- ts-node prisma/seed-only-rbac.ts",
     "make-admin": "dotenv -e .env -- ts-node prisma/make-admin.ts",
     "seed:clean": "dotenv -e .env -- ts-node prisma/clean-db.ts",
     "seed:users": "dotenv -e .env -- ts-node prisma/seed-only-users.ts",

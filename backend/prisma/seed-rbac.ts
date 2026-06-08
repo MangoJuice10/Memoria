@@ -1,17 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL environment variable is not set');
-}
-
-const pgAdapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-});
-
-const prisma = new PrismaClient({ adapter: pgAdapter });
-
-async function seedRBAC() {
+export async function seedRBAC(prisma: PrismaClient) {
   console.log('Seeding RBAC data...');
 
   // Create Roles
@@ -201,14 +191,49 @@ async function seedRBAC() {
 
   console.log(`✓ Assigned USER role to ${existingUsers.length} existing users`);
 
-  console.log('RBAC seeding completed successfully!');
+  // Assign ADMIN role to aleksandr@example.com
+  const adminUser = await prisma.user.findUnique({
+    where: { email: 'aleksandr@example.com' },
+  });
+
+  if (adminUser) {
+    await prisma.userRole.upsert({
+      where: {
+        userId_roleId: {
+          userId: adminUser.id,
+          roleId: adminRole.id,
+        },
+      },
+      update: {},
+      create: {
+        userId: adminUser.id,
+        roleId: adminRole.id,
+      },
+    });
+    console.log(`✓ Assigned ADMIN role to aleksandr@example.com`);
+  }
+
+  console.log('✅ RBAC seeding completed successfully!\n');
 }
 
-seedRBAC()
-  .catch((e) => {
-    console.error('Error seeding RBAC:', e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+// Allow running standalone
+if (require.main === module) {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL environment variable is not set');
+  }
+
+  const pgAdapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
   });
+
+  const prisma = new PrismaClient({ adapter: pgAdapter });
+
+  seedRBAC(prisma)
+    .catch((e) => {
+      console.error('Error seeding RBAC:', e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
