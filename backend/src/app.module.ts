@@ -23,6 +23,7 @@ import { ChatMessageModule } from './chat-message/chat-message.module';
 import { TagModule } from './tag/tag.module';
 import { SharedDecksModule } from './shared-decks/shared-decks.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { RbacModule } from './rbac/rbac.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     }),
     AuthModule,
     PrismaModule,
+    RbacModule,
     FlashcardModule,
     UserModule,
     DeckModule,

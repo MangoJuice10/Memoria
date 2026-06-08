@@ -53,13 +53,31 @@ export class AuthService {
 
   async createUser(username: string, email: string, password: string) {
     const hash = await this.hash(password);
-    return this.prismaService.user.create({
+    
+    // Create user and assign default "user" role
+    const newUser = await this.prismaService.user.create({
       data: {
         username: username,
         email: email,
         passwordHash: hash,
       },
     });
+
+    // Assign default "user" role
+    const userRole = await this.prismaService.role.findUnique({
+      where: { name: 'user' },
+    });
+
+    if (userRole) {
+      await this.prismaService.userRole.create({
+        data: {
+          userId: newUser.id,
+          roleId: userRole.id,
+        },
+      });
+    }
+
+    return newUser;
   }
 
   private async updateRefreshToken(userId: number, refreshToken: string) {
