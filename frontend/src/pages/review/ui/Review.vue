@@ -50,8 +50,8 @@ const {
   assessReviewedFlashcard
 } = useReview(dueFlashcardsData);
 
-const isLoading = computed(() => deckIsLoading || dueFlashcardsIsLoading);
-const error = computed(() => deckError ?? dueFlashcardsError ?? null);
+const isLoading = computed(() => deckIsLoading.value || dueFlashcardsIsLoading.value);
+const error = computed(() => deckError.value ?? dueFlashcardsError.value ?? null);
 
 watch([currentFlashcard], ([flashcard]) => {
   if (flashcard) {
@@ -75,7 +75,7 @@ const goBackToDeck = () => {
 };
 
 const isSessionComplete = computed(() => {
-  return remaining.value === 0;
+  return remaining.value === 0 && !isLoading.value && !error.value;
 });
 /* ===== AI GENERATED CODE END ===== */
 
@@ -102,8 +102,8 @@ const isSessionComplete = computed(() => {
     <!--REFACTORING-->
 
     <div class="grow justify-self-center">
-      <QueryState :is-loading="isLoading.value"
-                  :error="error.value"/>
+      <QueryState :is-loading="isLoading"
+                  :error="error"/>
       <!-- ===== AI GENERATED CODE START ===== -->
       <!-- Review Complete Screen -->
       <div v-if="isSessionComplete"

@@ -84,9 +84,10 @@
       "navigation-links": {
         "info": "Info",
         "flashcards": "Flashcards",
-        "educational_resources": "Educational Resources",
+        "educational_resources": "Resources",
         "tags": "Tags",
-        "feedback": "Feedback"
+        "feedback": "Feedback",
+        "statistics": "Statistics"
       }
     },
     "flashcard": {
@@ -343,7 +344,7 @@
         "flashcards-count": "{n} flashcard | {n} flashcards",
         "info": "Info",
         "flashcards": "Flashcards",
-        "educational_resources": "Educational Resources",
+        "educational_resources": "Resources",
         "search-placeholder": "Search decks by name or description...",
         "page-description": "Manage and organize your flashcard decks"
       },
@@ -982,5 +983,94 @@
     "edit": "Edit {resourceName}",
     "delete": "Delete {resourceName}",
     "rollback": "Rollback changes"
+  },
+  "statistics": {
+    "title": "Statistics",
+    "periods": {
+      "oneMonth": "1 Month",
+      "threeMonths": "3 Months",
+      "oneYear": "1 Year",
+      "all": "All Time"
+    },
+    "today": {
+      "title": "Today",
+      "noReviews": "No cards have been studied today.",
+      "reviewsCompleted": "reviews completed"
+    },
+    "ratings": {
+      "again": "Again",
+      "bad": "Bad",
+      "good": "Good",
+      "perfect": "Perfect"
+    },
+    "cardCounts": {
+      "title": "Card Counts",
+      "noCards": "No cards in this deck.",
+      "total": "Total"
+    },
+    "phases": {
+      "new": "New",
+      "learning": "Learning",
+      "relearning": "Relearning",
+      "young": "Young",
+      "mature": "Mature"
+    },
+    "calendar": {
+      "title": "Review Activity",
+      "less": "Less",
+      "more": "More",
+      "reviews": "review | reviews",
+      "forLastYear": "in the last year",
+      "days": {
+        "mon": "Mon",
+        "wed": "Wed",
+        "fri": "Fri"
+      },
+      "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      }
+    },
+    "futureDue": {
+      "title": "Future Due",
+      "total": "Total",
+      "average": "Average",
+      "dueTomorrow": "Due Tomorrow",
+      "dailyLoad": "Daily Load",
+      "backlog": "Backlog",
+      "overdueCards": "overdue cards",
+      "next30Days": "Next 30 days",
+      "noForecast": "No cards due in the future."
+    },
+    "retention": {
+      "title": "Retention Rate",
+      "young": "Young",
+      "mature": "Mature",
+      "all": "All",
+      "byMaturity": "By Maturity",
+      "byPeriod": "By Time Period",
+      "type": "Type",
+      "rate": "Rate",
+      "count": "Count",
+      "period": "Period",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "lastWeek": "Last 7 days",
+      "lastMonth": "Last 30 days",
+      "lastYear": "Last year"
+    },
+    "answerButtons": {
+      "title": "Answer Buttons"
+    }
   }
 }

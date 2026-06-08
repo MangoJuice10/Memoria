@@ -2,7 +2,7 @@ import {
     codes, type TabItemId,
     type MenuLayout,
 } from "@/shared/config";
-import {DeckInfoIcon, DeckFeedbackIcon, FlashcardsIcon, LinkIcon} from "@/shared/ui";
+import {DeckInfoIcon, DeckFeedbackIcon, FlashcardsIcon, LinkIcon, StatisticsFeatureIcon} from "@/shared/ui";
 
 export const DECK_LAYOUT = {
     menuItems: [
@@ -23,6 +23,12 @@ export const DECK_LAYOUT = {
             routeName: "deck-educational-resources",
             labelCode: codes.TAB_ITEM_EDUCATIONAL_RESOURCES,
             icon: LinkIcon
+        },
+        {
+            id: "deck-statistics",
+            routeName: "deck-statistics",
+            labelCode: codes.TAB_ITEM_STATISTICS,
+            icon: StatisticsFeatureIcon
         },
         {
             id: "deck-feedback",

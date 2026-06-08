@@ -11,7 +11,7 @@ const search = defineModel("search");
     <div class="flex items-center gap-10">
       <Dropdown trigger-classes="px-3 py-2 rounded-2xl">
         <template #trigger>
-          <IconLabel>
+          <IconLabel class="gap-2.5">
             <template #label>
               <!--TODO-->
               <span>
@@ -33,7 +33,7 @@ const search = defineModel("search");
 
       <Dropdown trigger-classes="px-3 py-2 rounded-2xl">
         <template #trigger>
-          <IconLabel>
+          <IconLabel class="gap-2.5">
             <template #label>
               <!--TODO-->
               Sort

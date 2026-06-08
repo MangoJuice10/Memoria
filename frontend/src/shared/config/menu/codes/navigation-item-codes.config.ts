@@ -59,5 +59,6 @@ export const tabItemCodes = {
     TAB_ITEM_REGISTER: "TAB_ITEM_REGISTER",
     TAB_ITEM_TAGS: "TAB_ITEM_TAGS",
     TAB_ITEM_FEEDBACK: "TAB_ITEM_FEEDBACK",
+    TAB_ITEM_STATISTICS: "TAB_ITEM_STATISTICS",
     
 } satisfies Record<NavigationItemCode<"TAB">, NavigationItemCode<"TAB">>;

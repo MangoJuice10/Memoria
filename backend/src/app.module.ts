@@ -22,6 +22,7 @@ import { ChatModule } from './chat/chat.module';
 import { ChatMessageModule } from './chat-message/chat-message.module';
 import { TagModule } from './tag/tag.module';
 import { SharedDecksModule } from './shared-decks/shared-decks.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { SharedDecksModule } from './shared-decks/shared-decks.module';
     ChatMessageModule,
     TagModule,
     SharedDecksModule,
+    StatisticsModule,
   ],
   providers: [
     SuccessResponseInterceptor,

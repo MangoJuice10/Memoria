@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {createReviewMutation} from "@/pages/review/api/mutations/review.mutation";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
 import type {FlashcardResponseDto} from "@/entities/flashcard";
 import type {ReviewRating} from "../model/review.dto";
@@ -33,9 +33,16 @@ const {t} = useI18n();
 const review = createReviewMutation();
 
 const isFlipped = ref(false);
+const reviewStartedAt = ref<Date>(new Date());
 
 const heading = computed(() =>
     `${props.deck.name}: ${t("resources.flashcard.name")} ${props.currentIdx + 1} of ${props.remaining}`);
+
+// Track when a new flashcard is shown
+watch(() => props.flashcard.id, () => {
+  reviewStartedAt.value = new Date();
+  isFlipped.value = false;
+});
 
 function handleFlip() {
   isFlipped.value = !isFlipped.value;
@@ -46,7 +53,8 @@ async function handleRatingChange(rating: ReviewRating) {
     deckId: props.deck.id,
     flashcardId: props.flashcard.id,
     reviewDto: {
-      rating
+      rating,
+      startedAt: reviewStartedAt.value.toISOString(),
     }
   });
   isFlipped.value = false;

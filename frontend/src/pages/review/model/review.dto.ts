@@ -6,4 +6,5 @@ export type ReviewRating =
 
 export type ReviewDto = {
     rating: ReviewRating;
+    startedAt: string;
 }

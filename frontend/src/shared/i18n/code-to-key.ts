@@ -127,6 +127,7 @@ const codesToKeys = {
     TAB_ITEM_EDUCATIONAL_RESOURCES: `${baseDeckItemKey}.educational_resources`,
     TAB_ITEM_TAGS: `${baseDeckItemKey}.tags`,
     TAB_ITEM_FEEDBACK: `${baseDeckItemKey}.feedback`,
+    TAB_ITEM_STATISTICS: `${baseDeckItemKey}.statistics`,
 
     SETTINGS_PROFILE: `${baseSettingsKey}.profile`,
     SETTINGS_THEME: `${baseSettingsKey}.theme`,

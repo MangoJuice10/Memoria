@@ -9,6 +9,7 @@ import {Register} from "@/pages/register";
 import {Decks, Deck, DeckInfoTab, EducationalResourcesTab, FeedbackTab} from "@/pages/decks";
 import {FlashcardsTab} from "@/pages/decks";
 import {Review} from "@/pages/review";
+import {Statistics} from "@/pages/statistics";
 import {EducationalResources} from "@/pages/educational-resources";
 import {FeatureSpacedRepetition} from "@/pages/feature-spaced-repetition";
 import {FeatureAIAssistance} from "@/pages/feature-ai-assistance";
@@ -103,6 +104,11 @@ export const routes = [
                         path: "educational-resources",
                         name: "deck-educational-resources",
                         component: EducationalResourcesTab
+                    },
+                    {
+                        path: "statistics",
+                        name: "deck-statistics",
+                        component: Statistics
                     },
                     {
                         path: "feedback",
