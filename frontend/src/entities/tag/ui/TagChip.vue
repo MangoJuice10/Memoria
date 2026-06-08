@@ -4,6 +4,7 @@ import type {ClassValue} from "vue";
 import type {TagResponseDto} from "../model/tag-response.dto";
 
 /* ===== AI GENERATED CODE START ===== */
+// REFACTORING
 const props = defineProps<{
   tag: TagResponseDto;
   selected?: boolean;
@@ -11,6 +12,7 @@ const props = defineProps<{
   disabled?: boolean;
   labelClasses?: ClassValue;
 }>();
+// REFACTORING
 
 const emit = defineEmits<{
   remove: [tagId: number];
@@ -29,9 +31,10 @@ function handleRemove(event: Event) {
 <template>
   <!-- REFACTORING -->
   <!-- ===== AI GENERATED CODE START ===== -->
-  <span class="group flex items-center gap-1.5
+  <span class="group
+               flex items-center gap-1.5
                relative
-               px-2.5 py-1
+               px-2.5 py-1.25
                rounded-full border border-default
                bg-tertiary
                transition-all duration-200"
@@ -46,7 +49,8 @@ function handleRemove(event: Event) {
         aria-hidden="true"/>
 
     <!-- REFACTORING -->
-    <span :class="labelClasses">
+    <span class="flex-1 truncate"
+          :class="labelClasses">
       {{ tag.name }}
     </span>
     <!-- REFACTORING -->

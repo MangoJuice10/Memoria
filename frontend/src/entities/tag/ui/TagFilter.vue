@@ -1,9 +1,9 @@
-<!-- ===== AI GENERATED CODE START ===== -->
+<!-- Component for filtering by tags (used in shared decks page) -->
 <script setup lang="ts">
 import {computed} from "vue";
 import type {TagResponseDto} from "../model/tag-response.dto";
 import {IconLabel, TagIcon} from "@/shared/ui";
-import TagContainer from "./TagContainer.vue";
+import TagChip from "./TagChip.vue";
 import {useI18n} from "vue-i18n";
 import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
@@ -26,6 +26,10 @@ const hasSelection = computed(() => props.selectedTagIds.size > 0);
 function isTagSelected(tagId: number): boolean {
   return props.selectedTagIds.has(tagId);
 }
+
+function handleTagClick(tagId: number) {
+  emit('toggleTag', tagId);
+}
 </script>
 
 <template>
@@ -42,13 +46,21 @@ function isTagSelected(tagId: number): boolean {
         </template>
       </IconLabel>
       
-      <TagContainer
-          :tags="tags"
-          :selected="isTagSelected"
-          :wrap="true"
-          :clickable="true"
-          @click="emit('toggleTag', $event)"
-      />
+      <!-- Inline tag filter chips -->
+      <div class="flex flex-wrap gap-5">
+        <button
+            v-for="tag in tags"
+            :key="tag.id"
+            type="button"
+            class="transition-all duration-200 hover:scale-105"
+            @click="handleTagClick(tag.id)">
+          <TagChip
+              :tag="tag"
+              :selected="isTagSelected(tag.id)"
+              :removable="false"
+              :disabled="false"/>
+        </button>
+      </div>
       
       <button
           v-if="showClearButton && hasSelection"
@@ -61,4 +73,3 @@ function isTagSelected(tagId: number): boolean {
     </div>
   </div>
 </template>
-<!-- ===== AI GENERATED CODE END ===== -->

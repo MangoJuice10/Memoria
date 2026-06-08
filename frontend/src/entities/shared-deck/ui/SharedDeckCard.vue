@@ -3,17 +3,15 @@ import {Avatar} from "@/entities/user";
 import {computed} from "vue";
 import {useRouter, useRoute} from "vue-router";
 import {Button, CheckIcon, IconLabel, Loader, PlusIcon, StarIcon} from "@/shared/ui";
-import {TagContainer} from "@/entities/tag";
+import {TagList} from "@/entities/tag";
 import {createCopySharedDeckMutation} from "../api/mutations/copy-shared-deck.mutation";
 import {asset} from "@/shared/lib";
 import type {SharedDeckResponseDto} from "../model/shared-deck-response.dto";
-/* ===== AI GENERATED CODE START ===== */
 import {useI18n} from "vue-i18n";
 import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
 
 const {t} = useI18n();
-/* ===== AI GENERATED CODE END ===== */
 
 const props = defineProps<{
   deck: SharedDeckResponseDto;
@@ -173,13 +171,13 @@ function handleAddToCollection() {
     </div>
     <!-- REFACTORING -->
 
-    <!-- REFACTORING -->
+    <!-- Tags row -->
     <div class="row-span-2
-                flex items-center
                 px-5 overflow-hidden
                 bg-linear-to-r from-(--color-secondary)/5 to-(--color-primary)">
-      <TagContainer :tags="deck.tags" :max-visible="2" class="text-base scale-75 origin-left"/>
+      <TagList :tags="deck.tags"
+               :max-visible="2"
+               class="text-xs"/>
     </div>
-    <!-- REFACTORING -->
   </div>
 </template>

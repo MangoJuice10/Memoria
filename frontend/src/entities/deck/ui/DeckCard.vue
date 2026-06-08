@@ -6,12 +6,9 @@ import {PublicIcon} from "@/shared/ui";
 import {PrivateIcon} from "@/shared/ui";
 import {codes} from "@/shared/config";
 import {codeToKey} from "@/shared/i18n";
-/* ===== AI GENERATED CODE START ===== */
-import {TagContainer} from "@/entities/tag";
+import {TagList} from "@/entities/tag";
 import type {TagResponseDto} from "@/entities/tag";
-/* ===== AI GENERATED CODE END ===== */
 
-/* ===== AI GENERATED CODE START ===== */
 const props = defineProps<{
   id: number;
   name: string;
@@ -21,7 +18,6 @@ const props = defineProps<{
   flashcardsCount: number;
   tags?: TagResponseDto[];
 }>();
-/* ===== AI GENERATED CODE END ===== */
 
 const {t} = useI18n();
 </script>
@@ -83,19 +79,17 @@ const {t} = useI18n();
           </template>
         </IconLabel>
       </div>
-      <!-- ===== AI GENERATED CODE START ===== -->
       <!-- Tags row -->
       <div class="row-span-2
                   flex items-center
                   px-5 overflow-hidden
                   bg-linear-to-r from-(--color-secondary)/5 to-(--color-primary)">
-        <TagContainer v-if="tags && tags.length > 0"
-                      :tags="tags"
-                      :max-visible="2"
-                      class="text-base
+        <TagList v-if="tags && tags.length > 0"
+                 :tags="tags"
+                 :max-visible="2"
+                 class="text-base
                         scale-75 origin-left"/>
       </div>
-      <!-- ===== AI GENERATED CODE END ===== -->
     </div>
   </LocalizedLink>
 </template>
