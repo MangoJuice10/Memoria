@@ -1,0 +1,28 @@
+export { getMyPermissions } from './get-my-permissions';
+export { getUserPermissions } from './get-user-permissions';
+export { assignRole } from './assign-role';
+export { removeRole } from './remove-role';
+export { getStatistics } from './get-statistics';
+export { getAllUsers } from './get-all-users';
+export { updateUser } from './update-user';
+export { deleteUser } from './delete-user';
+export { getAllDecks } from './get-all-decks';
+export { deleteDeck } from './delete-deck';
+export { getAllFlashcards } from './get-all-flashcards';
+export { deleteFlashcard } from './delete-flashcard';
+export { getAllTags } from './get-all-tags';
+export { deleteTag } from './delete-tag';
+export { getAllResources } from './get-all-resources';
+export { deleteResource } from './delete-resource';
+export { getAllFeedback } from './get-all-feedback';
+export { deleteFeedback } from './delete-feedback';
+
+export type { Statistics } from './get-statistics';
+export type { GetAllUsersParams, GetAllUsersResponse } from './get-all-users';
+export type { UpdateUserPayload } from './update-user';
+export type { GetAllDecksParams, GetAllDecksResponse } from './get-all-decks';
+export type { GetAllFlashcardsParams, GetAllFlashcardsResponse } from './get-all-flashcards';
+export type { GetAllTagsParams, GetAllTagsResponse } from './get-all-tags';
+export type { GetAllResourcesParams, GetAllResourcesResponse } from './get-all-resources';
+export type { GetAllFeedbackParams, GetAllFeedbackResponse } from './get-all-feedback';
+export type { AdminUser, AdminDeck, AdminFlashcard, AdminTag, AdminEducationalResource, AdminFeedback, AdminStatistics } from '../model/admin.types';

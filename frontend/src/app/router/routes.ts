@@ -17,6 +17,7 @@ import {FeatureTrustworthyAnswers} from "@/pages/feature-trustworthy-answers";
 import {FeatureStatistics} from "@/pages/feature-statistics";
 import {About} from "@/pages/about";
 import {SharedDecks, SharedDeck} from "@/pages/shared-decks";
+import {AdminDashboard} from "@/pages/admin";
 
 export const routes = [
     {
@@ -136,6 +137,48 @@ export const routes = [
                 path: "educational-resources",
                 name: "educational-resources",
                 component: EducationalResources,
+            },
+            {
+                path: "admin",
+                name: "admin",
+                component: AdminDashboard,
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/users",
+                name: "admin-users",
+                component: () => import("@/pages/admin/users/UserList.vue"),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/decks",
+                name: "admin-decks",
+                component: () => import("@/pages/admin/decks/DeckList.vue"),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/flashcards",
+                name: "admin-flashcards",
+                component: () => import("@/pages/admin/flashcards/FlashcardList.vue"),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/tags",
+                name: "admin-tags",
+                component: () => import("@/pages/admin/tags/TagList.vue"),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/resources",
+                name: "admin-resources",
+                component: () => import("@/pages/admin/resources/ResourceList.vue"),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: "admin/feedback",
+                name: "admin-feedback",
+                component: () => import("@/pages/admin/feedback/FeedbackList.vue"),
+                meta: { requiresAdmin: true }
             },
         ]
     }

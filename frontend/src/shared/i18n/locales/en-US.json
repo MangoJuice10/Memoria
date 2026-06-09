@@ -37,6 +37,9 @@
       }
     }
   },
+  "admin": {
+    "title": "Admin Panel"
+  },
   "navigation": {
     "navbar": {
       "navigation-links": {
@@ -544,6 +547,7 @@
         "owner": "Owner",
         "rating": "Rating",
         "no-rating": "No ratings yet",
+        "all": "All",
         "flashcards-count": "{n} flashcard | {n} flashcards",
         "reviews": "Reviews",
         "no-reviews": "No reviews yet",
@@ -986,6 +990,7 @@
   },
   "statistics": {
     "title": "Statistics",
+    "description": "Track your progress and analyze your learning results",
     "periods": {
       "oneMonth": "1 Month",
       "threeMonths": "3 Months",
@@ -1043,6 +1048,11 @@
     },
     "futureDue": {
       "title": "Future Due",
+      "chartTitle": "Card Distribution by Date",
+      "yAxisLabel": "Cards",
+      "datesSingular": "date",
+      "datesPlural2": "dates",
+      "datesPlural5": "dates",
       "total": "Total",
       "average": "Average",
       "dueTomorrow": "Due Tomorrow",

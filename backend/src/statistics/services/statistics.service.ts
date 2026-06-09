@@ -148,68 +148,57 @@ export class StatisticsService {
     includeBacklog: boolean,
   ): Promise<FutureDueDto> {
     const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const endDate = new Date(now);
-    endDate.setDate(endDate.getDate() + 365); // Next year
+    const startOfToday = this.getStartOfDay(now);
 
-    // Backlog
-    const backlog = includeBacklog
-      ? await this.prisma.flashcard.count({
-          where: {
-            deckId,
-            dueAt: { lt: now },
-          },
-        })
-      : 0;
-
-    // Forecast
-    const dueCards = await this.prisma.flashcard.findMany({
+    // Get ALL flashcards with their due dates - SIMPLE
+    const allCards = await this.prisma.flashcard.findMany({
       where: {
         deckId,
-        dueAt: {
-          gte: now,
-          lte: endDate,
-        },
       },
       select: { dueAt: true },
     });
 
-    // Group by date
+    // Filter out cards without due dates
+    const cardsWithDueDate = allCards.filter((card) => card.dueAt !== null);
+
+    // Group by exact date - NO LOGIC, JUST GROUP
     const forecastMap = new Map<string, number>();
-    dueCards.forEach((card) => {
+    cardsWithDueDate.forEach((card) => {
       const dateKey = card.dueAt.toISOString().split('T')[0];
       forecastMap.set(dateKey, (forecastMap.get(dateKey) || 0) + 1);
     });
 
+    // Convert to array and sort - THAT'S IT
     const forecast = Array.from(forecastMap.entries())
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
+    // Count backlog (cards before today) for the warning box
+    const backlog = cardsWithDueDate.filter(
+      (card) => card.dueAt < startOfToday,
+    ).length;
+
     // Due tomorrow
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const startOfTomorrow = this.getStartOfDay(tomorrow);
     const endOfTomorrow = this.getEndOfDay(tomorrow);
-    const dueTomorrow = await this.prisma.flashcard.count({
-      where: {
-        deckId,
-        dueAt: {
-          gte: startOfTomorrow,
-          lte: endOfTomorrow,
-        },
-      },
-    });
+    const dueTomorrow = cardsWithDueDate.filter(
+      (card) =>
+        card.dueAt >= startOfTomorrow && card.dueAt <= endOfTomorrow,
+    ).length;
 
-    const total = dueCards.length + backlog;
-    const average = forecast.length > 0 ? total / 365 : 0;
-    const dailyLoad = forecast.length > 0 ? total / 365 : 0;
+    // Simple counts
+    const total = cardsWithDueDate.length;
+    const average = total > 0 ? total / 365 : 0;
 
     return {
-      backlog,
+      backlog: includeBacklog ? backlog : 0,
       forecast,
       total,
       average: Math.round(average * 10) / 10,
       dueTomorrow,
-      dailyLoad: Math.round(dailyLoad),
+      dailyLoad: Math.round(average),
     };
   }
 

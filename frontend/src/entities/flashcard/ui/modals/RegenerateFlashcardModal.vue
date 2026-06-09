@@ -6,7 +6,7 @@ import {
 } from "@/entities/flashcard/model/schemas/regenerate-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
 import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
@@ -41,6 +41,7 @@ const {
   getError,
   getFormError,
   isFieldTouched,
+  isFormTouched,
   touch,
   touchAll,
   clientValidate,
@@ -54,7 +55,11 @@ const {
 
 const regenerateFlashcardMutation = createRegenerateFlashcardMutation();
 
-const submit = async () => {
+const isPending = computed(() => regenerateFlashcardMutation.isPending.value);
+
+const isRegenerationEnabled = computed(() => isFormTouched() && isValid.value && !isPending.value);
+
+async function submit() {
   touchAll();
 
   const result = await clientValidate();
@@ -94,7 +99,7 @@ onMounted(() => {
     <div class="w-[50vw] p-10">
       <Form
           :form-error="getFormError()"
-          :is-submit-enabled="isValid"
+          :is-submit-enabled="isRegenerationEnabled"
           :is-reset-enabled="true"
           has-sticky-controls
           form-error-classes="text-center"

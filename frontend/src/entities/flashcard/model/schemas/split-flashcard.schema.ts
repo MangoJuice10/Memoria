@@ -9,7 +9,8 @@ export function createSplitFlashcardSchema(t: Composer["t"]) {
         instruction: z.preprocess(
             emptyStringToUndefined,
             createInstructionSchema(t)
-        ).optional(),
+                .optional()
+        ),
         count: createCountSchema(t, 2, 5)
             .optional(),
     });

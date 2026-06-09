@@ -24,6 +24,7 @@ import { TagModule } from './tag/tag.module';
 import { SharedDecksModule } from './shared-decks/shared-decks.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { RbacModule } from './rbac/rbac.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { RbacModule } from './rbac/rbac.module';
     AuthModule,
     PrismaModule,
     RbacModule,
+    AdminModule,
     FlashcardModule,
     UserModule,
     DeckModule,

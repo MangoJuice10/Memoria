@@ -13,10 +13,14 @@ import {Form, FormField} from "@/shared/ui";
 import {codeToKey} from "@/shared/i18n";
 import {codes} from "@/shared/config";
 
+const props = defineProps<{
+  deckId: number;
+}>();
+
 const {t} = useI18n();
 
 const {stageCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useCreateFlashcardModalMenu("create-flashcard", t);
+const {menuItemViews} = useCreateFlashcardModalMenu("create-flashcard", props.deckId, t);
 
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();

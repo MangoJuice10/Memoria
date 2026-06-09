@@ -49,6 +49,7 @@ export {default as SearchIcon} from "./tools/SearchIcon.vue";
 export {default as SettingsIcon} from "./settings/SettingsIcon.vue";
 export {default as AccountIcon} from "./settings/AccountIcon.vue";
 export {default as LanguageIcon} from "./settings/LanguageIcon.vue";
+export {default as AdminIcon} from "./settings/AdminIcon.vue";
 export {default as LogoutIcon} from "./actions/LogoutIcon.vue";
 
 export {default as ArrowIcon} from "./common/ArrowIcon.vue";

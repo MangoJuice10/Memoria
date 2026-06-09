@@ -7,7 +7,7 @@ import {
   createGenerateFlashcardSchema, type GenerateFlashcardDto,
 } from "@/entities/flashcard/model/schemas/generate-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {useDraftFlashcardStorage,} from "@/entities/flashcard";
@@ -23,7 +23,7 @@ const props = defineProps<{
 const {t} = useI18n();
 
 const {stageBulkCreate} = useDraftFlashcardStorage();
-const {menuItemViews} = useCreateFlashcardModalMenu("generate-flashcard", t);
+const {menuItemViews} = useCreateFlashcardModalMenu("generate-flashcard", props.deckId, t);
 const {push} = useToastStore();
 const backdropStore = useBackdropStore();
 const modalStore = useModalStore();
@@ -38,6 +38,7 @@ const {
   getError,
   getFormError,
   isFieldTouched,
+  isFormTouched,
   touch,
   touchAll,
   clientValidate,
@@ -51,7 +52,11 @@ const {
 
 const generateFlashcardMutation = createGenerateFlashcardMutation();
 
-const submit = async () => {
+const isPending = computed(() => generateFlashcardMutation.isPending.value);
+
+const isGenerationEnabled = computed(() => isFormTouched() && isValid.value && !isPending.value);
+
+async function submit() {
   touchAll();
 
   const result = await clientValidate();
@@ -89,7 +94,7 @@ onMounted(() => {
     <div class="min-w-[50vw] h-full p-10 overflow-y-auto">
       <Form
           :form-error="getFormError()"
-          :is-submit-enabled="isValid"
+          :is-submit-enabled="isGenerationEnabled"
           :is-reset-enabled="true"
           has-sticky-controls
           form-error-classes="text-center"

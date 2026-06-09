@@ -1,5 +1,4 @@
 import {CREATE_FLASHCARD_LAYOUT} from "@/entities/flashcard/config/create-flashcard-layout.config";
-import flashcard from "@/pages/review/ui/Flashcard.vue";
 import {defineAsyncComponent} from "vue";
 import type {Composer} from "vue-i18n";
 import {useMenu} from "@/shared/lib";
@@ -8,20 +7,20 @@ import type {MenuItemCallback, MenuItemIsActive, TabItemId} from "@/shared/confi
 
 export type UpdateFlashcardModalTab = Extract<TabItemId, "create-flashcard" | "generate-flashcard">
 
-export function useCreateFlashcardModalMenu(activeTab: UpdateFlashcardModalTab, t: Composer["t"]) {
+export function useCreateFlashcardModalMenu(activeTab: UpdateFlashcardModalTab, deckId: number, t: Composer["t"]) {
     const modalStore = useModalStore();
 
     const switchToCreateFlashcardModal = () => {
         const createFlashcardModal = defineAsyncComponent(() => import("../ui/modals/CreateFlashcardModal.vue"));
         modalStore.show(createFlashcardModal, {
-            flashcard
+            deckId
         });
     };
 
     const switchToGenerateFlashcardModal = () => {
         const generateFlashcardModal = defineAsyncComponent(() => import("../ui/modals/GenerateFlashcardModal.vue"));
         modalStore.show(generateFlashcardModal, {
-            flashcard
+            deckId
         });
     };
 

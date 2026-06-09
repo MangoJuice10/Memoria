@@ -54,12 +54,12 @@ model Flashcard {
   id           Int      @id @default(autoincrement())
   front        String
   back         String
-  deckId       Int      @map("deck_id")
   repetitions  Int      @default(0)
   lapses       Int      @default(0)
   intervalDays Int      @default(0) @map("interval_days")
   easeFactor   Float    @default(2.5) @map("ease_factor")
   dueAt        DateTime @default(now()) @map("due_at")
+  deckId       Int      @map("deck_id")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
@@ -78,13 +78,13 @@ enum ReviewRating {
 
 model Review {
   id              Int          @id @default(autoincrement())
-  flashcardId     Int          @map("flashcard_id")
   rating          ReviewRating
-  startedAt       DateTime     @map("started_at")
-  endedAt         DateTime     @default(now()) @map("ended_at")
   oldIntervalDays Int          @default(0) @map("old_interval_days")
   oldEaseFactor   Float        @default(2.5) @map("old_ease_factor")
   flashcard       Flashcard    @relation(fields: [flashcardId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  startedAt       DateTime     @map("started_at")
+  endedAt         DateTime     @default(now()) @map("ended_at")
+  flashcardId     Int          @map("flashcard_id")
 
   @@map("reviews")
 }
@@ -137,8 +137,8 @@ enum ChatMessageRole {
 
 model ChatMessage {
   id        Int             @id @default(autoincrement())
-  role      ChatMessageRole
   content   String
+  role      ChatMessageRole
   chatId    Int             @map("chat_id")
   createdAt DateTime        @default(now()) @map("created_at")
   updatedAt DateTime        @updatedAt()

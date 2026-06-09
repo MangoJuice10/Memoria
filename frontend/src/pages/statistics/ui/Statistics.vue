@@ -47,12 +47,12 @@ const goBackToDeck = () => {
   router.push({ name: 'deck-info', params: { deckId: deckId.value } });
 };
 
-const periods: Array<{ value: StatisticsPeriod; label: string }> = [
+const periods = computed<Array<{ value: StatisticsPeriod; label: string }>>(() => [
   { value: '1month', label: t('statistics.periods.oneMonth') },
   { value: '3months', label: t('statistics.periods.threeMonths') },
   { value: '1year', label: t('statistics.periods.oneYear') },
   { value: 'all', label: t('statistics.periods.all') },
-];
+]);
 </script>
 
 <template>

@@ -120,9 +120,9 @@ export const useValidation = <Schema extends ZodType>(
         walkObject(result.data, (path: string) => {
             const currentValue = get(result.data, path);
             const initialValue = get(initialData, path);
-            if (currentValue !== initialValue) {
+            //if (currentValue !== initialValue) {
                 set(changedData, path, currentValue);
-            }
+            //}
         });
 
         return {

@@ -29,7 +29,7 @@ const {data: feedbackList, isLoading, error} = useQuery({
     <div class="flex flex-col gap-4 py-6">
 
       <div v-if="feedbackList && feedbackList.length > 0"
-           class="flex flex-col gap-3">
+           class="flex flex-col gap-7.5">
         <FeedbackCard
           v-for="feedback in feedbackList"
           :key="feedback.id"

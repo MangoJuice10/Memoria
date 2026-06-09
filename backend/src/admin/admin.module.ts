@@ -1,0 +1,14 @@
+import { Module } from '@nestjs/common';
+import { AdminController } from './admin.controller';
+import { AdminService } from './admin.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { RbacModule } from '../rbac/rbac.module';
+import { StorageModule } from '../storage/storage.module';
+
+@Module({
+  imports: [PrismaModule, RbacModule, StorageModule],
+  controllers: [AdminController],
+  providers: [AdminService],
+  exports: [AdminService],
+})
+export class AdminModule {}

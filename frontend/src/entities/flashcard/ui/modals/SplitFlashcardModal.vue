@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {createSplitFlashcardMutation} from "@/entities/flashcard/api/mutations/split-flashcard.mutation";
-import {UPDATE_FLASHCARD_LAYOUT} from "@/entities/flashcard/config/update-flashcard-layout.config";
 import {useUpdateFlashcardModalMenu} from "@/entities/flashcard/lib/use-update-flashcard-modal-menu.composable";
 import {
   createSplitFlashcardSchema,
@@ -8,9 +7,9 @@ import {
 } from "@/entities/flashcard/model/schemas/split-flashcard.schema";
 import type {ErrorResponse} from "@/shared/api";
 import axios from "axios";
-import {defineAsyncComponent, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {useMenu, useValidation} from "@/shared/lib";
+import {useValidation} from "@/shared/lib";
 import {useBackdropStore, useModalStore, useToastStore} from "@/shared/model";
 import {
   useDraftFlashcardStorage,
@@ -43,6 +42,7 @@ const {
   isValid,
   getError,
   getFormError,
+  isFormTouched,
   isFieldTouched,
   touch,
   touchAll,
@@ -57,7 +57,11 @@ const {
 
 const splitFlashcardMutation = createSplitFlashcardMutation();
 
-const submit = async () => {
+const isPending = computed(() => splitFlashcardMutation.isPending.value);
+
+const isSplitEnabled = computed(() => isFormTouched() && isValid.value && !isPending.value);
+
+async function submit() {
   touchAll();
 
   const result = await clientValidate();
@@ -96,7 +100,7 @@ onMounted(() => {
     <div class="min-w-[50vw] h-full p-10 overflow-auto">
       <Form
           :form-error="getFormError()"
-          :is-submit-enabled="isValid"
+          :is-submit-enabled="isSplitEnabled"
           :is-reset-enabled="true"
           has-sticky-controls
           form-error-classes="text-center"
